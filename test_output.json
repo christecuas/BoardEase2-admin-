@@ -1,0 +1,124 @@
+{
+    "success": true,
+    "data": {
+        "users": {
+            "total_users": "9",
+            "by_role": {
+                "BH Owner": "4",
+                "Boarder": "5"
+            },
+            "new_users_this_month": "9"
+        },
+        "boarding_houses": {
+            "total_boarding_houses": "60",
+            "new_boarding_houses_this_month": "9"
+        },
+        "rooms": {
+            "total_room_types": "42",
+            "total_room_units": "86",
+            "available_units": "74",
+            "occupied_units": "1",
+            "occupancy_rate": 1.16
+        },
+        "bookings": {
+            "total_bookings": "0",
+            "by_status": [],
+            "new_bookings_this_month": "0"
+        },
+        "payments": {
+            "total_payments": "0",
+            "total_revenue": 0,
+            "monthly_revenue": 0,
+            "by_status": []
+        },
+        "messages": {
+            "total_messages": "176",
+            "monthly_messages": "176"
+        },
+        "notifications": {
+            "total_notifications": "163",
+            "unread_notifications": "0"
+        },
+        "growth": [
+            {
+                "month": "May 2025",
+                "users": "0",
+                "boarding_houses": "0",
+                "revenue": 0
+            },
+            {
+                "month": "Jun 2025",
+                "users": "0",
+                "boarding_houses": "0",
+                "revenue": 0
+            },
+            {
+                "month": "Jul 2025",
+                "users": "0",
+                "boarding_houses": "0",
+                "revenue": 0
+            },
+            {
+                "month": "Aug 2025",
+                "users": "0",
+                "boarding_houses": "0",
+                "revenue": 0
+            },
+            {
+                "month": "Sep 2025",
+                "users": "0",
+                "boarding_houses": "51",
+                "revenue": 0
+            },
+            {
+                "month": "Oct 2025",
+                "users": "9",
+                "boarding_houses": "9",
+                "revenue": 0
+            }
+        ],
+        "top_boarding_houses": [
+            {
+                "bh_name": "BH 1",
+                "bh_address": "calape",
+                "room_types": "2",
+                "total_units": "2",
+                "occupied_units": "1",
+                "occupancy_rate": "50.00"
+            },
+            {
+                "bh_name": "BH CUAS",
+                "bh_address": "Tinibgan, Calape Bohol",
+                "room_types": "4",
+                "total_units": "17",
+                "occupied_units": "0",
+                "occupancy_rate": "0.00"
+            },
+            {
+                "bh_name": "SS",
+                "bh_address": "ss",
+                "room_types": "1",
+                "total_units": "5",
+                "occupied_units": "0",
+                "occupancy_rate": "0.00"
+            },
+            {
+                "bh_name": "AA",
+                "bh_address": "qq",
+                "room_types": "1",
+                "total_units": "4",
+                "occupied_units": "0",
+                "occupancy_rate": "0.00"
+            },
+            {
+                "bh_name": "AA",
+                "bh_address": "qq",
+                "room_types": "1",
+                "total_units": "4",
+                "occupied_units": "0",
+                "occupancy_rate": "0.00"
+            }
+        ],
+        "generated_at": "2025-10-18 11:30:31"
+    }
+}

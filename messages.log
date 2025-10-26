@@ -1,0 +1,249 @@
+{"message_id":7,"sender_id":"9","receiver_id":"11","message":"Hello! ","timestamp":"2025-10-04 15:40:43","status":"sent","notification_sent":false}
+{"message_id":8,"sender_id":"9","receiver_id":"11","message":"Hello! ","timestamp":"2025-10-04 15:41:03","status":"sent","notification_sent":false}
+{"message_id":9,"sender_id":"9","receiver_id":"11","message":"Hello! ","timestamp":"2025-10-04 15:41:07","status":"sent","notification_sent":false}
+{"message_id":10,"sender_id":"9","receiver_id":"11","message":"Hello! ","timestamp":"2025-10-04 15:41:48","status":"sent","notification_sent":false}
+{"message_id":11,"sender_id":"9","receiver_id":"11","message":"Hello! ","timestamp":"2025-10-04 15:44:49","status":"sent","notification_sent":false}
+{"message_id":12,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 15:49:35","status":"sent","notification_sent":false}
+{"message_id":13,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 15:58:30","status":"sent","notification_sent":false}
+{"message_id":14,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:01:39","status":"sent","notification_sent":false}
+{"message_id":15,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:04:54","status":"sent","notification_sent":false}
+{"message_id":16,"sender_id":"2","receiver_id":"1","message":"hiii","timestamp":"2025-10-04 16:05:34","status":"sent","notification_sent":false}
+{"message_id":17,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:13:24","status":"sent","notification_sent":false}
+{"message_id":18,"sender_id":"6","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:13:48","status":"sent","notification_sent":false}
+{"message_id":19,"sender_id":"6","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:13:53","status":"sent","notification_sent":false}
+{"message_id":20,"sender_id":"6","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:13:57","status":"sent","notification_sent":false}
+{"message_id":21,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:22:24","status":"sent","notification_sent":false}
+{"message_id":22,"sender_id":"6","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:23:52","status":"sent","notification_sent":false}
+{"message_id":23,"sender_id":"6","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:23:59","status":"sent","notification_sent":false}
+{"message_id":24,"sender_id":"8","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:28:06","status":"sent","notification_sent":false}
+{"message_id":26,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:34:39","status":"sent","notification_sent":false}
+{"message_id":28,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:45:45","status":"sent","notification_sent":false}
+{"message_id":29,"sender_id":"6","receiver_id":"11","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-04 16:47:58","status":"sent","notification_sent":false}
+{"message_id":32,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-05 03:36:26","status":"sent","notification_sent":true}
+{"message_id":33,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-05 03:46:19","status":"sent","notification_sent":true}
+{"message_id":34,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-05 03:48:19","status":"sent","notification_sent":true}
+{"message_id":35,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-05 04:01:52","status":"sent","notification_sent":true}
+{"message_id":40,"sender_id":"1","receiver_id":"2","message":"Test message from PHP","timestamp":"2025-10-05 10:13:11","status":"sent","notification_sent":true}
+{"message_id":41,"sender_id":"1","receiver_id":"6","message":"hi","timestamp":"2025-10-05 10:14:10","status":"sent","notification_sent":true}
+{"message_id":42,"sender_id":"1","receiver_id":"6","message":"hi","timestamp":"2025-10-05 10:14:12","status":"sent","notification_sent":true}
+{"message_id":43,"sender_id":"1","receiver_id":"2","message":"Test message from PHP","timestamp":"2025-10-05 10:20:05","status":"sent","notification_sent":true}
+{"message_id":44,"sender_id":"1","receiver_id":"6","message":"hhiii","timestamp":"2025-10-05 10:22:03","status":"sent","notification_sent":true}
+{"message_id":45,"sender_id":"1","receiver_id":"6","message":"hhiii","timestamp":"2025-10-05 10:22:06","status":"sent","notification_sent":true}
+{"message_id":46,"sender_id":"1","receiver_id":"2","message":"Test message from PHP","timestamp":"2025-10-05 10:27:02","status":"sent","notification_sent":true}
+{"message_id":47,"sender_id":"1","receiver_id":"6","message":"hooo","timestamp":"2025-10-05 10:29:12","status":"sent","notification_sent":true}
+{"message_id":48,"sender_id":"1","receiver_id":"6","message":"hooo","timestamp":"2025-10-05 10:29:15","status":"sent","notification_sent":true}
+{"message_id":49,"sender_id":"1","receiver_id":"2","message":"uouu","timestamp":"2025-10-05 10:29:53","status":"sent","notification_sent":true}
+{"message_id":50,"sender_id":"1","receiver_id":"2","message":"uouu","timestamp":"2025-10-05 10:29:56","status":"sent","notification_sent":true}
+{"message_id":51,"sender_id":"1","receiver_id":"2","message":"Test message from PHP","timestamp":"2025-10-05 10:34:30","status":"sent","notification_sent":true}
+{"message_id":52,"sender_id":"1","receiver_id":"2","message":"bitaw","timestamp":"2025-10-05 10:41:52","status":"sent","notification_sent":true}
+{"message_id":53,"sender_id":"1","receiver_id":"2","message":"bitaw","timestamp":"2025-10-05 10:41:54","status":"sent","notification_sent":true}
+{"message_id":54,"sender_id":"1","receiver_id":"6","message":"how about me","timestamp":"2025-10-05 10:55:01","status":"sent","notification_sent":true}
+{"message_id":55,"sender_id":"1","receiver_id":"6","message":"how about me","timestamp":"2025-10-05 10:55:04","status":"sent","notification_sent":true}
+{"message_id":56,"sender_id":"1","receiver_id":"6","message":"huy","timestamp":"2025-10-05 11:20:38","status":"sent","notification_sent":true}
+{"message_id":57,"sender_id":"1","receiver_id":"6","message":"huy","timestamp":"2025-10-05 11:20:41","status":"sent","notification_sent":true}
+{"message_id":58,"sender_id":"1","receiver_id":"2","message":"hey","timestamp":"2025-10-05 11:22:13","status":"sent","notification_sent":true}
+{"message_id":59,"sender_id":"1","receiver_id":"2","message":"hey","timestamp":"2025-10-05 11:22:15","status":"sent","notification_sent":true}
+{"message_id":60,"sender_id":"1","receiver_id":"6","message":"huy pud","timestamp":"2025-10-05 11:27:50","status":"sent","notification_sent":true}
+{"message_id":61,"sender_id":"1","receiver_id":"6","message":"huy pud","timestamp":"2025-10-05 11:27:53","status":"sent","notification_sent":true}
+{"message_id":62,"sender_id":"1","receiver_id":"6","message":"huy ba","timestamp":"2025-10-05 11:28:11","status":"sent","notification_sent":true}
+{"message_id":63,"sender_id":"1","receiver_id":"6","message":"huy ba","timestamp":"2025-10-05 11:28:14","status":"sent","notification_sent":true}
+{"message_id":64,"sender_id":"1","receiver_id":"2","message":"hello","timestamp":"2025-10-05 11:28:30","status":"sent","notification_sent":true}
+{"message_id":65,"sender_id":"1","receiver_id":"2","message":"hello","timestamp":"2025-10-05 11:28:33","status":"sent","notification_sent":true}
+{"message_id":66,"sender_id":"1","receiver_id":"2","message":"ouhh","timestamp":"2025-10-05 11:35:01","status":"sent","notification_sent":true}
+{"message_id":67,"sender_id":"1","receiver_id":"2","message":"ouhh","timestamp":"2025-10-05 11:35:05","status":"sent","notification_sent":true}
+{"message_id":68,"sender_id":"1","receiver_id":"6","message":"low","timestamp":"2025-10-05 11:41:59","status":"sent","notification_sent":true}
+{"message_id":69,"sender_id":"1","receiver_id":"6","message":"low","timestamp":"2025-10-05 11:42:01","status":"sent","notification_sent":true}
+{"message_id":70,"sender_id":"1","receiver_id":"2","message":"huyy","timestamp":"2025-10-05 12:40:09","status":"sent","notification_sent":true}
+{"message_id":71,"sender_id":"1","receiver_id":"2","message":"huyy","timestamp":"2025-10-05 12:40:13","status":"sent","notification_sent":true}
+{"message_id":72,"sender_id":"1","receiver_id":"3","message":"no","timestamp":"2025-10-05 12:40:35","status":"sent","notification_sent":true}
+{"message_id":73,"sender_id":"1","receiver_id":"3","message":"no","timestamp":"2025-10-05 12:40:39","status":"sent","notification_sent":true}
+{"message_id":74,"sender_id":"1","receiver_id":"6","message":"lowbat","timestamp":"2025-10-05 12:41:11","status":"sent","notification_sent":true}
+{"message_id":75,"sender_id":"1","receiver_id":"6","message":"lowbat","timestamp":"2025-10-05 12:41:15","status":"sent","notification_sent":true}
+{"message_id":76,"sender_id":"4","receiver_id":"11","message":"hays","timestamp":"2025-10-05 12:48:56","status":"sent","notification_sent":true}
+{"message_id":77,"sender_id":"1","receiver_id":"2","message":"yes","timestamp":"2025-10-05 13:00:33","status":"sent","notification_sent":true}
+{"message_id":78,"sender_id":"1","receiver_id":"2","message":"yes","timestamp":"2025-10-05 13:00:35","status":"sent","notification_sent":true}
+{"message_id":80,"sender_id":"1","receiver_id":"3","message":"nooo","timestamp":"2025-10-05 14:10:44","status":"sent","notification_sent":true}
+{"message_id":81,"sender_id":"1","receiver_id":"3","message":"nooo","timestamp":"2025-10-05 14:10:47","status":"sent","notification_sent":true}
+{"message_id":82,"sender_id":"1","receiver_id":"2","message":"no","timestamp":"2025-10-05 14:19:53","status":"sent","notification_sent":true}
+{"message_id":83,"sender_id":"1","receiver_id":"2","message":"no","timestamp":"2025-10-05 14:19:56","status":"sent","notification_sent":true}
+{"message_id":84,"sender_id":"1","receiver_id":"2","message":"favri","timestamp":"2025-10-05 14:24:38","status":"sent","notification_sent":true}
+{"message_id":85,"sender_id":"1","receiver_id":"2","message":"favri","timestamp":"2025-10-05 14:24:40","status":"sent","notification_sent":true}
+{"message_id":86,"sender_id":"1","receiver_id":"2","message":"dam","timestamp":"2025-10-05 14:29:11","status":"sent","notification_sent":true}
+{"message_id":87,"sender_id":"1","receiver_id":"2","message":"dam","timestamp":"2025-10-05 14:29:14","status":"sent","notification_sent":true}
+{"message_id":88,"sender_id":"1","receiver_id":"2","message":"waley","timestamp":"2025-10-05 14:29:29","status":"sent","notification_sent":true}
+{"message_id":89,"sender_id":"1","receiver_id":"2","message":"waley","timestamp":"2025-10-05 14:29:33","status":"sent","notification_sent":true}
+{"message_id":90,"sender_id":"1","receiver_id":"6","message":"bat","timestamp":"2025-10-05 14:30:30","status":"sent","notification_sent":true}
+{"message_id":91,"sender_id":"1","receiver_id":"6","message":"bat","timestamp":"2025-10-05 14:30:33","status":"sent","notification_sent":true}
+{"message_id":92,"sender_id":"1","receiver_id":"6","message":"hey","timestamp":"2025-10-05 14:34:57","status":"sent","notification_sent":true}
+{"message_id":93,"sender_id":"1","receiver_id":"6","message":"hey","timestamp":"2025-10-05 14:35:00","status":"sent","notification_sent":true}
+{"message_id":94,"sender_id":"1","receiver_id":"6","message":"woi","timestamp":"2025-10-05 14:38:34","status":"sent","notification_sent":true}
+{"message_id":"94","sender_id":"1","receiver_id":"6","message":"woi","timestamp":"2025-10-05 14:38:37","status":"sent","notification_sent":true}
+{"message_id":95,"sender_id":"4","receiver_id":"11","message":"hays","timestamp":"2025-10-05 14:42:43","status":"sent","notification_sent":true}
+{"message_id":96,"sender_id":"4","receiver_id":"1","message":"hays","timestamp":"2025-10-05 14:44:33","status":"sent","notification_sent":true}
+{"message_id":97,"sender_id":"4","receiver_id":"1","message":"gaba gajud ni","timestamp":"2025-10-05 14:45:04","status":"sent","notification_sent":true}
+{"message_id":98,"sender_id":"1","receiver_id":"4","message":"kims","timestamp":"2025-10-05 14:45:40","status":"sent","notification_sent":true}
+{"message_id":"98","sender_id":"1","receiver_id":"4","message":"kims","timestamp":"2025-10-05 14:45:42","status":"sent","notification_sent":true}
+{"message_id":99,"sender_id":"4","receiver_id":"1","message":"yes","timestamp":"2025-10-05 14:45:50","status":"sent","notification_sent":true}
+{"message_id":100,"sender_id":"4","receiver_id":"1","message":"hi","timestamp":"2025-10-05 14:51:28","status":"sent","notification_sent":true}
+{"message_id":101,"sender_id":"4","receiver_id":"1","message":"hiii","timestamp":"2025-10-05 14:52:02","status":"sent","notification_sent":true}
+{"message_id":103,"sender_id":"1","receiver_id":"6","message":"API TEST MESSAGE 1759668852","timestamp":"2025-10-05 14:54:15","status":"sent","notification_sent":true}
+{"message_id":104,"sender_id":"4","receiver_id":"1","message":"yy","timestamp":"2025-10-05 14:55:00","status":"sent","notification_sent":true}
+{"message_id":105,"sender_id":"4","receiver_id":"1","message":"no\r\n","timestamp":"2025-10-05 14:55:28","status":"sent","notification_sent":true}
+{"message_id":106,"sender_id":"1","receiver_id":"4","message":"yesss","timestamp":"2025-10-07 03:23:59","status":"sent","notification_sent":true}
+{"message_id":"106","sender_id":"1","receiver_id":"4","message":"yesss","timestamp":"2025-10-07 03:24:01","status":"sent","notification_sent":true}
+{"message_id":107,"sender_id":"1","receiver_id":"2","message":"hi","timestamp":"2025-10-07 03:24:27","status":"sent","notification_sent":true}
+{"message_id":"107","sender_id":"1","receiver_id":"2","message":"hi","timestamp":"2025-10-07 03:24:30","status":"sent","notification_sent":true}
+{"message_id":108,"sender_id":"1","receiver_id":"2","message":"hi","timestamp":"2025-10-07 03:24:57","status":"sent","notification_sent":true}
+{"message_id":"108","sender_id":"1","receiver_id":"2","message":"hi","timestamp":"2025-10-07 03:25:00","status":"sent","notification_sent":true}
+{"message_id":109,"sender_id":"1","receiver_id":"4","message":"huy dapat sa babaw ka","timestamp":"2025-10-07 03:25:34","status":"sent","notification_sent":true}
+{"message_id":"109","sender_id":"1","receiver_id":"4","message":"huy dapat sa babaw ka","timestamp":"2025-10-07 03:25:37","status":"sent","notification_sent":true}
+{"message_id":110,"sender_id":"1","receiver_id":"3","message":"yes","timestamp":"2025-10-07 03:25:56","status":"sent","notification_sent":true}
+{"message_id":"110","sender_id":"1","receiver_id":"3","message":"yes","timestamp":"2025-10-07 03:25:59","status":"sent","notification_sent":true}
+{"message_id":111,"sender_id":"1","receiver_id":"3","message":"yes","timestamp":"2025-10-07 03:26:02","status":"sent","notification_sent":true}
+{"message_id":"111","sender_id":"1","receiver_id":"3","message":"yes","timestamp":"2025-10-07 03:26:05","status":"sent","notification_sent":true}
+{"message_id":112,"sender_id":"1","receiver_id":"6","message":"boboerns","timestamp":"2025-10-07 03:26:19","status":"sent","notification_sent":true}
+{"message_id":"112","sender_id":"1","receiver_id":"6","message":"boboerns","timestamp":"2025-10-07 03:26:21","status":"sent","notification_sent":true}
+{"message_id":113,"sender_id":"1","receiver_id":"2","message":"haystt","timestamp":"2025-10-07 03:26:33","status":"sent","notification_sent":true}
+{"message_id":"113","sender_id":"1","receiver_id":"2","message":"haystt","timestamp":"2025-10-07 03:26:36","status":"sent","notification_sent":true}
+{"message_id":114,"sender_id":"1","receiver_id":"2","message":"nooo","timestamp":"2025-10-07 03:35:53","status":"sent","notification_sent":true}
+{"message_id":"114","sender_id":"1","receiver_id":"2","message":"nooo","timestamp":"2025-10-07 03:35:55","status":"sent","notification_sent":true}
+{"message_id":115,"sender_id":"1","receiver_id":"2","message":"ye","timestamp":"2025-10-07 09:07:29","status":"sent","notification_sent":true}
+{"message_id":"115","sender_id":"1","receiver_id":"2","message":"ye","timestamp":"2025-10-07 09:07:31","status":"sent","notification_sent":true}
+{"message_id":116,"sender_id":"1","receiver_id":"2","message":"heyy","timestamp":"2025-10-08 17:08:55","status":"sent","notification_sent":true}
+{"message_id":"116","sender_id":"1","receiver_id":"2","message":"heyy","timestamp":"2025-10-08 17:08:57","status":"sent","notification_sent":true}
+{"message_id":117,"sender_id":"1","receiver_id":"3","message":"huh","timestamp":"2025-10-08 17:09:50","status":"sent","notification_sent":true}
+{"message_id":"117","sender_id":"1","receiver_id":"3","message":"huh","timestamp":"2025-10-08 17:09:53","status":"sent","notification_sent":true}
+{"message_id":118,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:11:03","status":"sent","notification_sent":true}
+{"message_id":119,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:17:39","status":"sent","notification_sent":true}
+{"message_id":120,"sender_id":"1","receiver_id":"2","message":"okays","timestamp":"2025-10-08 17:18:22","status":"sent","notification_sent":true}
+{"message_id":"120","sender_id":"1","receiver_id":"2","message":"okays","timestamp":"2025-10-08 17:18:24","status":"sent","notification_sent":true}
+{"message_id":121,"sender_id":"1","receiver_id":"2","message":"huhu","timestamp":"2025-10-08 17:21:58","status":"sent","notification_sent":true}
+{"message_id":"121","sender_id":"1","receiver_id":"2","message":"huhu","timestamp":"2025-10-08 17:22:00","status":"sent","notification_sent":true}
+{"message_id":122,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:26:21","status":"sent","notification_sent":true}
+{"message_id":123,"sender_id":"1","receiver_id":"6","message":"huhuhu","timestamp":"2025-10-08 17:32:27","status":"sent","notification_sent":true}
+{"message_id":"123","sender_id":"1","receiver_id":"6","message":"huhuhu","timestamp":"2025-10-08 17:32:29","status":"sent","notification_sent":true}
+{"message_id":124,"sender_id":"1","receiver_id":"6","message":"huyyy","timestamp":"2025-10-08 17:40:42","status":"sent","notification_sent":true}
+{"message_id":"124","sender_id":"1","receiver_id":"6","message":"huyyy","timestamp":"2025-10-08 17:40:44","status":"sent","notification_sent":true}
+{"message_id":125,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:40:55","status":"sent","notification_sent":true}
+{"message_id":126,"sender_id":"1","receiver_id":"6","message":"huyyy","timestamp":"2025-10-08 17:57:49","status":"sent","notification_sent":true}
+{"message_id":"126","sender_id":"1","receiver_id":"6","message":"huyyy","timestamp":"2025-10-08 17:57:51","status":"sent","notification_sent":true}
+{"message_id":127,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:57:59","status":"sent","notification_sent":true}
+{"message_id":128,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 17:58:04","status":"sent","notification_sent":true}
+{"message_id":129,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 18:04:48","status":"sent","notification_sent":false}
+{"message_id":130,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 18:05:04","status":"sent","notification_sent":false}
+{"message_id":132,"sender_id":"1","receiver_id":"2","message":"we","timestamp":"2025-10-08 18:09:58","status":"sent","notification_sent":false}
+{"message_id":"132","sender_id":"1","receiver_id":"2","message":"we","timestamp":"2025-10-08 18:10:00","status":"sent","notification_sent":false}
+{"message_id":133,"sender_id":"1","receiver_id":"2","message":"weeeee","timestamp":"2025-10-08 18:10:09","status":"sent","notification_sent":false}
+{"message_id":"133","sender_id":"1","receiver_id":"2","message":"weeeee","timestamp":"2025-10-08 18:10:12","status":"sent","notification_sent":false}
+{"message_id":134,"sender_id":"1","receiver_id":"4","message":"bay","timestamp":"2025-10-08 18:14:27","status":"sent","notification_sent":false}
+{"message_id":"134","sender_id":"1","receiver_id":"4","message":"bay","timestamp":"2025-10-08 18:14:30","status":"sent","notification_sent":false}
+{"message_id":135,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 18:15:25","status":"sent","notification_sent":false}
+{"message_id":136,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 18:16:12","status":"sent","notification_sent":false}
+{"message_id":137,"sender_id":"1","receiver_id":"3","message":"samay problema","timestamp":"2025-10-08 18:20:04","status":"sent","notification_sent":false}
+{"message_id":"137","sender_id":"1","receiver_id":"3","message":"samay problema","timestamp":"2025-10-08 18:20:07","status":"sent","notification_sent":false}
+{"message_id":138,"sender_id":"1","receiver_id":"3","message":"ngano","timestamp":"2025-10-08 18:20:36","status":"sent","notification_sent":false}
+{"message_id":"138","sender_id":"1","receiver_id":"3","message":"ngano","timestamp":"2025-10-08 18:20:38","status":"sent","notification_sent":false}
+{"message_id":139,"sender_id":"1","receiver_id":"6","message":"hagua mn ka","timestamp":"2025-10-08 18:21:01","status":"sent","notification_sent":false}
+{"message_id":"139","sender_id":"1","receiver_id":"6","message":"hagua mn ka","timestamp":"2025-10-08 18:21:03","status":"sent","notification_sent":false}
+{"message_id":140,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-08 18:27:49","status":"sent","notification_sent":false}
+{"message_id":141,"sender_id":"1","receiver_id":"6","message":"uy","timestamp":"2025-10-09 04:31:30","status":"sent","notification_sent":false}
+{"message_id":"141","sender_id":"1","receiver_id":"6","message":"uy","timestamp":"2025-10-09 04:31:32","status":"sent","notification_sent":false}
+{"message_id":142,"sender_id":"1","receiver_id":"6","message":"dina lageh ka mogana notif","timestamp":"2025-10-09 04:31:38","status":"sent","notification_sent":false}
+{"message_id":"142","sender_id":"1","receiver_id":"6","message":"dina lageh ka mogana notif","timestamp":"2025-10-09 04:31:41","status":"sent","notification_sent":false}
+{"message_id":143,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:36:36","status":"sent","notification_sent":false}
+{"message_id":144,"sender_id":"1","receiver_id":"6","message":"woyyy","timestamp":"2025-10-09 04:54:52","status":"sent","notification_sent":false}
+{"message_id":145,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:55:20","status":"sent","notification_sent":true}
+{"message_id":146,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:56:32","status":"sent","notification_sent":true}
+{"message_id":147,"sender_id":"4","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:59:06","status":"sent","notification_sent":false}
+{"message_id":148,"sender_id":"4","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:59:24","status":"sent","notification_sent":true}
+{"message_id":149,"sender_id":"4","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:59:33","status":"sent","notification_sent":true}
+{"message_id":"149","sender_id":"4","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:59:35","status":"sent","notification_sent":true}
+{"message_id":"149","sender_id":"4","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 04:59:37","status":"sent","notification_sent":true}
+{"message_id":150,"sender_id":"1","receiver_id":"2","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:01:30","status":"sent","notification_sent":false}
+{"message_id":151,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:01:45","status":"sent","notification_sent":true}
+{"message_id":152,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:03:22","status":"sent","notification_sent":true}
+{"message_id":153,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:03:31","status":"sent","notification_sent":true}
+{"message_id":154,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:03:36","status":"sent","notification_sent":true}
+{"message_id":156,"sender_id":"5","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:03:50","status":"sent","notification_sent":true}
+{"message_id":157,"sender_id":"2","receiver_id":"1","message":"Hello! This is a test message from the real messaging system.","timestamp":"2025-10-09 05:04:45","status":"sent","notification_sent":true}
+{"message_id":158,"sender_id":"2","receiver_id":"1","message":"we\r\n","timestamp":"2025-10-09 05:04:57","status":"sent","notification_sent":true}
+{"message_id":159,"sender_id":"2","receiver_id":"1","message":"we\r\n","timestamp":"2025-10-09 05:06:05","status":"sent","notification_sent":true}
+{"message_id":160,"sender_id":"2","receiver_id":"1","message":"wala ","timestamp":"2025-10-09 05:06:11","status":"sent","notification_sent":true}
+{"message_id":162,"sender_id":"1","receiver_id":"6","message":"woyyy","timestamp":"2025-10-12 06:08:27","status":"sent","notification_sent":false}
+{"message_id":168,"sender_id":"29","receiver_id":"6","message":"hello po","timestamp":"2025-10-12 06:30:13","status":"sent","notification_sent":false}
+{"message_id":169,"sender_id":"6","receiver_id":"29","message":"hello","timestamp":"2025-10-12 06:30:47","status":"sent","notification_sent":true}
+{"message_id":170,"sender_id":"24","receiver_id":"29","message":"hello","timestamp":"2025-10-12 06:31:37","status":"sent","notification_sent":true}
+{"message_id":171,"sender_id":"24","receiver_id":"29","message":"hoo","timestamp":"2025-10-12 06:32:02","status":"sent","notification_sent":true}
+{"message_id":172,"sender_id":"24","receiver_id":"29","message":"hoo","timestamp":"2025-10-12 07:10:44","status":"sent","notification_sent":true}
+{"message_id":173,"sender_id":"24","receiver_id":"29","message":"hupay","timestamp":"2025-10-12 07:39:13","status":"sent","notification_sent":true}
+{"message_id":174,"sender_id":"24","receiver_id":"29","message":"huhuhuhu\r\n\r\n","timestamp":"2025-10-12 07:39:33","status":"sent","notification_sent":true}
+{"message_id":175,"sender_id":"27","receiver_id":"29","message":"https:\/\/open.spotify.com\/playlist\/37i9dQZF1E36NC4j9YSysy\r\n\r\n","timestamp":"2025-10-12 07:40:10","status":"sent","notification_sent":true}
+{"message_id":176,"sender_id":"27","receiver_id":"29","message":"huhuhu","timestamp":"2025-10-12 07:43:29","status":"sent","notification_sent":true}
+{"message_id":177,"sender_id":"27","receiver_id":"29","message":"huhuhu","timestamp":"2025-10-12 07:43:43","status":"sent","notification_sent":true}
+{"message_id":178,"sender_id":"29","receiver_id":"28","message":"hi","timestamp":"2025-10-14 07:38:53","status":"sent","notification_sent":false}
+{"message_id":179,"sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-14 07:41:20","status":"sent","notification_sent":true}
+{"message_id":"179","sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-14 07:41:23","status":"sent","notification_sent":true}
+{"message_id":180,"sender_id":"28","receiver_id":"29","message":"hays","timestamp":"2025-10-14 07:50:53","status":"sent","notification_sent":true}
+{"message_id":"180","sender_id":"28","receiver_id":"29","message":"hays","timestamp":"2025-10-14 07:50:55","status":"sent","notification_sent":true}
+{"message_id":181,"sender_id":"29","receiver_id":"28","message":"yes?","timestamp":"2025-10-14 07:59:59","status":"sent","notification_sent":false}
+{"message_id":182,"sender_id":"28","receiver_id":"29","message":"aw wala raman","timestamp":"2025-10-14 08:01:10","status":"sent","notification_sent":true}
+{"message_id":"182","sender_id":"28","receiver_id":"29","message":"aw wala raman","timestamp":"2025-10-14 08:01:12","status":"sent","notification_sent":true}
+{"message_id":183,"sender_id":"28","receiver_id":"29","message":"huy","timestamp":"2025-10-14 08:01:34","status":"sent","notification_sent":true}
+{"message_id":"183","sender_id":"28","receiver_id":"29","message":"huy","timestamp":"2025-10-14 08:01:37","status":"sent","notification_sent":true}
+{"message_id":184,"sender_id":"29","receiver_id":"28","message":"uy","timestamp":"2025-10-14 08:02:19","status":"sent","notification_sent":false}
+{"message_id":185,"sender_id":"28","receiver_id":"29","message":"huh","timestamp":"2025-10-14 08:07:36","status":"sent","notification_sent":true}
+{"message_id":"185","sender_id":"28","receiver_id":"29","message":"huh","timestamp":"2025-10-14 08:07:39","status":"sent","notification_sent":true}
+{"message_id":186,"sender_id":"28","receiver_id":"29","message":"unsa","timestamp":"2025-10-14 08:12:20","status":"sent","notification_sent":true}
+{"message_id":"186","sender_id":"28","receiver_id":"29","message":"unsa","timestamp":"2025-10-14 08:12:22","status":"sent","notification_sent":true}
+{"message_id":187,"sender_id":"29","receiver_id":"28","message":"wala lagrh","timestamp":"2025-10-14 08:14:28","status":"sent","notification_sent":false}
+{"message_id":188,"sender_id":"28","receiver_id":"29","message":"noo","timestamp":"2025-10-14 08:32:49","status":"sent","notification_sent":true}
+{"message_id":"188","sender_id":"28","receiver_id":"29","message":"noo","timestamp":"2025-10-14 08:32:52","status":"sent","notification_sent":true}
+{"message_id":189,"sender_id":"29","receiver_id":"28","message":"hey","timestamp":"2025-10-14 08:53:55","status":"sent","notification_sent":false}
+{"message_id":190,"sender_id":"29","receiver_id":"28","message":"okay","timestamp":"2025-10-14 09:19:58","status":"sent","notification_sent":false}
+{"message_id":191,"sender_id":"29","receiver_id":"28","message":"huyyyy","timestamp":"2025-10-14 09:29:00","status":"sent","notification_sent":false}
+{"message_id":192,"sender_id":"29","receiver_id":"28","message":"ha","timestamp":"2025-10-14 09:44:32","status":"sent","notification_sent":false}
+{"message_id":193,"sender_id":"28","receiver_id":"29","message":"wala","timestamp":"2025-10-14 09:47:58","status":"sent","notification_sent":true}
+{"message_id":"193","sender_id":"28","receiver_id":"29","message":"wala","timestamp":"2025-10-14 09:48:00","status":"sent","notification_sent":true}
+{"message_id":194,"sender_id":"29","receiver_id":"28","message":"hays","timestamp":"2025-10-14 09:53:56","status":"sent","notification_sent":false}
+{"message_id":195,"sender_id":"29","receiver_id":"28","message":"haysh","timestamp":"2025-10-14 09:53:59","status":"sent","notification_sent":false}
+{"message_id":196,"sender_id":"29","receiver_id":"28","message":"hays","timestamp":"2025-10-14 09:54:03","status":"sent","notification_sent":false}
+{"message_id":197,"sender_id":"28","receiver_id":"29","message":"what happen","timestamp":"2025-10-14 10:14:34","status":"sent","notification_sent":true}
+{"message_id":"197","sender_id":"28","receiver_id":"29","message":"what happen","timestamp":"2025-10-14 10:14:36","status":"sent","notification_sent":true}
+{"message_id":198,"sender_id":"29","receiver_id":"28","message":"wala mannnn","timestamp":"2025-10-14 10:15:35","status":"sent","notification_sent":false}
+{"message_id":199,"sender_id":"28","receiver_id":"29","message":"sure ka?","timestamp":"2025-10-14 10:40:31","status":"sent","notification_sent":true}
+{"message_id":"199","sender_id":"28","receiver_id":"29","message":"sure ka?","timestamp":"2025-10-14 10:40:34","status":"sent","notification_sent":true}
+{"message_id":200,"sender_id":"28","receiver_id":"29","message":"sure ba","timestamp":"2025-10-14 10:56:49","status":"sent","notification_sent":true}
+{"message_id":"200","sender_id":"28","receiver_id":"29","message":"sure ba","timestamp":"2025-10-14 10:56:52","status":"sent","notification_sent":true}
+{"message_id":201,"sender_id":"29","receiver_id":"28","message":"lagehhh","timestamp":"2025-10-14 10:58:21","status":"sent","notification_sent":false}
+{"message_id":202,"sender_id":"28","receiver_id":"29","message":"huy","timestamp":"2025-10-14 11:03:01","status":"sent","notification_sent":true}
+{"message_id":"202","sender_id":"28","receiver_id":"29","message":"huy","timestamp":"2025-10-14 11:03:04","status":"sent","notification_sent":true}
+{"message_id":203,"sender_id":"28","receiver_id":"29","message":"jjj","timestamp":"2025-10-14 11:04:42","status":"sent","notification_sent":true}
+{"message_id":"203","sender_id":"28","receiver_id":"29","message":"jjj","timestamp":"2025-10-14 11:04:44","status":"sent","notification_sent":true}
+{"message_id":204,"sender_id":"28","receiver_id":"29","message":"jjjjjjjjj","timestamp":"2025-10-14 11:06:29","status":"sent","notification_sent":true}
+{"message_id":"204","sender_id":"28","receiver_id":"29","message":"jjjjjjjjj","timestamp":"2025-10-14 11:06:31","status":"sent","notification_sent":true}
+{"message_id":205,"sender_id":"28","receiver_id":"29","message":"hakdog","timestamp":"2025-10-14 11:06:44","status":"sent","notification_sent":true}
+{"message_id":"205","sender_id":"28","receiver_id":"29","message":"hakdog","timestamp":"2025-10-14 11:06:46","status":"sent","notification_sent":true}
+{"message_id":206,"sender_id":"28","receiver_id":"29","message":"kk","timestamp":"2025-10-14 11:11:52","status":"sent","notification_sent":true}
+{"message_id":"206","sender_id":"28","receiver_id":"29","message":"kk","timestamp":"2025-10-14 11:11:54","status":"sent","notification_sent":true}
+{"message_id":207,"sender_id":"28","receiver_id":"29","message":"hi","timestamp":"2025-10-14 11:18:44","status":"sent","notification_sent":true}
+{"message_id":"207","sender_id":"28","receiver_id":"29","message":"hi","timestamp":"2025-10-14 11:18:46","status":"sent","notification_sent":true}
+{"message_id":208,"sender_id":"29","receiver_id":"28","message":"hello","timestamp":"2025-10-14 11:19:14","status":"sent","notification_sent":false}
+{"message_id":209,"sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-23 15:37:43","status":"sent","notification_sent":true}
+{"message_id":"209","sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-23 15:37:47","status":"sent","notification_sent":true}
+{"message_id":210,"sender_id":"29","receiver_id":"28","message":"b**o","timestamp":"2025-10-25 05:46:58","status":"sent","notification_sent":false}
+{"message_id":211,"sender_id":"29","receiver_id":"28","message":"t***a","timestamp":"2025-10-25 05:47:07","status":"sent","notification_sent":false}
+{"message_id":212,"sender_id":"29","receiver_id":"28","message":"f**k","timestamp":"2025-10-25 05:47:14","status":"sent","notification_sent":false}
+{"message_id":"212","sender_id":"29","receiver_id":"28","message":"f**k","timestamp":"2025-10-25 05:47:17","status":"sent","notification_sent":false}
+{"message_id":213,"sender_id":"29","receiver_id":"28","message":"s****d","timestamp":"2025-10-25 05:47:25","status":"sent","notification_sent":false}
+{"message_id":214,"sender_id":"29","receiver_id":"28","message":"t*****a","timestamp":"2025-10-25 05:47:46","status":"sent","notification_sent":false}
+{"message_id":215,"sender_id":"29","receiver_id":"28","message":"hi","timestamp":"2025-10-25 05:47:48","status":"sent","notification_sent":false}
+{"message_id":216,"sender_id":"29","receiver_id":"28","message":"boboha nimo","timestamp":"2025-10-25 05:49:40","status":"sent","notification_sent":false}
+{"message_id":217,"sender_id":"29","receiver_id":"28","message":"b**o","timestamp":"2025-10-25 05:49:45","status":"sent","notification_sent":false}
+{"message_id":218,"sender_id":"29","receiver_id":"28","message":"fucking s****d","timestamp":"2025-10-25 05:51:07","status":"sent","notification_sent":false}
+{"message_id":219,"sender_id":"29","receiver_id":"28","message":"your so f*****g s****d","timestamp":"2025-10-25 05:53:20","status":"sent","notification_sent":false}
+{"message_id":"219","sender_id":"29","receiver_id":"28","message":"your so f*****g s****d","timestamp":"2025-10-25 05:53:22","status":"sent","notification_sent":false}
+{"message_id":220,"sender_id":"29","receiver_id":"28","message":"s**t","timestamp":"2025-10-25 05:53:28","status":"sent","notification_sent":false}
+{"message_id":221,"sender_id":"29","receiver_id":"28","message":"f*****g","timestamp":"2025-10-25 06:51:40","status":"sent","notification_sent":false}
+{"message_id":222,"sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-10-25 06:52:55","status":"sent","notification_sent":true}
+{"message_id":"222","sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-10-25 06:52:57","status":"sent","notification_sent":true}
+{"message_id":223,"sender_id":"29","receiver_id":"28","message":"b******t","timestamp":"2025-10-25 10:06:12","status":"sent","notification_sent":false}
