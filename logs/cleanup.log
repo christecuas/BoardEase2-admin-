@@ -1,0 +1,44 @@
+[2025-10-26 17:48:09] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 17:48:11] Database connection established
+[2025-10-26 17:48:11] Current time: 2025-10-26 17:48:11
+[2025-10-26 17:48:11] Looking for accounts older than: 2025-10-26 17:18:11
+[2025-10-26 17:48:11] Found 0 accounts to delete
+[2025-10-26 17:48:11] No accounts found for deletion
+[2025-10-26 17:48:11] Database connection closed
+[2025-10-26 17:48:11] === CLEANUP SCRIPT FINISHED ===
+[2025-10-26 17:48:47] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 17:48:54] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 17:50:28] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 17:50:30] Database connection established
+[2025-10-26 17:50:30] Current time: 2025-10-26 17:50:30
+[2025-10-26 17:50:30] Looking for accounts older than: 2025-10-26 17:20:30
+[2025-10-26 17:50:30] Found 0 accounts to delete
+[2025-10-26 17:50:30] No accounts found for deletion
+[2025-10-26 17:50:30] Database connection closed
+[2025-10-26 17:50:30] === CLEANUP SCRIPT FINISHED ===
+[2025-10-26 17:51:03] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 17:51:05] Database connection established
+[2025-10-26 17:51:05] Current time: 2025-10-26 17:51:05
+[2025-10-26 17:51:05] Looking for accounts older than: 2025-10-26 17:21:05
+[2025-10-26 17:51:05] Found 4 accounts to delete
+[2025-10-26 17:51:05] Will delete: ID=37, Email=john@gmail.com, Name=John, Created=2025-10-08 22:20:48
+[2025-10-26 17:51:05] Will delete: ID=39, Email=maries@gmail.com, Name=Maries, Created=2025-10-08 22:26:06
+[2025-10-26 17:51:05] Will delete: ID=40, Email=momo@gmail.com, Name=Momo, Created=2025-10-08 22:31:33
+[2025-10-26 17:51:05] Will delete: ID=83, Email=test_cleanup_1761472262@example.com, Name=Test User, Created=2025-10-26 10:16:02
+[2025-10-26 17:51:05] Deleted 1 verification records
+[2025-10-26 17:51:05] Deleted 4 registration records
+[2025-10-26 17:51:05] === CLEANUP COMPLETED SUCCESSFULLY ===
+[2025-10-26 17:51:05] Total accounts deleted: 4
+[2025-10-26 17:51:05] Total verification records deleted: 1
+[2025-10-26 17:51:05] Database connection closed
+[2025-10-26 17:51:05] === CLEANUP SCRIPT FINISHED ===
+[2025-10-26 10:59:39] === CLEANUP SCRIPT STARTED ===
+[2025-10-26 10:59:42] Database connection established
+[2025-10-26 10:59:42] Updating status enum to include 'unverified'
+[2025-10-26 10:59:42] Status enum updated successfully
+[2025-10-26 10:59:42] Current time: 2025-10-26 10:59:42
+[2025-10-26 10:59:42] Looking for accounts older than: 2025-10-26 10:29:42
+[2025-10-26 10:59:42] Found 0 accounts to delete
+[2025-10-26 10:59:42] No accounts found for deletion
+[2025-10-26 10:59:42] Database connection closed
+[2025-10-26 10:59:42] === CLEANUP SCRIPT FINISHED ===
