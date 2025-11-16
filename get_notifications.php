@@ -18,7 +18,14 @@ try {
     
     $db = getDB();
     
+    // Validate user_id to prevent SQL injection and ensure security
+    if (!is_numeric($user_id)) {
+        throw new Exception('Invalid user_id parameter');
+    }
+    
     // Build query with optional type filter
+    // IMPORTANT: This query ONLY returns notifications for the specific user_id
+    // Each user can ONLY see their own notifications, not notifications for other users
     $where_clause = "WHERE user_id = ?";
     $params = [$user_id];
     
@@ -28,6 +35,7 @@ try {
     }
     
     // Get notifications - build complete query
+    // SECURITY: The WHERE clause ensures users can only see their own notifications
     $query = "
         SELECT notif_id, user_id, notif_title, notif_message, notif_type, 
                notif_status, notif_created_at
@@ -40,6 +48,13 @@ try {
     $stmt->execute($params);
     $notifications = $stmt->fetchAll();
     
+    // Verify all notifications belong to the requested user (extra security check)
+    foreach ($notifications as $notif) {
+        if ($notif['user_id'] != $user_id) {
+            error_log("SECURITY WARNING: Notification " . $notif['notif_id'] . " does not belong to user $user_id!");
+        }
+    }
+    
     // Get total count
     $count_query = "
         SELECT COUNT(*) as total_count 
@@ -50,14 +65,16 @@ try {
     $count_stmt->execute($params);
     $total_count = $count_stmt->fetch()['total_count'];
     
-    // Get unread count
+    // Get unread count - ONLY for this specific user
+    // SECURITY: The WHERE clause ensures users can only see their own unread count
     $unread_stmt = $db->prepare("
         SELECT COUNT(*) as unread_count 
         FROM notifications 
         WHERE user_id = ? AND notif_status = 'unread'
     ");
     $unread_stmt->execute([$user_id]);
-    $unread_count = $unread_stmt->fetch()['unread_count'];
+    $unread_result = $unread_stmt->fetch();
+    $unread_count = $unread_result ? (int)$unread_result['unread_count'] : 0;
     
     $response = [
         'success' => true,

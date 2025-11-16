@@ -14,7 +14,7 @@ try {
     
 
     // Get pending registrations
-    $sql = "SELECT id, role, first_name, middle_name, last_name, birth_date, phone, address, email, 
+    $sql = "SELECT id, role, first_name, middle_name, last_name, suffix, birth_date, phone, address, email, 
                    gcash_num, valid_id_type, id_number, idFrontFile, idBackFile, gcash_qr, 
                    status, email_verified, created_at
             FROM registrations 
@@ -31,7 +31,8 @@ try {
                 "first_name" => $row['first_name'],
                 "middle_name" => $row['middle_name'],
                 "last_name" => $row['last_name'],
-                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']),
+                "suffix" => $row['suffix'],
+                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '')),
                 "birth_date" => $row['birth_date'],
                 "phone" => $row['phone'],
                 "address" => $row['address'],
@@ -65,7 +66,7 @@ try {
 
     // Get active users (from users table) - use DISTINCT to avoid duplicates
     $sql = "SELECT DISTINCT u.user_id, u.reg_id, u.status, u.profile_picture,
-                   r.role, r.first_name, r.middle_name, r.last_name, r.phone, r.email, r.created_at,
+                   r.role, r.first_name, r.middle_name, r.last_name, r.suffix, r.phone, r.email, r.created_at,
                    CASE 
                        WHEN r.role = 'BH Owner' THEN (
                            SELECT COUNT(*) 
@@ -91,7 +92,8 @@ try {
                 "first_name" => $row['first_name'],
                 "middle_name" => $row['middle_name'],
                 "last_name" => $row['last_name'],
-                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']),
+                "suffix" => $row['suffix'],
+                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '')),
                 "phone" => $row['phone'],
                 "email" => $row['email'],
                 "status" => $row['status'],
@@ -104,7 +106,7 @@ try {
 
     // Get inactive users (from users table) - use DISTINCT to avoid duplicates
     $sql = "SELECT DISTINCT u.user_id, u.reg_id, u.status, u.profile_picture,
-                   r.role, r.first_name, r.middle_name, r.last_name, r.phone, r.email, r.created_at,
+                   r.role, r.first_name, r.middle_name, r.last_name, r.suffix, r.phone, r.email, r.created_at,
                    CASE 
                        WHEN r.role = 'BH Owner' THEN (
                            SELECT COUNT(*) 
@@ -130,7 +132,8 @@ try {
                 "first_name" => $row['first_name'],
                 "middle_name" => $row['middle_name'],
                 "last_name" => $row['last_name'],
-                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']),
+                "suffix" => $row['suffix'],
+                "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . (!empty($row['suffix']) ? ' ' . $row['suffix'] : '')),
                 "phone" => $row['phone'],
                 "email" => $row['email'],
                 "status" => $row['status'],
@@ -166,8 +169,8 @@ $conn->close();
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
-            color: #333;
+            background: linear-gradient(135deg, #E6DAC8 0%, #F5F5DC 50%, #E6DAC8 100%);
+            color: #4A4A4A;
             display: flex;
             min-height: 100vh;
             position: relative;
@@ -182,9 +185,10 @@ $conn->close();
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(141, 110, 99, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(169, 122, 80, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(210, 180, 140, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(141, 110, 99, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(141, 110, 99, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(230, 218, 200, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(141, 110, 99, 0.04) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
@@ -192,16 +196,17 @@ $conn->close();
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: linear-gradient(180deg, #8D6E63 0%, #A97A50 100%);
-            color: white;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            color: #E6DAC8;
             position: fixed;
             height: 100vh;
             left: 0;
             top: 0;
             z-index: 1000;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 4px 0 25px rgba(141, 110, 99, 0.3);
+            backdrop-filter: blur(15px);
+            border-right: 2px solid rgba(230, 218, 200, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar-header {
@@ -270,9 +275,24 @@ $conn->close();
             flex: 1;
             margin-left: 250px;
             padding: 2rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #E6DAC8 0%, #F5F5DC 50%, #E6DAC8 100%);
             min-height: 100vh;
             animation: fadeInUp 0.6s ease-out;
+            position: relative;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(141, 110, 99, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(230, 218, 200, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         @keyframes fadeInUp {
@@ -287,12 +307,12 @@ $conn->close();
         }
 
         .content-header {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(141, 110, 99, 0.3);
             margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(230, 218, 200, 0.2);
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
@@ -306,7 +326,7 @@ $conn->close();
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #8D6E63, #A97A50, #D2B48C);
+            background: linear-gradient(135deg, #E6DAC8 0%, #F5F5DC 100%);
             border-radius: 20px 20px 0 0;
         }
 
@@ -324,8 +344,9 @@ $conn->close();
         .content-header h1 {
             font-size: 2rem;
             font-weight: 600;
-            color: #333;
+            color: #E6DAC8;
             margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes textGlow {
@@ -338,8 +359,9 @@ $conn->close();
         }
 
         .content-header p {
-            color: #666;
+            color: #F5F5DC;
             font-size: 1rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .stats-grid {
@@ -351,15 +373,19 @@ $conn->close();
         }
 
         .stat-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px rgba(141, 110, 99, 0.15),
+                0 4px 16px rgba(141, 110, 99, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             animation: cardSlideIn 0.6s ease-out;
+            border: 1px solid rgba(141, 110, 99, 0.3);
         }
 
         .stat-card::before {
@@ -368,11 +394,12 @@ $conn->close();
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #8D6E63, #A97A50, #D2B48C);
+            height: 5px;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
             border-radius: 20px 20px 0 0;
             opacity: 0;
             transition: opacity 0.3s ease;
+            box-shadow: 0 2px 8px rgba(141, 110, 99, 0.3);
         }
 
         .stat-card:hover::before {
@@ -426,7 +453,8 @@ $conn->close();
             font-size: 2.5rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: #2c3e50;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
             animation: numberCount 1s ease-out;
         }
 
@@ -442,9 +470,34 @@ $conn->close();
         }
 
         .stat-content p {
-            color: #666;
+            color: #34495e;
             font-size: 1rem;
             font-weight: 500;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+        }
+
+        /* Special styling for pending count when > 0 */
+        .stat-card:nth-child(3) .stat-content h3 {
+            color: #e74c3c;
+            font-weight: 800;
+        }
+
+        .stat-card:nth-child(3) .stat-content p {
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        /* Animations for pending count emphasis */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         .dashboard-grid {
@@ -936,8 +989,8 @@ $conn->close();
         }
 
         .tab.active {
-            border-bottom-color: #8D6E63;
-            color: #8D6E63;
+            border-bottom-color: #5D4037;
+            color: #5D4037;
             font-weight: 600;
             background: white;
         }
@@ -953,6 +1006,68 @@ $conn->close();
 
         .tab-content .card-content {
             padding: 1.5rem;
+        }
+
+        /* Reduce padding for system notifications container specifically */
+        #system-tab .card-content {
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
+        }
+        
+        #system-notifications-container {
+            margin-top: 0;
+        }
+        
+        /* Remove any gap above first notification */
+        #system-notifications-container .notification-item:first-child {
+            margin-top: 0;
+            padding-top: 0.75rem;
+        }
+        
+        /* Loading Indicator Styling */
+        #system-notifications-loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        #system-notifications-loading .fa-spinner {
+            font-size: 2.5rem;
+            color: #007bff;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #system-notifications-loading div:first-child {
+            margin-bottom: 1rem;
+        }
+        
+        #system-notifications-loading div:nth-child(2) {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        #system-notifications-loading div:nth-child(3) {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
         }
 
         /* Responsive Design */
@@ -1142,6 +1257,22 @@ $conn->close();
             padding: 1rem;
             border-bottom: 1px solid #e9ecef;
             transition: background 0.3s ease;
+            margin: 0;
+        }
+        
+        #system-notifications-container {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        #system-notifications-container > div:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Reduce gap above first notification item */
+        #system-notifications-container .notification-item:first-of-type {
+            margin-top: 0;
+            padding-top: 1rem;
         }
 
         .notification-item:hover {
@@ -1412,25 +1543,79 @@ $conn->close();
              gap: 2rem;
          }
 
-         .analytics-card {
-             background: white;
-             border-radius: 15px;
-             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-             overflow: hidden;
-         }
+        .analytics-card {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(141, 110, 99, 0.15), 
+                        0 4px 16px rgba(141, 110, 99, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(141, 110, 99, 0.2);
+        }
+
+        .analytics-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(141, 110, 99, 0.25), 
+                        0 8px 24px rgba(141, 110, 99, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
 
          .analytics-card.full-width {
              grid-column: 1 / -1;
          }
 
-         .analytics-header {
-             background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
-             color: white;
-             padding: 1.5rem;
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-         }
+        .analytics-header {
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            color: #E6DAC8;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analytics-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 218, 200, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .analytics-card:hover .analytics-header::before {
+            left: 100%;
+        }
+
+        .analytics-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .analytics-header i {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
 
          .analytics-header h3 {
              font-size: 1.3rem;
@@ -1454,20 +1639,143 @@ $conn->close();
              color: white;
          }
 
-         .analytics-content {
-             padding: 1.5rem;
-         }
+        .analytics-content {
+            padding: 2rem;
+            background: linear-gradient(145deg, #F5F5DC 0%, #E6DAC8 100%);
+            border-radius: 0 0 20px 20px;
+            position: relative;
+        }
 
-         .chart-container {
-             margin-bottom: 1.5rem;
-             text-align: center;
-         }
+        .analytics-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(141, 110, 99, 0.3), transparent);
+        }
 
-         .analytics-metrics {
-             display: grid;
-             grid-template-columns: repeat(3, 1fr);
-             gap: 1rem;
-         }
+        .chart-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(145deg, #F5F5DC 0%, #E6DAC8 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 6px 24px rgba(141, 110, 99, 0.12), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(141, 110, 99, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(141, 110, 99, 0.2), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .chart-container h4 {
+            color: #5D4037;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h4 i {
+            color: #8D6E63;
+            font-size: 1.3rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        .chart-container canvas {
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(141, 110, 99, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chart-container:hover canvas {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(141, 110, 99, 0.15);
+        }
+
+        .analytics-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(141, 110, 99, 0.1), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(141, 110, 99, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .metric:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(141, 110, 99, 0.2), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #5D4037;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #8D6E63;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
          .metric {
              text-align: center;
@@ -1566,53 +1874,116 @@ $conn->close();
              margin-top: 2rem;
          }
 
-         .analytics-overview-grid {
-             display: grid;
-             grid-template-columns: repeat(3, 1fr);
-             gap: 2rem;
-         }
+        .analytics-overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 1rem;
+        }
 
-         .analytics-overview-item {
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             text-align: center;
-             padding: 1.5rem;
-             background: #f8f9fa;
-             border-radius: 12px;
-             transition: transform 0.3s ease, box-shadow 0.3s ease;
-         }
+        .analytics-overview-item {
+            background: linear-gradient(145deg, #F5F5DC 0%, #E6DAC8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(141, 110, 99, 0.15), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(141, 110, 99, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInUp 0.6s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 400px;
+        }
 
-         .analytics-overview-item:hover {
-             transform: translateY(-5px);
-             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-         }
+        .analytics-overview-item:nth-child(1) { animation-delay: 0.1s; }
+        .analytics-overview-item:nth-child(2) { animation-delay: 0.2s; }
+        .analytics-overview-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .analytics-overview-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .analytics-overview-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(141, 110, 99, 0.25), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
 
          .analytics-overview-chart {
              width: 100%;
-             height: 200px;
-             margin-bottom: 1rem;
+             height: 250px;
+             margin-bottom: 1.5rem;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             background: rgba(255, 255, 255, 0.5);
+             border-radius: 12px;
+             box-shadow: 0 4px 16px rgba(141, 110, 99, 0.1);
+             position: relative;
+         }
+
+         .analytics-overview-chart canvas {
+             max-width: 100%;
+             max-height: 100%;
+             border-radius: 8px;
+         }
+
+         .analytics-overview-info {
+             width: 100%;
+             text-align: center;
          }
 
          .analytics-overview-info h4 {
-             font-size: 1.2rem;
-             font-weight: 600;
-             margin-bottom: 0.5rem;
-             color: #333;
+             font-size: 1.4rem;
+             font-weight: 700;
+             margin-bottom: 0.8rem;
+             color: #5D4037;
+             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
          }
 
          .analytics-overview-info p {
-             font-size: 0.9rem;
-             color: #666;
-             margin-bottom: 0.75rem;
+             font-size: 1rem;
+             color: #8D6E63;
+             margin-bottom: 1rem;
+             font-weight: 500;
          }
 
-         .analytics-overview-info .analytics-trend {
-             font-size: 1rem;
-             font-weight: 600;
+         .analytics-trend {
+             display: inline-block;
              padding: 0.5rem 1rem;
+             background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+             color: #E6DAC8;
              border-radius: 20px;
+             font-weight: 600;
+             font-size: 0.9rem;
+             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+             box-shadow: 0 2px 8px rgba(141, 110, 99, 0.3);
          }
+
+
 
          /* Flagged Accounts Styling */
          .user-avatar-small.flagged {
@@ -1639,33 +2010,7 @@ $conn->close();
              border: 1px solid #ffeaa7;
          }
 
-         /* Document Verification Modal Styling */
-         .document-modal {
-             background-color: #f8f9fa;
-             margin: 2% auto;
-             padding: 0;
-             border: none;
-             border-radius: 15px;
-             width: 90%;
-             max-width: 800px;
-             max-height: 90vh;
-             overflow-y: auto;
-             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-             display: flex;
-             flex-direction: column;
-         }
-
-         .document-modal .modal-body {
-             padding: 2rem;
-             overflow-y: auto;
-             flex: 1;
-         }
-
-         .document-modal .modal-content {
-             margin: 0;
-             width: 100%;
-             max-width: none;
-         }
+         /* Document Verification Modal Styling - handled in CSS file */
 
          .verification-container {
              display: flex;
@@ -1988,10 +2333,10 @@ $conn->close();
              border: 2px solid rgba(255, 255, 255, 0.3);
          }
 
-         .tab.active .tab-count {
-             background: #6D4C41;
-             border-color: rgba(255, 255, 255, 0.5);
-         }
+        .tab.active .tab-count {
+            background: #5D4037;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -2132,19 +2477,42 @@ $conn->close();
                         <?php 
                         $initials = strtoupper(substr($registration['first_name'], 0, 1) . substr($registration['last_name'], 0, 1));
                         $roleText = $registration['role'] === 'BH Owner' ? 'Owner Registration' : 'Boarder Registration';
-                        $timeAgo = '';
-                        if ($registration['created_at']) {
-                            $now = new DateTime();
-                            $created = new DateTime($registration['created_at']);
+                        // Calculate time ago from created_at
+                        $timeAgo = 'Just now'; // Default fallback
+                        if (!empty($registration['created_at']) && $registration['created_at'] !== '0000-00-00 00:00:00') {
+                            try {
+                                $now = new DateTime('now', new DateTimeZone('Asia/Manila'));
+                                $created = new DateTime($registration['created_at'], new DateTimeZone('Asia/Manila'));
+                                
+                                // Calculate difference
                             $diff = $now->diff($created);
-                            if ($diff->days > 0) {
-                                $timeAgo = $diff->days . ' days ago';
+                                
+                                // Calculate total seconds difference
+                                $totalSeconds = ($diff->days * 86400) + ($diff->h * 3600) + ($diff->i * 60) + $diff->s;
+                                
+                                if ($totalSeconds < 0) {
+                                    // If negative, it means created_at is in the future (shouldn't happen)
+                                    $timeAgo = 'Just now';
+                                } elseif ($diff->days > 0) {
+                                    $timeAgo = $diff->days . ($diff->days == 1 ? ' day ago' : ' days ago');
                             } elseif ($diff->h > 0) {
-                                $timeAgo = $diff->h . ' hours ago';
+                                    $timeAgo = $diff->h . ($diff->h == 1 ? ' hour ago' : ' hours ago');
                             } elseif ($diff->i > 0) {
-                                $timeAgo = $diff->i . ' minutes ago';
+                                    $timeAgo = $diff->i . ($diff->i == 1 ? ' minute ago' : ' minutes ago');
                             } else {
                                 $timeAgo = 'Just now';
+                                }
+                            } catch (Exception $e) {
+                                // If date parsing fails, try to format the date instead
+                                error_log("Error parsing created_at date: " . $e->getMessage() . " - Date: " . $registration['created_at']);
+                                if (!empty($registration['created_at'])) {
+                                    $timeAgo = date('M d, Y H:i', strtotime($registration['created_at']));
+                                }
+                            }
+                        } else {
+                            // If created_at is empty or invalid, show the registration date if available
+                            if (!empty($registration['created_at']) && $registration['created_at'] !== '0000-00-00 00:00:00') {
+                                $timeAgo = date('M d, Y', strtotime($registration['created_at']));
                             }
                         }
                         ?>
@@ -2216,40 +2584,14 @@ $conn->close();
                      <h3><i class="fas fa-clock"></i> Recent Activity</h3>
                  </div>
                  <div class="card-content">
-                     <div class="recent-activity">
-                         <div class="activity-item">
-                             <div class="activity-icon" style="background: #d4edda;">
-                                 <i class="fas fa-check" style="color: #28a745;"></i>
+                    <div id="recent-activity-loading" style="text-align: center; padding: 1rem; color: rgba(0,0,0,0.6); display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading recent activity...
                              </div>
-                             <div class="activity-content">
-                                 <h4>New boarding house registered</h4>
-                                 <p>Sunset Boarding House by John Doe</p>
+                    <div class="recent-activity" id="recent-activity-container">
+                        <!-- Recent activity items will be loaded here dynamically -->
                              </div>
-                             <div class="activity-time">2 min ago</div>
                          </div>
-                         <div class="activity-item">
-                             <div class="activity-icon" style="background: #fff3cd;">
-                                 <i class="fas fa-exclamation" style="color: #ffc107;"></i>
                              </div>
-                             <div class="activity-content">
-                                 <h4>Payment dispute reported</h4>
-                                 <p>Room 101 - Mike Johnson vs Jane Smith</p>
-                             </div>
-                             <div class="activity-time">15 min ago</div>
-                         </div>
-                         <div class="activity-item">
-                             <div class="activity-icon" style="background: #f8d7da;">
-                                 <i class="fas fa-flag" style="color: #dc3545;"></i>
-                             </div>
-                             <div class="activity-content">
-                                 <h4>Account flagged for review</h4>
-                                 <p>User: sarah.wilson@email.com</p>
-                             </div>
-                             <div class="activity-time">1 hour ago</div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
          </div>
         </div>
 
@@ -2326,6 +2668,8 @@ $conn->close();
                                 // Then add pending registrations (if not already processed)
                                 foreach ($pending_boarders as $reg) {
                                     if (!in_array($reg['email'], $processed_emails)) {
+                                        // Add properties_count field for pending registrations (0 since they don't have properties yet)
+                                        $reg['properties_count'] = 0;
                                         $all_boarders[] = $reg;
                                         $processed_emails[] = $reg['email'];
                                     }
@@ -2450,6 +2794,8 @@ $conn->close();
                                 // Then add pending registrations (if not already processed)
                                 foreach ($pending_owners as $reg) {
                                     if (!in_array($reg['email'], $processed_emails)) {
+                                        // Add properties_count field for pending registrations (0 since they don't have properties yet)
+                                        $reg['properties_count'] = 0;
                                         $all_owners[] = $reg;
                                         $processed_emails[] = $reg['email'];
                                     }
@@ -2513,7 +2859,7 @@ $conn->close();
                                         </div>
                                      </td>
                                         <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                     <td><?php echo $user['role'] === 'BH Owner' ? $user['properties_count'] . ' properties' : 'N/A'; ?></td>
+                                     <td><?php echo $user['role'] === 'BH Owner' ? (isset($user['properties_count']) ? $user['properties_count'] : 0) . ' properties' : 'N/A'; ?></td>
                                         <td><span class="status-badge-table <?php echo $statusClass; ?>"><?php echo $status; ?></span></td>
                                         <td><?php echo $registrationDate; ?></td>
                                         <td><?php echo $actions; ?></td>
@@ -2596,67 +2942,21 @@ $conn->close();
                 <!-- System Notifications Tab Content -->
                 <div class="tab-content active" id="system-tab">
                     <div class="card-content">
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #28a745;">
-                                <i class="fas fa-user-plus"></i>
+                        <div id="system-notifications-loading">
+                            <div>
+                                <i class="fas fa-spinner"></i>
                             </div>
-                            <div class="notification-content">
-                                <h4>New User Registration</h4>
-                                <p>David Lee registered as a boarder from De La Salle University</p>
-                                <div class="notification-time">2 hours ago</div>
+                            <div>
+                                Loading system notifications...
+                            </div>
+                            <div>
+                                Please wait while we fetch all system events
+                        </div>
+                            </div>
+                        <div id="system-notifications-container" style="display: none; padding: 0; margin: 0;">
+                            <!-- System notifications will be loaded here dynamically -->
                             </div>
                         </div>
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #007bff;">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <div class="notification-content">
-                                <h4>New Boarding House Added</h4>
-                                <p>City View Boarding House was registered by Robert Brown</p>
-                                <div class="notification-time">4 hours ago</div>
-                            </div>
-                        </div>
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #ffc107;">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="notification-content">
-                                <h4>Payment Issue Reported</h4>
-                                <p>Payment dispute reported for Room 101 at Sunshine Boarding House</p>
-                                <div class="notification-time">6 hours ago</div>
-                            </div>
-                        </div>
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #dc3545;">
-                                <i class="fas fa-flag"></i>
-                            </div>
-                            <div class="notification-content">
-                                <h4>Account Flagged</h4>
-                                <p>User sarah.wilson@email.com has been flagged for review</p>
-                                <div class="notification-time">1 day ago</div>
-                            </div>
-                        </div>
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #6f42c1;">
-                                <i class="fas fa-credit-card"></i>
-                            </div>
-                            <div class="notification-content">
-                                <h4>Payment Completed</h4>
-                                <p>Payment of ₱3,500 received from Mike Johnson for Room 101</p>
-                                <div class="notification-time">1 day ago</div>
-                            </div>
-                        </div>
-                        <div class="notification-item">
-                            <div class="notification-icon" style="background: #20c997;">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="notification-content">
-                                <h4>Maintenance Request Completed</h4>
-                                <p>Plumbing issue in Room 205 has been resolved</p>
-                                <div class="notification-time">2 days ago</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -3200,7 +3500,7 @@ $conn->close();
         <div class="modal-content document-modal">
             <div class="modal-header">
                 <h2><i class="fas fa-id-card"></i> Document Verification</h2>
-                <span class="close" onclick="closeModal('documentModal')">&times;</span>
+                <button class="modal-close" onclick="closeModal('documentModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="verification-container">
@@ -3320,7 +3620,7 @@ $conn->close();
     <!-- Image Zoom Modal -->
     <div id="imageModal" class="modal">
         <div class="modal-content image-modal">
-            <span class="close" onclick="closeModal('imageModal')">&times;</span>
+            <button class="modal-close" onclick="closeModal('imageModal')">&times;</button>
             <img id="zoomedImage" src="" alt="Zoomed Document">
         </div>
     </div>
@@ -3388,7 +3688,24 @@ $conn->close();
             // Add active class to clicked tab and corresponding content
             event.target.classList.add('active');
             document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Load system notifications if system tab is selected
+            if (tabName === 'system') {
+                // Show loading immediately when switching to system tab
+                const loadingElement = document.getElementById('system-notifications-loading');
+                const containerElement = document.getElementById('system-notifications-container');
+                if (loadingElement) {
+                    loadingElement.style.display = 'flex';
+                }
+                if (containerElement) {
+                    containerElement.style.display = 'none';
+                }
+                loadSystemNotifications();
+            }
         }
+        
+        // Also load system notifications when notifications section is first opened
+        // Override the original loadNotificationsData to include system notifications
 
         function switchBoardingHouseTab(tabName) {
             // Remove active class from all boarding house tabs and contents
@@ -3792,6 +4109,10 @@ $conn->close();
             
             // Load data for specific sections
             switch(sectionName) {
+                case 'dashboard':
+                    // Reload recent activity when dashboard is shown
+                    loadDashboardRecentActivity();
+                    break;
                 case 'user-management':
                     loadUserStatsData();
                     break;
@@ -3896,7 +4217,10 @@ $conn->close();
             const bookings = data.bookings || [];
             
             const userInitials = (user.first_name.charAt(0) + user.last_name.charAt(0)).toUpperCase();
-            const fullName = user.middle_name ? `${user.first_name} ${user.middle_name} ${user.last_name}` : `${user.first_name} ${user.last_name}`;
+            let fullName = user.middle_name ? `${user.first_name} ${user.middle_name} ${user.last_name}` : `${user.first_name} ${user.last_name}`;
+            if (user.suffix) {
+                fullName += ` ${user.suffix}`;
+            }
             const profilePicture = user.profile_picture ? `../${user.profile_picture}` : `https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=8D6E63&color=fff`;
             
             let html = `
@@ -3923,6 +4247,22 @@ $conn->close();
                         <div class="info-item">
                             <div class="info-label">Full Name</div>
                             <div class="info-value">${fullName}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">First Name</div>
+                            <div class="info-value">${user.first_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Middle Name</div>
+                            <div class="info-value">${user.middle_name || 'Not provided'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Last Name</div>
+                            <div class="info-value">${user.last_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Suffix</div>
+                            <div class="info-value">${user.suffix || 'None'}</div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Email</div>
@@ -3963,14 +4303,6 @@ $conn->close();
                         <div class="info-item">
                             <div class="info-label">GCash Number</div>
                             <div class="info-value">${user.gcash_num || 'Not provided'}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Valid ID Type</div>
-                            <div class="info-value">${user.valid_id_type || 'Not provided'}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">ID Number</div>
-                            <div class="info-value">${user.id_number || 'Not provided'}</div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Terms Agreed</div>
@@ -4076,19 +4408,24 @@ $conn->close();
                 `;
                 
                 bookings.forEach(booking => {
-                    const statusClass = booking.status === 'confirmed' ? 'status-active' : 
-                                     booking.status === 'pending' ? 'status-pending' : 'status-inactive';
+                    const statusLower = (booking.status || '').toLowerCase();
+                    const statusClass = statusLower === 'confirmed' ? 'status-active' : 
+                                     statusLower === 'pending' ? 'status-pending' : 
+                                     statusLower === 'completed' ? 'status-completed' : 'status-inactive';
                     html += `
                         <div class="booking-item">
                             <div class="item-header">
-                                <div class="item-title">${booking.bh_name}</div>
-                                <span class="status-badge ${statusClass}">${booking.status}</span>
+                                <div class="item-title">${booking.bh_name || 'N/A'}</div>
+                                <span class="status-badge ${statusClass}">${booking.status || 'N/A'}</span>
                             </div>
                             <div class="item-details">
-                                <strong>Check-in:</strong> ${new Date(booking.check_in_date).toLocaleDateString()}<br>
-                                <strong>Check-out:</strong> ${new Date(booking.check_out_date).toLocaleDateString()}<br>
-                                <strong>Amount:</strong> ₱${booking.total_amount}<br>
-                                <strong>Booked:</strong> ${new Date(booking.created_at).toLocaleDateString()}
+                                <strong>Room:</strong> ${booking.room_name || 'N/A'} (${booking.room_category || 'N/A'})<br>
+                                <strong>Room Unit:</strong> ${booking.room_number || 'N/A'}<br>
+                                ${booking.capacity ? `<strong>Capacity:</strong> ${booking.capacity} person(s)<br>` : ''}
+                                <strong>Check-in:</strong> ${booking.check_in_date ? new Date(booking.check_in_date).toLocaleDateString() : 'N/A'}<br>
+                                <strong>Check-out:</strong> ${booking.check_out_date ? new Date(booking.check_out_date).toLocaleDateString() : 'N/A'}<br>
+                                <strong>Amount:</strong> ₱${parseFloat(booking.total_amount || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
+                                <strong>Booked:</strong> ${booking.created_at ? new Date(booking.created_at).toLocaleDateString() : 'N/A'}
                             </div>
                         </div>
                     `;
@@ -4357,13 +4694,36 @@ $conn->close();
         // Load Notifications Data
         async function loadNotificationsData() {
             try {
+                // Always load system notifications when notifications section is opened
+                // System tab is active by default, so load system notifications immediately
+                console.log('Loading notifications data...');
+                
+                // Show loading indicator immediately when notifications section is opened
+                const loadingElement = document.getElementById('system-notifications-loading');
+                const containerElement = document.getElementById('system-notifications-container');
+                if (loadingElement) {
+                    loadingElement.style.display = 'flex';
+                }
+                if (containerElement) {
+                    containerElement.style.display = 'none';
+                }
+                
+                loadSystemNotifications();
+                
+                // Also load user notifications list for statistics/other uses
+            try {
                 const response = await fetch('../get_admin_notifications.php?action=list&type=all&status=all');
                 const data = await response.json();
                 
                 if (data.success) {
                     updateNotificationsTable(data.data);
+                        console.log('User notifications loaded:', data.data.notifications?.length || 0);
                 } else {
                     console.error('Error loading notifications data:', data.error);
+                    }
+                } catch (error) {
+                    console.error('Error loading user notifications:', error);
+                    // Don't fail if user notifications can't be loaded
                 }
             } catch (error) {
                 console.error('Error loading notifications data:', error);
@@ -5069,8 +5429,27 @@ $conn->close();
             registrations.forEach(registration => {
                 const initials = (registration.first_name.charAt(0) + registration.last_name.charAt(0)).toUpperCase();
                 const roleText = registration.role === 'BH Owner' ? 'Owner Registration' : 'Boarder Registration';
-                const registrationDate = new Date(registration.created_at).toISOString().split('T')[0];
-                const timeAgo = getTimeAgo(registration.created_at);
+                
+                // Safely parse registration date
+                let registrationDate = 'N/A';
+                if (registration.created_at) {
+                    try {
+                        const date = new Date(registration.created_at);
+                        if (!isNaN(date.getTime())) {
+                            registrationDate = date.toISOString().split('T')[0];
+                        }
+                    } catch (e) {
+                        console.warn('Error parsing registration date:', e);
+                    }
+                }
+                
+                // Calculate time ago - ensure created_at exists and is valid
+                const timeAgo = registration.created_at ? getTimeAgo(registration.created_at) : 'Recently';
+                
+                // Debug log to help identify issues
+                if (!registration.created_at) {
+                    console.warn('Registration missing created_at:', registration.id, registration);
+                }
                 
                 html += `
                     <div class="approval-card" data-registration-id="${registration.id}">
@@ -5209,14 +5588,77 @@ $conn->close();
 
         // Helper function to get time ago
         function getTimeAgo(dateString) {
-            const now = new Date();
-            const date = new Date(dateString);
-            const diffInSeconds = Math.floor((now - date) / 1000);
+            // Validate input
+            if (!dateString || dateString === '0000-00-00 00:00:00' || dateString === 'null' || dateString === '') {
+                console.warn('Invalid dateString for getTimeAgo:', dateString);
+                return 'Recently';
+            }
             
-            if (diffInSeconds < 60) return 'Just now';
-            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-            return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            try {
+            const now = new Date();
+                let date = new Date(dateString);
+                
+                // Check if date is valid
+                if (isNaN(date.getTime())) {
+                    console.warn('Invalid date parsed from:', dateString);
+                    // Try to parse as MySQL datetime format
+                    const mysqlDate = dateString.replace(' ', 'T');
+                    const parsedDate = new Date(mysqlDate);
+                    if (isNaN(parsedDate.getTime())) {
+                        return 'Recently';
+                    }
+                    date = parsedDate;
+                }
+                
+                const diffInMs = now - date;
+                const diffInSeconds = Math.floor(diffInMs / 1000);
+                
+                // Handle negative difference (future date)
+                if (diffInSeconds < 0) {
+                    return 'Just now';
+                }
+                
+                if (diffInSeconds < 60) {
+                    return 'Just now';
+                }
+                
+                const diffInMinutes = Math.floor(diffInSeconds / 60);
+                if (diffInMinutes < 60) {
+                    return diffInMinutes === 1 ? '1 minute ago' : `${diffInMinutes} minutes ago`;
+                }
+                
+                const diffInHours = Math.floor(diffInSeconds / 3600);
+                if (diffInHours < 24) {
+                    return diffInHours === 1 ? '1 hour ago' : `${diffInHours} hours ago`;
+                }
+                
+                const diffInDays = Math.floor(diffInSeconds / 86400);
+                if (diffInDays < 30) {
+                    return diffInDays === 1 ? '1 day ago' : `${diffInDays} days ago`;
+                }
+                
+                const diffInMonths = Math.floor(diffInDays / 30);
+                if (diffInMonths < 12) {
+                    return diffInMonths === 1 ? '1 month ago' : `${diffInMonths} months ago`;
+                }
+                
+                const diffInYears = Math.floor(diffInDays / 365);
+                return diffInYears === 1 ? '1 year ago' : `${diffInYears} years ago`;
+                
+            } catch (error) {
+                console.error('Error calculating time ago:', error, 'Date string:', dateString);
+                // Fallback: try to format the date
+                try {
+                    const date = new Date(dateString);
+                    if (!isNaN(date.getTime())) {
+                        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                } catch (e) {
+                    // If all else fails, return a generic message
+                    return 'Recently';
+                }
+                return 'Recently';
+            }
         }
 
         // Update User Management Tables
@@ -5524,6 +5966,152 @@ $conn->close();
             }
         }
         
+        // Load System Notifications
+        async function loadSystemNotifications() {
+            const loadingElement = document.getElementById('system-notifications-loading');
+            const containerElement = document.getElementById('system-notifications-container');
+            
+            // Always show loading indicator when starting to load
+            if (loadingElement) {
+                loadingElement.style.display = 'flex';
+                loadingElement.style.flexDirection = 'column';
+                loadingElement.style.alignItems = 'center';
+                loadingElement.style.justifyContent = 'center';
+                loadingElement.style.minHeight = '200px';
+            }
+            if (containerElement) {
+                containerElement.style.display = 'none';
+            }
+            
+            try {
+                console.log('Loading system notifications...');
+                const response = await fetch('../get_admin_notifications.php?action=system&limit=1000');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Add a small delay to show loading indicator (minimum 500ms for better UX)
+                const startTime = Date.now();
+                const minLoadTime = 500;
+                
+                if (data.success && data.data.system_notifications) {
+                    const elapsed = Date.now() - startTime;
+                    const remainingTime = Math.max(0, minLoadTime - elapsed);
+                    
+                    await new Promise(resolve => setTimeout(resolve, remainingTime));
+                    
+                    displaySystemNotifications(data.data.system_notifications);
+                } else {
+                    console.error('Error loading system notifications:', data.error || data.message);
+                    if (loadingElement) loadingElement.style.display = 'none';
+                    if (containerElement) {
+                        containerElement.style.display = 'block';
+                        containerElement.innerHTML = 
+                            '<p style="color: rgba(255,255,255,0.7); padding: 2rem; text-align: center;">No system notifications found.</p>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading system notifications:', error);
+                if (loadingElement) loadingElement.style.display = 'none';
+                if (containerElement) {
+                    containerElement.style.display = 'block';
+                    containerElement.innerHTML = 
+                        '<p style="color: rgba(255,255,255,0.7); padding: 2rem; text-align: center;">Error loading system notifications. Please refresh the page.</p>';
+                }
+            }
+        }
+        
+        // Load system notifications on page load if notifications section is visible
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for the page to fully render
+            setTimeout(function() {
+                // Check if we're on the notifications section
+                const notificationsSection = document.getElementById('notifications-section');
+                if (notificationsSection && notificationsSection.classList.contains('active')) {
+                    const systemTab = document.getElementById('system-tab');
+                    if (systemTab && systemTab.classList.contains('active')) {
+                        loadSystemNotifications();
+                    }
+                }
+            }, 500);
+        });
+        
+        // Display System Notifications
+        function displaySystemNotifications(notifications) {
+            const loadingElement = document.getElementById('system-notifications-loading');
+            const containerElement = document.getElementById('system-notifications-container');
+            
+            if (!containerElement) {
+                console.error('System notifications container not found');
+                return;
+            }
+            
+            // Hide loading indicator with fade out effect
+            if (loadingElement) {
+                loadingElement.style.transition = 'opacity 0.3s ease-out';
+                loadingElement.style.opacity = '0';
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                    loadingElement.style.opacity = '1'; // Reset for next time
+                }, 300);
+            }
+            
+            // Show container with fade in effect
+            containerElement.style.display = 'block';
+            containerElement.style.opacity = '0';
+            containerElement.style.transition = 'opacity 0.3s ease-in';
+            setTimeout(() => {
+                containerElement.style.opacity = '1';
+            }, 50);
+            
+            if (!notifications || notifications.length === 0) {
+                containerElement.innerHTML = 
+                    '<p style="color: rgba(255,255,255,0.7); padding: 2rem; text-align: center;">No system notifications at this time.</p>';
+                return;
+            }
+            
+            // Display total count
+            const totalCount = notifications.length;
+            console.log(`Displaying ${totalCount} system notifications`);
+            
+            // Create container with minimal spacing - remove all padding/margin
+            containerElement.style.padding = '0';
+            containerElement.style.margin = '0';
+            
+            // Build HTML without header to remove gap - just show notifications directly
+            let html = notifications.map(notif => {
+                // Use getTimeAgo function for consistent time display
+                // Prefer time_ago from PHP, but fallback to calculating from event_time
+                let timeDisplay = 'Recently';
+                if (notif.time_ago) {
+                    timeDisplay = notif.time_ago;
+                } else if (notif.event_time) {
+                    timeDisplay = getTimeAgo(notif.event_time);
+                }
+                
+                return `
+                <div class="notification-item">
+                    <div class="notification-icon" style="background: ${notif.icon_color || '#007bff'};">
+                        <i class="fas fa-${notif.icon_name || 'bell'}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notif.title || 'System Notification'}</h4>
+                        <p>${notif.message || ''}</p>
+                        ${notif.user_name ? `<div style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 0.5rem;">
+                            ${notif.user_name}${notif.email ? ' (' + notif.email + ')' : ''}${notif.role ? ' - ' + notif.role : ''}
+                        </div>` : ''}
+                        <div class="notification-time">${timeDisplay}</div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+            
+            containerElement.innerHTML = html;
+        }
+        
         // Update Notifications Table
         function updateNotificationsTable(notificationsData) {
             // Update system notifications table
@@ -5586,6 +6174,12 @@ $conn->close();
         // Send Notification Function
         async function sendNotification(notificationData) {
             try {
+                // Show loading indicator
+                const submitButton = document.querySelector('#notificationForm button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                
                 const response = await fetch('../get_admin_notifications.php?action=send', {
                     method: 'POST',
                     headers: {
@@ -5596,16 +6190,34 @@ $conn->close();
                 
                 const data = await response.json();
                 
+                // Restore button
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+                
                 if (data.success) {
-                    alert(`Notification sent successfully to ${data.data.sent_count} users!`);
-                    // Refresh notifications list
-                    loadNotificationsData();
+                    const message = `Notification sent successfully to ${data.data.sent_count} users!${data.data.failed_count > 0 ? ' (' + data.data.failed_count + ' failed)' : ''}`;
+                    alert(message);
+                    console.log('Notification sent:', data);
+                    
+                    // Clear form and refresh notifications list
+                    document.getElementById('notificationForm').reset();
+                    
+                    // Reload system notifications to show the activity
+                    loadSystemNotifications();
                 } else {
-                    alert('Error sending notification: ' + data.error);
+                    alert('Error sending notification: ' + (data.message || data.error || 'Unknown error'));
+                    console.error('Notification error:', data);
                 }
             } catch (error) {
                 console.error('Error sending notification:', error);
-                alert('Error sending notification. Please try again.');
+                alert('Error sending notification. Please check your connection and try again.');
+                
+                // Restore button in case of error
+                const submitButton = document.querySelector('#notificationForm button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Notification';
+                }
             }
         }
 
@@ -5759,16 +6371,37 @@ $conn->close();
         }
 
         // Handle notification form submission
-        document.getElementById('notificationForm').addEventListener('submit', function(e) {
+        const notificationForm = document.getElementById('notificationForm');
+        if (notificationForm) {
+            notificationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const formData = new FormData(this);
             const recipients = this.querySelector('select[name="recipients"]').value;
             const notificationType = this.querySelector('select[name="notification_type"]').value;
-            const title = this.querySelector('input[name="title"]').value;
-            const message = this.querySelector('textarea[name="message"]').value;
-            
-            if (confirm(`Send notification to ${recipients}?\n\nSubject: ${title}\nMessage: ${message}`)) {
+                const title = this.querySelector('input[name="title"]').value.trim();
+                const message = this.querySelector('textarea[name="message"]').value.trim();
+                
+                // Validate form
+                if (!recipients) {
+                    alert('Please select recipients');
+                    return;
+                }
+                if (!title) {
+                    alert('Please enter a subject');
+                    return;
+                }
+                if (!message) {
+                    alert('Please enter a message');
+                    return;
+                }
+                
+                // Format recipient display name
+                const recipientDisplay = recipients === 'all' ? 'All Users' : 
+                                       recipients === 'boarders' ? 'All Boarders' : 
+                                       recipients === 'owners' ? 'All Owners' : 
+                                       'Specific Users';
+                
+                if (confirm(`Send notification to ${recipientDisplay}?\n\nSubject: ${title}\n\nMessage: ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`)) {
                 // Send notification using our API
                 const notificationData = {
                     recipients: recipients,
@@ -5777,9 +6410,11 @@ $conn->close();
                     message: message
                 };
                 
+                    console.log('Sending notification:', notificationData);
                 sendNotification(notificationData);
             }
         });
+        }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
@@ -5791,43 +6426,37 @@ $conn->close();
         // Notification Settings Functions
         function openNotificationSettings() {
             document.getElementById('notificationSettingsModal').style.display = 'block';
-            resetNotificationSettings();
             loadNotificationSettings();
+            
+            // Ensure Save Settings button is disabled initially (will be enabled when switching to templates tab)
+            const saveButton = document.getElementById('save-notification-settings-btn');
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.style.opacity = '0.5';
+                saveButton.style.cursor = 'not-allowed';
+            }
+            
+            // Switch to the first tab (Current Settings) when opening
+            setTimeout(() => {
+                switchSettingsTab('current');
+            }, 100);
         }
 
         function closeNotificationSettings() {
             document.getElementById('notificationSettingsModal').style.display = 'none';
-            resetNotificationSettings(); // Reset form when closing
-        }
-
-        function resetNotificationSettings() {
-            // Reset all form elements to default values
-            document.getElementById('email_notifications').checked = false;
-            document.getElementById('push_notifications').checked = false;
             
-            // Reset notification types
-            document.getElementById('booking_notifications').checked = false;
-            document.getElementById('payment_notifications').checked = false;
-            document.getElementById('maintenance_notifications').checked = false;
-            document.getElementById('announcement_notifications').checked = false;
+            // Ensure Save Settings button is disabled when closing (reset state)
+            const saveButton = document.getElementById('save-notification-settings-btn');
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.style.opacity = '0.5';
+                saveButton.style.cursor = 'not-allowed';
+            }
             
-            // Reset templates
-            document.getElementById('booking_template').value = '';
-            document.getElementById('payment_template').value = '';
-            document.getElementById('maintenance_template').value = '';
-            document.getElementById('announcement_template').value = '';
-            
-            // Reset channel settings
-            document.getElementById('smtp_server').value = '';
-            document.getElementById('smtp_port').value = '';
-            document.getElementById('smtp_email').value = '';
-            document.getElementById('fcm_server_key').value = '';
-            document.getElementById('fcm_sender_id').value = '';
-            
-            // Reset to first tab and make sure it's active
+            // Switch back to first tab when closing (so it opens on first tab next time)
             setTimeout(() => {
-                switchSettingsTab('preferences');
-            }, 10);
+                switchSettingsTab('current');
+            }, 50);
         }
 
         async function loadNotificationSettings() {
@@ -5846,36 +6475,477 @@ $conn->close();
         }
 
         function populateNotificationSettings(settings) {
-            // Populate notification preferences
-            document.getElementById('email_notifications').checked = settings.email_notifications || false;
-            document.getElementById('push_notifications').checked = settings.push_notifications || false;
+            // Display current settings
+            displayCurrentSettings(settings);
             
-            // Populate notification types
-            document.getElementById('booking_notifications').checked = settings.booking_notifications || false;
-            document.getElementById('payment_notifications').checked = settings.payment_notifications || false;
-            document.getElementById('maintenance_notifications').checked = settings.maintenance_notifications || false;
-            document.getElementById('announcement_notifications').checked = settings.announcement_notifications || false;
+            // Display channels
+            displayChannels(settings.notification_channels || {});
             
-            // Populate templates
-            document.getElementById('booking_template').value = settings.booking_template || '';
-            document.getElementById('payment_template').value = settings.payment_template || '';
-            document.getElementById('maintenance_template').value = settings.maintenance_template || '';
-            document.getElementById('announcement_template').value = settings.announcement_template || '';
+            // Display notification types
+            displayNotificationTypes(settings.notification_types || {});
+            
+            // Display notification messages (templates)
+            displayNotificationMessages(settings);
+        }
+        
+        function displayNotificationMessages(settings) {
+            const container = document.getElementById('templates-container');
+            if (!container) return;
+            
+            const templates = settings.templates || {};
+            
+            // Group templates by type
+            const templatesByType = {};
+            for (const [key, template] of Object.entries(templates)) {
+                const type = template.type || 'general';
+                if (!templatesByType[type]) {
+                    templatesByType[type] = [];
+                }
+                templatesByType[type].push({
+                    key: key,
+                    title: template.title || key,
+                    message: template.message || '',
+                    type: type
+                });
+            }
+            
+            // Default templates structure if database is empty
+            const defaultTemplates = {
+                'booking': [
+                    { key: 'booking_created', title: 'New Booking Request', message: 'You have a new booking request from {tenant_name} for {room_name}', type: 'booking' },
+                    { key: 'booking_approved', title: 'Booking Approved', message: 'Your booking request for {room_name} has been approved!', type: 'booking' },
+                    { key: 'booking_declined', title: 'Booking Declined', message: 'Your booking request for {room_name} has been declined.{reason}', type: 'booking' },
+                    { key: 'booking_cancelled', title: 'Booking Cancelled', message: 'Booking for {room_name} has been cancelled.', type: 'booking' }
+                ],
+                'payment': [
+                    { key: 'payment_received', title: 'Payment Received', message: 'Payment of ₱{amount} has been received{description}', type: 'payment' },
+                    { key: 'payment_created', title: 'New Payment Pending', message: 'A new payment of ₱{amount} is pending{description}', type: 'payment' },
+                    { key: 'payment_status_updated', title: 'Payment Status Updated', message: 'Your payment of ₱{amount} status has been updated to: {status}', type: 'payment' },
+                    { key: 'payment_overdue', title: 'Payment Overdue', message: 'Your payment of ₱{amount} is overdue. Please settle it as soon as possible.', type: 'payment' }
+                ],
+                'maintenance': [
+                    { key: 'maintenance_request', title: 'New Maintenance Request', message: '{boarder_name} has submitted a maintenance request for {room_name}: {title}', type: 'maintenance' },
+                    { key: 'maintenance_status_updated', title: 'Maintenance Status Updated', message: 'Maintenance request status updated to: {status}', type: 'maintenance' },
+                    { key: 'maintenance_completed', title: 'Maintenance Completed', message: 'Your maintenance request has been completed.', type: 'maintenance' },
+                    { key: 'maintenance_feedback', title: 'Maintenance Feedback', message: 'Feedback received for maintenance request.', type: 'maintenance' }
+                ],
+                'announcement': [
+                    { key: 'announcement_new', title: 'New Announcement', message: '{title}: {message}', type: 'announcement' },
+                    { key: 'announcement_owner_response', title: 'Owner Response', message: 'Owner responded to your review.', type: 'announcement' }
+                ],
+                'registration': [
+                    { key: 'registration_approved', title: 'Registration Approved', message: 'Your registration has been approved! You can now login to your account.', type: 'registration' },
+                    { key: 'registration_rejected', title: 'Registration Rejected', message: 'Your registration has been rejected. Please contact support for more information.', type: 'registration' }
+                ],
+                'message': [
+                    { key: 'message_new', title: 'New Message', message: 'New message from {sender_name}: {message_preview}', type: 'message' },
+                    { key: 'message_group', title: 'New Group Message', message: 'New message in {group_name} from {sender_name}', type: 'message' }
+                ],
+                'security': [
+                    { key: 'security_password_changed', title: 'Password Changed', message: 'Your password has been successfully changed.', type: 'security' },
+                    { key: 'security_email_changed', title: 'Email Changed', message: 'Your email address has been successfully changed.', type: 'security' }
+                ]
+            };
+            
+            let html = '<div style="display: grid; gap: 20px;">';
+            
+            const typeColors = {
+                'booking': '#2196F3',
+                'payment': '#4CAF50',
+                'maintenance': '#FF9800',
+                'announcement': '#9C27B0',
+                'registration': '#00BCD4',
+                'message': '#009688',
+                'security': '#F44336'
+            };
+            
+            const typeIcons = {
+                'booking': 'fa-calendar-check',
+                'payment': 'fa-credit-card',
+                'maintenance': 'fa-tools',
+                'announcement': 'fa-bullhorn',
+                'registration': 'fa-user-plus',
+                'message': 'fa-comments',
+                'security': 'fa-shield-alt'
+            };
+            
+            // Use templates from database if available, otherwise use defaults
+            const typesToDisplay = Object.keys(templatesByType).length > 0 ? templatesByType : defaultTemplates;
+            
+            for (const [type, templateList] of Object.entries(typesToDisplay)) {
+                const color = typeColors[type] || '#5D4037';
+                const icon = typeIcons[type] || 'fa-bell';
+                const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                
+                html += `
+                    <div class="message-group" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px; color: ${color};">
+                            <i class="fas ${icon}" style="font-size: 1.5rem;"></i>
+                            ${typeName} Notifications
+                        </h4>
+                        <div style="display: grid; gap: 15px;">
+                `;
+                
+                templateList.forEach((template, index) => {
+                    const templateKey = template.key || `${type}_${index}`;
+                    const templateTitle = template.title || 'Template';
+                    const templateMessage = template.message || '';
+                    
+                    html += `
+                        <div style="padding: 15px; background: #f9f9f9; border-radius: 6px; border-left: 4px solid ${color};">
+                            <div style="font-weight: 600; color: #333; margin-bottom: 10px;">
+                                <label style="display: block; margin-bottom: 5px;">Title:</label>
+                                <input type="text" 
+                                       id="template_title_${templateKey}" 
+                                       value="${templateTitle.replace(/"/g, '&quot;')}" 
+                                       style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em;"
+                                       placeholder="Notification title">
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <label style="display: block; margin-bottom: 5px; color: #666; font-weight: 500;">Message Template:</label>
+                                <textarea 
+                                    id="template_message_${templateKey}" 
+                                    style="width: 100%; min-height: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9em; font-family: inherit; resize: vertical;"
+                                    placeholder="Enter notification message template. Use {variable_name} for dynamic values.">${templateMessage.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+                                <input type="hidden" id="template_key_${templateKey}" value="${templateKey}">
+                                <input type="hidden" id="template_type_${templateKey}" value="${type}">
+                                <small style="color: #888; font-size: 0.85em; display: block; margin-top: 5px;">
+                                    Available variables: {tenant_name}, {room_name}, {amount}, {status}, {description}, {sender_name}, etc.
+                                </small>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function displayCurrentSettings(settings) {
+            const container = document.getElementById('current-settings-container');
+            if (!container) return;
+            
+            const systemStatus = settings.system_status || {};
+            const channels = settings.notification_channels || {};
+            const stats = channels.database?.stats || {};
+            
+            let html = `
+                <div class="current-settings-summary">
+                    <div class="setting-card" style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle"></i> System Status
+                        </h4>
+                        <p style="margin: 0; opacity: 0.9;">
+                            Activity Notifications: ${systemStatus.activity_notifications_enabled ? '<strong>Enabled</strong>' : '<strong style="color: #ffeb3b;">Disabled</strong>'} | 
+                            Notification Helper: ${systemStatus.notification_helper_enabled ? '<strong>Enabled</strong>' : '<strong style="color: #ffeb3b;">Disabled</strong>'} | 
+                            Active Channels: <strong>${systemStatus.total_notification_methods || 0}</strong>
+                        </p>
+                    </div>
+                    
+                    <div class="settings-grid" style="display: grid; gap: 15px;">
+                        <div class="setting-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px;">
+                            <h4 style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-database" style="color: #2196F3;"></i> Database Notifications
+                            </h4>
+                            <p style="margin: 5px 0; color: #666;">
+                                Status: <strong style="color: ${channels.database?.enabled ? '#4CAF50' : '#f44336'}">${channels.database?.status || 'Unknown'}</strong>
+                            </p>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.9em;">
+                                ${channels.database?.description || 'Notifications stored in database'}
+                            </p>
+                            ${stats.total_notifications ? `
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee;">
+                                    <p style="margin: 5px 0; font-size: 0.9em;">
+                                        Total Notifications: <strong>${stats.total_notifications}</strong> | 
+                                        Unread: <strong>${stats.unread_notifications || 0}</strong>
+                                    </p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="setting-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px;">
+                            <h4 style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-mobile-alt" style="color: #FF9800;"></i> FCM Push Notifications
+                            </h4>
+                            <p style="margin: 5px 0; color: #666;">
+                                Status: <strong style="color: ${channels.fcm_push?.enabled ? '#4CAF50' : '#f44336'}">${channels.fcm_push?.status || 'Not configured'}</strong>
+                            </p>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.9em;">
+                                ${channels.fcm_push?.description || 'Firebase Cloud Messaging push notifications'}
+                            </p>
+                            ${channels.fcm_push?.service_account ? `
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee;">
+                                    <p style="margin: 5px 0; font-size: 0.9em;">
+                                        Project ID: <strong>${channels.fcm_push.project_id || 'N/A'}</strong><br>
+                                        Service Account: <strong>${channels.fcm_push.service_account.client_email || 'N/A'}</strong><br>
+                                        Device Tokens: <strong>${channels.fcm_push.device_tokens_count || 0}</strong> active devices
+                                    </p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="setting-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px;">
+                            <h4 style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-envelope" style="color: #9E9E9E;"></i> Email Notifications
+                            </h4>
+                            <p style="margin: 5px 0; color: #666;">
+                                Status: <strong style="color: #9E9E9E;">${channels.email?.status || 'Not implemented'}</strong>
+                            </p>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.9em;">
+                                ${channels.email?.description || 'Email notifications are not implemented yet'}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function displayChannels(channels) {
+            const container = document.getElementById('channels-container');
+            if (!container) return;
+            
+            let html = '<div class="channels-grid" style="display: grid; gap: 15px;">';
+            
+            // Database Channel
+            if (channels.database) {
+                const db = channels.database;
+                html += `
+                    <div class="channel-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                        <h4 style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-database" style="color: #2196F3; font-size: 1.5rem;"></i>
+                            Database Notifications
+                            <span style="margin-left: auto; padding: 4px 12px; background: ${db.enabled ? '#4CAF50' : '#f44336'}; color: white; border-radius: 20px; font-size: 0.8em; font-weight: normal;">
+                                ${db.enabled ? 'ACTIVE' : 'INACTIVE'}
+                            </span>
+                        </h4>
+                        <p style="color: #666; margin: 10px 0;">${db.description || 'Notifications stored in database'}</p>
+                        ${db.stats ? `
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                                <h5 style="margin: 0 0 10px 0;">Statistics</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                    <div>
+                                        <strong>Total:</strong> ${db.stats.total_notifications || 0}
+                                    </div>
+                                    <div>
+                                        <strong>Unread:</strong> ${db.stats.unread_notifications || 0}
+                                    </div>
+                                </div>
+                                ${db.stats.notification_types && Object.keys(db.stats.notification_types).length > 0 ? `
+                                    <div style="margin-top: 10px;">
+                                        <strong>By Type:</strong>
+                                        <ul style="margin: 5px 0; padding-left: 20px;">
+                                            ${Object.entries(db.stats.notification_types).map(([type, count]) => 
+                                                `<li>${type}: ${count}</li>`
+                                            ).join('')}
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // FCM Push Channel
+            if (channels.fcm_push) {
+                const fcm = channels.fcm_push;
+                html += `
+                    <div class="channel-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                        <h4 style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-mobile-alt" style="color: #FF9800; font-size: 1.5rem;"></i>
+                            FCM Push Notifications
+                            <span style="margin-left: auto; padding: 4px 12px; background: ${fcm.enabled ? '#4CAF50' : '#f44336'}; color: white; border-radius: 20px; font-size: 0.8em; font-weight: normal;">
+                                ${fcm.enabled ? 'ACTIVE' : 'INACTIVE'}
+                            </span>
+                        </h4>
+                        <p style="color: #666; margin: 10px 0;">${fcm.description || 'Firebase Cloud Messaging push notifications'}</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <div style="display: grid; gap: 10px;">
+                                <div><strong>Project ID:</strong> ${fcm.project_id || 'N/A'}</div>
+                                ${fcm.service_account ? `
+                                    <div><strong>Service Account:</strong> ${fcm.service_account.client_email || 'N/A'}</div>
+                                    <div><strong>Service Account File:</strong> ${fcm.service_account_file ? 'Exists' : 'Not found'}</div>
+                                ` : ''}
+                                <div><strong>Active Device Tokens:</strong> ${fcm.device_tokens_count || 0}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Email Channel
+            if (channels.email) {
+                const email = channels.email;
+                html += `
+                    <div class="channel-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; opacity: 0.6;">
+                        <h4 style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-envelope" style="color: #9E9E9E; font-size: 1.5rem;"></i>
+                            Email Notifications
+                            <span style="margin-left: auto; padding: 4px 12px; background: #9E9E9E; color: white; border-radius: 20px; font-size: 0.8em; font-weight: normal;">
+                                NOT IMPLEMENTED
+                            </span>
+                        </h4>
+                        <p style="color: #666; margin: 10px 0;">${email.description || 'Email notifications are not implemented yet'}</p>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function displayNotificationTypes(types) {
+            const container = document.getElementById('types-container');
+            if (!container) return;
+            
+            let html = '<div class="types-grid" style="display: grid; gap: 15px;">';
+            
+            const typeIcons = {
+                'booking': 'fa-calendar-check',
+                'payment': 'fa-credit-card',
+                'maintenance': 'fa-tools',
+                'announcement': 'fa-bullhorn',
+                'registration': 'fa-user-plus',
+                'message': 'fa-comments',
+                'security': 'fa-shield-alt'
+            };
+            
+            const typeColors = {
+                'booking': '#2196F3',
+                'payment': '#4CAF50',
+                'maintenance': '#FF9800',
+                'announcement': '#9C27B0',
+                'registration': '#00BCD4',
+                'message': '#009688',
+                'security': '#F44336'
+            };
+            
+            for (const [type, config] of Object.entries(types)) {
+                const icon = typeIcons[type] || 'fa-bell';
+                const color = typeColors[type] || '#5D4037';
+                
+                html += `
+                    <div class="type-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas ${icon}" style="color: ${color}; font-size: 1.5rem;"></i>
+                            ${type.charAt(0).toUpperCase() + type.slice(1)} Notifications
+                            <span style="margin-left: auto; padding: 4px 12px; background: ${config.enabled ? '#4CAF50' : '#f44336'}; color: white; border-radius: 20px; font-size: 0.8em; font-weight: normal;">
+                                ${config.enabled ? 'ENABLED' : 'DISABLED'}
+                            </span>
+                        </h4>
+                        <p style="color: #666; margin: 10px 0; font-size: 0.9em;">${config.description || 'Notification type'}</p>
+                        ${config.methods && config.methods.length > 0 ? `
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                                <strong>Available Methods:</strong>
+                                <ul style="margin: 10px 0; padding-left: 20px;">
+                                    ${config.methods.map(method => `<li style="margin: 5px 0;">${method}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
         }
 
         async function saveNotificationSettings() {
+            // Step 1: Show confirmation dialog
+            const confirmSave = confirm('Are you sure you want to save these notification templates? This will update all notification messages in the system.');
+            
+            if (!confirmSave) {
+                return; // User cancelled
+            }
+            
+            // Step 2: Collect all template data
+            const templates = {};
+            const templateInputs = document.querySelectorAll('[id^="template_key_"]');
+            
+            templateInputs.forEach(input => {
+                const key = input.value;
+                const titleInput = document.getElementById(`template_title_${key}`);
+                const messageInput = document.getElementById(`template_message_${key}`);
+                const typeInput = document.getElementById(`template_type_${key}`);
+                
+                if (titleInput && messageInput && typeInput) {
+                    templates[key] = {
+                        title: titleInput.value.trim(),
+                        message: messageInput.value.trim(),
+                        type: typeInput.value
+                    };
+                }
+            });
+            
             const settings = {
-                email_notifications: document.getElementById('email_notifications').checked,
-                push_notifications: document.getElementById('push_notifications').checked,
-                booking_notifications: document.getElementById('booking_notifications').checked,
-                payment_notifications: document.getElementById('payment_notifications').checked,
-                maintenance_notifications: document.getElementById('maintenance_notifications').checked,
-                announcement_notifications: document.getElementById('announcement_notifications').checked,
-                booking_template: document.getElementById('booking_template').value,
-                payment_template: document.getElementById('payment_template').value,
-                maintenance_template: document.getElementById('maintenance_template').value,
-                announcement_template: document.getElementById('announcement_template').value
+                templates: templates
             };
+            
+            // Step 3: Show progress indicator
+            const saveButton = document.getElementById('save-notification-settings-btn');
+            const originalButtonText = saveButton ? saveButton.innerHTML : '';
+            const originalButtonDisabled = saveButton ? saveButton.disabled : false;
+            
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            }
+            
+            // Create progress overlay
+            const progressOverlay = document.createElement('div');
+            progressOverlay.id = 'save-progress-overlay';
+            progressOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                color: white;
+            `;
+            
+            progressOverlay.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; min-width: 300px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">
+                        <i class="fas fa-spinner fa-spin" style="color: #2196F3;"></i>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 600; color: #333; margin-bottom: 15px;">
+                        Saving Templates...
+                    </div>
+                    <div style="width: 100%; height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; margin-bottom: 10px;">
+                        <div id="save-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #2196F3, #21CBF3); transition: width 0.3s ease;"></div>
+                    </div>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        Please wait while we save your changes
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(progressOverlay);
+            
+            // Animate progress bar
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                const progressBar = document.getElementById('save-progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                }
+            }, 200);
 
             try {
                 const response = await fetch('../get_notification_settings.php?action=save_settings', {
@@ -5886,18 +6956,66 @@ $conn->close();
                     body: JSON.stringify(settings)
                 });
                 
+                // Complete progress bar
+                const progressBar = document.getElementById('save-progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '100%';
+                }
+                clearInterval(progressInterval);
+                
                 const data = await response.json();
                 
+                // Step 4: Show success message and remove progress
+                setTimeout(() => {
+                    if (progressOverlay.parentNode) {
+                        progressOverlay.parentNode.removeChild(progressOverlay);
+                    }
+                
                 if (data.success) {
-                    showNotification('Notification settings saved successfully!', 'success');
-                    closeNotificationSettings();
-                    resetNotificationSettings(); // Reset form after saving
+                        // Show success notification
+                        showNotification('Notification templates saved successfully!', 'success');
+                        
+                        // Reload settings to show updated templates
+                        loadNotificationSettings();
+                        
+                        // Switch back to the first tab (Current Settings) after a short delay
+                        setTimeout(() => {
+                            switchSettingsTab('current');
+                            document.querySelectorAll('.settings-tabs .tab').forEach(tab => {
+                                tab.classList.remove('active');
+                            });
+                            const currentTab = document.querySelector('.settings-tabs .tab[onclick*="current"]');
+                            if (currentTab) {
+                                currentTab.classList.add('active');
+                            }
+                        }, 1000);
                 } else {
-                    showNotification('Error saving settings: ' + data.error, 'error');
-                }
+                        showNotification('Error saving templates: ' + (data.error || 'Unknown error'), 'error');
+                    }
+                    
+                    // Restore button
+                    if (saveButton) {
+                        saveButton.disabled = originalButtonDisabled;
+                        saveButton.innerHTML = originalButtonText;
+                    }
+                }, 500);
+                
             } catch (error) {
-                console.error('Error saving notification settings:', error);
-                showNotification('Error saving settings. Please try again.', 'error');
+                clearInterval(progressInterval);
+                
+                // Remove progress overlay on error
+                if (progressOverlay.parentNode) {
+                    progressOverlay.parentNode.removeChild(progressOverlay);
+                }
+                
+                // Restore button
+                if (saveButton) {
+                    saveButton.disabled = originalButtonDisabled;
+                    saveButton.innerHTML = originalButtonText;
+                }
+                
+                console.error('Error saving notification templates:', error);
+                showNotification('Error saving templates. Please try again.', 'error');
             }
         }
 
@@ -5912,19 +7030,39 @@ $conn->close();
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    // Check if response is OK
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`HTTP ${response.status}: ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Approval response:', data);
                     if (data.success) {
-                        alert('Registration approved successfully! User has been added to the system.');
-                        // Refresh the page to show updated data
-                        window.location.reload();
+                        // Show success message - this is a blocking call
+                        alert('Registration approved successfully! User has been added to the system.\n\nClick OK to refresh the page automatically.');
+                        
+                        // After alert closes (user clicks OK), immediately reload the page
+                        // Using location.reload(true) forces a hard refresh from server
+                        // This ensures fresh data is loaded
+                        try {
+                            window.location.reload(true);
+                        } catch (e) {
+                            // Fallback if reload(true) doesn't work (some browsers)
+                            const currentUrl = window.location.href.split('?')[0];
+                            window.location.href = currentUrl + '?approved=' + data.registration_id + '&t=' + new Date().getTime();
+                        }
                     } else {
-                        alert('Error approving registration: ' + data.message);
+                        alert('Error approving registration: ' + (data.message || data.error_details || 'Unknown error'));
+                        console.error('Approval error:', data);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error approving registration. Please try again.');
+                    alert('Error approving registration: ' + error.message + '. Please check the console for details.');
                 });
             }
         }
@@ -5945,9 +7083,16 @@ $conn->close();
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Registration rejected successfully!');
-                            // Refresh the page to show updated data
-                            window.location.reload();
+                            alert('Registration rejected successfully!\n\nClick OK to refresh the page automatically.');
+                            
+                            // After alert closes, immediately reload the page
+                            try {
+                                window.location.reload(true);
+                            } catch (e) {
+                                // Fallback if reload(true) doesn't work
+                                const currentUrl = window.location.href.split('?')[0];
+                                window.location.href = currentUrl + '?rejected=' + registrationId + '&t=' + new Date().getTime();
+                            }
                         } else {
                             alert('Error rejecting registration: ' + data.message);
                         }
@@ -5966,6 +7111,40 @@ $conn->close();
             const newCount = Math.max(0, currentCount + change);
             pendingCountElement.textContent = newCount;
         }
+
+        // Add visual emphasis for pending count
+        document.addEventListener('DOMContentLoaded', function() {
+            const pendingCount = <?php echo $pending_count; ?>;
+            const pendingCard = document.querySelector('.stat-card:nth-child(3)');
+            
+            if (pendingCount > 0) {
+                // Add pulsing animation for pending count
+                pendingCard.style.animation = 'pulse 2s infinite';
+                
+                // Add notification badge
+                const badge = document.createElement('div');
+                badge.style.cssText = `
+                    position: absolute;
+                    top: -5px;
+                    right: -5px;
+                    background: #e74c3c;
+                    color: white;
+                    border-radius: 50%;
+                    width: 25px;
+                    height: 25px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    font-weight: bold;
+                    z-index: 10;
+                    animation: bounce 1s infinite;
+                `;
+                badge.textContent = pendingCount;
+                pendingCard.style.position = 'relative';
+                pendingCard.appendChild(badge);
+            }
+        });
 
         function resendVerificationEmail(userId, email) {
             if (confirm(`Resend verification email to ${email}?`)) {
@@ -6099,10 +7278,8 @@ $conn->close();
                      updateDashboardOverview(dashboardData.overview);
                  }
                  
-                 // Update recent activity
-                 if (dashboardData && dashboardData.recent_activity) {
-                     updateRecentActivity(dashboardData.recent_activity);
-                 }
+                // Load recent activity from system notifications
+                loadDashboardRecentActivity();
                  
              } catch (error) {
                  console.error('Error initializing charts:', error);
@@ -6129,37 +7306,112 @@ $conn->close();
              });
          }
          
-         // Update Recent Activity
-         function updateRecentActivity(activity) {
-             // Update recent users
-             const recentUsersContainer = document.querySelector('#recent-users-container');
-             if (recentUsersContainer && activity.recent_users) {
-                 recentUsersContainer.innerHTML = activity.recent_users.map(user => `
+        // Load Recent Activity from System Notifications for Dashboard
+        async function loadDashboardRecentActivity() {
+            const loadingElement = document.getElementById('recent-activity-loading');
+            const containerElement = document.getElementById('recent-activity-container');
+            
+            // Show loading indicator
+            if (loadingElement) {
+                loadingElement.style.display = 'block';
+            }
+            if (containerElement) {
+                containerElement.innerHTML = '';
+            }
+            
+            try {
+                // Fetch system notifications (limit to 10 most recent for dashboard)
+                const response = await fetch('../get_admin_notifications.php?action=system&limit=10');
+                const data = await response.json();
+                
+                if (data.success && data.data.system_notifications && data.data.system_notifications.length > 0) {
+                    displayDashboardRecentActivity(data.data.system_notifications);
+                } else {
+                    // Show empty state
+                    if (containerElement) {
+                        containerElement.innerHTML = 
+                            '<div style="text-align: center; padding: 2rem; color: rgba(0,0,0,0.5);">No recent activity</div>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading dashboard recent activity:', error);
+                if (containerElement) {
+                    containerElement.innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: rgba(0,0,0,0.5);">Error loading recent activity</div>';
+                }
+            } finally {
+                // Hide loading indicator
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+            }
+        }
+        
+        // Display Recent Activity in Dashboard
+        function displayDashboardRecentActivity(notifications) {
+            const containerElement = document.getElementById('recent-activity-container');
+            
+            if (!containerElement) {
+                console.error('Recent activity container not found');
+                return;
+            }
+            
+            // Map icon names to FontAwesome classes
+            const iconMap = {
+                'user-plus': 'fa-user-plus',
+                'home': 'fa-home',
+                'exclamation-triangle': 'fa-exclamation-triangle',
+                'credit-card': 'fa-credit-card',
+                'check-circle': 'fa-check-circle',
+                'flag': 'fa-flag',
+                'calendar-plus': 'fa-calendar-plus',
+                'times-circle': 'fa-times-circle',
+                'star': 'fa-star',
+                'tools': 'fa-tools',
+                'user-check': 'fa-user-check',
+                'bell': 'fa-bell'
+            };
+            
+            containerElement.innerHTML = notifications.map(notif => {
+                // Use time_ago if available, otherwise calculate from event_time
+                let timeDisplay = 'Recently';
+                if (notif.time_ago) {
+                    timeDisplay = notif.time_ago;
+                } else if (notif.event_time) {
+                    timeDisplay = getTimeAgo(notif.event_time);
+                }
+                
+                // Get icon class
+                const iconClass = iconMap[notif.icon_name] || 'fa-bell';
+                
+                // Convert hex color to rgba for background
+                const hexColor = notif.icon_color || '#007bff';
+                const r = parseInt(hexColor.slice(1, 3), 16);
+                const g = parseInt(hexColor.slice(3, 5), 16);
+                const b = parseInt(hexColor.slice(5, 7), 16);
+                const bgColor = `rgba(${r}, ${g}, ${b}, 0.1)`;
+                const iconColor = hexColor;
+                
+                return `
                      <div class="activity-item">
-                         <div class="activity-avatar">
-                             <img src="${user.profile_picture || 'https://via.placeholder.com/40'}" alt="${user.full_name}">
+                        <div class="activity-icon" style="background: ${bgColor};">
+                            <i class="fas ${iconClass}" style="color: ${iconColor};"></i>
                          </div>
                          <div class="activity-content">
-                             <div class="activity-title">${user.full_name}</div>
-                             <div class="activity-subtitle">${user.role} • ${new Date(user.created_at).toISOString().split('T')[0]}</div>
+                            <h4>${notif.title || 'System Activity'}</h4>
+                            <p>${notif.message || ''}</p>
                          </div>
+                        <div class="activity-time">${timeDisplay}</div>
                      </div>
-                 `).join('');
-             }
-             
-             // Update recent bookings
-             const recentBookingsContainer = document.querySelector('#recent-bookings-container');
-             if (recentBookingsContainer && activity.recent_bookings) {
-                 recentBookingsContainer.innerHTML = activity.recent_bookings.map(booking => `
-                     <div class="activity-item">
-                         <div class="activity-content">
-                             <div class="activity-title">${booking.boarder_name}</div>
-                             <div class="activity-subtitle">${booking.boarding_house_name} • ${booking.booking_status}</div>
-                             <div class="activity-date">${new Date(booking.booking_date).toISOString().split('T')[0]}</div>
-                         </div>
-                     </div>
-                 `).join('');
-             }
+                `;
+            }).join('');
+        }
+        
+        // Update Recent Activity (kept for backward compatibility if needed)
+        function updateRecentActivity(activity) {
+            // This function is kept for backward compatibility
+            // But we now use loadDashboardRecentActivity() instead
+            loadDashboardRecentActivity();
          }
 
                  // Revenue Chart (Dashboard) - Using booking trends as revenue proxy
@@ -6395,6 +7647,15 @@ $conn->close();
         document.addEventListener('DOMContentLoaded', function() {
             initializeCharts();
             loadDashboardAnalytics();
+            
+            // Also load recent activity if dashboard section is active
+            const dashboardSection = document.getElementById('dashboard-section');
+            if (dashboardSection && dashboardSection.classList.contains('active')) {
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    loadDashboardRecentActivity();
+                }, 100);
+            }
         });
 
          // Re-initialize charts when switching to analytics section
@@ -6587,30 +7848,59 @@ $conn->close();
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, rgba(141, 110, 99, 0.8) 0%, rgba(141, 110, 99, 0.7) 50%, rgba(230, 218, 200, 0.6) 100%);
+            backdrop-filter: blur(10px);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(10px);
+            }
         }
 
         .modal-content {
-            background-color: #f8f9fa;
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
             margin: 2% auto;
             padding: 0;
-            border: none;
-            border-radius: 15px;
+            border: 2px solid rgba(141, 110, 99, 0.5);
+            border-radius: 25px;
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(141, 110, 99, 0.4),
+                0 10px 30px rgba(141, 110, 99, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
+            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #8D6E63, #6D4C41);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px 15px 0 0;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            color: #E6DAC8;
+            padding: 2rem;
+            border-radius: 25px 25px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -6618,6 +7908,8 @@ $conn->close();
             top: 0;
             z-index: 10;
             flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(141, 110, 99, 0.3);
+            border-bottom: 2px solid rgba(230, 218, 200, 0.2);
         }
 
         .modal-header h2 {
@@ -6627,23 +7919,72 @@ $conn->close();
         }
 
         .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
+            background: linear-gradient(135deg, rgba(230, 218, 200, 0.2), rgba(230, 218, 200, 0.1));
+            border: 2px solid rgba(230, 218, 200, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            color: #E6DAC8;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         .modal-close:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(230, 218, 200, 0.3), rgba(230, 218, 200, 0.2));
+            border-color: rgba(230, 218, 200, 0.5);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 15px rgba(141, 110, 99, 0.3);
+        }
+
+        /* Enhanced Button Styling */
+        .btn {
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            color: #E6DAC8;
+            border: 2px solid rgba(230, 218, 200, 0.3);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(141, 110, 99, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 218, 200, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(141, 110, 99, 0.4);
+            border-color: rgba(230, 218, 200, 0.6);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #DC143C 0%, #FF6347 100%);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .modal-body {
@@ -6651,6 +7992,114 @@ $conn->close();
             overflow-y: auto;
             flex: 1;
         }
+
+        /* Extended background for specific modals */
+        #notificationSettingsModal .modal-content,
+        #accountManagementModal .modal-content {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+        }
+
+        #notificationSettingsModal .modal-body,
+        #accountManagementModal .modal-body {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+        }
+
+        #notificationSettingsModal .modal-footer,
+        #accountManagementModal .modal-footer {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            border-top: 1px solid rgba(141, 110, 99, 0.3);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Extended background for admin modals */
+        #addAdminModal .modal-content,
+        #editAdminModal .modal-content {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+        }
+
+        #addAdminModal .modal-body,
+        #editAdminModal .modal-body {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+        }
+
+        #addAdminModal .modal-footer,
+        #editAdminModal .modal-footer {
+            background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            border-top: 1px solid rgba(141, 110, 99, 0.3);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Loading Indicator Styles */
+        .loading-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, rgba(230, 218, 200, 0.95) 0%, rgba(245, 245, 220, 0.95) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(141, 110, 99, 0.2);
+            border-top: 4px solid #8D6E63;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5D4037;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 6px;
+            background: rgba(141, 110, 99, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
+            border-radius: 3px;
+            animation: progress 2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
 
         .user-profile-header {
             display: flex;
@@ -7204,6 +8653,8 @@ $conn->close();
             border-radius: 8px;
             border-left: 4px solid #8D6E63;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 0;
+            overflow: hidden;
         }
 
         .info-label {
@@ -7216,6 +8667,11 @@ $conn->close();
         .info-value {
             color: #333;
             font-size: 1rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .status-badge {
@@ -7240,6 +8696,11 @@ $conn->close();
         .status-pending {
             background-color: #fff3cd;
             color: #856404;
+        }
+
+        .status-completed {
+            background-color: #cfe2ff;
+            color: #084298;
         }
 
         .status-approved {
@@ -7321,10 +8782,21 @@ $conn->close();
         <div class="modal-content" style="max-width: 1000px;">
             <div class="modal-header">
                 <h2><i class="fas fa-user-cog"></i> Account Management</h2>
-                <span class="close" onclick="closeAccountManagement()">&times;</span>
+                <button class="modal-close" onclick="closeAccountManagement()">&times;</button>
             </div>
             
             <div class="modal-body">
+                <!-- Loading Indicator -->
+                <div id="accountLoadingIndicator" class="loading-indicator" style="display: none;">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Loading admin accounts...</div>
+                        <div class="loading-progress">
+                            <div class="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="account-tabs">
                     <div class="tab active" onclick="switchAccountTab('admins')">
                         <i class="fas fa-user-shield"></i> Admin Accounts
@@ -7402,47 +8874,19 @@ $conn->close();
 
                 <!-- Security Tab -->
                 <div id="security-tab" class="tab-content">
-                    <h3>Security Settings</h3>
-                    <div class="security-settings">
-                        <div class="security-item">
-                            <div class="security-info">
-                                <h4><i class="fas fa-lock"></i> Password Policy</h4>
-                                <p>Configure password requirements and expiration</p>
-                            </div>
-                            <button class="btn-modern btn-edit" onclick="editPasswordPolicy()">
-                                <i class="fas fa-edit"></i> Configure
-                            </button>
+                    <h3>Security Events</h3>
+                    
+                    <!-- Security Statistics -->
+                    <div id="security-stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <!-- Stats will be loaded here -->
                         </div>
                         
-                        <div class="security-item">
-                            <div class="security-info">
-                                <h4><i class="fas fa-clock"></i> Session Timeout</h4>
-                                <p>Set automatic logout after inactivity</p>
+                    <!-- Security Events List -->
+                    <div id="security-events-container">
+                        <div style="text-align: center; padding: 2rem; color: #666;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>Loading security events...</p>
                             </div>
-                            <button class="btn-modern btn-edit" onclick="editSessionTimeout()">
-                                <i class="fas fa-edit"></i> Configure
-                            </button>
-                        </div>
-                        
-                        <div class="security-item">
-                            <div class="security-info">
-                                <h4><i class="fas fa-ban"></i> IP Restrictions</h4>
-                                <p>Restrict admin access to specific IP addresses</p>
-                            </div>
-                            <button class="btn-modern btn-edit" onclick="editIPRestrictions()">
-                                <i class="fas fa-edit"></i> Configure
-                            </button>
-                        </div>
-                        
-                        <div class="security-item">
-                            <div class="security-info">
-                                <h4><i class="fas fa-shield-alt"></i> Two-Factor Authentication</h4>
-                                <p>Enable 2FA for enhanced security</p>
-                            </div>
-                            <button class="btn-modern btn-edit" onclick="edit2FA()">
-                                <i class="fas fa-edit"></i> Configure
-                            </button>
-                        </div>
                     </div>
                 </div>
 
@@ -7459,39 +8903,11 @@ $conn->close();
                         <input type="date" id="activityDate" placeholder="Filter by date">
                     </div>
                     
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-sign-in-alt"></i>
+                    <div class="activity-list" id="activity-list-container">
+                        <div style="text-align: center; padding: 2rem; color: #666;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>Loading activity logs...</p>
                             </div>
-                            <div class="activity-content">
-                                <h4>Admin Login</h4>
-                                <p>Super Admin logged in from 192.168.1.100</p>
-                                <span class="activity-time">2 hours ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h4>User Created</h4>
-                                <p>New user "John Doe" was created</p>
-                                <span class="activity-time">4 hours ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h4>Database Backup</h4>
-                                <p>Automatic database backup completed</p>
-                                <span class="activity-time">1 day ago</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -7509,7 +8925,7 @@ $conn->close();
         <div class="modal-content" style="max-width: 500px;">
             <div class="modal-header">
                 <h2><i class="fas fa-user-plus"></i> Add New Admin</h2>
-                <span class="close" onclick="closeAddAdminModal()">&times;</span>
+                <button class="modal-close" onclick="closeAddAdminModal()">&times;</button>
             </div>
             
             <div class="modal-body">
@@ -7559,7 +8975,7 @@ $conn->close();
         <div class="modal-content" style="max-width: 500px;">
             <div class="modal-header">
                 <h2><i class="fas fa-user-edit"></i> Edit Admin Account</h2>
-                <span class="close" onclick="closeEditAdminModal()">&times;</span>
+                <button class="modal-close" onclick="closeEditAdminModal()">&times;</button>
             </div>
             
             <div class="modal-body">
@@ -7614,7 +9030,7 @@ $conn->close();
                     <i class="fas fa-sign-out-alt"></i>
                 </div>
                 <h2>Confirm Logout</h2>
-                <span class="close" onclick="closeLogoutModal()">&times;</span>
+                <button class="modal-close" onclick="closeLogoutModal()">&times;</button>
             </div>
             
             <div class="modal-body logout-body">
@@ -7654,89 +9070,49 @@ $conn->close();
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
                 <h2><i class="fas fa-bell"></i> Notification Settings</h2>
-                <span class="close" onclick="closeNotificationSettings()">&times;</span>
+                <button class="modal-close" onclick="closeNotificationSettings()">&times;</button>
             </div>
             
             <div class="modal-body">
                 <div class="settings-tabs">
-                    <div class="tab active" onclick="switchSettingsTab('preferences')">
-                        <i class="fas fa-cog"></i> Preferences
-                    </div>
-                    <div class="tab" onclick="switchSettingsTab('templates')">
-                        <i class="fas fa-file-alt"></i> Templates
+                    <div class="tab active" onclick="switchSettingsTab('current')">
+                        <i class="fas fa-info-circle"></i> Current Settings
                     </div>
                     <div class="tab" onclick="switchSettingsTab('channels')">
                         <i class="fas fa-broadcast-tower"></i> Channels
                     </div>
+                    <div class="tab" onclick="switchSettingsTab('types')">
+                        <i class="fas fa-bell"></i> Notification Types
                 </div>
-
-                <!-- Preferences Tab -->
-                <div id="preferences-tab" class="tab-content active">
-                    <h3>Notification Preferences</h3>
-                    <div class="settings-grid">
-                        <div class="setting-item">
-                            <label class="switch">
-                                <input type="checkbox" id="email_notifications">
-                                <span class="slider"></span>
-                            </label>
-                            <div class="setting-info">
-                                <h4>Email Notifications</h4>
-                                <p>Send notifications via email</p>
+                    <div class="tab" onclick="switchSettingsTab('templates')">
+                        <i class="fas fa-file-alt"></i> Templates
                             </div>
                         </div>
                         
-                        <div class="setting-item">
-                            <label class="switch">
-                                <input type="checkbox" id="push_notifications">
-                                <span class="slider"></span>
-                            </label>
-                            <div class="setting-info">
-                                <h4>Push Notifications</h4>
-                                <p>Send push notifications to mobile devices</p>
-                            </div>
+                <!-- Current Settings Tab -->
+                <div id="current-tab" class="tab-content active">
+                    <h3><i class="fas fa-info-circle"></i> Current Notification Configuration</h3>
+                    <p style="color: #666; margin-bottom: 20px;">This section shows what notification settings are currently active in the system.</p>
+                    
+                    <div id="current-settings-container">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #5D4037;"></i>
+                            <p>Loading current settings...</p>
                         </div>
-                        
                     </div>
                 </div>
 
                 <!-- Templates Tab -->
                 <div id="templates-tab" class="tab-content">
                     <h3>Notification Templates</h3>
-                    <div class="template-section">
-                        <div class="template-item">
-                            <h4><i class="fas fa-calendar-check"></i> Booking Notifications</h4>
-                            <label>
-                                <input type="checkbox" id="booking_notifications">
-                                Enable booking notifications
-                            </label>
-                            <textarea id="booking_template" placeholder="Enter booking notification template...">New booking request from {{user_name}} for {{room_name}} at {{boarding_house_name}}. Please review and approve.</textarea>
-                        </div>
-                        
-                        <div class="template-item">
-                            <h4><i class="fas fa-credit-card"></i> Payment Notifications</h4>
-                            <label>
-                                <input type="checkbox" id="payment_notifications">
-                                Enable payment notifications
-                            </label>
-                            <textarea id="payment_template" placeholder="Enter payment notification template...">Payment of ₱{{amount}} received from {{user_name}} for {{room_name}}. Payment method: {{payment_method}}.</textarea>
-                        </div>
-                        
-                        <div class="template-item">
-                            <h4><i class="fas fa-tools"></i> Maintenance Notifications</h4>
-                            <label>
-                                <input type="checkbox" id="maintenance_notifications">
-                                Enable maintenance notifications
-                            </label>
-                            <textarea id="maintenance_template" placeholder="Enter maintenance notification template...">Maintenance request from {{user_name}}: {{description}}. Status: {{status}}.</textarea>
-                        </div>
-                        
-                        <div class="template-item">
-                            <h4><i class="fas fa-bullhorn"></i> Announcement Notifications</h4>
-                            <label>
-                                <input type="checkbox" id="announcement_notifications">
-                                Enable announcement notifications
-                            </label>
-                            <textarea id="announcement_template" placeholder="Enter announcement notification template...">{{title}}: {{message}}</textarea>
+                    <p style="color: #666; margin-bottom: 20px; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196F3; border-radius: 4px;">
+                        <i class="fas fa-info-circle"></i> Edit notification message templates. Use variables like {tenant_name}, {room_name}, {amount}, etc. in curly braces.
+                    </p>
+                    
+                    <div class="template-section" id="templates-container">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #5D4037;"></i>
+                            <p>Loading notification templates...</p>
                         </div>
                     </div>
                 </div>
@@ -7744,35 +9120,26 @@ $conn->close();
                 <!-- Channels Tab -->
                 <div id="channels-tab" class="tab-content">
                     <h3>Notification Channels</h3>
-                    <div class="channel-settings">
-                        <div class="channel-item">
-                            <h4><i class="fas fa-envelope"></i> Email Configuration</h4>
-                            <div class="form-group">
-                                <label>SMTP Server:</label>
-                                <input type="text" id="smtp_server" placeholder="smtp.gmail.com">
+                    <p style="color: #666; margin-bottom: 20px;">Notification delivery methods currently configured in the system.</p>
+                    
+                    <div id="channels-container">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #5D4037;"></i>
+                            <p>Loading channel information...</p>
                             </div>
-                            <div class="form-group">
-                                <label>SMTP Port:</label>
-                                <input type="number" id="smtp_port" placeholder="587">
-                            </div>
-                            <div class="form-group">
-                                <label>Email Address:</label>
-                                <input type="email" id="smtp_email" placeholder="admin@boardease.com">
                             </div>
                         </div>
                         
-                        <div class="channel-item">
-                            <h4><i class="fas fa-mobile-alt"></i> Push Notifications</h4>
-                            <div class="form-group">
-                                <label>FCM Server Key:</label>
-                                <input type="text" id="fcm_server_key" placeholder="Your FCM server key">
-                            </div>
-                            <div class="form-group">
-                                <label>FCM Sender ID:</label>
-                                <input type="text" id="fcm_sender_id" placeholder="Your FCM sender ID">
-                            </div>
+                <!-- Notification Types Tab -->
+                <div id="types-tab" class="tab-content">
+                    <h3>Notification Types</h3>
+                    <p style="color: #666; margin-bottom: 20px;">Types of notifications currently implemented and active in the system.</p>
+                    
+                    <div id="types-container">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #5D4037;"></i>
+                            <p>Loading notification types...</p>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -7781,8 +9148,8 @@ $conn->close();
                 <button type="button" class="btn-modern btn-cancel" onclick="closeNotificationSettings()">
                     <i class="fas fa-times"></i> Cancel
                 </button>
-                <button type="button" class="btn-modern btn-save" onclick="saveNotificationSettings()">
-                    <i class="fas fa-save"></i> Save Settings
+                <button type="button" id="save-notification-settings-btn" class="btn-modern btn-save" onclick="saveNotificationSettings()" disabled>
+                    <i class="fas fa-save"></i> Save Templates
                 </button>
             </div>
         </div>
@@ -7803,9 +9170,9 @@ $conn->close();
         }
         
         .settings-tabs .tab.active {
-            border-bottom-color: #D2B48C;
-            color: #D2B48C;
-            background-color: rgba(210, 180, 140, 0.1);
+            border-bottom-color: #5D4037;
+            color: #5D4037;
+            background-color: rgba(93, 64, 55, 0.1);
             font-weight: 600;
         }
         
@@ -8221,9 +9588,9 @@ $conn->close();
         }
         
         .account-tabs .tab.active {
-            border-bottom-color: #D2B48C;
-            color: #D2B48C;
-            background-color: rgba(210, 180, 140, 0.1);
+            border-bottom-color: #5D4037;
+            color: #5D4037;
+            background-color: rgba(93, 64, 55, 0.1);
             font-weight: 600;
         }
         
@@ -8556,20 +9923,66 @@ $conn->close();
             });
             
             // Show selected tab content
-            document.getElementById(tabName + '-tab').style.display = 'block';
-            document.getElementById(tabName + '-tab').classList.add('active');
+            const targetTabContent = document.getElementById(tabName + '-tab');
+            if (targetTabContent) {
+                targetTabContent.style.display = 'block';
+                targetTabContent.classList.add('active');
+            }
             
             // Add active class to the correct tab (find by onclick attribute)
-            const targetTab = document.querySelector(`.settings-tabs .tab[onclick="switchSettingsTab('${tabName}')"]`);
+            const targetTab = document.querySelector(`.settings-tabs .tab[onclick*="${tabName}"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
+            }
+            
+            // Enable/Disable Save Settings button based on active tab
+            const saveButton = document.getElementById('save-notification-settings-btn');
+            if (saveButton) {
+                if (tabName === 'templates') {
+                    // Enable button only on templates tab
+                    saveButton.disabled = false;
+                    saveButton.style.opacity = '1';
+                    saveButton.style.cursor = 'pointer';
+                } else {
+                    // Disable button on all other tabs (current, channels, types)
+                    saveButton.disabled = true;
+                    saveButton.style.opacity = '0.5';
+                    saveButton.style.cursor = 'not-allowed';
+                }
+            }
+            
+            // Reload data if needed (for templates tab)
+            if (tabName === 'templates') {
+                loadNotificationSettings();
             }
         }
 
         // Account Management Functions
         function openAccountManagement() {
             document.getElementById('accountManagementModal').style.display = 'block';
+            showAccountLoading();
             loadAdminAccounts();
+        }
+
+        function showAccountLoading() {
+            const loadingIndicator = document.getElementById('accountLoadingIndicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'flex';
+            }
+        }
+
+        function hideAccountLoading() {
+            const loadingIndicator = document.getElementById('accountLoadingIndicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Force refresh admin accounts (used after add/edit/delete operations)
+        function refreshAdminAccounts() {
+            adminAccountsLoaded = false; // Reset the loaded state
+            currentAdmins = []; // Clear current data
+            loadAdminAccounts(); // Reload from database
         }
 
         function closeAccountManagement() {
@@ -8596,6 +10009,13 @@ $conn->close();
             const targetTab = document.querySelector(`#accountManagementModal .account-tabs .tab[onclick="switchAccountTab('${tabName}')"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
+            }
+            
+            // Load data for specific tabs
+            if (tabName === 'activity') {
+                loadActivityLogs();
+            } else if (tabName === 'security') {
+                loadSecurityEvents();
             }
         }
 
@@ -8638,7 +10058,7 @@ $conn->close();
                     if (data.success) {
                         showNotification('Admin account created successfully!', 'success');
                         closeAddAdminModal();
-                        loadAdminAccounts(); // Refresh the admin list
+                        refreshAdminAccounts(); // Refresh the admin list
                     } else {
                         showNotification(data.message || 'Failed to create admin account', 'error');
                     }
@@ -8654,14 +10074,23 @@ $conn->close();
 
         // Global variable to store current admins
         let currentAdmins = [];
+        let adminAccountsLoaded = false; // Track if admin accounts have been loaded
 
         // Load admin accounts from database
         function loadAdminAccounts() {
+            // Only load if not already loaded
+            if (adminAccountsLoaded && currentAdmins.length > 0) {
+                displayAdminAccounts(currentAdmins);
+                hideAccountLoading();
+                return;
+            }
+
             fetch('../get_admin_accounts_mysqli.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         currentAdmins = data.admins; // Store for edit functionality
+                        adminAccountsLoaded = true; // Mark as loaded
                         displayAdminAccounts(data.admins);
                     } else {
                         showNotification('Failed to load admin accounts: ' + (data.message || 'Unknown error'), 'error');
@@ -8671,6 +10100,12 @@ $conn->close();
                 .catch(error => {
                     showNotification('Error loading admin accounts', 'error');
                     console.error('Error:', error);
+                })
+                .finally(() => {
+                    // Hide loading indicator after request completes (success or error)
+                    setTimeout(() => {
+                        hideAccountLoading();
+                    }, 500); // Small delay to show the loading animation
                 });
         }
 
@@ -8779,7 +10214,18 @@ $conn->close();
                 if (data.success) {
                     showNotification('Admin account updated successfully!', 'success');
                     closeEditAdminModal();
-                    loadAdminAccounts(); // Refresh the admin list
+                    refreshAdminAccounts(); // Refresh the admin list
+                    
+                    // Reload activity logs and security events if those tabs are active
+                    const accountTab = document.querySelector('.account-tab.active');
+                    if (accountTab) {
+                        const tabName = accountTab.getAttribute('data-tab');
+                        if (tabName === 'activity') {
+                            loadActivityLogs();
+                        } else if (tabName === 'security') {
+                            loadSecurityEvents();
+                        }
+                    }
                 } else {
                     showNotification(data.message || 'Failed to update admin account', 'error');
                 }
@@ -8803,7 +10249,7 @@ $conn->close();
                 .then(data => {
                     if (data.success) {
                         showNotification('Admin account deleted successfully!', 'success');
-                        loadAdminAccounts(); // Refresh the admin list
+                        refreshAdminAccounts(); // Refresh the admin list
                     } else {
                         showNotification(data.message || 'Failed to delete admin account', 'error');
                     }
@@ -8814,6 +10260,289 @@ $conn->close();
                 });
             }
         }
+
+        // Load Activity Logs
+        function loadActivityLogs() {
+            const filter = document.getElementById('activityFilter')?.value || 'all';
+            const date = document.getElementById('activityDate')?.value || null;
+            const container = document.getElementById('activity-list-container');
+            
+            if (!container) return;
+            
+            // Show loading
+            container.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: #666;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>Loading activity logs...</p>
+                </div>
+            `;
+            
+            let url = '../get_activity_logs.php?filter=' + filter + '&limit=100';
+            if (date) {
+                url += '&date=' + date;
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayActivityLogs(data.activities);
+                    } else {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 2rem; color: #f44336;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                                <p>Error loading activity logs: ${data.message || 'Unknown error'}</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading activity logs:', error);
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: #f44336;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>Error loading activity logs. Please try again.</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Display Activity Logs
+        function displayActivityLogs(activities) {
+            const container = document.getElementById('activity-list-container');
+            if (!container) return;
+            
+            if (!activities || activities.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #666;">
+                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No activity logs found</p>
+                        <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">Activities will appear here as they occur</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            activities.forEach(activity => {
+                const iconColor = activity.type === 'login' ? '#4CAF50' : 
+                                 activity.type === 'user' ? '#2196F3' : 
+                                 activity.type === 'system' ? '#FF9800' : '#9E9E9E';
+                
+                // Calculate time ago on client side if not provided
+                let timeAgo = activity.time_ago || 'Unknown time';
+                if (activity.time && !activity.time_ago) {
+                    timeAgo = getTimeAgo(activity.time);
+                }
+                
+                html += `
+                    <div class="activity-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${iconColor}; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div class="activity-icon" style="width: 40px; height: 40px; border-radius: 50%; background: ${iconColor}; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+                            <i class="fas ${activity.icon || 'fa-circle'}"></i>
+                        </div>
+                        <div class="activity-content" style="flex: 1;">
+                            <h4 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: 600;">${activity.title || 'Activity'}</h4>
+                            <p style="margin: 0 0 5px 0; color: #666; font-size: 14px; line-height: 1.4;">${activity.description || 'No description'}</p>
+                            ${activity.admin_name ? `<p style="margin: 0 0 5px 0; color: #999; font-size: 12px;"><i class="fas fa-user"></i> ${activity.admin_name}${activity.admin_email ? ' (' + activity.admin_email + ')' : ''}</p>` : ''}
+                            ${activity.user_name ? `<p style="margin: 0 0 5px 0; color: #999; font-size: 12px;"><i class="fas fa-user"></i> ${activity.user_name}${activity.user_email ? ' (' + activity.user_email + ')' : ''}</p>` : ''}
+                            <span class="activity-time" style="color: #999; font-size: 12px;"><i class="fas fa-clock"></i> ${timeAgo}</span>
+                            ${activity.raw_time ? `<span style="color: #ccc; font-size: 10px; display: block; margin-top: 2px;">${activity.raw_time}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // JavaScript time ago function (for client-side calculation)
+        function getTimeAgo(datetime) {
+            if (!datetime || datetime === '0000-00-00 00:00:00') {
+                return 'Unknown time';
+            }
+            
+            try {
+                const date = new Date(datetime);
+                if (isNaN(date.getTime())) {
+                    return 'Invalid time';
+                }
+                
+                const now = new Date();
+                const diff = Math.floor((now - date) / 1000); // Difference in seconds
+                
+                if (diff < 0) {
+                    return 'Just now';
+                }
+                
+                if (diff < 60) {
+                    return 'Just now';
+                } else if (diff < 3600) {
+                    const minutes = Math.floor(diff / 60);
+                    return minutes + ' minute' + (minutes > 1 ? 's' : '') + ' ago';
+                } else if (diff < 86400) {
+                    const hours = Math.floor(diff / 3600);
+                    return hours + ' hour' + (hours > 1 ? 's' : '') + ' ago';
+                } else if (diff < 2592000) {
+                    const days = Math.floor(diff / 86400);
+                    return days + ' day' + (days > 1 ? 's' : '') + ' ago';
+                } else if (diff < 31536000) {
+                    const months = Math.floor(diff / 2592000);
+                    return months + ' month' + (months > 1 ? 's' : '') + ' ago';
+                } else {
+                    const years = Math.floor(diff / 31536000);
+                    return years + ' year' + (years > 1 ? 's' : '') + ' ago';
+                }
+            } catch (e) {
+                console.error('Error calculating time ago:', e);
+                return 'Unknown time';
+            }
+        }
+        
+        // Load Security Events
+        function loadSecurityEvents() {
+            const container = document.getElementById('security-events-container');
+            const statsContainer = document.getElementById('security-stats-container');
+            
+            if (!container) return;
+            
+            // Show loading
+            container.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: #666;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>Loading security events...</p>
+                </div>
+            `;
+            
+            fetch('../get_security_events.php?limit=100')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displaySecurityStats(data.stats);
+                        displaySecurityEvents(data.events);
+                    } else {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 2rem; color: #f44336;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                                <p>Error loading security events: ${data.message || 'Unknown error'}</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading security events:', error);
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: #f44336;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>Error loading security events. Please try again.</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Display Security Statistics
+        function displaySecurityStats(stats) {
+            const container = document.getElementById('security-stats-container');
+            if (!container) return;
+            
+            if (!stats) {
+                stats = {
+                    total_logins: 0,
+                    recent_logins: 0,
+                    password_changes: 0,
+                    email_changes: 0,
+                    status_changes: 0
+                };
+            }
+            
+            const statsData = [
+                { label: 'Total Logins', value: stats.total_logins || 0, icon: 'fa-sign-in-alt', color: '#4CAF50' },
+                { label: 'Recent Logins (7d)', value: stats.recent_logins || 0, icon: 'fa-clock', color: '#2196F3' },
+                { label: 'Password Changes', value: stats.password_changes || 0, icon: 'fa-lock', color: '#FF9800' },
+                { label: 'Email Changes', value: stats.email_changes || 0, icon: 'fa-envelope', color: '#9C27B0' },
+                { label: 'Status Changes', value: stats.status_changes || 0, icon: 'fa-user-cog', color: '#F44336' }
+            ];
+            
+            let html = '';
+            statsData.forEach(stat => {
+                html += `
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; transition: transform 0.2s ease;">
+                        <div style="font-size: 2rem; color: ${stat.color}; margin-bottom: 0.5rem;">
+                            <i class="fas ${stat.icon}"></i>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 0.25rem;">
+                            ${stat.value}
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            ${stat.label}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Display Security Events
+        function displaySecurityEvents(events) {
+            const container = document.getElementById('security-events-container');
+            if (!container) return;
+            
+            if (!events || events.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #666;">
+                        <i class="fas fa-shield-alt" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No security events found</p>
+                        <p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">Security events will appear here as they occur</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div style="display: grid; gap: 10px;">';
+            events.forEach(event => {
+                const severityColor = event.severity === 'danger' ? '#F44336' :
+                                     event.severity === 'warning' ? '#FF9800' :
+                                     event.severity === 'info' ? '#2196F3' : '#9E9E9E';
+                
+                // Calculate time ago on client side if not provided
+                let timeAgo = event.time_ago || 'Unknown time';
+                if (event.time && !event.time_ago) {
+                    timeAgo = getTimeAgo(event.time);
+                }
+                
+                html += `
+                    <div class="security-event-item" style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${severityColor}; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div class="security-icon" style="width: 40px; height: 40px; border-radius: 50%; background: ${severityColor}; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+                            <i class="fas ${event.icon || 'fa-circle'}"></i>
+                        </div>
+                        <div class="security-content" style="flex: 1;">
+                            <h4 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: 600;">${event.title || 'Security Event'}</h4>
+                            <p style="margin: 0 0 5px 0; color: #666; font-size: 14px; line-height: 1.4;">${event.description || 'No description'}</p>
+                            ${event.admin_name ? `<p style="margin: 0 0 5px 0; color: #999; font-size: 12px;"><i class="fas fa-user-shield"></i> Admin: ${event.admin_name}${event.admin_email ? ' (' + event.admin_email + ')' : ''}</p>` : ''}
+                            ${event.user_name ? `<p style="margin: 0 0 5px 0; color: #999; font-size: 12px;"><i class="fas fa-user"></i> User: ${event.user_name}${event.user_email ? ' (' + event.user_email + ')' : ''}</p>` : ''}
+                            <span class="security-time" style="color: #999; font-size: 12px;"><i class="fas fa-clock"></i> ${timeAgo}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+        
+        // Add event listeners for activity log filters
+        document.addEventListener('DOMContentLoaded', function() {
+            const activityFilter = document.getElementById('activityFilter');
+            const activityDate = document.getElementById('activityDate');
+            
+            if (activityFilter) {
+                activityFilter.addEventListener('change', loadActivityLogs);
+            }
+            
+            if (activityDate) {
+                activityDate.addEventListener('change', loadActivityLogs);
+            }
+        });
 
         function toggleAdminStatus(adminId, currentStatus) {
             const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
@@ -8832,7 +10561,18 @@ $conn->close();
                 .then(data => {
                     if (data.success) {
                         showNotification(`Admin account ${action}d successfully!`, 'success');
-                        loadAdminAccounts(); // Refresh the admin list
+                        refreshAdminAccounts(); // Refresh the admin list
+                        
+                        // Reload activity logs and security events if those tabs are active
+                        const accountTab = document.querySelector('.account-tab.active');
+                        if (accountTab) {
+                            const tabName = accountTab.getAttribute('data-tab');
+                            if (tabName === 'activity') {
+                                loadActivityLogs();
+                            } else if (tabName === 'security') {
+                                loadSecurityEvents();
+                            }
+                        }
                     } else {
                         showNotification(data.message || `Failed to ${action} admin account`, 'error');
                     }

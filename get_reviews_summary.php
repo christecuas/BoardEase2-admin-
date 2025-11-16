@@ -124,12 +124,13 @@ try {
                     r.overall_rating,
                     r.title,
                     r.created_at,
-                    CONCAT(reg.f_name, ' ', reg.l_name) as boarder_name,
+                    CONCAT(reg.first_name, ' ', reg.middle_name, ' ', reg.last_name, 
+                           CASE WHEN reg.suffix IS NOT NULL AND reg.suffix != '' THEN CONCAT(' ', reg.suffix) ELSE '' END) as boarder_name,
                     reg.profile_picture as boarder_profile_picture,
                     bh.bh_name as boarding_house_name
                 FROM reviews r
                 JOIN users u ON r.boarder_id = u.user_id
-                JOIN registration reg ON u.reg_id = reg.reg_id
+                JOIN registrations reg ON u.reg_id = reg.id
                 JOIN boarding_houses bh ON r.boarding_house_id = bh.bh_id
                 $where_condition
                 ORDER BY r.created_at DESC

@@ -100,36 +100,54 @@ try {
     $notification_sent = false;
     $notification_result = null;
     $notification_reason = '';
+    $db_notification_sent = false;
     
     if ($sender_id == $receiver_id) {
         $notification_reason = 'Same sender and receiver';
-    } elseif (!$receiver['device_token']) {
-        $notification_reason = 'No device token for receiver';
     } else {
+        // Send database notification to receiver
         try {
-            $notification_result = FCMConfig::sendToDevice(
-                $receiver['device_token'],
-                $sender_name,
-                $message_text,
-                [
-                    'type' => 'new_message',
-                    'sender_id' => (string)$sender_id,
-                    'sender_name' => $sender_name,
-                    'receiver_id' => (string)$receiver_id,
-                    'message_id' => (string)$message_id,
-                    'chat_type' => 'individual',
-                    'timestamp' => date('Y-m-d H:i:s')
-                ]
-            );
-            
-            $notification_sent = $notification_result['success'];
-            $notification_reason = $notification_sent ? 'Notification sent to receiver' : 'Notification failed to send';
+            require_once 'activity_notifications.php';
+            $db_notification = ActivityNotifications::notifyNewMessage($receiver_id, [
+                'sender_name' => $sender_name,
+                'sender_id' => $sender_id,
+                'message' => $message_text,
+                'message_id' => $message_id
+            ]);
+            $db_notification_sent = $db_notification['success'] ?? false;
         } catch (Exception $e) {
-            $notification_result = [
-                'success' => false,
-                'error' => $e->getMessage()
-            ];
-            $notification_reason = 'Notification error: ' . $e->getMessage();
+            error_log("Warning: Failed to create database notification for message: " . $e->getMessage());
+        }
+        
+        // Send FCM notification if receiver has device token
+        if (!$receiver['device_token']) {
+            $notification_reason = 'No device token for receiver';
+        } else {
+            try {
+                $notification_result = FCMConfig::sendToDevice(
+                    $receiver['device_token'],
+                    $sender_name,
+                    $message_text,
+                    [
+                        'type' => 'new_message',
+                        'sender_id' => (string)$sender_id,
+                        'sender_name' => $sender_name,
+                        'receiver_id' => (string)$receiver_id,
+                        'message_id' => (string)$message_id,
+                        'chat_type' => 'individual',
+                        'timestamp' => date('Y-m-d H:i:s')
+                    ]
+                );
+                
+                $notification_sent = $notification_result['success'];
+                $notification_reason = $notification_sent ? 'Notification sent to receiver' : 'Notification failed to send';
+            } catch (Exception $e) {
+                $notification_result = [
+                    'success' => false,
+                    'error' => $e->getMessage()
+                ];
+                $notification_reason = 'Notification error: ' . $e->getMessage();
+            }
         }
     }
     
@@ -160,6 +178,7 @@ try {
             'timestamp' => date('Y-m-d H:i:s'),
             'status' => 'Sent',
             'notification_sent' => $notification_sent,
+            'db_notification_sent' => $db_notification_sent,
             'notification_reason' => $notification_reason,
             'sender_name' => $sender_name,
             'receiver_name' => $receiver_name

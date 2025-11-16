@@ -21,10 +21,16 @@ $user_id = $_POST["user_id"] ?? null;
 $f_name = $_POST["f_name"] ?? null;
 $m_name = $_POST["m_name"] ?? null;
 $l_name = $_POST["l_name"] ?? null;
+$suffix = $_POST["suffix"] ?? null;
 $birthdate = $_POST["birthdate"] ?? null;
 $phone_number = $_POST["phone_number"] ?? null;
 $p_address = $_POST["p_address"] ?? null;
 $profile_picture = $_POST["profile_picture"] ?? null;
+
+// Handle suffix: if "None" from frontend, convert to NULL for database
+if ($suffix === "None" || $suffix === "none" || $suffix === "") {
+    $suffix = null;
+}
 
 // Debug logging
 error_log("DEBUG: Update owner profile parameters:");
@@ -32,6 +38,7 @@ error_log("user_id: " . $user_id);
 error_log("f_name: " . $f_name);
 error_log("m_name: " . $m_name);
 error_log("l_name: " . $l_name);
+error_log("suffix: " . ($suffix === null ? "NULL" : $suffix));
 error_log("birthdate: " . $birthdate);
 error_log("phone_number: " . $phone_number);
 error_log("p_address: " . $p_address);
@@ -49,11 +56,11 @@ try {
     // Update registrations table with profile data
     $sql_registrations = "UPDATE registrations r 
                         JOIN users u ON r.id = u.reg_id 
-                        SET r.first_name = ?, r.middle_name = ?, r.last_name = ?, r.birth_date = ?, r.phone = ?, r.address = ?
+                        SET r.first_name = ?, r.middle_name = ?, r.last_name = ?, r.suffix = ?, r.birth_date = ?, r.phone = ?, r.address = ?
                         WHERE u.user_id = ?";
     
     $stmt_reg = $conn->prepare($sql_registrations);
-    $stmt_reg->bind_param("ssssssi", $f_name, $m_name, $l_name, $birthdate, $phone_number, $p_address, $user_id);
+    $stmt_reg->bind_param("sssssssi", $f_name, $m_name, $l_name, $suffix, $birthdate, $phone_number, $p_address, $user_id);
     
     if (!$stmt_reg->execute()) {
         throw new Exception("Failed to update registrations: " . $stmt_reg->error);

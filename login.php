@@ -50,7 +50,7 @@ $email = trim($email);
 $password = trim($password);
 
 // Prepare SQL statement to prevent SQL injection
-$stmt = $conn->prepare("SELECT r.id, r.role, r.first_name, r.last_name, r.email, r.password, r.status, u.user_id 
+$stmt = $conn->prepare("SELECT r.id, r.role, r.first_name, r.middle_name, r.last_name, r.suffix, r.email, r.password, r.status, u.user_id 
                         FROM registrations r 
                         LEFT JOIN users u ON r.id = u.reg_id 
                         WHERE r.email = ?");
@@ -89,6 +89,12 @@ if ($result->num_rows === 0) {
     if ($passwordValid) {
         // Check if account is approved by admin
         if ($user['status'] === 'approved') {
+            // Construct full name with suffix
+            $fullName = trim($user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['last_name']);
+            if (!empty($user['suffix'])) {
+                $fullName .= ' ' . $user['suffix'];
+            }
+            
             $response = array(
                 "success" => true,
                 "message" => "Login successful",
@@ -96,7 +102,10 @@ if ($result->num_rows === 0) {
                     "id" => $user['user_id'] ? $user['user_id'] : $user['id'], // Use user_id if available, fallback to registration id
                     "role" => $user['role'],
                     "firstName" => $user['first_name'],
+                    "middleName" => $user['middle_name'],
                     "lastName" => $user['last_name'],
+                    "suffix" => $user['suffix'],
+                    "fullName" => $fullName,
                     "email" => $user['email']
                 )
             );

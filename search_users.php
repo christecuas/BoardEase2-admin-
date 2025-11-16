@@ -71,7 +71,7 @@ try {
             AND ab.status = 'Active'
             AND r.role = 'Boarder'
             AND r.status = 'approved'
-            AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name) LIKE ? OR r.email LIKE ?)
+                AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name) LIKE ? OR r.email LIKE ?)
             ORDER BY 
                 CASE 
                     WHEN r.first_name LIKE ? THEN 1
@@ -116,6 +116,7 @@ try {
                     u.user_id,
                     r.first_name,
                     r.last_name,
+                    r.suffix,
                     r.role as user_type,
                     r.email,
                     r.phone as phone,
@@ -143,7 +144,8 @@ try {
                     CASE 
                         WHEN r.first_name LIKE ? THEN 1
                         WHEN r.last_name LIKE ? THEN 2
-                        WHEN CONCAT(r.first_name, ' ', r.last_name) LIKE ? THEN 3
+                        WHEN CONCAT(r.first_name, ' ', r.last_name, 
+                            CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) LIKE ? THEN 3
                         ELSE 4
                     END,
                     is_online DESC,
@@ -173,11 +175,13 @@ try {
     // Format users for response
     $formatted_users = [];
     foreach ($users as $user) {
+        $fullName = trim($user['first_name'] . ' ' . $user['last_name']);
+        
         $formatted_users[] = [
             'user_id' => $user['user_id'],
             'first_name' => $user['first_name'],
             'last_name' => $user['last_name'],
-            'full_name' => $user['first_name'] . ' ' . $user['last_name'],
+            'full_name' => $fullName,
             'user_type' => $user['user_type'],
             'email' => $user['email'],
             'phone' => $user['phone'],

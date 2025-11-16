@@ -79,14 +79,17 @@ try {
     
     // Get sender name
     $stmt = $db->prepare("
-        SELECT r.f_name, r.l_name 
+        SELECT r.first_name, r.last_name 
         FROM users u 
-        JOIN registration r ON u.reg_id = r.reg_id 
+        JOIN registrations r ON u.reg_id = r.id 
         WHERE u.user_id = ?
     ");
     $stmt->execute([$sender_id]);
     $sender = $stmt->fetch();
-    $sender_name = $sender ? $sender['f_name'] . ' ' . $sender['l_name'] : 'Unknown User';
+    $sender_name = 'Unknown User';
+    if ($sender) {
+        $sender_name = trim($sender['first_name'] . ' ' . $sender['last_name']);
+    }
     
     // Get group members for notifications (simplified query)
     $stmt = $db->prepare("
@@ -101,31 +104,56 @@ try {
     
     // Send notifications quickly (don't wait for all responses)
     $notification_count = 0;
+    $db_notification_count = 0;
+    
+    // Load activity notifications
+    require_once 'activity_notifications.php';
+    
     foreach ($members as $member) {
-        if ($member['user_id'] != $sender_id && $member['device_token']) {
+        if ($member['user_id'] != $sender_id) {
+            // Send database notification
             try {
-                // Send notification without waiting for detailed response
-                FCMConfig::sendToDevice(
-                    $member['device_token'],
-                    $group['gc_name'],
-                    $sender_name . ': ' . $message_text,
-                    [
-                        'type' => 'new_message',
-                        'sender_id' => (string)$sender_id,
-                        'sender_name' => $sender_name,
-                        'receiver_id' => (string)$member['user_id'],
-                        'group_id' => (string)$group_id,
-                        'group_name' => $group['gc_name'],
-                        'message_id' => (string)$message_id,
-                        'message_text' => $message_text,
-                        'chat_type' => 'group',
-                        'timestamp' => date('Y-m-d H:i:s')
-                    ]
-                );
-                $notification_count++;
+                $db_notification = ActivityNotifications::notifyNewGroupMessage($member['user_id'], [
+                    'group_name' => $group['gc_name'],
+                    'sender_name' => $sender_name,
+                    'sender_id' => $sender_id,
+                    'group_id' => $group_id,
+                    'message' => $message_text,
+                    'message_id' => $message_id
+                ]);
+                if ($db_notification['success'] ?? false) {
+                    $db_notification_count++;
+                }
             } catch (Exception $e) {
-                // Continue even if one notification fails
-                error_log("FCM notification failed: " . $e->getMessage());
+                error_log("Database notification failed for user " . $member['user_id'] . ": " . $e->getMessage());
+            }
+            
+            // Send FCM notification if device token exists
+            if ($member['device_token']) {
+                try {
+                    // Send notification without waiting for detailed response
+                    FCMConfig::sendToDevice(
+                        $member['device_token'],
+                        $group['gc_name'],
+                        $sender_name . ': ' . $message_text,
+                        [
+                            'type' => 'new_message',
+                            'sender_id' => (string)$sender_id,
+                            'sender_name' => $sender_name,
+                            'receiver_id' => (string)$member['user_id'],
+                            'group_id' => (string)$group_id,
+                            'group_name' => $group['gc_name'],
+                            'message_id' => (string)$message_id,
+                            'message_text' => $message_text,
+                            'chat_type' => 'group',
+                            'timestamp' => date('Y-m-d H:i:s')
+                        ]
+                    );
+                    $notification_count++;
+                } catch (Exception $e) {
+                    // Continue even if one notification fails
+                    error_log("FCM notification failed: " . $e->getMessage());
+                }
             }
         }
     }
@@ -143,6 +171,7 @@ try {
             'message' => $message_text,
             'timestamp' => date('Y-m-d H:i:s'),
             'notifications_sent' => $notification_count,
+            'db_notifications_sent' => $db_notification_count,
             'total_members' => count($members) - 1
         ]
     ];

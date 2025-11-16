@@ -249,7 +249,7 @@ try {
             'chat_id' => 'individual_' . $chat['other_user_id'],
             'chat_type' => 'individual',
             'other_user_id' => $chat['other_user_id'],
-            'other_user_name' => $chat['first_name'] . ' ' . $chat['last_name'],
+            'other_user_name' => trim($chat['first_name'] . ' ' . $chat['last_name']),
             'other_user_type' => $chat['user_type'],
             'user_status' => $chat['user_status'],
             'last_message' => $chat['last_message'],
@@ -309,7 +309,7 @@ try {
                     $last_message = $stmt->fetch();
                     
                     if ($last_message && $last_message['last_sender_first_name'] && $last_message['last_sender_last_name']) {
-                        $last_sender_name = $last_message['last_sender_first_name'] . ' ' . $last_message['last_sender_last_name'];
+                        $last_sender_name = trim($last_message['last_sender_first_name'] . ' ' . $last_message['last_sender_last_name']);
                         $last_message_time = $last_message['last_message_time'];
                     }
                 } catch (Exception $e) {

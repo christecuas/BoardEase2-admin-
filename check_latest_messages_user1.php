@@ -28,9 +28,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (m.sender_id = 1 OR m.receiver_id = 1)
         ORDER BY m.msg_timestamp DESC
         LIMIT 20
@@ -63,9 +63,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (m.sender_id = 1 OR m.receiver_id = 1)
         AND TIME(m.msg_timestamp) BETWEEN '22:00:00' AND '22:30:00'
         ORDER BY m.msg_timestamp DESC
@@ -98,9 +98,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (m.sender_id = 1 OR m.receiver_id = 1)
         AND TIME(m.msg_timestamp) BETWEEN '20:00:00' AND '20:30:00'
         ORDER BY m.msg_timestamp DESC
@@ -157,7 +157,7 @@ try {
                     ELSE m.sender_id
                 END = u.user_id
             )
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             WHERE (m.sender_id = 1 OR m.receiver_id = 1) 
             AND m.msg_status != 'Deleted'
             ORDER BY m.msg_timestamp DESC

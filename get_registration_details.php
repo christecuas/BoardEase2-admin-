@@ -25,7 +25,7 @@ try {
     }
 
     // Get registration details
-    $sql = "SELECT id, role, first_name, middle_name, last_name, birth_date, phone, address, email, 
+    $sql = "SELECT id, role, first_name, middle_name, last_name, suffix, birth_date, phone, address, email, 
                    gcash_num, valid_id_type, id_number, idFrontFile, idBackFile, gcash_qr, 
                    status, email_verified, created_at
             FROM registrations 
@@ -52,7 +52,8 @@ try {
             "first_name" => $registration['first_name'],
             "middle_name" => $registration['middle_name'],
             "last_name" => $registration['last_name'],
-            "full_name" => trim($registration['first_name'] . ' ' . $registration['middle_name'] . ' ' . $registration['last_name']),
+            "suffix" => $registration['suffix'],
+            "full_name" => trim($registration['first_name'] . ' ' . $registration['middle_name'] . ' ' . $registration['last_name'] . (!empty($registration['suffix']) ? ' ' . $registration['suffix'] : '')),
             "birth_date" => $registration['birth_date'],
             "phone" => $registration['phone'],
             "address" => $registration['address'],

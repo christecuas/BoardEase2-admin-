@@ -40,7 +40,7 @@ try {
     $stmt = $db->prepare("
         SELECT u.user_id, r.f_name as first_name, r.l_name as last_name, dt.device_token 
         FROM users u 
-        JOIN registration r ON u.reg_id = r.reg_id 
+        JOIN registrations r ON u.reg_id = r.id 
         LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1 
         WHERE u.user_id = ? AND u.status = 'Active' AND r.status = 'Approved'
     ");

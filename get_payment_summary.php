@@ -84,12 +84,13 @@ try {
             b.amount_due,
             b.status,
             b.created_at,
-            CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
             ru.room_number
         FROM bills b
         INNER JOIN active_boarders ab ON b.active_id = ab.active_id
         INNER JOIN users u ON ab.user_id = u.user_id
-        INNER JOIN registration r ON u.reg_id = r.reg_id
+        INNER JOIN registrations r ON u.reg_id = r.id
         WHERE 1=1 $dateCondition
         ORDER BY b.created_at DESC
         LIMIT 5

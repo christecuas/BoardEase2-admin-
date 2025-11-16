@@ -41,7 +41,7 @@ try {
             (SELECT COUNT(*) FROM messages WHERE sender_id = u.user_id OR receiver_id = u.user_id) as message_count,
             (SELECT MAX(msg_timestamp) FROM messages WHERE sender_id = u.user_id OR receiver_id = u.user_id) as last_message_time
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         ORDER BY last_message_time DESC
     ");
     $stmt->execute();
@@ -70,9 +70,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (sender_reg.f_name = 'David' AND sender_reg.l_name = 'Brown')
            OR (receiver_reg.f_name = 'David' AND receiver_reg.l_name = 'Brown')
         ORDER BY m.msg_timestamp DESC
@@ -106,9 +106,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (sender_reg.f_name = 'Namz' AND sender_reg.l_name = 'Baer')
            OR (receiver_reg.f_name = 'Namz' AND receiver_reg.l_name = 'Baer')
         ORDER BY m.msg_timestamp DESC
@@ -142,9 +142,9 @@ try {
             receiver_reg.l_name as receiver_lname
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         WHERE (sender_reg.f_name = 'John' AND sender_reg.l_name = 'Doe')
            OR (receiver_reg.f_name = 'John' AND receiver_reg.l_name = 'Doe')
         ORDER BY m.msg_timestamp DESC

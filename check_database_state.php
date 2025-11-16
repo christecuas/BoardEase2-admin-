@@ -124,7 +124,7 @@ try {
                     ELSE m.sender_id
                 END = u.user_id
             )
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             WHERE (m.sender_id = 1 OR m.receiver_id = 1) 
             AND m.msg_status != 'Deleted'
             ORDER BY m.msg_timestamp DESC

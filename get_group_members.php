@@ -57,11 +57,13 @@ try {
     // Format members for response
     $formatted_members = [];
     foreach ($members as $member) {
+        $fullName = trim($member['first_name'] . ' ' . $member['last_name']);
+        
         $formatted_members[] = [
             'user_id' => $member['user_id'],
             'first_name' => $member['first_name'],
             'last_name' => $member['last_name'],
-            'full_name' => $member['first_name'] . ' ' . $member['last_name'],
+            'full_name' => $fullName,
             'user_type' => $member['user_type'],
             'email' => $member['email'],
             'phone' => $member['phone'],

@@ -1,6 +1,30 @@
 <?php
 session_start();
 
+// Log admin logout activity (before destroying session)
+if (isset($_SESSION['admin_id'])) {
+    try {
+        require_once 'log_admin_activity.php';
+        require_once 'dbConfig.php';
+        
+        $admin_id = $_SESSION['admin_id'];
+        $admin_name = $_SESSION['admin_name'] ?? 'Admin';
+        $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+        
+        logAdminActivity(
+            $admin_id,
+            'logout',
+            $admin_name . ' logged out',
+            'Admin logout successful',
+            $ip_address,
+            $user_agent
+        );
+    } catch (Exception $e) {
+        error_log("Warning: Failed to log admin logout activity: " . $e->getMessage());
+    }
+}
+
 // Destroy all session data
 session_destroy();
 
@@ -17,6 +41,18 @@ if (ini_get("session.use_cookies")) {
 header('Location: html/admin_login.php');
 exit;
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

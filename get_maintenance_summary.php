@@ -151,12 +151,13 @@ try {
                     mr.priority,
                     mr.status,
                     mr.created_at,
-                    CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+                    CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                     ru.room_number as room_name,
                     bh.bh_name as boarding_house_name
                 FROM maintenance_requests mr
                 JOIN users u ON mr.boarder_id = u.user_id
-                JOIN registration r ON u.reg_id = r.reg_id
+                JOIN registrations r ON u.reg_id = r.id
                 JOIN room_units ru ON mr.room_id = ru.room_id
                 JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                 JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id

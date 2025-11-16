@@ -117,35 +117,96 @@ $username = DB_USER;
 $password = DB_PASS;
 $database = DB_NAME;
 
-// Generate backup
-$backup = backupDatabase($host, $username, $password, $database);
+// Set error logging to a specific file
+$logFile = __DIR__ . '/logs/backup.log';
+$logDir = dirname($logFile);
+if (!file_exists($logDir)) {
+    mkdir($logDir, 0755, true);
+}
 
-if (strpos($backup, 'Error:') === 0) {
-    // Log error
-    error_log("Auto backup failed: " . $backup);
+// Function to log messages
+function logBackup($message) {
+    global $logFile;
+    $timestamp = date('Y-m-d H:i:s');
+    $logMessage = "[$timestamp] $message" . PHP_EOL;
+    file_put_contents($logFile, $logMessage, FILE_APPEND);
+    error_log($message); // Also log to PHP error log
+}
+
+// Log start of backup
+logBackup("Auto backup process started");
+
+// Generate backup
+try {
+    $backup = backupDatabase($host, $username, $password, $database);
+    
+    if (strpos($backup, 'Error:') === 0) {
+        // Log error
+        logBackup("Auto backup FAILED: " . $backup);
+        echo "ERROR: " . $backup . PHP_EOL;
+        exit(1);
+    }
+    
+    // Save backup to file
+    $filename = $backupDir . '/boardease_auto_backup_' . date('Y-m-d_H-i-s') . '.sql';
+    
+    $result = file_put_contents($filename, $backup);
+    
+    if ($result === false) {
+        logBackup("Auto backup FAILED: Could not write backup file: $filename");
+        echo "ERROR: Could not write backup file" . PHP_EOL;
+        exit(1);
+    }
+    
+    // Get file size
+    $fileSize = filesize($filename);
+    $fileSizeMB = round($fileSize / (1024 * 1024), 2);
+    
+    // Log success
+    logBackup("Auto backup created successfully: $filename (Size: {$fileSizeMB} MB)");
+    echo "Auto backup completed successfully: $filename (Size: {$fileSizeMB} MB)" . PHP_EOL;
+    
+    // Clean up old backups (keep only last 7 days)
+    $files = glob($backupDir . '/boardease_auto_backup_*.sql');
+    $cutoff = time() - (7 * 24 * 60 * 60); // 7 days ago
+    $deletedCount = 0;
+    
+    foreach ($files as $file) {
+        if (filemtime($file) < $cutoff) {
+            if (unlink($file)) {
+                logBackup("Deleted old backup: $file");
+                $deletedCount++;
+            } else {
+                logBackup("WARNING: Could not delete old backup: $file");
+            }
+        }
+    }
+    
+    if ($deletedCount > 0) {
+        logBackup("Cleaned up $deletedCount old backup file(s)");
+    }
+    
+    logBackup("Auto backup process completed successfully");
+    exit(0);
+    
+} catch (Exception $e) {
+    logBackup("Auto backup FAILED with exception: " . $e->getMessage());
+    echo "ERROR: " . $e->getMessage() . PHP_EOL;
     exit(1);
 }
-
-// Save backup to file
-$filename = $backupDir . '/boardease_auto_backup_' . date('Y-m-d_H-i-s') . '.sql';
-file_put_contents($filename, $backup);
-
-// Log success
-error_log("Auto backup created successfully: " . $filename);
-
-// Clean up old backups (keep only last 7 days)
-$files = glob($backupDir . '/boardease_auto_backup_*.sql');
-$cutoff = time() - (7 * 24 * 60 * 60); // 7 days ago
-
-foreach ($files as $file) {
-    if (filemtime($file) < $cutoff) {
-        unlink($file);
-        error_log("Deleted old backup: " . $file);
-    }
-}
-
-echo "Auto backup completed successfully: " . $filename;
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

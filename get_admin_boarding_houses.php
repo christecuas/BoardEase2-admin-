@@ -44,7 +44,7 @@ try {
     
     // Search functionality
     if (!empty($search)) {
-        $where_conditions[] = "(bh.bh_name LIKE ? OR bh.bh_address LIKE ? OR CONCAT(r.f_name, ' ', r.l_name) LIKE ?)";
+        $where_conditions[] = "(bh.bh_name LIKE ? OR bh.bh_address LIKE ? OR CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) LIKE ?)";
         $search_param = '%' . $search . '%';
         $params[] = $search_param;
         $params[] = $search_param;
@@ -67,7 +67,8 @@ try {
             bh.status,
             bh.created_at,
             bh.updated_at,
-            CONCAT(r.f_name, ' ', r.l_name) as owner_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as owner_name,
             r.email as owner_email,
             r.phone_number as owner_phone,
             u.user_id as owner_id,
@@ -88,7 +89,7 @@ try {
              AND b.booking_status = 'Pending') as pending_bookings
         FROM boarding_houses bh
         JOIN users u ON bh.user_id = u.user_id
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         {$where_clause}
         ORDER BY bh.created_at DESC
     ";
@@ -140,14 +141,15 @@ try {
     $stmt = $db->prepare("
         SELECT 
             u.user_id,
-            CONCAT(r.f_name, ' ', r.l_name) as owner_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as owner_name,
             COUNT(bh.bh_id) as boarding_houses_count
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         LEFT JOIN boarding_houses bh ON u.user_id = bh.user_id
         WHERE r.role = 'Owner' AND u.status = 'Active'
-        GROUP BY u.user_id, r.f_name, r.l_name
-        ORDER BY r.f_name ASC
+        GROUP BY u.user_id, r.first_name, r.middle_name, r.last_name, r.suffix
+        ORDER BY r.first_name ASC
     ");
     $stmt->execute();
     $owners = $stmt->fetchAll();

@@ -11,6 +11,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS'
 }
 
 require_once 'db_helper.php';
+require_once 'admin_system_notifications.php';
+require_once 'activity_notifications.php';
 
 $response = [];
 
@@ -21,89 +23,148 @@ try {
         throw new Exception("Database connection failed");
     }
     
-    $action = $_GET['action'] ?? 'list'; // list, send, stats
+    $action = $_GET['action'] ?? 'list'; // list, send, system, stats
     $type = $_GET['type'] ?? 'all'; // all, system, user
     $status = $_GET['status'] ?? 'all'; // all, unread, read
     
     if ($action === 'send') {
-        // Handle sending notifications
+        // Handle sending notifications using ActivityNotifications
         $input = json_decode(file_get_contents('php://input'), true);
         
         $title = $input['title'] ?? '';
         $message = $input['message'] ?? '';
         $recipients = $input['recipients'] ?? 'all'; // all, boarders, owners, specific users
-        $type = $input['notification_type'] ?? 'announcement';
+        $notif_type = $input['notification_type'] ?? 'announcement';
         
         if (empty($title) || empty($message)) {
             throw new Exception("Title and message are required");
         }
         
         $sent_count = 0;
+        $failed_count = 0;
         
+        // Get target users based on recipients
         if ($recipients === 'all') {
             // Send to all active users
             $stmt = $db->prepare("
-                SELECT user_id FROM users WHERE status = 'Active'
+                SELECT u.user_id FROM users u
+                JOIN registrations r ON u.reg_id = r.id
+                WHERE u.status = 'Active' AND r.status = 'approved'
             ");
             $stmt->execute();
             $users = $stmt->fetchAll();
-            
-            foreach ($users as $user) {
-                $stmt = $db->prepare("
-                    INSERT INTO notifications (user_id, notif_title, notif_message, notif_type, notif_status, notif_created_at)
-                    VALUES (?, ?, ?, ?, 'unread', NOW())
-                ");
-                $stmt->execute([$user['user_id'], $title, $message, $type]);
-                $sent_count++;
-            }
         } elseif ($recipients === 'boarders') {
             // Send to all boarders
             $stmt = $db->prepare("
                 SELECT u.user_id FROM users u
-                JOIN registration r ON u.reg_id = r.reg_id
-                WHERE u.status = 'Active' AND r.role = 'Boarder'
+                JOIN registrations r ON u.reg_id = r.id
+                WHERE u.status = 'Active' AND r.status = 'approved' AND r.role = 'Boarder'
             ");
             $stmt->execute();
             $users = $stmt->fetchAll();
-            
-            foreach ($users as $user) {
-                $stmt = $db->prepare("
-                    INSERT INTO notifications (user_id, notif_title, notif_message, notif_type, notif_status, notif_created_at)
-                    VALUES (?, ?, ?, ?, 'unread', NOW())
-                ");
-                $stmt->execute([$user['user_id'], $title, $message, $type]);
-                $sent_count++;
-            }
         } elseif ($recipients === 'owners') {
-            // Send to all owners
+            // Send to all owners - check for both 'BH Owner' and 'Owner' roles
             $stmt = $db->prepare("
                 SELECT u.user_id FROM users u
-                JOIN registration r ON u.reg_id = r.reg_id
-                WHERE u.status = 'Active' AND r.role = 'Owner'
+                JOIN registrations r ON u.reg_id = r.id
+                WHERE u.status = 'Active' AND r.status = 'approved' 
+                AND (r.role = 'BH Owner' OR r.role = 'Owner')
             ");
             $stmt->execute();
             $users = $stmt->fetchAll();
-            
-            foreach ($users as $user) {
-                $stmt = $db->prepare("
-                    INSERT INTO notifications (user_id, notif_title, notif_message, notif_type, notif_status, notif_created_at)
-                    VALUES (?, ?, ?, ?, 'unread', NOW())
-                ");
-                $stmt->execute([$user['user_id'], $title, $message, $type]);
-                $sent_count++;
+        } else {
+            $users = [];
+        }
+        
+        if (empty($users)) {
+            $response = [
+                'success' => false,
+                'message' => 'No users found for the selected recipient type',
+                'data' => [
+                    'sent_count' => 0,
+                    'failed_count' => 0,
+                    'total_users' => 0
+                ]
+            ];
+            echo json_encode($response, JSON_PRETTY_PRINT);
+            exit;
+        }
+        
+        // Send notifications to all users using ActivityNotifications
+        // IMPORTANT: Loop through each user and send individually - this ensures each user
+        // only receives their own notification, not notifications meant for others
+        foreach ($users as $user) {
+            try {
+                // Validate user_id
+                if (empty($user['user_id']) || !is_numeric($user['user_id'])) {
+                    error_log("Invalid user_id in recipients list: " . var_export($user, true));
+                    $failed_count++;
+                    continue;
+                }
+                
+                // Use the notification type from the form
+                // This sends to ONE user at a time - each user gets their own notification
+                $result = ActivityNotifications::notifyNewAnnouncement($user['user_id'], [
+                    'title' => $title,
+                    'content' => $message,
+                    'type' => $notif_type
+                ]);
+                
+                if ($result['success'] ?? false) {
+                    $sent_count++;
+                    // Log for debugging (limit to first few to avoid spam)
+                    if ($sent_count <= 3) {
+                        error_log("Announcement sent to user_id=" . $user['user_id'] . " (this is correct - announcements go to all users)");
+                    }
+                } else {
+                    $failed_count++;
+                    error_log("Failed to send notification to user {$user['user_id']}: " . ($result['message'] ?? 'Unknown error'));
+                }
+            } catch (Exception $e) {
+                error_log("Error sending notification to user {$user['user_id']}: " . $e->getMessage());
+                $failed_count++;
             }
         }
         
+        // Log summary
+        error_log("Admin announcement sent: Title='$title', Recipients='$recipients', Total users=" . count($users) . ", Sent=$sent_count, Failed=$failed_count");
+        
+        // Log the notification sending activity
+        error_log("Admin notification sent: Title='$title', Recipients='$recipients', Sent=$sent_count, Failed=$failed_count, Total=" . count($users));
+        
         $response = [
             'success' => true,
-            'message' => "Notification sent to {$sent_count} users",
+            'message' => "Notification sent to {$sent_count} users" . ($failed_count > 0 ? " ({$failed_count} failed)" : ""),
             'data' => [
-                'sent_count' => $sent_count
+                'sent_count' => $sent_count,
+                'failed_count' => $failed_count,
+                'total_users' => count($users)
+            ]
+        ];
+        
+    } elseif ($action === 'system') {
+        // Get system notifications for admin dashboard
+        // Default to 1000 to show all notifications (or specify higher limit)
+        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 1000;
+        $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+        
+        // If limit is 0 or negative, set to 1000 to show all
+        if ($limit <= 0) {
+            $limit = 1000;
+        }
+        
+        $systemNotifications = AdminSystemNotifications::getSystemNotifications($limit, $offset);
+        
+        $response = [
+            'success' => true,
+            'data' => [
+                'system_notifications' => $systemNotifications['data'] ?? [],
+                'total' => $systemNotifications['total'] ?? 0
             ]
         ];
         
     } else {
-        // List notifications
+        // List user notifications
         $where_conditions = [];
         $params = [];
         
@@ -133,12 +194,13 @@ try {
                 n.notif_type,
                 n.notif_status,
                 n.notif_created_at,
-                CONCAT(r.f_name, ' ', r.l_name) as user_name,
+                CONCAT(r.first_name, ' ', COALESCE(r.middle_name, ''), ' ', r.last_name, 
+                       CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as user_name,
                 r.email as user_email,
                 r.role as user_role
             FROM notifications n
             JOIN users u ON n.user_id = u.user_id
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             {$where_clause}
             ORDER BY n.notif_created_at DESC
             LIMIT 100
@@ -191,15 +253,21 @@ try {
         $stmt->execute();
         $unread_count = $stmt->fetch()['unread_count'];
         
+        // Get system notifications count
+        $systemNotifications = AdminSystemNotifications::getSystemNotifications(100, 0);
+        $system_count = $systemNotifications['total'] ?? 0;
+        
         $response = [
             'success' => true,
             'data' => [
                 'notifications' => $notifications,
+                'system_notifications' => $systemNotifications['data'] ?? [],
                 'statistics' => [
                     'by_type' => $type_stats,
                     'by_status' => $status_stats,
                     'recent_notifications' => (int)$recent_notifications,
-                    'unread_count' => (int)$unread_count
+                    'unread_count' => (int)$unread_count,
+                    'system_notifications_count' => $system_count
                 ],
                 'filters' => [
                     'type' => $type,

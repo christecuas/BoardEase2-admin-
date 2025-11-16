@@ -21,15 +21,19 @@ try {
             m.receiver_id,
             m.msg_text,
             m.msg_timestamp,
-            sender.f_name as sender_fname,
-            sender.l_name as sender_lname,
-            receiver.f_name as receiver_fname,
-            receiver.l_name as receiver_lname
+            sender_reg.first_name as sender_fname,
+            sender_reg.middle_name as sender_mname,
+            sender_reg.last_name as sender_lname,
+            sender_reg.suffix as sender_suffix,
+            receiver_reg.first_name as receiver_fname,
+            receiver_reg.middle_name as receiver_mname,
+            receiver_reg.last_name as receiver_lname,
+            receiver_reg.suffix as receiver_suffix
         FROM messages m
         JOIN users sender ON m.sender_id = sender.user_id
-        JOIN registration sender_reg ON sender.reg_id = sender_reg.reg_id
+        JOIN registrations sender_reg ON sender.reg_id = sender_reg.id
         JOIN users receiver ON m.receiver_id = receiver.user_id
-        JOIN registration receiver_reg ON receiver.reg_id = receiver_reg.reg_id
+        JOIN registrations receiver_reg ON receiver.reg_id = receiver_reg.id
         ORDER BY m.msg_timestamp DESC
         LIMIT 20
     ");

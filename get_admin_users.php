@@ -45,7 +45,7 @@ try {
     
     // Search functionality
     if (!empty($search)) {
-        $where_conditions[] = "(r.f_name LIKE ? OR r.l_name LIKE ? OR r.email LIKE ? OR CONCAT(r.f_name, ' ', r.l_name) LIKE ?)";
+        $where_conditions[] = "(r.first_name LIKE ? OR r.last_name LIKE ? OR r.email LIKE ? OR CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) LIKE ?)";
         $search_param = '%' . $search . '%';
         $params[] = $search_param;
         $params[] = $search_param;
@@ -59,9 +59,12 @@ try {
     $sql = "
         SELECT 
             u.user_id,
-            CONCAT(r.f_name, ' ', r.l_name) as full_name,
-            r.f_name as first_name,
-            r.l_name as last_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as full_name,
+            r.first_name,
+            r.middle_name,
+            r.last_name,
+            r.suffix,
             r.email,
             r.phone_number,
             r.role,
@@ -85,7 +88,7 @@ try {
                 ELSE 0
             END as activity_count
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         {$where_clause}
         ORDER BY u.created_at DESC
     ";
@@ -103,7 +106,7 @@ try {
             r.role,
             COUNT(*) as count
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         WHERE u.status = 'Active'
         GROUP BY r.role
     ");

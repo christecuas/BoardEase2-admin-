@@ -17,7 +17,9 @@ try {
                 u.profile_picture,
                 u.created_at,
                 r.first_name,
+                r.middle_name,
                 r.last_name,
+                r.suffix,
                 r.email,
                 r.phone,
                 r.role,
@@ -39,12 +41,19 @@ try {
     
     if ($result) {
         while ($row = $result->fetch_assoc()) {
+            $fullName = trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']);
+            if (!empty($row['suffix'])) {
+                $fullName .= ' ' . $row['suffix'];
+            }
+            
             $users[] = [
                 'user_id' => $row['user_id'],
                 'reg_id' => $row['reg_id'],
-                'full_name' => trim($row['first_name'] . ' ' . $row['last_name']),
+                'full_name' => $fullName,
                 'first_name' => $row['first_name'],
+                'middle_name' => $row['middle_name'],
                 'last_name' => $row['last_name'],
+                'suffix' => $row['suffix'],
                 'email' => $row['email'],
                 'phone' => $row['phone'],
                 'role' => $row['role'],

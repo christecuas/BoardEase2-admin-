@@ -56,11 +56,12 @@ try {
                 r.title,
                 r.overall_rating,
                 r.owner_response,
-                CONCAT(reg.f_name, ' ', reg.l_name) as boarder_name,
+                CONCAT(reg.first_name, ' ', reg.middle_name, ' ', reg.last_name, 
+                       CASE WHEN reg.suffix IS NOT NULL AND reg.suffix != '' THEN CONCAT(' ', reg.suffix) ELSE '' END) as boarder_name,
                 bh.bh_name as boarding_house_name
             FROM reviews r
             JOIN users u ON r.boarder_id = u.user_id
-            JOIN registration reg ON u.reg_id = reg.reg_id
+            JOIN registrations reg ON u.reg_id = reg.id
             JOIN boarding_houses bh ON r.boarding_house_id = bh.bh_id
             WHERE r.review_id = ? AND r.owner_id = ?
         ");
@@ -89,10 +90,8 @@ try {
         $db->commit();
         
         // Send notification to boarder
-        $notification_result = AutoNotifyAnnouncement::sendAnnouncement($review['boarder_id'], [
-            'title' => 'Owner Responded to Your Review',
-            'message' => "The owner of {$review['boarding_house_name']} has responded to your review",
-            'type' => 'owner_response',
+        require_once 'activity_notifications.php';
+        $notification_result = ActivityNotifications::notifyOwnerResponse($review['boarder_id'], [
             'review_id' => $review_id,
             'boarding_house_name' => $review['boarding_house_name'],
             'response_text' => $response_text

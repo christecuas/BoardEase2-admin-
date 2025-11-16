@@ -19,3 +19,17 @@ INSERT INTO admin_accounts (name, email, password, role) VALUES
 -- Note: The password hash above is for 'password' - change these in production!
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

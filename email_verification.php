@@ -38,6 +38,12 @@ try {
     $action = $_POST['action'] ?? null;
     $email = $_POST['email'] ?? null;
 
+    // For check_verification_status, also accept GET parameter
+    if (!$action && isset($_GET['action']) && $_GET['action'] === 'check_verification_status') {
+        $action = $_GET['action'];
+        $email = $_GET['email'] ?? null;
+    }
+
     if (!$action || !$email) {
         $response = array(
             "success" => false,
@@ -51,7 +57,81 @@ try {
     $email = trim($email);
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    if ($action === "resend_code") {
+    if ($action === "check_verification_status") {
+        error_log("Check verification status request for email: " . $email);
+        
+        // Check if user exists and email verification status
+        $stmt = $conn->prepare("
+            SELECT id, email_verified, status 
+            FROM registrations 
+            WHERE email = ?
+        ");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            $response = array(
+                "success" => false,
+                "isVerified" => false,
+                "message" => "No account found with this email address."
+            );
+            echo json_encode($response);
+            exit;
+        }
+        
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        
+        if ($user['email_verified'] == 1) {
+            error_log("Email already verified for: " . $email);
+            $response = array(
+                "success" => true,
+                "isVerified" => true,
+                "status" => $user['status'],
+                "message" => "This email address has already been verified. You can log in to your account now."
+            );
+        } else {
+            // Check if verification code exists and is not expired
+            $verifyStmt = $conn->prepare("
+                SELECT ev.id, ev.verification_code, ev.expiry_time 
+                FROM email_verifications ev
+                JOIN registrations r ON ev.user_id = r.id
+                WHERE ev.email = ?
+                ORDER BY ev.created_at DESC
+                LIMIT 1
+            ");
+            $verifyStmt->bind_param("s", $email);
+            $verifyStmt->execute();
+            $verifyResult = $verifyStmt->get_result();
+            
+            if ($verifyResult->num_rows === 0) {
+                $response = array(
+                    "success" => true,
+                    "isVerified" => false,
+                    "hasValidCode" => false,
+                    "message" => "No verification code found. Please request a new verification code."
+                );
+            } else {
+                $verification = $verifyResult->fetch_assoc();
+                $isExpired = strtotime($verification['expiry_time']) < time();
+                
+                $response = array(
+                    "success" => true,
+                    "isVerified" => false,
+                    "hasValidCode" => !$isExpired,
+                    "isExpired" => $isExpired,
+                    "message" => $isExpired ? "Verification code has expired. Please request a new code." : "Email not yet verified. Verification code is still valid."
+                );
+            }
+            
+            $verifyStmt->close();
+        }
+        
+        echo json_encode($response);
+        exit;
+        
+    } else if ($action === "resend_code") {
         error_log("Resend code request for email: " . $email);
         
         // Check if user exists and is unverified
@@ -154,11 +234,32 @@ try {
             exit;
         }
         
+        // First check if email is already verified
+        $checkStmt = $conn->prepare("SELECT id, email_verified, status FROM registrations WHERE email = ?");
+        $checkStmt->bind_param("s", $email);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
+        
+        if ($checkResult->num_rows > 0) {
+            $user = $checkResult->fetch_assoc();
+            if ($user['email_verified'] == 1) {
+                error_log("Email already verified for: " . $email);
+                $checkStmt->close();
+                $response = array(
+                    "success" => false,
+                    "message" => "This email address has already been verified. You can log in to your account now."
+                );
+                echo json_encode($response);
+                exit;
+            }
+        }
+        $checkStmt->close();
+        
         // Check if verification code is valid and not expired
         error_log("Verifying code: " . $verificationCode . " for email: " . $email);
         
         $stmt = $conn->prepare("
-            SELECT ev.id, ev.user_id, ev.verification_code, ev.expiry_time, r.first_name, r.status 
+            SELECT ev.id, ev.user_id, ev.verification_code, ev.expiry_time, r.first_name, r.status, r.email_verified
             FROM email_verifications ev 
             JOIN registrations r ON ev.user_id = r.id 
             WHERE ev.email = ? AND ev.verification_code = ?
@@ -201,6 +302,17 @@ try {
         // Check if code is expired
         $verification = $result->fetch_assoc();
         error_log("Found verification record - ID: " . $verification['id'] . ", Expiry: " . $verification['expiry_time']);
+        
+        // Double-check if email is already verified (in case verification happened between checks)
+        if (isset($verification['email_verified']) && $verification['email_verified'] == 1) {
+            error_log("Email already verified (checked from verification record) for: " . $email);
+            $response = array(
+                "success" => false,
+                "message" => "This email address has already been verified. You can log in to your account now."
+            );
+            echo json_encode($response);
+            exit;
+        }
         
         if (strtotime($verification['expiry_time']) < time()) {
             error_log("Code is expired. Expiry: " . $verification['expiry_time'] . ", Current: " . date('Y-m-d H:i:s'));
@@ -304,6 +416,12 @@ function sendVerificationEmail($email, $firstName, $verificationCode) {
                 <p>Thank you for registering with BoardEase. To complete your registration, please verify your email address using the code below:</p>
                 
                 <div class='verification-code'>" . $verificationCode . "</div>
+                
+                <div class='verification-link'>
+                    <p><strong>Quick Access:</strong> Click the link below to open the verification screen directly in the BoardEase app:</p>
+                    <p><a href='https://boardease.app/verify?email=" . urlencode($email) . "' style='color: #007bff; text-decoration: underline; font-weight: bold; font-size: 16px; display: block; margin: 10px 0; padding: 10px; background-color: #f8f9fa; border: 1px solid #007bff; border-radius: 5px;'>Open Verification Screen in BoardEase App</a></p>
+                    <p style='font-size: 12px; color: #666;'>If the link doesn't work, make sure you have the BoardEase app installed on your device.</p>
+                </div>
                 
                 <div class='warning'>
                     <strong>Important:</strong> This verification code will expire in 30 minutes. If you don't verify your email within this time, your account will be automatically deleted.

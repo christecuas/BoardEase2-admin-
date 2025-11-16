@@ -96,14 +96,15 @@ try {
     $stmt = $db->prepare("
         SELECT 
             u.user_id,
-            CONCAT(r.f_name, ' ', r.l_name) as full_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as full_name,
             r.email,
             r.role,
             u.status,
             u.created_at,
             u.profile_picture
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         ORDER BY u.created_at DESC
         LIMIT 10
     ");
@@ -114,7 +115,8 @@ try {
     $stmt = $db->prepare("
         SELECT 
             b.booking_id,
-            CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+            CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                   CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
             bh.bh_name as boarding_house_name,
             b.booking_status,
             b.booking_date,
@@ -122,7 +124,7 @@ try {
             b.end_date
         FROM bookings b
         JOIN users u ON b.user_id = u.user_id
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         JOIN room_units ru ON b.room_id = ru.room_id
         JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
         JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
@@ -149,7 +151,7 @@ try {
             r.role,
             COUNT(*) as count
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         WHERE u.status = 'Active'
         GROUP BY r.role
     ");

@@ -82,7 +82,30 @@ try {
         $updatePasswordStmt->bind_param("si", $hashedPassword, $user_id);
         $updatePasswordStmt->execute();
         $updatePasswordStmt->close();
+        
+        // Send security notification for password change
+        try {
+            require_once 'activity_notifications.php';
+            ActivityNotifications::notifyPasswordChanged($user_id, []);
+        } catch (Exception $e) {
+            error_log("Warning: Failed to send password change notification: " . $e->getMessage());
+        }
     }
+    
+    // Check if email is being changed
+    $checkEmailSql = "SELECT r.email FROM registrations r 
+                     JOIN users u ON r.id = u.reg_id 
+                     WHERE u.user_id = ?";
+    $checkEmailStmt = $conn->prepare($checkEmailSql);
+    $checkEmailStmt->bind_param("i", $user_id);
+    $checkEmailStmt->execute();
+    $emailResult = $checkEmailStmt->get_result();
+    $oldEmail = null;
+    if ($emailResult->num_rows > 0) {
+        $oldEmail = $emailResult->fetch_assoc()['email'];
+    }
+    $checkEmailStmt->close();
+    $emailChanged = ($oldEmail && $oldEmail !== $email);
     
     // Update email
     $updateSql = "UPDATE registrations r 
@@ -94,6 +117,19 @@ try {
     
     if ($updateStmt->execute()) {
         $conn->commit();
+        
+        // Send security notification for email change
+        if ($emailChanged) {
+            try {
+                require_once 'activity_notifications.php';
+                ActivityNotifications::notifyEmailChanged($user_id, [
+                    'new_email' => $email
+                ]);
+            } catch (Exception $e) {
+                error_log("Warning: Failed to send email change notification: " . $e->getMessage());
+            }
+        }
+        
         echo json_encode([
             "success" => true,
             "message" => "Account information updated successfully"

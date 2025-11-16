@@ -76,20 +76,22 @@ try {
                     mr.feedback_comment,
                     mr.created_at,
                     mr.updated_at,
-                    CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+                    CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                     r.phone_number as boarder_phone,
                     ru.room_number as room_name,
                     bh.bh_name as boarding_house_name,
                     bh.bh_address as boarding_house_address,
-                    CONCAT(owner_r.f_name, ' ', owner_r.l_name) as assigned_to_name
+                    CONCAT(owner_r.first_name, ' ', owner_r.middle_name, ' ', owner_r.last_name, 
+                           CASE WHEN owner_r.suffix IS NOT NULL AND owner_r.suffix != '' THEN CONCAT(' ', owner_r.suffix) ELSE '' END) as assigned_to_name
                 FROM maintenance_requests mr
                 JOIN users u ON mr.boarder_id = u.user_id
-                JOIN registration r ON u.reg_id = r.reg_id
+                JOIN registrations r ON u.reg_id = r.id
                 JOIN room_units ru ON mr.room_id = ru.room_id
                 JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                 JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                 LEFT JOIN users owner_u ON mr.assigned_to = owner_u.user_id
-                LEFT JOIN registration owner_r ON owner_u.reg_id = owner_r.reg_id
+                LEFT JOIN registrations owner_r ON owner_u.reg_id = owner_r.id
                 WHERE mr.owner_id = ? $status_condition $priority_condition $type_condition
                 ORDER BY 
                     CASE mr.priority 
@@ -132,20 +134,22 @@ try {
                     mr.feedback_comment,
                     mr.created_at,
                     mr.updated_at,
-                    CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+                    CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                     r.phone_number as boarder_phone,
                     ru.room_number as room_name,
                     bh.bh_name as boarding_house_name,
                     bh.bh_address as boarding_house_address,
-                    CONCAT(owner_r.f_name, ' ', owner_r.l_name) as assigned_to_name
+                    CONCAT(owner_r.first_name, ' ', owner_r.middle_name, ' ', owner_r.last_name, 
+                           CASE WHEN owner_r.suffix IS NOT NULL AND owner_r.suffix != '' THEN CONCAT(' ', owner_r.suffix) ELSE '' END) as assigned_to_name
                 FROM maintenance_requests mr
                 JOIN users u ON mr.boarder_id = u.user_id
-                JOIN registration r ON u.reg_id = r.reg_id
+                JOIN registrations r ON u.reg_id = r.id
                 JOIN room_units ru ON mr.room_id = ru.room_id
                 JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                 JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                 LEFT JOIN users owner_u ON mr.assigned_to = owner_u.user_id
-                LEFT JOIN registration owner_r ON owner_u.reg_id = owner_r.reg_id
+                LEFT JOIN registrations owner_r ON owner_u.reg_id = owner_r.id
                 WHERE mr.boarder_id = ? $status_condition $priority_condition $type_condition
                 ORDER BY 
                     CASE mr.priority 

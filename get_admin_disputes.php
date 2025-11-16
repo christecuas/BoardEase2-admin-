@@ -42,10 +42,12 @@ try {
         $sql = "
             SELECT 
                 b.booking_id as dispute_id,
-                CONCAT(r1.f_name, ' ', r1.l_name) as complainant_name,
+                CONCAT(r1.first_name, ' ', r1.middle_name, ' ', r1.last_name, 
+                       CASE WHEN r1.suffix IS NOT NULL AND r1.suffix != '' THEN CONCAT(' ', r1.suffix) ELSE '' END) as complainant_name,
                 r1.email as complainant_email,
                 r1.phone_number as complainant_phone,
-                CONCAT(r2.f_name, ' ', r2.l_name) as respondent_name,
+                CONCAT(r2.first_name, ' ', r2.middle_name, ' ', r2.last_name, 
+                       CASE WHEN r2.suffix IS NOT NULL AND r2.suffix != '' THEN CONCAT(' ', r2.suffix) ELSE '' END) as respondent_name,
                 r2.email as respondent_email,
                 bh.bh_name as property_name,
                 b.booking_status as dispute_status,
@@ -58,12 +60,12 @@ try {
                 b.updated_at
             FROM bookings b
             JOIN users u1 ON b.user_id = u1.user_id
-            JOIN registration r1 ON u1.reg_id = r1.reg_id
+            JOIN registrations r1 ON u1.reg_id = r1.id
             JOIN room_units ru ON b.room_id = ru.room_id
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             JOIN users u2 ON bh.user_id = u2.user_id
-            JOIN registration r2 ON u2.reg_id = r2.reg_id
+            JOIN registrations r2 ON u2.reg_id = r2.id
             {$where_clause}
             ORDER BY b.booking_date DESC
         ";
@@ -113,7 +115,8 @@ try {
         $sql = "
             SELECT 
                 u.user_id,
-                CONCAT(r.f_name, ' ', r.l_name) as full_name,
+                CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                       CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as full_name,
                 r.email,
                 r.phone_number,
                 r.role,
@@ -133,7 +136,7 @@ try {
                 'Multiple Issues' as flag_reason,
                 'High cancellation rate or inactive properties' as flag_description
             FROM users u
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             {$where_clause}
             HAVING (cancelled_bookings > 2 OR pending_bookings > 5 OR inactive_properties > 1)
             ORDER BY (cancelled_bookings + pending_bookings + inactive_properties) DESC

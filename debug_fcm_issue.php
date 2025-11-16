@@ -31,7 +31,7 @@ $db = getDB();
 $stmt = $db->prepare("
     SELECT u.user_id, r.f_name, r.l_name, dt.device_token, dt.is_active, dt.created_at
     FROM users u 
-    JOIN registration r ON u.reg_id = r.reg_id
+    JOIN registrations r ON u.reg_id = r.id
     LEFT JOIN device_tokens dt ON u.user_id = dt.user_id
     ORDER BY u.user_id
 ");

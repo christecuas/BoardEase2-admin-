@@ -247,3 +247,45 @@
 {"message_id":222,"sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-10-25 06:52:55","status":"sent","notification_sent":true}
 {"message_id":"222","sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-10-25 06:52:57","status":"sent","notification_sent":true}
 {"message_id":223,"sender_id":"29","receiver_id":"28","message":"b******t","timestamp":"2025-10-25 10:06:12","status":"sent","notification_sent":false}
+{"message_id":224,"sender_id":"29","receiver_id":"28","message":"s**t","timestamp":"2025-10-27 02:29:41","status":"sent","notification_sent":false}
+{"message_id":225,"sender_id":"29","receiver_id":"28","message":"b******t","timestamp":"2025-10-27 02:29:51","status":"sent","notification_sent":false}
+{"message_id":226,"sender_id":"28","receiver_id":"29","message":"namz","timestamp":"2025-10-27 02:31:47","status":"sent","notification_sent":true}
+{"message_id":"226","sender_id":"28","receiver_id":"29","message":"namz","timestamp":"2025-10-27 02:31:49","status":"sent","notification_sent":true}
+{"message_id":227,"sender_id":"29","receiver_id":"28","message":"kim your so s****d","timestamp":"2025-10-27 02:32:36","status":"sent","notification_sent":false}
+{"message_id":228,"sender_id":"28","receiver_id":"29","message":"i don't care","timestamp":"2025-10-27 02:33:15","status":"sent","notification_sent":true}
+{"message_id":"228","sender_id":"28","receiver_id":"29","message":"i don't care","timestamp":"2025-10-27 02:33:17","status":"sent","notification_sent":true}
+{"message_id":229,"sender_id":"29","receiver_id":"28","message":"okay","timestamp":"2025-10-27 02:33:33","status":"sent","notification_sent":false}
+{"message_id":230,"sender_id":"29","receiver_id":"28","message":"s**t","timestamp":"2025-10-27 02:39:10","status":"sent","notification_sent":false}
+{"message_id":231,"sender_id":"29","receiver_id":"28","message":"b**o ka","timestamp":"2025-10-27 02:39:24","status":"sent","notification_sent":false}
+{"message_id":232,"sender_id":"29","receiver_id":"28","message":"hiii","timestamp":"2025-10-28 13:50:41","status":"sent","notification_sent":false}
+{"message_id":233,"sender_id":"29","receiver_id":"28","message":"hu","timestamp":"2025-10-28 13:51:13","status":"sent","notification_sent":false}
+{"message_id":"233","sender_id":"29","receiver_id":"28","message":"hu","timestamp":"2025-10-28 13:51:13","status":"sent","notification_sent":false}
+{"message_id":234,"sender_id":"29","receiver_id":"28","message":"hiii","timestamp":"2025-10-28 13:52:03","status":"sent","notification_sent":false}
+{"message_id":235,"sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-28 13:53:33","status":"sent","notification_sent":true}
+{"message_id":"235","sender_id":"28","receiver_id":"29","message":"yes?","timestamp":"2025-10-28 13:53:36","status":"sent","notification_sent":true}
+{"message_id":236,"sender_id":"28","receiver_id":"29","message":"huyyy","timestamp":"2025-10-28 13:59:39","status":"sent","notification_sent":true}
+{"message_id":"236","sender_id":"28","receiver_id":"29","message":"huyyy","timestamp":"2025-10-28 13:59:41","status":"sent","notification_sent":true}
+{"message_id":237,"sender_id":"29","receiver_id":"28","message":"hiiii","timestamp":"2025-10-28 14:19:32","status":"sent","notification_sent":false}
+{"message_id":238,"sender_id":"29","receiver_id":"28","message":"hiii","timestamp":"2025-10-31 07:55:38","status":"sent","notification_sent":false}
+{"message_id":239,"sender_id":"29","receiver_id":"28","message":"hi liz","timestamp":"2025-11-01 07:27:06","status":"sent","notification_sent":false}
+{"message_id":240,"sender_id":"28","receiver_id":"29","message":"yesdd hi???","timestamp":"2025-11-01 07:28:48","status":"sent","notification_sent":true}
+{"message_id":"240","sender_id":"28","receiver_id":"29","message":"yesdd hi???","timestamp":"2025-11-01 07:28:50","status":"sent","notification_sent":true}
+{"message_id":241,"sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-11-01 07:28:57","status":"sent","notification_sent":true}
+{"message_id":"241","sender_id":"28","receiver_id":"29","message":"s**t","timestamp":"2025-11-01 07:29:00","status":"sent","notification_sent":true}
+{"message_id":242,"sender_id":"29","receiver_id":"28","message":"hi","timestamp":"2025-11-01 07:31:41","status":"sent","notification_sent":false}
+{"message_id":243,"sender_id":"28","receiver_id":"29","message":"namz, u receive this message? hahaha","timestamp":"2025-11-05 13:08:33","status":"sent","notification_sent":true}
+{"message_id":"243","sender_id":"28","receiver_id":"29","message":"namz, u receive this message? hahaha","timestamp":"2025-11-05 13:08:36","status":"sent","notification_sent":true}
+{"message_id":244,"sender_id":"29","receiver_id":"28","message":"hi","timestamp":"2025-11-05 13:17:55","status":"sent","notification_sent":false}
+{"message_id":245,"sender_id":"29","receiver_id":"28","message":"hi kim","timestamp":"2025-11-13 06:34:04","status":"sent","notification_sent":false}
+{"message_id":246,"sender_id":"29","receiver_id":"28","message":"okay rana","timestamp":"2025-11-13 06:34:08","status":"sent","notification_sent":false}
+{"message_id":247,"sender_id":"29","receiver_id":"59","message":"h**lo","timestamp":"2025-11-13 06:34:30","status":"sent","notification_sent":false}
+{"message_id":248,"sender_id":"29","receiver_id":"59","message":"hi","timestamp":"2025-11-13 06:34:44","status":"sent","notification_sent":false}
+{"message_id":249,"sender_id":"29","receiver_id":"59","message":"ug","timestamp":"2025-11-13 06:35:52","status":"sent","notification_sent":false}
+{"message_id":250,"sender_id":"29","receiver_id":"59","message":"yuh","timestamp":"2025-11-13 06:35:59","status":"sent","notification_sent":false}
+{"message_id":251,"sender_id":"29","receiver_id":"59","message":"ily","timestamp":"2025-11-13 06:36:08","status":"sent","notification_sent":false}
+{"message_id":252,"sender_id":"29","receiver_id":"59","message":"euuudru","timestamp":"2025-11-13 06:41:02","status":"sent","notification_sent":false}
+{"message_id":253,"sender_id":"28","receiver_id":"29","message":"ouh","timestamp":"2025-11-13 06:41:58","status":"sent","notification_sent":true}
+{"message_id":"253","sender_id":"28","receiver_id":"29","message":"ouh","timestamp":"2025-11-13 06:42:00","status":"sent","notification_sent":true}
+{"message_id":254,"sender_id":"28","receiver_id":"29","message":"okay ra. bitaw ko","timestamp":"2025-11-13 06:42:11","status":"sent","notification_sent":true}
+{"message_id":"254","sender_id":"28","receiver_id":"29","message":"okay ra. bitaw ko","timestamp":"2025-11-13 06:42:14","status":"sent","notification_sent":true}
+{"message_id":255,"sender_id":"29","receiver_id":"28","message":"hahahaa","timestamp":"2025-11-13 07:04:47","status":"sent","notification_sent":false}

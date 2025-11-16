@@ -1,5 +1,5 @@
 -- Database Backup
--- Generated on: 2025-10-25 07:46:04
+-- Generated on: 2025-11-09 23:55:41
 -- Database: boardease2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -45,6 +45,36 @@ LOCK TABLES `active_boarders` WRITE;
 INSERT INTO `active_boarders` VALUES ('5','1','Active','82','85');
 INSERT INTO `active_boarders` VALUES ('6','28','Active','81','85');
 /*!40000 ALTER TABLE `active_boarders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admin_accounts`
+--
+
+DROP TABLE IF EXISTS `admin_accounts`;
+CREATE TABLE `admin_accounts` (
+  `admin_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('super_admin') DEFAULT 'super_admin',
+  `status` enum('active','inactive') DEFAULT 'active',
+  `last_login` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`admin_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_accounts`
+--
+
+LOCK TABLES `admin_accounts` WRITE;
+/*!40000 ALTER TABLE `admin_accounts` DISABLE KEYS */;
+INSERT INTO `admin_accounts` VALUES ('1','Super Admin','admin@boardease.com','$2y$10$5sSPAwaECIF2WfiqJQa26uP6VM86cfEJ/52xVAdL0GaYDk60eBiuu','super_admin','active','2025-11-10 06:54:06','2025-10-25 15:13:20','2025-11-10 06:54:06');
+INSERT INTO `admin_accounts` VALUES ('2','Your Partner','partner@boardease.com','$2y$10$5sSPAwaECIF2WfiqJQa26uP6VM86cfEJ/52xVAdL0GaYDk60eBiuu','super_admin','active',NULL,'2025-10-25 15:13:20','2025-10-25 18:57:35');
+/*!40000 ALTER TABLE `admin_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,6 +125,38 @@ CREATE TABLE `bills` (
 --
 
 --
+-- Table structure for table `boarder_favorites`
+--
+
+DROP TABLE IF EXISTS `boarder_favorites`;
+CREATE TABLE `boarder_favorites` (
+  `fav_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT 'References registrations.id (not users.user_id)',
+  `bh_id` int(11) NOT NULL COMMENT 'References boarding_houses.bh_id',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`fav_id`),
+  UNIQUE KEY `unique_favorite` (`user_id`,`bh_id`),
+  KEY `fk_user_reg` (`user_id`),
+  KEY `fk_bh` (`bh_id`),
+  CONSTRAINT `fk_bh_favorites` FOREIGN KEY (`bh_id`) REFERENCES `boarding_houses` (`bh_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user_reg_favorites` FOREIGN KEY (`user_id`) REFERENCES `registrations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `boarder_favorites`
+--
+
+LOCK TABLES `boarder_favorites` WRITE;
+/*!40000 ALTER TABLE `boarder_favorites` DISABLE KEYS */;
+INSERT INTO `boarder_favorites` VALUES ('6','51','87','2025-11-08 12:07:25');
+INSERT INTO `boarder_favorites` VALUES ('7','51','85','2025-11-08 13:02:07');
+INSERT INTO `boarder_favorites` VALUES ('8','51','84','2025-11-08 13:02:25');
+INSERT INTO `boarder_favorites` VALUES ('16','103','85','2025-11-08 16:11:31');
+INSERT INTO `boarder_favorites` VALUES ('17','103','87','2025-11-08 16:55:40');
+/*!40000 ALTER TABLE `boarder_favorites` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `boarding_house_images`
 --
 
@@ -107,7 +169,7 @@ CREATE TABLE `boarding_house_images` (
   PRIMARY KEY (`image_id`),
   KEY `bh_id` (`bh_id`),
   CONSTRAINT `boarding_house_images_ibfk_1` FOREIGN KEY (`bh_id`) REFERENCES `boarding_houses` (`bh_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `boarding_house_images`
@@ -188,6 +250,11 @@ INSERT INTO `boarding_house_images` VALUES ('78','78','uploads/boarding_house_im
 INSERT INTO `boarding_house_images` VALUES ('79','84','uploads/boarding_house_images/bh_84_68e71e2e738ab.jpg','2025-10-09 10:30:06');
 INSERT INTO `boarding_house_images` VALUES ('80','85','uploads/boarding_house_images/bh_85_68eb25319895f.jpg','2025-10-12 11:49:05');
 INSERT INTO `boarding_house_images` VALUES ('81','85','uploads/boarding_house_images/bh_85_68eb286b32357.jpg','2025-10-12 12:02:51');
+INSERT INTO `boarding_house_images` VALUES ('82','87','uploads/boarding_house_images/bh_87_690029c015372.jpg','2025-10-28 10:26:08');
+INSERT INTO `boarding_house_images` VALUES ('83','85','uploads/boarding_house_images/bh_85_690c83efa8140.jpg','2025-11-06 19:18:07');
+INSERT INTO `boarding_house_images` VALUES ('84','85','uploads/boarding_house_images/bh_85_690c83f66a30d.jpg','2025-11-06 19:18:14');
+INSERT INTO `boarding_house_images` VALUES ('85','85','uploads/boarding_house_images/bh_85_690c83fc1ad50.jpg','2025-11-06 19:18:20');
+INSERT INTO `boarding_house_images` VALUES ('86','85','uploads/boarding_house_images/bh_85_690c84067b84f.jpg','2025-11-06 19:18:30');
 /*!40000 ALTER TABLE `boarding_house_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +276,7 @@ CREATE TABLE `boarding_house_rooms` (
   PRIMARY KEY (`bhr_id`),
   KEY `bh_id` (`bh_id`),
   CONSTRAINT `boarding_house_rooms_ibfk_1` FOREIGN KEY (`bh_id`) REFERENCES `boarding_houses` (`bh_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `boarding_house_rooms`
@@ -260,6 +327,7 @@ INSERT INTO `boarding_house_rooms` VALUES ('45','84','Private Room','Single A','
 INSERT INTO `boarding_house_rooms` VALUES ('46','85','Private Room','single a','2009.00','2','hhhhooo','1','2025-10-12 11:49:07');
 INSERT INTO `boarding_house_rooms` VALUES ('47','85','Bed Spacer','Group A','1000.00','4','manyyy','2','2025-10-12 11:54:52');
 INSERT INTO `boarding_house_rooms` VALUES ('48','85','Private Room','Room 2','5000.00','2','Just a vibe','1','2025-10-24 14:47:52');
+INSERT INTO `boarding_house_rooms` VALUES ('49','87','Private Room','Private Room 01','5000.00','5','Can occupy 5 person','1','2025-10-28 10:26:10');
 /*!40000 ALTER TABLE `boarding_house_rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +351,7 @@ CREATE TABLE `boarding_houses` (
   PRIMARY KEY (`bh_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `boarding_houses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `boarding_houses`
@@ -350,7 +418,8 @@ INSERT INTO `boarding_houses` VALUES ('76','7','City Center Residence','789 Pine
 INSERT INTO `boarding_houses` VALUES ('77','1','hh','hh','hh','hh','2','10.00','2023','Active','2025-10-05 11:13:35');
 INSERT INTO `boarding_houses` VALUES ('78','1','bh','ttyyy','yyynnn','yyy','2','2.00','2023','Active','2025-10-09 00:48:19');
 INSERT INTO `boarding_houses` VALUES ('84','1','test','calape','hg','hh','2','10.00','2023','Active','2025-10-09 10:30:04');
-INSERT INTO `boarding_houses` VALUES ('85','29','BH 1','tinibgan,.calape','yy','yy','2','10.00','2023','Active','2025-10-12 11:48:57');
+INSERT INTO `boarding_houses` VALUES ('85','29','BH 1','Purok 2 Patag, Tinibgan, Calape, Bohol','A boarding house is a house (frequently a family home) in which lodgers rent one or more rooms on a nightly basis and sometimes for extended periods of weeks, months, or years. The common parts of the house are maintained, and some services, such as laundry and cleaning, may be supplied.','yy','2','10.00','2023','Active','2025-10-12 11:48:57');
+INSERT INTO `boarding_houses` VALUES ('87','29','Kikyam BH','Lucob, Calape, Bohol','This is a two storey building with aircon. Shalan!','No loud music from 9:00 PM - 6 AM','2','100.00','2020','Active','2025-10-28 10:25:46');
 /*!40000 ALTER TABLE `boarding_houses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,11 +441,23 @@ CREATE TABLE `bookings` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room_units` (`room_id`) ON DELETE CASCADE,
   CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
 --
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+INSERT INTO `bookings` VALUES ('9','84','44','2025-11-07','2025-12-07','Cancelled','2025-11-07 21:32:43');
+INSERT INTO `bookings` VALUES ('10','85','35','2025-11-08','2025-12-08','Confirmed','2025-11-08 09:13:58');
+INSERT INTO `bookings` VALUES ('11','54','28','2025-11-08','2025-12-08','Pending','2025-11-08 14:32:07');
+INSERT INTO `bookings` VALUES ('12','67','28','2025-11-08','2026-01-17','Pending','2025-11-08 15:14:35');
+INSERT INTO `bookings` VALUES ('13','73','28','2025-11-08','2026-02-14','Pending','2025-11-08 15:20:34');
+INSERT INTO `bookings` VALUES ('14','41','28','2025-11-08','2026-07-02','Pending','2025-11-08 15:23:45');
+INSERT INTO `bookings` VALUES ('15','84','44','2025-11-08','2025-12-10','Confirmed','2025-11-08 16:10:40');
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `chat_groups`
@@ -394,7 +475,7 @@ CREATE TABLE `chat_groups` (
   KEY `gc_created_by` (`gc_created_by`),
   CONSTRAINT `chat_groups_ibfk_1` FOREIGN KEY (`bh_id`) REFERENCES `boarding_houses` (`bh_id`) ON DELETE CASCADE,
   CONSTRAINT `chat_groups_ibfk_2` FOREIGN KEY (`gc_created_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `chat_groups`
@@ -411,6 +492,7 @@ INSERT INTO `chat_groups` VALUES ('9','15','BH MANTE Discussion','1','2025-10-03
 INSERT INTO `chat_groups` VALUES ('11','85','Test Group A','29','2025-10-14 11:58:45');
 INSERT INTO `chat_groups` VALUES ('12','85','Group b','29','2025-10-14 12:00:05');
 INSERT INTO `chat_groups` VALUES ('13','85','Group C','29','2025-10-14 15:24:42');
+INSERT INTO `chat_groups` VALUES ('14','85','GG','29','2025-10-31 14:55:58');
 /*!40000 ALTER TABLE `chat_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +514,7 @@ CREATE TABLE `device_tokens` (
   UNIQUE KEY `unique_user_token` (`user_id`,`device_token`),
   KEY `idx_user_active` (`user_id`,`is_active`),
   KEY `idx_token` (`device_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `device_tokens`
@@ -448,12 +530,45 @@ INSERT INTO `device_tokens` VALUES ('14','24','cvivWukjRtuy1HWtqnBvZC:APA91bG-4_
 INSERT INTO `device_tokens` VALUES ('15','6','cvivWukjRtuy1HWtqnBvZC:APA91bG-4_hUVl1_ElHRbEthGqwOuuGMUwTveK3bYNG-GXYPxXQQeRoQ2SJxmM_coHNE7YCJXRiiLGJyaKcMwYsbxmzxbIRbblxWsOpwSdnU3oAukVHG45I','android','1.0.0','1','2025-10-12 12:37:15','2025-10-12 12:37:15');
 INSERT INTO `device_tokens` VALUES ('16','29','f4s7iqzjRtiPhdh0hIia0t:APA91bEhK5oDk51TwRrtatuoJ1kRW7yPve8zhJ-Fi1NAhFwXJfPv-uVQ76rCTe1SPUxbWdahWG6Pz1WsiOZlB1cbvAgaG4m-tmlRGmNmQGSKBSIhjPDHOiI','android','1.0.0','0','2025-10-12 13:10:07','2025-10-12 13:25:49');
 INSERT INTO `device_tokens` VALUES ('17','29','cLsLWCccSKKVeX-J0jNLY2:APA91bHs8noetyjaDSli4BhNW1-d6_IjUBjxg2p4sIc5yonRjsh8llOelWp50fiAo__dToRGpm6hDiTTAaGONxqi7vD3fP8qcEFiMxwpCZjtJbvhNqptlhU','android','1.0.0','0','2025-10-12 13:25:49','2025-10-12 13:38:13');
-INSERT INTO `device_tokens` VALUES ('18','29','dAXDgbwuQLyxAEpSsU24Am:APA91bHtj93rIkmbpb5x7f5WszdR1eM5929L-cTWkwrk_d4Qkpq8ZR939K48_ruM07BTmIhYscW6_r4xSvYi-3iOo2ehnXWcV0HBbQ9usaRwV1bbXxxS1Ak','android','1.0.0','1','2025-10-12 13:38:13','2025-10-25 08:04:19');
+INSERT INTO `device_tokens` VALUES ('18','29','dAXDgbwuQLyxAEpSsU24Am:APA91bHtj93rIkmbpb5x7f5WszdR1eM5929L-cTWkwrk_d4Qkpq8ZR939K48_ruM07BTmIhYscW6_r4xSvYi-3iOo2ehnXWcV0HBbQ9usaRwV1bbXxxS1Ak','android','1.0.0','0','2025-10-12 13:38:13','2025-10-27 09:36:23');
 INSERT INTO `device_tokens` VALUES ('19','24','dAXDgbwuQLyxAEpSsU24Am:APA91bHtj93rIkmbpb5x7f5WszdR1eM5929L-cTWkwrk_d4Qkpq8ZR939K48_ruM07BTmIhYscW6_r4xSvYi-3iOo2ehnXWcV0HBbQ9usaRwV1bbXxxS1Ak','android','1.0.0','1','2025-10-14 10:24:32','2025-10-14 10:24:32');
-INSERT INTO `device_tokens` VALUES ('20','29','f7SS5GQyRL6yFRqlf10SZ9:APA91bHDlsLELpVloaU2Dz97xSIgK2wJnUihuPhwGGCAgTSQSPXZdKOvyHmVkMbIcQj-ETALUG_cJLhiJzQ302Xf4sZFvWT_TtoOnWJQSRedsHJj0Zkl-zw','android','1.0.0','1','2025-10-24 15:10:22','2025-10-25 07:23:35');
-INSERT INTO `device_tokens` VALUES ('21','29','eLd7YhTVRHqp7J75n5t0y3:APA91bF4ovvMnFaHY7IeMoxWGjJRiR4tYAPL-jEDDTh2kGClJLkKH6OZISQeb5YEbtpyLAx_0mWIzpDfVfkWtLxeGUusP8ShvKkVMmaS3WBkxplNaTFSP2c','android','1.0.0','1','2025-10-25 07:14:44','2025-10-25 07:14:44');
+INSERT INTO `device_tokens` VALUES ('20','29','f7SS5GQyRL6yFRqlf10SZ9:APA91bHDlsLELpVloaU2Dz97xSIgK2wJnUihuPhwGGCAgTSQSPXZdKOvyHmVkMbIcQj-ETALUG_cJLhiJzQ302Xf4sZFvWT_TtoOnWJQSRedsHJj0Zkl-zw','android','1.0.0','0','2025-10-24 15:10:22','2025-11-01 14:31:18');
+INSERT INTO `device_tokens` VALUES ('21','29','eLd7YhTVRHqp7J75n5t0y3:APA91bF4ovvMnFaHY7IeMoxWGjJRiR4tYAPL-jEDDTh2kGClJLkKH6OZISQeb5YEbtpyLAx_0mWIzpDfVfkWtLxeGUusP8ShvKkVMmaS3WBkxplNaTFSP2c','android','1.0.0','1','2025-10-25 07:14:44','2025-11-08 16:47:16');
+INSERT INTO `device_tokens` VALUES ('22','36','dAXDgbwuQLyxAEpSsU24Am:APA91bHtj93rIkmbpb5x7f5WszdR1eM5929L-cTWkwrk_d4Qkpq8ZR939K48_ruM07BTmIhYscW6_r4xSvYi-3iOo2ehnXWcV0HBbQ9usaRwV1bbXxxS1Ak','android','1.0.0','0','2025-10-27 08:20:07','2025-10-28 07:24:45');
+INSERT INTO `device_tokens` VALUES ('23','29','fH4UJ38_SG6JP_XHlTlcN1:APA91bHgQxZxSi6VSfTywAXYAn2kN_-GnMZdLjWahSMRQbO93zZ9wmdmT3ndnAekuETCZ9W4TaC8m6XS8gFOVMNJggcueUf7UiOZO4bxioHYqlkBN--RpZE','android','1.0.0','0','2025-10-27 09:36:23','2025-10-28 07:23:24');
+INSERT INTO `device_tokens` VALUES ('24','29','fTbyP38mRYmoXKxi-YRLlB:APA91bFDsW1PJw0G2nMo-PQHsx6pzlTYdbJQy3i6Bm25z8e5Hgim9iLnwky5bQxRB-Dvinnd4HtUuJYuJJdqVdV6tnIF1Z2NR_K4Xrjyr5BrP96Tub3ZxMk','android','1.0.0','0','2025-10-28 07:23:24','2025-11-01 14:31:18');
+INSERT INTO `device_tokens` VALUES ('25','36','fTbyP38mRYmoXKxi-YRLlB:APA91bFDsW1PJw0G2nMo-PQHsx6pzlTYdbJQy3i6Bm25z8e5Hgim9iLnwky5bQxRB-Dvinnd4HtUuJYuJJdqVdV6tnIF1Z2NR_K4Xrjyr5BrP96Tub3ZxMk','android','1.0.0','1','2025-10-28 07:24:45','2025-10-28 07:24:45');
+INSERT INTO `device_tokens` VALUES ('26','29','dlZlJq5IRaeE3Uyfp0CQfL:APA91bHxfiyKjaXaoij-dQrdBkV9_NX4t-uOQ2QzjcIwSHGiJkI_us9PTBL5JS0aNuBxbYyr5nkj4a_ACrttvyBu_rHhzv19VNdQkEoQl0E2nHoHY2BXkrU','android','1.0.0','0','2025-10-28 08:40:50','2025-11-08 11:42:14');
+INSERT INTO `device_tokens` VALUES ('27','39','fTbyP38mRYmoXKxi-YRLlB:APA91bFDsW1PJw0G2nMo-PQHsx6pzlTYdbJQy3i6Bm25z8e5Hgim9iLnwky5bQxRB-Dvinnd4HtUuJYuJJdqVdV6tnIF1Z2NR_K4Xrjyr5BrP96Tub3ZxMk','android','1.0.0','1','2025-10-28 19:36:06','2025-10-28 19:36:06');
+INSERT INTO `device_tokens` VALUES ('28','40','fTbyP38mRYmoXKxi-YRLlB:APA91bFDsW1PJw0G2nMo-PQHsx6pzlTYdbJQy3i6Bm25z8e5Hgim9iLnwky5bQxRB-Dvinnd4HtUuJYuJJdqVdV6tnIF1Z2NR_K4Xrjyr5BrP96Tub3ZxMk','android','1.0.0','0','2025-10-28 19:50:22','2025-11-07 10:29:07');
+INSERT INTO `device_tokens` VALUES ('29','29','dlUZg4BlSIe-YTM8k17UkE:APA91bFGvCttUwhOlX8muO3QMeuHtvrywTSBcZtBP_Hz3TwdBbpiHdcyNrGZD7aeLUY04TU4qQg_p3O5urOYPpf3w9_1KOxBaeNk1sCT8dCGU1S9AxQIdxU','android','1.0.0','0','2025-11-01 14:31:18','2025-11-08 11:42:14');
+INSERT INTO `device_tokens` VALUES ('30','40','dlUZg4BlSIe-YTM8k17UkE:APA91bFGvCttUwhOlX8muO3QMeuHtvrywTSBcZtBP_Hz3TwdBbpiHdcyNrGZD7aeLUY04TU4qQg_p3O5urOYPpf3w9_1KOxBaeNk1sCT8dCGU1S9AxQIdxU','android','1.0.0','1','2025-11-07 10:29:07','2025-11-07 10:29:07');
+INSERT INTO `device_tokens` VALUES ('31','29','cHBx4_hZSVyviNGi1YpYGS:APA91bGW3V-CHNNxBbVOpkYBf49p1JQjnK-XAYuE54RJQYQCGZXl_cXod9iop-E72V8UyLP2umHU-dq6nHsFP2HtgoGb0sNhXLkHywF-DuG75_lzhu0GBt0','android','1.0.0','1','2025-11-08 11:42:14','2025-11-08 11:42:14');
 /*!40000 ALTER TABLE `device_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `email_verifications`
+--
+
+DROP TABLE IF EXISTS `email_verifications`;
+CREATE TABLE `email_verifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `verification_code` varchar(6) NOT NULL,
+  `expiry_time` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_user_verification` (`user_id`),
+  KEY `idx_email` (`email`),
+  KEY `idx_expiry` (`expiry_time`),
+  CONSTRAINT `email_verifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `registrations` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `email_verifications`
+--
 
 --
 -- Table structure for table `group_members`
@@ -471,7 +586,7 @@ CREATE TABLE `group_members` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `group_members_ibfk_1` FOREIGN KEY (`gc_id`) REFERENCES `chat_groups` (`gc_id`) ON DELETE CASCADE,
   CONSTRAINT `group_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_members`
@@ -481,12 +596,14 @@ LOCK TABLES `group_members` WRITE;
 /*!40000 ALTER TABLE `group_members` DISABLE KEYS */;
 INSERT INTO `group_members` VALUES ('1','11','28','','2025-10-14 11:58:45');
 INSERT INTO `group_members` VALUES ('2','11','1','','2025-10-14 11:58:45');
-INSERT INTO `group_members` VALUES ('3','11','29','','2025-10-14 11:58:45');
 INSERT INTO `group_members` VALUES ('4','12','28','','2025-10-14 12:00:05');
 INSERT INTO `group_members` VALUES ('5','12','1','','2025-10-14 12:00:05');
 INSERT INTO `group_members` VALUES ('6','12','29','','2025-10-14 12:00:05');
 INSERT INTO `group_members` VALUES ('7','13','28','','2025-10-14 15:24:42');
 INSERT INTO `group_members` VALUES ('8','13','1','','2025-10-14 15:24:42');
+INSERT INTO `group_members` VALUES ('10','14','28','','2025-10-31 14:55:58');
+INSERT INTO `group_members` VALUES ('11','14','1','','2025-10-31 14:55:58');
+INSERT INTO `group_members` VALUES ('12','14','29','','2025-10-31 14:55:58');
 /*!40000 ALTER TABLE `group_members` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,7 +624,7 @@ CREATE TABLE `group_messages` (
   KEY `sender_id` (`sender_id`),
   CONSTRAINT `group_messages_ibfk_1` FOREIGN KEY (`gc_id`) REFERENCES `chat_groups` (`gc_id`) ON DELETE CASCADE,
   CONSTRAINT `group_messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_messages`
@@ -548,6 +665,9 @@ INSERT INTO `group_messages` VALUES ('30','12','28','lage','2025-10-14 17:14:37'
 INSERT INTO `group_messages` VALUES ('31','12','28','hi','2025-10-14 17:18:34','Read');
 INSERT INTO `group_messages` VALUES ('32','12','29','hello','2025-10-14 17:19:23','Read');
 INSERT INTO `group_messages` VALUES ('33','12','29','hi guys','2025-10-23 21:35:35','Read');
+INSERT INTO `group_messages` VALUES ('34','12','29','yesss','2025-10-28 20:51:24','Read');
+INSERT INTO `group_messages` VALUES ('35','12','28','hiii','2025-10-28 21:06:13','Read');
+INSERT INTO `group_messages` VALUES ('36','14','29','hi guys','2025-10-31 14:56:26','Read');
 /*!40000 ALTER TABLE `group_messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,7 +708,7 @@ CREATE TABLE `messages` (
   KEY `receiver_id` (`receiver_id`),
   CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `messages`
@@ -785,7 +905,29 @@ INSERT INTO `messages` VALUES ('218','29','28','fucking s****d','2025-10-25 11:5
 INSERT INTO `messages` VALUES ('219','29','28','your so f*****g s****d','2025-10-25 11:53:20','Read');
 INSERT INTO `messages` VALUES ('220','29','28','s**t','2025-10-25 11:53:28','Read');
 INSERT INTO `messages` VALUES ('221','29','28','f*****g','2025-10-25 12:51:40','Read');
-INSERT INTO `messages` VALUES ('222','28','29','s**t','2025-10-25 12:52:54','Sent');
+INSERT INTO `messages` VALUES ('222','28','29','s**t','2025-10-25 12:52:54','Read');
+INSERT INTO `messages` VALUES ('223','29','28','b******t','2025-10-25 16:06:12','Read');
+INSERT INTO `messages` VALUES ('224','29','28','s**t','2025-10-27 09:29:41','Read');
+INSERT INTO `messages` VALUES ('225','29','28','b******t','2025-10-27 09:29:51','Read');
+INSERT INTO `messages` VALUES ('226','28','29','namz','2025-10-27 09:31:46','Read');
+INSERT INTO `messages` VALUES ('227','29','28','kim your so s****d','2025-10-27 09:32:36','Read');
+INSERT INTO `messages` VALUES ('228','28','29','i don\'t care','2025-10-27 09:33:14','Read');
+INSERT INTO `messages` VALUES ('229','29','28','okay','2025-10-27 09:33:33','Read');
+INSERT INTO `messages` VALUES ('230','29','28','s**t','2025-10-27 09:39:10','Read');
+INSERT INTO `messages` VALUES ('231','29','28','b**o ka','2025-10-27 09:39:24','Read');
+INSERT INTO `messages` VALUES ('232','29','28','hiii','2025-10-28 20:50:41','Read');
+INSERT INTO `messages` VALUES ('233','29','28','hu','2025-10-28 20:51:13','Read');
+INSERT INTO `messages` VALUES ('234','29','28','hiii','2025-10-28 20:52:03','Read');
+INSERT INTO `messages` VALUES ('235','28','29','yes?','2025-10-28 20:53:32','Read');
+INSERT INTO `messages` VALUES ('236','28','29','huyyy','2025-10-28 20:59:38','Read');
+INSERT INTO `messages` VALUES ('237','29','28','hiiii','2025-10-28 21:19:32','Read');
+INSERT INTO `messages` VALUES ('238','29','28','hiii','2025-10-31 14:55:38','Read');
+INSERT INTO `messages` VALUES ('239','29','28','hi liz','2025-11-01 14:27:06','Read');
+INSERT INTO `messages` VALUES ('240','28','29','yesdd hi???','2025-11-01 14:28:47','Read');
+INSERT INTO `messages` VALUES ('241','28','29','s**t','2025-11-01 14:28:57','Read');
+INSERT INTO `messages` VALUES ('242','29','28','hi','2025-11-01 14:31:41','Read');
+INSERT INTO `messages` VALUES ('243','28','29','namz, u receive this message? hahaha','2025-11-05 20:08:32','Read');
+INSERT INTO `messages` VALUES ('244','29','28','hi','2025-11-05 20:17:55','Read');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -980,6 +1122,53 @@ INSERT INTO `notifications` VALUES ('163','29','Welcome to BoardEase!','Your acc
 UNLOCK TABLES;
 
 --
+-- Table structure for table `payment_breakdowns`
+--
+
+DROP TABLE IF EXISTS `payment_breakdowns`;
+CREATE TABLE `payment_breakdowns` (
+  `breakdown_id` int(11) NOT NULL AUTO_INCREMENT,
+  `booking_id` int(11) NOT NULL,
+  `payment_id` int(11) DEFAULT NULL COMMENT 'Links to payments table if payment is made',
+  `period_type` enum('month','days') NOT NULL COMMENT 'Type of period: month or days',
+  `period_number` int(3) NOT NULL COMMENT 'Month number (1, 2, 3...) or 0 for days',
+  `period_label` varchar(50) NOT NULL COMMENT 'Display label: "1st month", "2nd month", "3 days", etc.',
+  `period_start_date` date NOT NULL COMMENT 'Start date of this payment period',
+  `period_end_date` date NOT NULL COMMENT 'End date of this payment period',
+  `amount` decimal(10,2) NOT NULL COMMENT 'Amount for this period',
+  `is_selected` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Whether boarder selected this period for payment',
+  `is_paid` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Whether this period has been paid',
+  `due_date` date DEFAULT NULL COMMENT 'Due date for this payment period',
+  `payment_status` enum('Pending','Paid','Overdue','Cancelled') NOT NULL DEFAULT 'Pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`breakdown_id`),
+  KEY `booking_id` (`booking_id`),
+  KEY `payment_id` (`payment_id`),
+  KEY `is_selected` (`is_selected`),
+  KEY `is_paid` (`is_paid`),
+  KEY `payment_status` (`payment_status`),
+  KEY `due_date` (`due_date`),
+  KEY `idx_booking_selected` (`booking_id`,`is_selected`),
+  KEY `idx_booking_paid` (`booking_id`,`is_paid`),
+  KEY `idx_payment_status_due` (`payment_status`,`due_date`),
+  KEY `idx_admin_dashboard` (`payment_status`,`due_date`,`is_selected`,`is_paid`),
+  CONSTRAINT `fk_breakdown_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_breakdown_payment` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`payment_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment_breakdowns`
+--
+
+LOCK TABLES `payment_breakdowns` WRITE;
+/*!40000 ALTER TABLE `payment_breakdowns` DISABLE KEYS */;
+INSERT INTO `payment_breakdowns` VALUES ('1','15','18','month','1','1st month','2025-11-09','2025-12-08','1000.00','1','0','2025-11-09','Pending','2025-11-08 16:10:40','2025-11-08 16:10:40');
+INSERT INTO `payment_breakdowns` VALUES ('2','15','18','days','0','2 days','2025-12-09','2025-12-10','66.67','1','0','2025-12-09','Pending','2025-11-08 16:10:40','2025-11-08 16:10:40');
+/*!40000 ALTER TABLE `payment_breakdowns` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `payments`
 --
 
@@ -1022,11 +1211,23 @@ CREATE TABLE `payments` (
   KEY `idx_payments_owner_month` (`owner_id`,`payment_month`,`payment_status`),
   CONSTRAINT `payments_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `payments_ibfk_4` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payments`
 --
+
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+INSERT INTO `payments` VALUES ('12','9',NULL,'44','45','1000.00','GCash','uploads/payment_proofs/payment_proof_9_1762522363.jpg','Refunded','2025-11-07 21:32:43',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-07 21:32:43','2025-11-08 14:41:00');
+INSERT INTO `payments` VALUES ('13','10',NULL,'35','45','5000.00','GCash','uploads/payment_proofs/payment_proof_10_1762564438.jpg','Completed','2025-11-08 09:13:58',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 09:13:58','2025-11-08 13:41:46');
+INSERT INTO `payments` VALUES ('14','11',NULL,'28','2','2000.00','Cash','uploads/payment_proofs/payment_proof_11_1762583527.jpg','Pending','2025-11-08 14:32:07',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 14:32:07','2025-11-08 14:32:07');
+INSERT INTO `payments` VALUES ('15','12',NULL,'28','2','900.00','Cash','uploads/payment_proofs/payment_proof_12_1762586075.jpg','Pending','2025-11-08 15:14:35',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 15:14:35','2025-11-08 15:14:35');
+INSERT INTO `payments` VALUES ('16','13',NULL,'28','2','900.00','Cash','uploads/payment_proofs/payment_proof_13_1762586434.jpg','Pending','2025-11-08 15:20:34',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 15:20:34','2025-11-08 15:20:34');
+INSERT INTO `payments` VALUES ('17','14',NULL,'28','2','2000.00','Cash','uploads/payment_proofs/payment_proof_14_1762586625.jpg','Pending','2025-11-08 15:23:45',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 15:23:45','2025-11-08 15:23:45');
+INSERT INTO `payments` VALUES ('18','15',NULL,'44','45','1066.67','GCash','uploads/payment_proofs/payment_proof_15_1762589440.jpg','','2025-11-08 16:10:40',NULL,NULL,'2025-11','2025','11','1',NULL,'1','2025-11-08 16:10:40','2025-11-08 16:48:56');
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `registration`
@@ -1111,13 +1312,17 @@ CREATE TABLE `registrations` (
   `gcash_qr` varchar(255) DEFAULT NULL COMMENT 'Path to GCash QR image',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` enum('pending','approved','rejected') DEFAULT 'pending' COMMENT 'Registration status',
+  `status` enum('unverified','pending','approved','rejected') DEFAULT 'unverified',
+  `email_verified` tinyint(1) DEFAULT 0,
+  `suffix` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_email` (`email`),
   KEY `idx_role` (`role`),
   KEY `idx_status` (`status`),
-  KEY `idx_created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `idx_created_at` (`created_at`),
+  KEY `idx_status_created` (`status`,`created_at`),
+  KEY `idx_suffix` (`suffix`)
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `registrations`
@@ -1125,19 +1330,23 @@ CREATE TABLE `registrations` (
 
 LOCK TABLES `registrations` WRITE;
 /*!40000 ALTER TABLE `registrations` DISABLE KEYS */;
-INSERT INTO `registrations` VALUES ('1','Boarder','Test',NULL,'User',NULL,NULL,NULL,'test@example.com','test123',NULL,NULL,NULL,'0',NULL,NULL,NULL,'2025-10-06 06:08:09','2025-10-09 00:49:23','approved');
-INSERT INTO `registrations` VALUES ('2','Boarder','Test',NULL,'User',NULL,NULL,NULL,'test2@example.com','test123',NULL,NULL,NULL,'0',NULL,NULL,NULL,'2025-10-06 06:16:52','2025-10-09 00:49:36','approved');
-INSERT INTO `registrations` VALUES ('3','Boarder','Kimberly Jul','Binag','Mante','2025-10-06','09925311463','Lucob','kimjul@gmail.con','dhdjdkdk','2134546','Driver\'s License','123456789','0','uploads/68e2eed214c01_front.jpg','uploads/68e2eed215235_back.jpg','uploads/68e2eed2153c1_qr.jpg','2025-10-06 06:18:58','2025-10-09 07:01:51','approved');
-INSERT INTO `registrations` VALUES ('5','BH Owner','Christe Hanna','Dalugdog','Cuas','2003-10-07','09123456789','Tinibgan, Calape, Bohol','christehanna@gmail.com','namie','09925311463','GSIS e-card','123456789','0','uploads/68e4f3b4e49ab_front.jpg','uploads/68e4f3b4e66be_back.jpg','uploads/68e4f3b4e86af_qr.jpg','2025-10-07 19:04:20','2025-10-09 07:45:12','approved');
-INSERT INTO `registrations` VALUES ('8','Boarder','Flora','Oracion','Mante','2004-09-07','09925311463','Lucob, Calape, Bohol','floramante@gmail.com','flora','123456789','SSS ID','123456789','0','uploads/68e4f92302869_front.jpg','uploads/68e4f92304024_back.jpg','uploads/68e4f92305704_qr.jpg','2025-10-07 19:27:31','2025-10-09 07:45:12','approved');
-INSERT INTO `registrations` VALUES ('31','BH Owner','Hanna','Dalu','Baer','0000-00-00','09925311409','tini','hanna@gmail.com','$2y$10$PGaMA3PAWMCB8zizQL9GNuML9moOOTo0W2FGHJ/MFeGUvhvn9DrnW','09925311409','PhilID (National ID)','12345678','0','uploads/registrations/68e671d0356d0_front.jpg','uploads/registrations/68e671d035d67_back.jpg','uploads/registrations/68e671d037dbd_qr.jpg','2025-10-08 22:14:40','2025-10-09 07:58:31','approved');
-INSERT INTO `registrations` VALUES ('35','BH Owner','Mari','Dalu','Baer','0000-00-00','09925311409','tini','mari@gmail.com','$2y$10$00.1846IMH5PJixoF53O4u2B4lhsoG2gzqqVN0YraZayL/ywf4AB2','09925311409','PhilID (National ID)','12345678','0','uploads/registrations/68e6722a65d31_front.jpg','uploads/registrations/68e6722a664ab_back.jpg','uploads/registrations/68e6722a68582_qr.jpg','2025-10-08 22:16:10','2025-10-09 06:43:32','approved');
-INSERT INTO `registrations` VALUES ('37','Boarder','John','Mo','Ko','0000-00-00','09353549141','tinibgan','john@gmail.com','$2y$10$sn4panMBG7rFKTvN.lBD3eYMnypZWMQUXn89o1okHQKVdzJ0i9BMC','09353549141','SSS ID','23456789','0','uploads/registrations/68e67340adcb2_front.jpg','uploads/registrations/68e67340ae3f8_back.jpg','uploads/registrations/68e67340aebda_qr.jpg','2025-10-08 22:20:48','2025-10-08 22:20:48','pending');
-INSERT INTO `registrations` VALUES ('39','Boarder','Maries','Ma','Mo','0000-00-00','9929769150','tibi','maries@gmail.com','$2y$10$XSVjvbUeXSWzo6G9iHIQS.oiCsGxMyBAiENSm/NciANJf8X.KnfjO','093535491941','Philippine Passport','235689','0','uploads/registrations/68e6747e9ba5b_front.jpg','uploads/registrations/68e6747e9be6c_back.jpg','uploads/registrations/68e6747e9c2fe_qr.jpg','2025-10-08 22:26:06','2025-10-08 22:26:06','pending');
-INSERT INTO `registrations` VALUES ('40','Boarder','Momo','','Ko','2025-10-08','9929769150','tinibgan','momo@gmail.com','$2y$10$wsGEPDbYQGSNNjXnYSt4g.EMoHnCxu0PuDYAIrCsIU4nX7V.6ECf.','09353549141','PhilID (National ID)','123156486','0','uploads/registrations/68e675c579cf3_front.jpg','uploads/registrations/68e675c57a47a_back.jpg','uploads/registrations/68e675c57a9d5_qr.jpg','2025-10-08 22:31:33','2025-10-08 22:31:33','pending');
-INSERT INTO `registrations` VALUES ('42','Boarder','Mama','Mo','Ko','2025-10-08','9929769150','tinibgan','mama@gmail.com','$2y$10$70UDp1ckqdUDq7imWw04u.XX8wYwOgbM3xT7OPaMDxuSwOOtmAfc6','09353549141','PhilID (National ID)','235689','0','uploads/registrations/68e675f4de651_front.jpg','uploads/registrations/68e675f4dedde_back.jpg','uploads/registrations/68e675f4df3f8_qr.jpg','2025-10-08 22:32:20','2025-10-09 06:42:12','approved');
-INSERT INTO `registrations` VALUES ('51','Boarder','Liz','','Uy','2025-10-09','9929769150','calaoe','hannacuas536@gmail.com','$2y$10$eM50WpC0TRIMpS28fpc7O.QnaScJXcf1vQejdDFRDmPYqdT3u8.Dm','09925314096','PhilID (National ID)','2356890','0','uploads/registrations/68e709409683a_front.jpg','uploads/registrations/68e70940980cc_back.jpg','uploads/registrations/68e709409a367_qr.jpg','2025-10-09 09:00:48','2025-10-09 09:06:30','approved');
-INSERT INTO `registrations` VALUES ('53','BH Owner','Namz','Dalu','Baer','2025-10-09','09925311409','calape','namzbaer@gmail.com','$2y$10$D1L2DMM4L1LNrYYmuMS7huUlDifWQF3jU.7bfYXmqyIthGffluzD6','09925311409','PhilID (National ID)','2356890','0','uploads/registrations/68e70b7a1a08c_front.jpg','uploads/registrations/68e70b7a1bcd8_back.jpg','uploads/gcash_qr/gcash_qr_29_1761296107.jpg','2025-10-09 09:10:18','2025-10-24 16:55:07','approved');
+INSERT INTO `registrations` VALUES ('1','Boarder','Test',NULL,'User',NULL,NULL,NULL,'test@example.com','test123',NULL,NULL,NULL,'0',NULL,NULL,NULL,'2025-10-06 06:08:09','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('2','Boarder','Test',NULL,'User',NULL,NULL,NULL,'test2@example.com','test123',NULL,NULL,NULL,'0',NULL,NULL,NULL,'2025-10-06 06:16:52','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('3','Boarder','Kimberly Jul','Binag','Mante','2025-10-06','09925311463','Lucob','kimjul@gmail.con','dhdjdkdk','2134546','Driver\'s License','123456789','0','uploads/68e2eed214c01_front.jpg','uploads/68e2eed215235_back.jpg','uploads/68e2eed2153c1_qr.jpg','2025-10-06 06:18:58','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('5','BH Owner','Christe Hanna','Dalugdog','Cuas','2003-10-07','09123456789','Tinibgan, Calape, Bohol','christehanna@gmail.com','namie','09925311463','GSIS e-card','123456789','0','uploads/68e4f3b4e49ab_front.jpg','uploads/68e4f3b4e66be_back.jpg','uploads/68e4f3b4e86af_qr.jpg','2025-10-07 19:04:20','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('8','Boarder','Flora','Oracion','Mante','2004-09-07','09925311463','Lucob, Calape, Bohol','floramante@gmail.com','flora','123456789','SSS ID','123456789','0','uploads/68e4f92302869_front.jpg','uploads/68e4f92304024_back.jpg','uploads/68e4f92305704_qr.jpg','2025-10-07 19:27:31','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('31','BH Owner','Hanna','Dalu','Baer','0000-00-00','09925311409','tini','hanna@gmail.com','$2y$10$PGaMA3PAWMCB8zizQL9GNuML9moOOTo0W2FGHJ/MFeGUvhvn9DrnW','09925311409','PhilID (National ID)','12345678','0','uploads/registrations/68e671d0356d0_front.jpg','uploads/registrations/68e671d035d67_back.jpg','uploads/registrations/68e671d037dbd_qr.jpg','2025-10-08 22:14:40','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('35','BH Owner','Mari','Dalu','Baer','0000-00-00','09925311409','tini','mari@gmail.com','$2y$10$00.1846IMH5PJixoF53O4u2B4lhsoG2gzqqVN0YraZayL/ywf4AB2','09925311409','PhilID (National ID)','12345678','0','uploads/registrations/68e6722a65d31_front.jpg','uploads/registrations/68e6722a664ab_back.jpg','uploads/registrations/68e6722a68582_qr.jpg','2025-10-08 22:16:10','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('42','Boarder','Mama','Mo','Ko','2025-10-08','9929769150','tinibgan','mama@gmail.com','$2y$10$70UDp1ckqdUDq7imWw04u.XX8wYwOgbM3xT7OPaMDxuSwOOtmAfc6','09353549141','PhilID (National ID)','235689','0','uploads/registrations/68e675f4de651_front.jpg','uploads/registrations/68e675f4dedde_back.jpg','uploads/registrations/68e675f4df3f8_qr.jpg','2025-10-08 22:32:20','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('51','Boarder','Liz','','Uy','2025-10-09','9929769150','calaoe','hannacuas536@gmail.com','$2y$10$eM50WpC0TRIMpS28fpc7O.QnaScJXcf1vQejdDFRDmPYqdT3u8.Dm','09925314096','PhilID (National ID)','2356890','0','uploads/registrations/68e709409683a_front.jpg','uploads/registrations/68e70940980cc_back.jpg','uploads/registrations/68e709409a367_qr.jpg','2025-10-09 09:00:48','2025-10-26 13:25:18','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('53','BH Owner','Namz','Dalu','Baer','2025-10-09','09925311409','Purok 2, Tinibgan, Calape, Bohol','namzbaer@gmail.com','$2y$10$D1L2DMM4L1LNrYYmuMS7huUlDifWQF3jU.7bfYXmqyIthGffluzD6','09925311409','PhilID (National ID)','2356890','0','uploads/registrations/68e70b7a1a08c_front.jpg','uploads/registrations/68e70b7a1bcd8_back.jpg','uploads/gcash_qr/gcash_qr_29_1762479382.jpg','2025-10-09 09:10:18','2025-11-07 10:50:45','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('79','Boarder','Ruel','Dalugdog','Cuas','2025-10-26','09925311409','jskska','cuasruel028@gmail.com','$2y$10$BsUh2CK1ipyyQ8kpE2p7Oei05ezywa3L9UQCrdPVTY5hyoK3smYqm','09925311409','PhilID (National ID)','123456789','0','uploads/registrations/68fdb9b3ad6f2_front.jpg','uploads/registrations/68fdb9b3adcbe_back.jpg','uploads/registrations/68fdb9b3ae3e5_qr.jpg','2025-10-26 14:03:31','2025-10-26 14:04:50','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('84','BH Owner','Kimberly','Binag','Mante','2025-10-27','9925311409','lucob','kimjulmante@gmail.com','$2y$10$nibA1zDk6rc1YA0qRGqWjOFZT158iHkTz0hYjcB6nimatAqqCBLEa','09925311409','PhilID (National ID)','123456789','0','uploads/registrations/68feb9ecdee8d_front.jpg','uploads/registrations/68feb9ecdf784_back.jpg','uploads/registrations/68feb9ecdfe7e_qr.jpg','2025-10-27 08:16:44','2025-10-28 20:17:55','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('85','BH Owner','Shevic','Rulona','Tacatane','2025-10-27','09925311463','Bentig','mayettacatane@gmail.com','$2y$10$gnziH/TxdrRG8EEcC15Nvu1/QFmI5eAgGekP3KUTzW63MXVA4.g/q','09925311463','Driver\'s License','123456789','0','uploads/registrations/68fecdda9e8de_front.jpg','uploads/registrations/68fecdda9ec38_back.jpg','uploads/registrations/68fecdda9ee9f_qr.jpg','2025-10-27 09:41:46','2025-10-27 09:45:40','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('86','Boarder','John Mark','Marimon','Sagetarios','2025-10-27','9929769150','ubayon','johnmark.sagetarios@bisu.edu.ph','$2y$10$as8INj1J.ZXQdZYnR.jvPu7vuzASFr0KMpfLlyE8OqUxPA2ewHYRm','09925311409','PhilID (National ID)','123456789','0','uploads/registrations/68fecfb7dcae8_front.jpg','uploads/registrations/68fecfb7dce3f_back.jpg','uploads/registrations/68fecfb7dd119_qr.jpg','2025-10-27 09:49:43','2025-10-27 09:53:48','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('87','BH Owner','Mark','Marimon','Sagetarios','2025-10-27','9929769150','jajam','johnmarksagetarios114@gmail.com','$2y$10$nzhujroKPQk59b3RPZA2puauGkllZmhIpMyYuYRwd2/gF7ZHFs6Me','09925311409','PhilID (National ID)','123456789','0','uploads/registrations/68fed10aee7a3_front.jpg','uploads/registrations/68fed10aeec72_back.jpg','uploads/registrations/68fed10aef1aa_qr.jpg','2025-10-27 09:55:22','2025-10-27 09:58:47','pending','1',NULL);
+INSERT INTO `registrations` VALUES ('89','BH Owner','Christe Hanna Mae','Dalugdog','Cuas','2025-10-28','9929769150','Patag, Tinibgan, Calape, Bohol','christehannamae.cuas@bisu.edu.ph','$2y$10$WwiHOgMY3bBNjSc9s1wHdOsmxM026kr3HGRmaieym1nMeP8bBN5Ji','09925311409','PhilID (National ID)','2938-6034-9840-8726','0','uploads/registrations/6900ad91f3f8c_front.jpg','uploads/registrations/6900ad92038d4_back.jpg','uploads/registrations/6900ad92072ff_qr.jpg','2025-10-28 19:48:40','2025-11-07 10:30:43','approved','1',NULL);
+INSERT INTO `registrations` VALUES ('103','Boarder','Ruel','Dalugdog','Cuas','2002-10-31','09925311409','Patag, Tinibgan, Calape, Bohol','lizacuas975@gmail.com','$2y$10$OY/mpPzkbLpZW4v./vIqLe1QnLYGAevcJ9EDbz.Z15bboRV.0f/JG',NULL,'Driver\'s License','20-000299','0','uploads/registrations/69046410b4b70_front.jpg','uploads/registrations/69046410b6e12_back.jpg',NULL,'2025-10-31 15:24:00','2025-10-31 15:25:49','approved','1','Jr.');
 /*!40000 ALTER TABLE `registrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1177,7 +1386,7 @@ CREATE TABLE `room_images` (
   PRIMARY KEY (`image_id`),
   KEY `bhr_id` (`bhr_id`),
   CONSTRAINT `room_images_ibfk_1` FOREIGN KEY (`bhr_id`) REFERENCES `boarding_house_rooms` (`bhr_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room_images`
@@ -1227,6 +1436,8 @@ INSERT INTO `room_images` VALUES ('42','46','uploads/room_images/bhr_46_68eb253c
 INSERT INTO `room_images` VALUES ('43','47','uploads/room_images/bhr_47_68eb268fd47c6.jpg','2025-10-12 11:54:55');
 INSERT INTO `room_images` VALUES ('44','48','uploads/room_images/bhr_48_68fb212184fb8.jpg','2025-10-24 14:48:01');
 INSERT INTO `room_images` VALUES ('45','48','uploads/room_images/bhr_48_68fb212431eec.jpg','2025-10-24 14:48:04');
+INSERT INTO `room_images` VALUES ('46','49','uploads/room_images/bhr_49_690029cf04c1d.jpg','2025-10-28 10:26:23');
+INSERT INTO `room_images` VALUES ('47','46','uploads/room_images/bhr_46_690d556f9c807.jpg','2025-11-07 10:11:59');
 /*!40000 ALTER TABLE `room_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1243,7 +1454,7 @@ CREATE TABLE `room_units` (
   PRIMARY KEY (`room_id`),
   KEY `bhr_id` (`bhr_id`),
   CONSTRAINT `room_units_ibfk_1` FOREIGN KEY (`bhr_id`) REFERENCES `boarding_house_rooms` (`bhr_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room_units`
@@ -1290,7 +1501,7 @@ INSERT INTO `room_units` VALUES ('37','20','GC-1','Available');
 INSERT INTO `room_units` VALUES ('38','21','S-1','Available');
 INSERT INTO `room_units` VALUES ('39','22','S-1','Available');
 INSERT INTO `room_units` VALUES ('40','23','S-1','Available');
-INSERT INTO `room_units` VALUES ('41','24','S-1','Available');
+INSERT INTO `room_units` VALUES ('41','24','S-1','Occupied');
 INSERT INTO `room_units` VALUES ('42','25','GB-1','Available');
 INSERT INTO `room_units` VALUES ('43','26','F-1','Available');
 INSERT INTO `room_units` VALUES ('45','28','SA-1','Available');
@@ -1301,7 +1512,7 @@ INSERT INTO `room_units` VALUES ('50','36','S-1','Available');
 INSERT INTO `room_units` VALUES ('51','37','S-1','Available');
 INSERT INTO `room_units` VALUES ('52','28','SA-2','Available');
 INSERT INTO `room_units` VALUES ('53','24','SA-2','Available');
-INSERT INTO `room_units` VALUES ('54','24','SA-3','Available');
+INSERT INTO `room_units` VALUES ('54','24','SA-3','Occupied');
 INSERT INTO `room_units` VALUES ('59','38','SR-1','Available');
 INSERT INTO `room_units` VALUES ('60','38','SR-2','Available');
 INSERT INTO `room_units` VALUES ('61','39','G-1','Available');
@@ -1310,13 +1521,13 @@ INSERT INTO `room_units` VALUES ('63','40','KHAR-1','Available');
 INSERT INTO `room_units` VALUES ('64','40','KHAR-2','Available');
 INSERT INTO `room_units` VALUES ('65','40','KHAR-3','Available');
 INSERT INTO `room_units` VALUES ('66','40','KHAR-4','Available');
-INSERT INTO `room_units` VALUES ('67','40','KHAR-5','Available');
+INSERT INTO `room_units` VALUES ('67','40','KHAR-5','Occupied');
 INSERT INTO `room_units` VALUES ('68','40','KHAR-6','Available');
 INSERT INTO `room_units` VALUES ('69','40','KHAR-7','Available');
 INSERT INTO `room_units` VALUES ('70','40','KHAR-8','Available');
 INSERT INTO `room_units` VALUES ('71','40','KHAR-9','Available');
 INSERT INTO `room_units` VALUES ('72','40','KHAR-10','Available');
-INSERT INTO `room_units` VALUES ('73','40','KHAR-11','Available');
+INSERT INTO `room_units` VALUES ('73','40','KHAR-11','Occupied');
 INSERT INTO `room_units` VALUES ('74','40','KHAR-12','Available');
 INSERT INTO `room_units` VALUES ('75','41','SA-1','Available');
 INSERT INTO `room_units` VALUES ('76','42','FR-1','Available');
@@ -1327,7 +1538,8 @@ INSERT INTO `room_units` VALUES ('80','45','SA-1','Available');
 INSERT INTO `room_units` VALUES ('81','46','SA-1','Available');
 INSERT INTO `room_units` VALUES ('82','47','GA-1','Occupied');
 INSERT INTO `room_units` VALUES ('83','48','R2-1','Available');
-INSERT INTO `room_units` VALUES ('84','47','GA-2','Available');
+INSERT INTO `room_units` VALUES ('84','47','GA-2','Occupied');
+INSERT INTO `room_units` VALUES ('85','49','PR0-1','Occupied');
 /*!40000 ALTER TABLE `room_units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1364,7 +1576,7 @@ CREATE TABLE `users` (
   `status` enum('Active','Inactive') NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `reg_id` (`reg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -1384,7 +1596,23 @@ INSERT INTO `users` VALUES ('24','35',NULL,'Active');
 INSERT INTO `users` VALUES ('25','10',NULL,'Active');
 INSERT INTO `users` VALUES ('27','31',NULL,'Active');
 INSERT INTO `users` VALUES ('28','51',NULL,'Active');
-INSERT INTO `users` VALUES ('29','53','uploads/profile_pictures/user_29_68eb24c9b4c44.jpg','Active');
+INSERT INTO `users` VALUES ('29','53','uploads/profile_pictures/user_29_690c8e63c984b.jpg','Active');
+INSERT INTO `users` VALUES ('30','74',NULL,'Active');
+INSERT INTO `users` VALUES ('31','75',NULL,'Active');
+INSERT INTO `users` VALUES ('32','76',NULL,'Active');
+INSERT INTO `users` VALUES ('33','77',NULL,'Active');
+INSERT INTO `users` VALUES ('34','78',NULL,'Active');
+INSERT INTO `users` VALUES ('35','79',NULL,'Active');
+INSERT INTO `users` VALUES ('36','84',NULL,'Active');
+INSERT INTO `users` VALUES ('37','85',NULL,'Active');
+INSERT INTO `users` VALUES ('38','86',NULL,'Active');
+INSERT INTO `users` VALUES ('39','88',NULL,'Active');
+INSERT INTO `users` VALUES ('40','89',NULL,'Active');
+INSERT INTO `users` VALUES ('41','94',NULL,'Active');
+INSERT INTO `users` VALUES ('42','100',NULL,'Active');
+INSERT INTO `users` VALUES ('43','101',NULL,'Active');
+INSERT INTO `users` VALUES ('44','103',NULL,'Active');
+INSERT INTO `users` VALUES ('45','29',NULL,'Active');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

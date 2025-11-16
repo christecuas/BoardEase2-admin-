@@ -1,145 +1,255 @@
 <?php
-// Get Approved Bookings API - Returns approved bookings for a user
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0);
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(200);
+    exit;
 }
 
-require_once 'db_helper.php';
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
-$response = [];
+// Database configuration
+$host = 'localhost';
+$dbname = 'boardease2';
+$username = 'boardease';
+$password = 'boardease';
 
 try {
-    // Get user_id from request
-    $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
-    $user_type = isset($_GET['user_type']) ? $_GET['user_type'] : 'owner'; // 'owner' or 'boarder'
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    if ($user_id <= 0) {
-        throw new Exception("Invalid user_id");
+    // Get user_id and user_type from request
+    $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
+    $userType = isset($_GET['user_type']) ? trim($_GET['user_type']) : 'owner';
+    
+    if ($userId == 0) {
+        echo json_encode(array(
+            'success' => false,
+            'error' => 'User ID is required'
+        ));
+        exit;
     }
     
-    $db = getDB();
-    
-    if ($user_type === 'owner') {
-        // Get approved bookings for owner
-        $sql = "SELECT 
+    // For owner: Get approved/confirmed bookings for boarding houses owned by this user
+    if ($userType === 'owner') {
+        // Verify owner exists
+        $getOwnerSql = "SELECT user_id FROM users WHERE user_id = :user_id";
+        $getOwnerStmt = $pdo->prepare($getOwnerSql);
+        $getOwnerStmt->execute([':user_id' => $userId]);
+        $ownerData = $getOwnerStmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$ownerData) {
+            echo json_encode(array(
+                'success' => false,
+                'error' => 'Owner not found'
+            ));
+            exit;
+        }
+        
+        // Get approved/confirmed bookings for boarding houses owned by this owner
+        // boarding_houses.user_id refers to users.user_id directly
+        $sql = "
+            SELECT 
+                b.booking_id,
+                b.room_id,
+                b.user_id as boarder_user_id,
+                b.start_date,
+                b.end_date,
+                b.booking_status as status,
+                DATE_FORMAT(b.booking_date, '%Y-%m-%d %H:%i:%s') as booking_date,
+                ru.room_number,
+                ru.bhr_id,
+                bhr.room_name,
+                bhr.room_category as rent_type,
+                bhr.price as amount,
+                bhr.bh_id,
+                bh.bh_name as boarding_house_name,
+                bh.bh_address as boarding_house_address,
+                reg.id as boarder_reg_id,
+                reg.first_name,
+                reg.middle_name,
+                reg.last_name,
+                reg.suffix,
+                reg.email as boarder_email,
+                reg.phone as boarder_phone,
+                -- Get the latest payment status from payments table (most recent payment)
+                COALESCE((
+                    SELECT payment_status 
+                    FROM payments p2 
+                    WHERE p2.booking_id = b.booking_id 
+                    ORDER BY p2.updated_at DESC, p2.payment_id DESC 
+                    LIMIT 1
+                ), 'Pending') as payment_status,
+                '' as notes,
+                COALESCE(u_boarder.profile_picture, '') as profile_image
+            FROM bookings b
+            INNER JOIN room_units ru ON b.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            INNER JOIN users u_boarder ON b.user_id = u_boarder.user_id
+            INNER JOIN registrations reg ON u_boarder.reg_id = reg.id
+            WHERE bh.user_id = :owner_user_id
+            AND b.booking_status = 'Confirmed'
+            ORDER BY b.booking_date DESC
+        ";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':owner_user_id' => $userId]);
+        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calculate payment progress for all bookings
+        $bookingProgress = array();
+        if (!empty($bookings)) {
+            $bookingIds = array_column($bookings, 'booking_id');
+            $placeholders = implode(',', array_fill(0, count($bookingIds), '?'));
+            
+            $progressSql = "
+                SELECT 
                     b.booking_id,
-                    b.user_id as boarder_id,
-                    CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
-                    r.email as boarder_email,
-                    r.phone_number as boarder_phone,
-                    ru.room_number as room_name,
-                    bh.bh_name as boarding_house_name,
-                    bh.bh_address as boarding_house_address,
-                    b.start_date,
-                    b.end_date,
-                    b.booking_date,
-                    b.booking_status as status,
-                  
-                    u.profile_picture,
-                    ru.room_id,
-                    bh.bh_id as boarding_house_id,
-                    bhr.room_category as rent_type,
-                    bhr.price as amount
+                    COUNT(pb.breakdown_id) as total_periods,
+                    SUM(CASE WHEN (pb.is_paid = 1 OR pb.payment_id IS NOT NULL) THEN 1 ELSE 0 END) as paid_periods,
+                    SUM(CASE WHEN (pb.is_paid = 0 AND pb.payment_id IS NULL) THEN 1 ELSE 0 END) as unpaid_periods,
+                    COALESCE(SUM(pb.amount), 0) as total_amount,
+                    COALESCE(SUM(CASE WHEN (pb.is_paid = 1 OR pb.payment_id IS NOT NULL) THEN pb.amount ELSE 0 END), 0) as paid_amount,
+                    SUM(CASE WHEN pb.period_type = 'month' THEN 1 ELSE 0 END) as total_months,
+                    SUM(CASE WHEN pb.period_type = 'month' AND (pb.is_paid = 1 OR pb.payment_id IS NOT NULL) THEN 1 ELSE 0 END) as paid_months
                 FROM bookings b
-                JOIN users u ON b.user_id = u.user_id
-                JOIN registration r ON u.reg_id = r.reg_id
-                JOIN room_units ru ON b.room_id = ru.room_id
-                JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                WHERE bh.user_id = ? AND b.booking_status = 'Approved'
-                ORDER BY b.booking_date DESC";
+                LEFT JOIN payment_breakdowns pb ON b.booking_id = pb.booking_id
+                WHERE b.booking_id IN ($placeholders)
+                GROUP BY b.booking_id
+            ";
+            
+            $progressStmt = $pdo->prepare($progressSql);
+            $progressStmt->execute($bookingIds);
+            $progressResults = $progressStmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($progressResults as $progress) {
+                $totalPeriods = intval($progress['total_periods']);
+                $paidPeriods = intval($progress['paid_periods']);
+                $totalMonths = intval($progress['total_months']);
+                $paidMonths = intval($progress['paid_months']);
+                
+                $bookingProgress[$progress['booking_id']] = array(
+                    'total_periods' => $totalPeriods,
+                    'paid_periods' => $paidPeriods,
+                    'unpaid_periods' => intval($progress['unpaid_periods']),
+                    'total_months' => $totalMonths,
+                    'paid_months' => $paidMonths,
+                    'remaining_months' => $totalMonths > 0 ? max(0, $totalMonths - $paidMonths) : null,
+                    'total_amount' => floatval($progress['total_amount']),
+                    'paid_amount' => floatval($progress['paid_amount']),
+                    'remaining_amount' => floatval($progress['total_amount']) - floatval($progress['paid_amount']),
+                    'is_fully_paid' => $totalPeriods > 0 && $paidPeriods >= $totalPeriods,
+                    'payment_progress_percent' => $totalPeriods > 0 ? round(($paidPeriods / $totalPeriods) * 100, 2) : 0
+                );
+            }
+        }
         
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$user_id]);
+        // Format the response
+        $formattedBookings = array();
+        foreach ($bookings as $booking) {
+            // Get payment progress for this booking
+            $bookingId = (int)$booking['booking_id'];
+            $progress = isset($bookingProgress[$bookingId]) ? $bookingProgress[$bookingId] : array(
+                'total_periods' => 0,
+                'paid_periods' => 0,
+                'unpaid_periods' => 0,
+                'total_months' => 0,
+                'paid_months' => 0,
+                'remaining_months' => null,
+                'total_amount' => 0,
+                'paid_amount' => 0,
+                'remaining_amount' => 0,
+                'is_fully_paid' => false,
+                'payment_progress_percent' => 0
+            );
+            
+            // Combine first_name, middle_name, last_name, and suffix
+            $fullName = trim($booking['first_name']);
+            if (!empty($booking['middle_name'])) {
+                $fullName .= ' ' . trim($booking['middle_name']);
+            }
+            $fullName .= ' ' . trim($booking['last_name']);
+            if (!empty($booking['suffix'])) {
+                $fullName .= ' ' . trim($booking['suffix']);
+            }
+            
+            // Format room name with room number if available
+            $roomName = $booking['room_name'];
+            if (!empty($booking['room_number'])) {
+                $roomName .= ' - ' . $booking['room_number'];
+            }
+            
+            // Format amount with currency
+            $amount = number_format((float)$booking['amount'], 2, '.', '');
+            
+            $formattedBookings[] = array(
+                'booking_id' => (int)$booking['booking_id'],
+                'boarder_id' => (int)$booking['boarder_user_id'],
+                'boarder_name' => $fullName,
+                'boarder_email' => $booking['boarder_email'] ?? '',
+                'boarder_phone' => $booking['boarder_phone'] ?? '',
+                'phone' => $booking['boarder_phone'] ?? '',
+                'room_id' => (int)$booking['room_id'],
+                'room_name' => $roomName,
+                'start_date' => $booking['start_date'],
+                'end_date' => $booking['end_date'],
+                'amount' => $amount,
+                'rent_type' => $booking['rent_type'] ?? '',
+                'status' => $booking['status'],
+                'boarding_house_name' => $booking['boarding_house_name'] ?? '',
+                'boarding_house_address' => $booking['boarding_house_address'] ?? '',
+                'boarding_house_id' => (int)$booking['bh_id'],
+                'booking_date' => $booking['booking_date'],
+                'payment_status' => $booking['payment_status'] ?? 'Pending',
+                'notes' => $booking['notes'] ?? '',
+                'profile_image' => $booking['profile_image'] ?? '',
+                // Payment progress information
+                'total_periods' => $progress['total_periods'],
+                'paid_periods' => $progress['paid_periods'],
+                'unpaid_periods' => $progress['unpaid_periods'],
+                'total_months_for_booking' => $progress['total_months'],
+                'paid_months_for_booking' => $progress['paid_months'],
+                'remaining_months_to_pay' => $progress['remaining_months'],
+                'total_amount_for_booking' => number_format($progress['total_amount'], 2, '.', ''),
+                'paid_amount_for_booking' => number_format($progress['paid_amount'], 2, '.', ''),
+                'remaining_amount_to_pay' => number_format($progress['remaining_amount'], 2, '.', ''),
+                'is_fully_paid' => $progress['is_fully_paid'],
+                'payment_progress_percent' => $progress['payment_progress_percent']
+            );
+        }
         
+        echo json_encode(array(
+            'success' => true,
+            'data' => array(
+                'approved_bookings' => $formattedBookings
+            )
+        ));
     } else {
-        // Get approved bookings for boarder
-        $sql = "SELECT 
-                    b.booking_id,
-                    b.user_id as boarder_id,
-                    CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
-                    r.email as boarder_email,
-                    r.phone_number as boarder_phone,
-                    ru.room_number as room_name,
-                    bh.bh_name as boarding_house_name,
-                    bh.bh_address as boarding_house_address,
-                    b.start_date,
-                    b.end_date,
-                    b.booking_date,
-                    b.booking_status as status,
-                   
-                    u.profile_picture,
-                    ru.room_id,
-                    bh.bh_id as boarding_house_id,
-                    bhr.room_category as rent_type,
-                    bhr.price as amount
-                FROM bookings b
-                JOIN users u ON b.user_id = u.user_id
-                JOIN registration r ON u.reg_id = r.reg_id
-                JOIN room_units ru ON b.room_id = ru.room_id
-                JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                WHERE b.user_id = ? AND b.booking_status = 'Approved'
-                ORDER BY b.booking_date DESC";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$user_id]);
+        echo json_encode(array(
+            'success' => false,
+            'error' => 'Invalid user type'
+        ));
     }
     
-    $bookings = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Format amount
-        $amount = "P" . number_format($row['amount'], 2);
-        
-        // Format dates
-        $start_date = date('Y-m-d', strtotime($row['start_date']));
-        $end_date = date('Y-m-d', strtotime($row['end_date']));
-        $booking_date = date('Y-m-d', strtotime($row['booking_date']));
-        
-        $bookings[] = [
-            'booking_id' => intval($row['booking_id']),
-            'boarder_id' => intval($row['boarder_id']),
-            'boarder_name' => $row['boarder_name'],
-            'boarder_email' => $row['boarder_email'],
-            'boarder_phone' => $row['boarder_phone'],
-            'room_name' => $row['room_name'],
-            'boarding_house_name' => $row['boarding_house_name'],
-            'boarding_house_address' => $row['boarding_house_address'],
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'booking_date' => $booking_date,
-            'status' => $row['status'],
-            'payment_status' => 'Pending', // Default value since payment_status field doesn't exist
-        
-            'profile_image' => $row['profile_picture'] ?? '',
-            'room_id' => intval($row['room_id']),
-            'boarding_house_id' => intval($row['boarding_house_id']),
-            'rent_type' => $row['rent_type'],
-            'amount' => $amount
-        ];
-    }
-    
-    $response = [
-        'success' => true,
-        'data' => [
-            'approved_bookings' => $bookings,
-            'total_count' => count($bookings)
-        ]
-    ];
-    
-} catch (Exception $e) {
-    $response = [
+} catch (PDOException $e) {
+    error_log("Database error in get_approved_bookings.php: " . $e->getMessage());
+    echo json_encode(array(
         'success' => false,
-        'error' => $e->getMessage()
-    ];
+        'error' => 'Database error: ' . $e->getMessage()
+    ));
+} catch (Exception $e) {
+    error_log("Error in get_approved_bookings.php: " . $e->getMessage());
+    echo json_encode(array(
+        'success' => false,
+        'error' => 'Server error: ' . $e->getMessage()
+    ));
 }
-
-echo json_encode($response, JSON_UNESCAPED_SLASHES);
 ?>
 

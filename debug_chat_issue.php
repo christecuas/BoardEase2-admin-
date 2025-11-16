@@ -44,7 +44,7 @@ try {
             r.l_name,
             r.status as reg_status
         FROM users u
-        JOIN registration r ON u.reg_id = r.reg_id
+        JOIN registrations r ON u.reg_id = r.id
         WHERE u.user_id IN (76, 4, 11)
     ");
     $stmt->execute();
@@ -90,7 +90,7 @@ try {
                     ELSE m.sender_id
                 END = u.user_id
             )
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             WHERE (m.sender_id = 76 OR m.receiver_id = 76) 
             AND m.msg_status != 'Deleted'
             ORDER BY m.msg_timestamp DESC
@@ -142,7 +142,7 @@ try {
                     ELSE m.sender_id
                 END = u.user_id
             )
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             WHERE (m.sender_id = 4 OR m.receiver_id = 4) 
             AND m.msg_status != 'Deleted'
             ORDER BY m.msg_timestamp DESC
@@ -178,7 +178,7 @@ try {
                 ELSE m.sender_id
             END = u.user_id
         )
-        LEFT JOIN registration r ON u.reg_id = r.reg_id
+        LEFT JOIN registrations r ON u.reg_id = r.id
         WHERE (m.sender_id = 76 OR m.receiver_id = 76)
         ORDER BY m.msg_timestamp DESC
         LIMIT 10

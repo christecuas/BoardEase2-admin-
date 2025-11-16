@@ -57,12 +57,12 @@ try {
             SELECT 
                 u.user_id,
                 u.status as user_status,
-                r.f_name,
-                r.l_name,
+                r.first_name,
+                r.last_name,
                 r.role as user_type,
                 r.status as reg_status
             FROM users u
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             WHERE u.user_id = ?
         ");
         $user_stmt->execute([$other_user_id]);
@@ -96,7 +96,7 @@ try {
             'chat_id' => 'individual_' . $other_user_id,
             'chat_type' => 'individual',
             'other_user_id' => $other_user_id,
-            'other_user_name' => $user_info['f_name'] . ' ' . $user_info['l_name'],
+            'other_user_name' => trim($user_info['first_name'] . ' ' . $user_info['last_name']),
             'other_user_type' => $user_info['user_type'],
             'user_status' => $user_info['user_status'],
             'reg_status' => $user_info['reg_status'],

@@ -53,12 +53,13 @@ try {
                 b.bill_id,
                 b.amount_due,
                 b.due_date,
-                CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+                CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                       CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                 ab.user_id as boarder_user_id
             FROM bills b
             INNER JOIN active_boarders ab ON b.active_id = ab.active_id
             INNER JOIN users u ON ab.user_id = u.user_id
-            INNER JOIN registration r ON u.reg_id = r.reg_id
+            INNER JOIN registrations r ON u.reg_id = r.id
             LEFT JOIN boarding_houses bh ON u.user_id = bh.user_id
             WHERE bh.user_id = ? 
             AND b.status = 'Overdue' 
@@ -71,22 +72,18 @@ try {
         
         // Send notifications to boarders about overdue payments
         $notifications_sent = 0;
+        require_once 'activity_notifications.php';
+        
         foreach ($overdue_bills as $bill) {
-            $notificationTitle = "Payment Overdue";
-            $notificationMessage = "Your payment of P" . number_format($bill['amount_due'], 2) . 
-                                  " was due on " . date('M j, Y', strtotime($bill['due_date'])) . 
-                                  " and is now overdue. Please make payment as soon as possible.";
-            
-            $stmt = $db->prepare("
-                INSERT INTO notifications (user_id, notif_title, notif_message, notif_type, notif_status)
-                VALUES (?, ?, ?, 'payment', 'unread')
-            ");
-            $stmt->execute([
-                $bill['boarder_user_id'],
-                $notificationTitle,
-                $notificationMessage
-            ]);
-            $notifications_sent++;
+            if ($bill['boarder_user_id'] > 0) {
+                ActivityNotifications::notifyPaymentOverdue($bill['boarder_user_id'], [
+                    'amount' => floatval($bill['amount_due']),
+                    'payment_id' => $bill['bill_id'] ?? null,
+                    'due_date' => $bill['due_date'],
+                    'description' => 'Payment was due on ' . date('M j, Y', strtotime($bill['due_date']))
+                ]);
+                $notifications_sent++;
+            }
         }
         
         // Commit transaction

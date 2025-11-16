@@ -35,6 +35,7 @@ try {
                 r.first_name,
                 r.middle_name,
                 r.last_name,
+                r.suffix,
                 r.email,
                 r.phone,
                 r.role,
@@ -90,12 +91,60 @@ try {
         }
     }
     
+    // Get bookings if user is a boarder
+    $bookings = [];
+    if ($user['role'] === 'Boarder') {
+        $sql = "SELECT 
+                    b.booking_id,
+                    b.room_id,
+                    b.booking_date,
+                    b.start_date as check_in_date,
+                    b.end_date as check_out_date,
+                    b.booking_status as status,
+                    bhr.price as total_amount,
+                    b.booking_date as created_at,
+                    bh.bh_id,
+                    bh.bh_name,
+                    bh.bh_address,
+                    ru.room_id as room_unit_id,
+                    ru.room_number,
+                    bhr.bhr_id,
+                    bhr.room_name,
+                    bhr.room_category,
+                    bhr.capacity,
+                    bhr.room_description
+                FROM bookings b
+                JOIN room_units ru ON b.room_id = ru.room_id
+                JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                WHERE b.user_id = ?
+                ORDER BY 
+                    CASE 
+                        WHEN b.booking_status = 'Pending' THEN 1
+                        WHEN b.booking_status = 'Confirmed' THEN 2
+                        WHEN b.booking_status = 'Completed' THEN 3
+                        WHEN b.booking_status = 'Cancelled' THEN 4
+                        ELSE 5
+                    END,
+                    b.booking_date DESC
+                LIMIT 10";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            $bookings[] = $row;
+        }
+    }
+    
     $response = [
         'success' => true,
         'data' => [
             'user' => $user,
             'boarding_houses' => $boarding_houses,
-            'bookings' => []
+            'bookings' => $bookings
         ]
     ];
     

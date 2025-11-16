@@ -113,22 +113,24 @@ try {
                 r.owner_response_date,
                 r.created_at,
                 r.updated_at,
-                CONCAT(reg.f_name, ' ', reg.l_name) as boarder_name,
+                CONCAT(reg.first_name, ' ', reg.middle_name, ' ', reg.last_name, 
+                       CASE WHEN reg.suffix IS NOT NULL AND reg.suffix != '' THEN CONCAT(' ', reg.suffix) ELSE '' END) as boarder_name,
                 reg.profile_picture as boarder_profile_picture,
                 reg.university,
                 reg.student_id,
                 ru.room_number as room_name,
                 bh.bh_name as boarding_house_name,
                 bh.bh_address as boarding_house_address,
-                CONCAT(owner_reg.f_name, ' ', owner_reg.l_name) as owner_name
+                CONCAT(owner_reg.first_name, ' ', owner_reg.middle_name, ' ', owner_reg.last_name, 
+                       CASE WHEN owner_reg.suffix IS NOT NULL AND owner_reg.suffix != '' THEN CONCAT(' ', owner_reg.suffix) ELSE '' END) as owner_name
             FROM reviews r
             JOIN users u ON r.boarder_id = u.user_id
-            JOIN registration reg ON u.reg_id = reg.reg_id
+            JOIN registrations reg ON u.reg_id = reg.id
             JOIN room_units ru ON r.room_id = ru.room_id
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             LEFT JOIN users owner_u ON r.owner_id = owner_u.user_id
-            LEFT JOIN registration owner_reg ON owner_u.reg_id = owner_reg.reg_id
+            LEFT JOIN registrations owner_reg ON owner_u.reg_id = owner_reg.id
             $where_clause
             $order_by
             LIMIT ? OFFSET ?";

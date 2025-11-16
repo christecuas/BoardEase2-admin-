@@ -52,6 +52,23 @@ try {
     $updateStmt->bind_param("i", $admin['admin_id']);
     $updateStmt->execute();
     
+    // Log admin login activity
+    try {
+        require_once 'log_admin_activity.php';
+        $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+        logAdminActivity(
+            $admin['admin_id'],
+            'login',
+            $admin['name'] . ' logged in',
+            'Admin login successful from ' . ($ip_address ?? 'unknown IP'),
+            $ip_address,
+            $user_agent
+        );
+    } catch (Exception $e) {
+        error_log("Warning: Failed to log admin login activity: " . $e->getMessage());
+    }
+    
     // Set session variables
     $_SESSION['admin_id'] = $admin['admin_id'];
     $_SESSION['admin_name'] = $admin['name'];
@@ -72,6 +89,18 @@ try {
     ));
 }
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -23,9 +23,12 @@ try {
     }
 
     // Get pending registrations
-    $sql = "SELECT id, role, first_name, middle_name, last_name, birth_date, phone, address, email, 
+    // Use DATE_FORMAT to ensure created_at is in a consistent format
+    $sql = "SELECT id, role, first_name, middle_name, last_name, suffix, birth_date, phone, address, email, 
                    gcash_num, valid_id_type, id_number, idFrontFile, idBackFile, gcash_qr, 
-                   status, created_at
+                   status, 
+                   created_at,
+                   DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as formatted_created_at
             FROM registrations 
             WHERE status = 'pending' 
             ORDER BY created_at DESC";
@@ -38,13 +41,23 @@ try {
 
     $registrations = array();
     while ($row = $result->fetch_assoc()) {
+        // Construct full name with suffix
+        $fullName = trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']);
+        if (!empty($row['suffix'])) {
+            $fullName .= ' ' . $row['suffix'];
+        }
+        
+        // Use formatted_created_at if available, otherwise use created_at
+        $createdAt = !empty($row['formatted_created_at']) ? $row['formatted_created_at'] : $row['created_at'];
+        
         $registrations[] = array(
             "id" => $row['id'],
             "role" => $row['role'],
             "first_name" => $row['first_name'],
             "middle_name" => $row['middle_name'],
             "last_name" => $row['last_name'],
-            "full_name" => trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']),
+            "suffix" => $row['suffix'],
+            "full_name" => $fullName,
             "birth_date" => $row['birth_date'],
             "phone" => $row['phone'],
             "address" => $row['address'],
@@ -56,7 +69,8 @@ try {
             "id_back_file" => $row['idBackFile'],
             "gcash_qr" => $row['gcash_qr'],
             "status" => $row['status'],
-            "created_at" => $row['created_at']
+            "created_at" => $createdAt, // Use formatted date
+            "created_at_timestamp" => strtotime($createdAt) // Also include timestamp for easier JS parsing
         );
     }
 

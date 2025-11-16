@@ -54,12 +54,13 @@ try {
                 mr.maintenance_type,
                 mr.priority,
                 mr.status as current_status,
-                CONCAT(r.f_name, ' ', r.l_name) as boarder_name,
+                CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
+                       CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                 ru.room_number as room_name,
                 bh.bh_name as boarding_house_name
             FROM maintenance_requests mr
             JOIN users u ON mr.boarder_id = u.user_id
-            JOIN registration r ON u.reg_id = r.reg_id
+            JOIN registrations r ON u.reg_id = r.id
             JOIN room_units ru ON mr.room_id = ru.room_id
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
@@ -128,29 +129,26 @@ try {
         // Send appropriate notifications based on status change
         $notification_result = null;
         
-        if ($status === 'In Progress') {
-            $notification_result = AutoNotifyMaintenance::maintenanceStarted($maintenance['boarder_id'], [
-                'maintenance_id' => $maintenance_id,
-                'title' => $maintenance['title'],
-                'maintenance_type' => $maintenance['maintenance_type'],
-                'room_name' => $maintenance['room_name']
-            ]);
-        } elseif ($status === 'Completed') {
-            $notification_result = AutoNotifyMaintenance::maintenanceCompleted($maintenance['boarder_id'], [
-                'maintenance_id' => $maintenance_id,
-                'title' => $maintenance['title'],
-                'maintenance_type' => $maintenance['maintenance_type'],
-                'room_name' => $maintenance['room_name'],
-                'actual_cost' => $actual_cost ? "P" . number_format($actual_cost, 2) : null
-            ]);
-        } elseif ($status === 'Cancelled') {
-            $notification_result = AutoNotifyMaintenance::maintenanceCancelled($maintenance['boarder_id'], [
-                'maintenance_id' => $maintenance_id,
-                'title' => $maintenance['title'],
-                'maintenance_type' => $maintenance['maintenance_type'],
-                'room_name' => $maintenance['room_name'],
-                'reason' => $notes
-            ]);
+        if (!empty($status)) {
+            require_once 'activity_notifications.php';
+            
+            if ($status === 'Completed') {
+                $notification_result = ActivityNotifications::notifyMaintenanceCompleted($maintenance['boarder_id'], [
+                    'maintenance_id' => $maintenance_id,
+                    'title' => $maintenance['title'],
+                    'room_name' => $maintenance['room_name'],
+                    'actual_cost' => $actual_cost
+                ]);
+            } else {
+                // For other status changes (In Progress, Cancelled, On Hold, etc.)
+                $notification_result = ActivityNotifications::notifyMaintenanceStatusUpdated($maintenance['boarder_id'], [
+                    'maintenance_id' => $maintenance_id,
+                    'status' => $status,
+                    'title' => $maintenance['title'],
+                    'room_name' => $maintenance['room_name'],
+                    'notes' => $notes
+                ]);
+            }
         }
         
         $response = [

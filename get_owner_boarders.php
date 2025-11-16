@@ -31,7 +31,8 @@ try {
     // This includes both current active boarders and completed rentals
     $sql = "SELECT 
                 ab.active_boarder_id as boarder_id,
-                CONCAT(reg.f_name, ' ', reg.l_name) as boarder_name,
+                CONCAT(reg.first_name, ' ', reg.middle_name, ' ', reg.last_name, 
+                       CASE WHEN reg.suffix IS NOT NULL AND reg.suffix != '' THEN CONCAT(' ', reg.suffix) ELSE '' END) as boarder_name,
                 reg.email as boarder_email,
                 reg.phone_number as boarder_phone,
                 bh.bh_name as boarding_house_name,
@@ -46,7 +47,7 @@ try {
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
             JOIN users u ON ab.user_id = u.user_id
-            JOIN registration reg ON u.reg_id = reg.reg_id
+            JOIN registrations reg ON u.reg_id = reg.id
             WHERE bh.user_id = ? 
             AND ab.status = 'Active'
             
@@ -54,7 +55,8 @@ try {
             
             SELECT 
                 b.booking_id as boarder_id,
-                CONCAT(reg.f_name, ' ', reg.l_name) as boarder_name,
+                CONCAT(reg.first_name, ' ', reg.middle_name, ' ', reg.last_name, 
+                       CASE WHEN reg.suffix IS NOT NULL AND reg.suffix != '' THEN CONCAT(' ', reg.suffix) ELSE '' END) as boarder_name,
                 reg.email as boarder_email,
                 reg.phone_number as boarder_phone,
                 bh.bh_name as boarding_house_name,
@@ -69,7 +71,7 @@ try {
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             JOIN users u ON b.user_id = u.user_id
-            JOIN registration reg ON u.reg_id = reg.reg_id
+            JOIN registrations reg ON u.reg_id = reg.id
             WHERE bh.user_id = ? 
             AND b.booking_status = 'Completed'
             

@@ -26,7 +26,7 @@ if (!$user_id) {
 
 try {
     // Query to get owner profile data from registrations and users tables
-    $sql = "SELECT r.first_name, r.middle_name, r.last_name, r.birth_date, r.phone, r.address, r.email, u.profile_picture 
+    $sql = "SELECT r.first_name, r.middle_name, r.last_name, r.suffix, r.birth_date, r.phone, r.address, r.email, u.profile_picture 
             FROM users u 
             JOIN registrations r ON u.reg_id = r.id 
             WHERE u.user_id = ?";
@@ -37,11 +37,18 @@ try {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
+        // Handle suffix: if NULL in database, return "None" for display
+        $suffix = $row["suffix"];
+        if ($suffix === null || $suffix === '') {
+            $suffix = "None";
+        }
+        
         echo json_encode([
             "success" => true,
             "f_name" => $row["first_name"] ?? "",
             "m_name" => $row["middle_name"] ?? "",
             "l_name" => $row["last_name"] ?? "",
+            "suffix" => $suffix,
             "birthdate" => $row["birth_date"] ?? "",
             "phone_number" => $row["phone"] ?? "",
             "p_address" => $row["address"] ?? "",
