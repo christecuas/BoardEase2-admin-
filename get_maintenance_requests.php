@@ -1,276 +1,234 @@
 <?php
-// Get Maintenance Requests API - Returns maintenance requests for owners and boarders
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0);
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(200);
+    exit;
 }
 
-require_once 'db_helper.php';
+// Turn off error reporting to prevent HTML output
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 
-$response = [];
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
+
+// Database configuration
+$host = 'localhost';
+$dbname = 'boardease2';
+$username = 'boardease';
+$password = 'boardease';
 
 try {
-    // Get user_id from request
-    $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
-    $user_type = isset($_GET['user_type']) ? $_GET['user_type'] : 'owner'; // 'owner' or 'boarder'
-    $status_filter = isset($_GET['status']) ? $_GET['status'] : 'all'; // 'all', 'pending', 'in_progress', 'completed', 'cancelled'
-    $priority_filter = isset($_GET['priority']) ? $_GET['priority'] : 'all'; // 'all', 'low', 'medium', 'high', 'urgent'
-    $type_filter = isset($_GET['type']) ? $_GET['type'] : 'all'; // 'all', 'plumbing', 'electrical', etc.
-    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 50;
-    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
-    
-    if ($user_id <= 0) {
-        throw new Exception("Invalid user_id");
+    $conn = new mysqli($host, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        echo json_encode(array('success' => false, 'error' => 'Database connection failed: ' . $conn->connect_error));
+        exit;
     }
-    
-    $db = getDB();
-    
-    // Build status filter condition
-    $status_condition = "";
-    if ($status_filter !== 'all') {
-        $status_condition = "AND mr.status = '" . ucfirst($status_filter) . "'";
-    }
-    
-    // Build priority filter condition
-    $priority_condition = "";
-    if ($priority_filter !== 'all') {
-        $priority_condition = "AND mr.priority = '" . ucfirst($priority_filter) . "'";
-    }
-    
-    // Build type filter condition
-    $type_condition = "";
-    if ($type_filter !== 'all') {
-        $type_condition = "AND mr.maintenance_type = '" . ucfirst($type_filter) . "'";
-    }
-    
-    if ($user_type === 'owner') {
-        // Get maintenance requests for owner
-        $sql = "SELECT 
-                    mr.maintenance_id,
-                    mr.boarder_id,
-                    mr.room_id,
-                    mr.booking_id,
-                    mr.owner_id,
-                    mr.maintenance_type,
-                    mr.priority,
-                    mr.title,
-                    mr.description,
-                    mr.location,
-                    mr.images,
-                    mr.preferred_date,
-                    mr.preferred_time,
-                    mr.contact_phone,
-                    mr.status,
-                    mr.assigned_to,
-                    mr.estimated_cost,
-                    mr.actual_cost,
-                    mr.work_started_date,
-                    mr.work_completed_date,
-                    mr.notes,
-                    mr.feedback_rating,
-                    mr.feedback_comment,
-                    mr.created_at,
-                    mr.updated_at,
-                    CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
-                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
-                    r.phone_number as boarder_phone,
-                    ru.room_number as room_name,
-                    bh.bh_name as boarding_house_name,
-                    bh.bh_address as boarding_house_address,
-                    CONCAT(owner_r.first_name, ' ', owner_r.middle_name, ' ', owner_r.last_name, 
-                           CASE WHEN owner_r.suffix IS NOT NULL AND owner_r.suffix != '' THEN CONCAT(' ', owner_r.suffix) ELSE '' END) as assigned_to_name
-                FROM maintenance_requests mr
-                JOIN users u ON mr.boarder_id = u.user_id
-                JOIN registrations r ON u.reg_id = r.id
-                JOIN room_units ru ON mr.room_id = ru.room_id
-                JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                LEFT JOIN users owner_u ON mr.assigned_to = owner_u.user_id
-                LEFT JOIN registrations owner_r ON owner_u.reg_id = owner_r.id
-                WHERE mr.owner_id = ? $status_condition $priority_condition $type_condition
-                ORDER BY 
-                    CASE mr.priority 
-                        WHEN 'Urgent' THEN 1 
-                        WHEN 'High' THEN 2 
-                        WHEN 'Medium' THEN 3 
-                        WHEN 'Low' THEN 4 
-                    END,
-                    mr.created_at DESC
-                LIMIT ? OFFSET ?";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$user_id, $limit, $offset]);
-        
-    } else {
-        // Get maintenance requests for boarder
-        $sql = "SELECT 
-                    mr.maintenance_id,
-                    mr.boarder_id,
-                    mr.room_id,
-                    mr.booking_id,
-                    mr.owner_id,
-                    mr.maintenance_type,
-                    mr.priority,
-                    mr.title,
-                    mr.description,
-                    mr.location,
-                    mr.images,
-                    mr.preferred_date,
-                    mr.preferred_time,
-                    mr.contact_phone,
-                    mr.status,
-                    mr.assigned_to,
-                    mr.estimated_cost,
-                    mr.actual_cost,
-                    mr.work_started_date,
-                    mr.work_completed_date,
-                    mr.notes,
-                    mr.feedback_rating,
-                    mr.feedback_comment,
-                    mr.created_at,
-                    mr.updated_at,
-                    CONCAT(r.first_name, ' ', r.middle_name, ' ', r.last_name, 
-                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
-                    r.phone_number as boarder_phone,
-                    ru.room_number as room_name,
-                    bh.bh_name as boarding_house_name,
-                    bh.bh_address as boarding_house_address,
-                    CONCAT(owner_r.first_name, ' ', owner_r.middle_name, ' ', owner_r.last_name, 
-                           CASE WHEN owner_r.suffix IS NOT NULL AND owner_r.suffix != '' THEN CONCAT(' ', owner_r.suffix) ELSE '' END) as assigned_to_name
-                FROM maintenance_requests mr
-                JOIN users u ON mr.boarder_id = u.user_id
-                JOIN registrations r ON u.reg_id = r.id
-                JOIN room_units ru ON mr.room_id = ru.room_id
-                JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                LEFT JOIN users owner_u ON mr.assigned_to = owner_u.user_id
-                LEFT JOIN registrations owner_r ON owner_u.reg_id = owner_r.id
-                WHERE mr.boarder_id = ? $status_condition $priority_condition $type_condition
-                ORDER BY 
-                    CASE mr.priority 
-                        WHEN 'Urgent' THEN 1 
-                        WHEN 'High' THEN 2 
-                        WHEN 'Medium' THEN 3 
-                        WHEN 'Low' THEN 4 
-                    END,
-                    mr.created_at DESC
-                LIMIT ? OFFSET ?";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$user_id, $limit, $offset]);
-    }
-    
-    $maintenance_requests = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Parse images
-        $images = [];
-        if ($row['images']) {
-            $images = json_decode($row['images'], true) ?: [];
-        }
-        
-        // Format dates
-        $preferred_date = $row['preferred_date'] ? date('Y-m-d', strtotime($row['preferred_date'])) : null;
-        $work_started_date = $row['work_started_date'] ? date('Y-m-d H:i:s', strtotime($row['work_started_date'])) : null;
-        $work_completed_date = $row['work_completed_date'] ? date('Y-m-d H:i:s', strtotime($row['work_completed_date'])) : null;
-        $created_at = date('Y-m-d H:i:s', strtotime($row['created_at']));
-        $updated_at = date('Y-m-d H:i:s', strtotime($row['updated_at']));
-        
-        // Format costs
-        $estimated_cost = $row['estimated_cost'] ? "P" . number_format($row['estimated_cost'], 2) : null;
-        $actual_cost = $row['actual_cost'] ? "P" . number_format($row['actual_cost'], 2) : null;
-        
-        // Calculate days since request
-        $created = new DateTime($row['created_at']);
-        $today = new DateTime();
-        $days_since_request = $created->diff($today)->days;
-        
-        // Determine urgency status
-        $urgency_status = 'normal';
-        if ($row['priority'] === 'Urgent') {
-            $urgency_status = 'urgent';
-        } elseif ($row['priority'] === 'High' && $days_since_request > 2) {
-            $urgency_status = 'overdue';
-        } elseif ($days_since_request > 7) {
-            $urgency_status = 'overdue';
-        }
-        
-        $maintenance_requests[] = [
-            'maintenance_id' => intval($row['maintenance_id']),
-            'boarder_id' => intval($row['boarder_id']),
-            'room_id' => intval($row['room_id']),
-            'booking_id' => intval($row['booking_id']),
-            'owner_id' => intval($row['owner_id']),
-            'maintenance_type' => $row['maintenance_type'],
-            'priority' => $row['priority'],
-            'title' => $row['title'],
-            'description' => $row['description'],
-            'location' => $row['location'] ?? '',
-            'images' => $images,
-            'preferred_date' => $preferred_date,
-            'preferred_time' => $row['preferred_time'] ?? '',
-            'contact_phone' => $row['contact_phone'] ?? '',
-            'status' => $row['status'],
-            'assigned_to' => $row['assigned_to'] ? intval($row['assigned_to']) : null,
-            'assigned_to_name' => $row['assigned_to_name'] ?? '',
-            'estimated_cost' => $estimated_cost,
-            'actual_cost' => $actual_cost,
-            'work_started_date' => $work_started_date,
-            'work_completed_date' => $work_completed_date,
-            'notes' => $row['notes'] ?? '',
-            'feedback_rating' => $row['feedback_rating'] ? intval($row['feedback_rating']) : null,
-            'feedback_comment' => $row['feedback_comment'] ?? '',
-            'created_at' => $created_at,
-            'updated_at' => $updated_at,
-            'boarder_name' => $row['boarder_name'],
-            'boarder_phone' => $row['boarder_phone'] ?? '',
-            'room_name' => $row['room_name'],
-            'boarding_house_name' => $row['boarding_house_name'],
-            'boarding_house_address' => $row['boarding_house_address'],
-            'request_info' => [
-                'days_since_request' => $days_since_request,
-                'urgency_status' => $urgency_status
-            ]
-        ];
-    }
-    
-    // Get total count for pagination
-    $count_sql = str_replace("LIMIT ? OFFSET ?", "", $sql);
-    $count_sql = str_replace("ORDER BY CASE mr.priority WHEN 'Urgent' THEN 1 WHEN 'High' THEN 2 WHEN 'Medium' THEN 3 WHEN 'Low' THEN 4 END, mr.created_at DESC", "", $count_sql);
-    $count_stmt = $db->prepare($count_sql);
-    $count_stmt->execute([$user_id]);
-    $total_count = $count_stmt->rowCount();
-    
-    $response = [
-        'success' => true,
-        'data' => [
-            'maintenance_requests' => $maintenance_requests,
-            'total_count' => $total_count,
-            'limit' => $limit,
-            'offset' => $offset,
-            'has_more' => ($offset + $limit) < $total_count,
-            'filters' => [
-                'status' => $status_filter,
-                'priority' => $priority_filter,
-                'type' => $type_filter
-            ]
-        ]
-    ];
-    
 } catch (Exception $e) {
-    $response = [
-        'success' => false,
-        'error' => $e->getMessage()
-    ];
+    echo json_encode(array('success' => false, 'error' => 'Database connection error: ' . $e->getMessage()));
+    exit;
 }
 
-echo json_encode($response, JSON_UNESCAPED_SLASHES);
+// Get JSON input or POST/GET data
+$inputData = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST)) {
+        $inputData = $_POST;
+    } else {
+        $jsonInput = file_get_contents('php://input');
+        if (!empty($jsonInput)) {
+            $decoded = json_decode($jsonInput, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $inputData = $decoded;
+            }
+        }
+    }
+} else {
+    $inputData = $_GET;
+}
+
+$user_id = isset($inputData['user_id']) ? intval($inputData['user_id']) : 0;
+$user_type = isset($inputData['user_type']) ? trim($inputData['user_type']) : 'owner'; // 'owner' or 'boarder'
+$status_filter = isset($inputData['status']) ? trim($inputData['status']) : 'all'; // 'pending', 'in_progress', 'resolved', 'all'
+$priority = isset($inputData['priority']) ? trim($inputData['priority']) : 'all';
+$type = isset($inputData['type']) ? trim($inputData['type']) : 'all';
+
+if ($user_id <= 0) {
+    echo json_encode(array('success' => false, 'error' => 'Invalid user_id'));
+    $conn->close();
+    exit;
+}
+
+try {
+    // Build SQL query based on user type
+    if (strtolower($user_type) === 'boarder') {
+        // For boarders: show their own maintenance requests
+        $sql = "SELECT 
+                mr.request_id,
+                mr.user_id,
+                mr.room_id,
+                mr.subject,
+                mr.area_for_maintenance,
+                mr.mr_description,
+                mr.mr_status,
+                DATE_FORMAT(mr.mr_created_at, '%Y-%m-%d %H:%i:%s') as mr_created_at,
+                ru.room_number,
+                bhr.room_name,
+                bhr.bhr_id,
+                bh.bh_id,
+                bh.bh_name as boarding_house_name,
+                CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.middle_name, ''), ' ', COALESCE(r.last_name, ''), ' ', COALESCE(r.suffix, '')) as boarder_name
+            FROM maintenance_requests mr
+            LEFT JOIN users u ON mr.user_id = u.user_id
+            LEFT JOIN registrations r ON u.reg_id = r.id
+            LEFT JOIN room_units ru ON mr.room_id = ru.room_id
+            LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            WHERE mr.user_id = ?";
+        
+        $bind_params = "i";
+        $bind_values = array($user_id);
+    } else {
+        // For owners: show maintenance requests for their boarding houses
+        $sql = "SELECT 
+                mr.request_id,
+                mr.user_id,
+                mr.room_id,
+                mr.subject,
+                mr.area_for_maintenance,
+                mr.mr_description,
+                mr.mr_status,
+                DATE_FORMAT(mr.mr_created_at, '%Y-%m-%d %H:%i:%s') as mr_created_at,
+                ru.room_number,
+                bhr.room_name,
+                bhr.bhr_id,
+                bh.bh_id,
+                bh.bh_name as boarding_house_name,
+                CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.middle_name, ''), ' ', COALESCE(r.last_name, ''), ' ', COALESCE(r.suffix, '')) as boarder_name
+            FROM maintenance_requests mr
+            LEFT JOIN users u ON mr.user_id = u.user_id
+            LEFT JOIN registrations r ON u.reg_id = r.id
+            LEFT JOIN room_units ru ON mr.room_id = ru.room_id
+            LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            WHERE bh.user_id = ?";
+        
+        $bind_params = "i";
+        $bind_values = array($user_id);
+    }
+
+    // Add status filter
+    if ($status_filter !== 'all') {
+        // Normalize status values
+        $status_mapping = array(
+            'pending' => 'Pending',
+            'in_progress' => 'In Progress',
+            'in progress' => 'In Progress',
+            'resolved' => 'Resolved',
+            'completed' => 'Resolved'
+        );
+        
+        $status_value = isset($status_mapping[strtolower($status_filter)]) 
+            ? $status_mapping[strtolower($status_filter)] 
+            : ucfirst($status_filter);
+        
+        $sql .= " AND mr.mr_status = ?";
+        $bind_params .= "s";
+        $bind_values[] = $status_value;
+    }
+
+    $sql .= " ORDER BY mr.mr_created_at DESC";
+
+    // Prepare and execute query
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        throw new Exception('SQL prepare failed: ' . $conn->error);
+    }
+
+    // Bind parameters dynamically using call_user_func_array
+    if (count($bind_values) > 0) {
+        $params = array($bind_params);
+        // Create references for bind_param
+        foreach ($bind_values as $key => $value) {
+            $params[] = &$bind_values[$key];
+        }
+        call_user_func_array(array($stmt, 'bind_param'), $params);
+    }
+
+    if (!$stmt->execute()) {
+        throw new Exception('SQL execution failed: ' . $stmt->error);
+    }
+
+    $result = $stmt->get_result();
+
+    if (!$result) {
+        throw new Exception('SQL get result failed: ' . $conn->error);
+    }
+
+    $maintenanceRequests = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Format maintenance requests for response
+    $formattedRequests = array();
+    foreach ($maintenanceRequests as $mr) {
+        // Normalize status for display
+        $status = $mr['mr_status'];
+        $statusDisplay = $status; // Keep original format
+        
+        // Build description
+        $description = $mr['mr_description'] ?? '';
+        if (!empty($mr['area_for_maintenance'])) {
+            $description = $mr['area_for_maintenance'] . " - " . $description;
+        }
+        if (empty($description)) {
+            $description = $mr['subject'] ?? 'Maintenance request';
+        }
+        
+        $formattedRequests[] = array(
+            'request_id' => (int)$mr['request_id'],
+            'maintenance_id' => (int)$mr['request_id'], // For compatibility
+            'user_id' => (int)$mr['user_id'],
+            'room_id' => isset($mr['room_id']) ? (int)$mr['room_id'] : null,
+            'boarder_name' => $mr['boarder_name'] ?? '',
+            'boarding_house_name' => $mr['boarding_house_name'] ?? '',
+            'room_number' => $mr['room_number'] ?? '',
+            'maintenance_type' => $mr['subject'] ?? '',
+            'title' => $mr['subject'] ?? '',
+            'description' => $description,
+            'area_for_maintenance' => $mr['area_for_maintenance'] ?? '',
+            'request_date' => $mr['mr_created_at'] ?? '',
+            'created_at' => $mr['mr_created_at'] ?? '',
+            'status' => $statusDisplay,
+            'priority' => '', // Not in table structure, keep empty
+            'location' => $mr['area_for_maintenance'] ?? ''
+        );
+    }
+
+    $response = array(
+        'success' => true,
+        'maintenance_requests' => $formattedRequests
+    );
+
+    echo json_encode($response, JSON_UNESCAPED_SLASHES);
+
+    $stmt->close();
+    $conn->close();
+
+} catch (Exception $e) {
+    // Catch any exceptions and return as JSON
+    if (isset($stmt) && $stmt) {
+        $stmt->close();
+    }
+    if (isset($conn) && $conn) {
+        $conn->close();
+    }
+    echo json_encode(array('success' => false, 'error' => 'Error: ' . $e->getMessage()));
+}
 ?>
-
-
-
 

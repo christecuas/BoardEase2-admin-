@@ -1,0 +1,56 @@
+@echo off
+REM Batch file to run auto_complete_stays.php via Windows Task Scheduler
+REM This ensures proper logging and error handling
+
+REM Set the working directory to the script location
+cd /d C:\xampp\htdocs\BoardEase2
+
+REM Find PHP executable (try common locations)
+set PHP_EXEC=
+if exist "C:\xampp\php\php.exe" set PHP_EXEC=C:\xampp\php\php.exe
+if exist "C:\wamp64\bin\php\php8.1.0\php.exe" set PHP_EXEC=C:\wamp64\bin\php\php8.1.0\php.exe
+if exist "C:\wamp\bin\php\php8.1.0\php.exe" set PHP_EXEC=C:\wamp\bin\php\php8.1.0\php.exe
+if exist "C:\php\php.exe" set PHP_EXEC=C:\php\php.exe
+if exist "C:\Program Files\PHP\php.exe" set PHP_EXEC=C:\Program Files\PHP\php.exe
+
+REM If PHP not found in common locations, try to find it in PATH
+if "%PHP_EXEC%"=="" (
+    where php >nul 2>&1
+    if %errorlevel%==0 (
+        set PHP_EXEC=php
+    )
+)
+
+REM If still not found, show error
+if "%PHP_EXEC%"=="" (
+    echo ERROR: PHP executable not found!
+    echo Please edit this batch file and set PHP_EXEC to your PHP path
+    echo Example: set PHP_EXEC=C:\xampp\php\php.exe
+    exit /b 1
+)
+
+REM Create logs directory if it doesn't exist
+if not exist "logs" mkdir logs
+
+REM Get current date/time for log filename
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+set logfile=logs\auto_complete_%datetime:~0,8%_%datetime:~8,6%.log
+
+REM Run the PHP script ONCE and log to both files
+echo [%date% %time%] Starting auto_complete_stays.php >> "logs\auto_complete.log"
+echo [%date% %time%] Starting auto_complete_stays.php >> "%logfile%"
+
+REM Run script and capture output to temp file, then append to both log files
+"%PHP_EXEC%" auto_complete_stays.php > "%TEMP%\auto_complete_output.tmp" 2>&1
+set EXIT_CODE=%errorlevel%
+
+REM Append output to both log files
+type "%TEMP%\auto_complete_output.tmp" >> "logs\auto_complete.log"
+type "%TEMP%\auto_complete_output.tmp" >> "%logfile%"
+
+REM Clean up temp file
+del "%TEMP%\auto_complete_output.tmp" >nul 2>&1
+
+REM Exit with the PHP script's exit code
+exit /b %EXIT_CODE%
+

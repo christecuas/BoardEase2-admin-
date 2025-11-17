@@ -24,14 +24,19 @@ try {
     // Bookings with end_date < today (not including today - last day should still show as active)
     // Only complete stays where checkout date has PASSED (yesterday or earlier)
     // Check for any active status (Confirmed, Approved, or any status that's not Completed/Cancelled)
+    // Also get room category and capacity for proper room status update
     $sql = "
         SELECT 
             b.booking_id,
             b.user_id,
             b.room_id,
             b.end_date,
-            b.booking_status
+            b.booking_status,
+            bhr.room_category,
+            bhr.capacity
         FROM bookings b
+        INNER JOIN room_units ru ON b.room_id = ru.room_id
+        INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
         WHERE b.booking_status NOT IN ('Completed', 'Cancelled')
             AND b.end_date IS NOT NULL
             AND DATE(b.end_date) < CURDATE()
@@ -43,11 +48,14 @@ try {
     $completedCount = 0;
     $removedFromActiveCount = 0;
     $orphanedRemoved = 0;
+    $roomsUpdatedCount = 0;
     
     foreach ($bookingsToComplete as $booking) {
         $bookingId = $booking['booking_id'];
         $userId = $booking['user_id'];
         $roomId = $booking['room_id'];
+        $roomCategory = $booking['room_category'];
+        $capacity = intval($booking['capacity']);
         
         // Update booking status to Completed
         $updateBookingSql = "
@@ -77,6 +85,99 @@ try {
             $removedFromActiveCount++;
             error_log("auto_complete_stays.php - Removed user $userId from active_boarders (room_id: $roomId)");
         }
+        
+        // Update room status based on room category
+        if ($roomCategory === 'Private Room') {
+            // Private Room: Always set to 'Available' when booking is completed
+            $updateRoomSql = "
+                UPDATE room_units 
+                SET status = 'Available' 
+                WHERE room_id = ?
+            ";
+            $updateRoomStmt = $pdo->prepare($updateRoomSql);
+            $updateRoomStmt->execute([$roomId]);
+            
+            if ($updateRoomStmt->rowCount() > 0) {
+                $roomsUpdatedCount++;
+                error_log("auto_complete_stays.php - Updated room $roomId (Private Room) to 'Available'");
+            }
+            
+        } else if ($roomCategory === 'Bed Spacer') {
+            // Bed Spacer: Check if there are other active bookings
+            // If no other active bookings, set to 'Available'
+            // If there are still active bookings, check capacity
+            $checkActiveBookingsSql = "
+                SELECT COUNT(b2.booking_id) as active_count
+                FROM bookings b2
+                WHERE b2.room_id = ?
+                    AND b2.booking_status IN ('Pending', 'Confirmed')
+                    AND b2.booking_id != ?
+            ";
+            $checkActiveStmt = $pdo->prepare($checkActiveBookingsSql);
+            $checkActiveStmt->execute([$roomId, $bookingId]);
+            $activeResult = $checkActiveStmt->fetch(PDO::FETCH_ASSOC);
+            $activeBookingsCount = intval($activeResult['active_count']);
+            
+            if ($activeBookingsCount == 0) {
+                // No other active bookings, set to 'Available'
+                $updateRoomSql = "
+                    UPDATE room_units 
+                    SET status = 'Available' 
+                    WHERE room_id = ?
+                ";
+                $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                $updateRoomStmt->execute([$roomId]);
+                
+                if ($updateRoomStmt->rowCount() > 0) {
+                    $roomsUpdatedCount++;
+                    error_log("auto_complete_stays.php - Updated room $roomId (Bed Spacer) to 'Available' (no other active bookings)");
+                }
+            } else {
+                // There are still active bookings, check if room should be 'Occupied' or 'Available'
+                if ($activeBookingsCount >= $capacity) {
+                    // Still at full capacity, keep as 'Occupied'
+                    $updateRoomSql = "
+                        UPDATE room_units 
+                        SET status = 'Occupied' 
+                        WHERE room_id = ?
+                    ";
+                    $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                    $updateRoomStmt->execute([$roomId]);
+                    
+                    if ($updateRoomStmt->rowCount() > 0) {
+                        error_log("auto_complete_stays.php - Room $roomId (Bed Spacer) remains 'Occupied' ($activeBookingsCount/$capacity beds still occupied)");
+                    }
+                } else {
+                    // Has available capacity, set to 'Available'
+                    $updateRoomSql = "
+                        UPDATE room_units 
+                        SET status = 'Available' 
+                        WHERE room_id = ?
+                    ";
+                    $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                    $updateRoomStmt->execute([$roomId]);
+                    
+                    if ($updateRoomStmt->rowCount() > 0) {
+                        $roomsUpdatedCount++;
+                        error_log("auto_complete_stays.php - Updated room $roomId (Bed Spacer) to 'Available' ($activeBookingsCount/$capacity beds occupied)");
+                    }
+                }
+            }
+        } else {
+            // Unknown category - use Private Room logic (set to Available)
+            $updateRoomSql = "
+                UPDATE room_units 
+                SET status = 'Available' 
+                WHERE room_id = ?
+            ";
+            $updateRoomStmt = $pdo->prepare($updateRoomSql);
+            $updateRoomStmt->execute([$roomId]);
+            
+            if ($updateRoomStmt->rowCount() > 0) {
+                $roomsUpdatedCount++;
+                error_log("auto_complete_stays.php - Updated room $roomId (Unknown category) to 'Available'");
+            }
+        }
     }
     
     // Also clean up orphaned active_boarders records
@@ -105,7 +206,7 @@ try {
     $pdo->commit();
     
     // Log summary
-    $summary = "auto_complete_stays.php - Completed: $completedCount bookings, Removed: $removedFromActiveCount from active_boarders";
+    $summary = "auto_complete_stays.php - Completed: $completedCount bookings, Removed: $removedFromActiveCount from active_boarders, Updated: $roomsUpdatedCount rooms to Available";
     if ($orphanedRemoved > 0) {
         $summary .= " (including $orphanedRemoved orphaned records)";
     }
@@ -125,7 +226,8 @@ try {
             'message' => $summary,
             'completed_bookings' => $completedCount,
             'removed_from_active' => $removedFromActiveCount,
-            'orphaned_removed' => $orphanedRemoved
+            'orphaned_removed' => $orphanedRemoved,
+            'rooms_updated' => $roomsUpdatedCount
         ]);
     }
     
