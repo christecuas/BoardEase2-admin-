@@ -15,3 +15,4 @@ CREATE TABLE IF NOT EXISTS admin_activity_log (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+

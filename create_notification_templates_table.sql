@@ -34,3 +34,4 @@ INSERT INTO notification_templates (template_key, template_title, template_messa
 ON DUPLICATE KEY UPDATE template_message = VALUES(template_message);
 
 
+

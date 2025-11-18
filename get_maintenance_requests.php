@@ -79,6 +79,8 @@ try {
                 mr.mr_description,
                 mr.mr_status,
                 DATE_FORMAT(mr.mr_created_at, '%Y-%m-%d %H:%i:%s') as mr_created_at,
+                DATE_FORMAT(mr.mr_approved_at, '%Y-%m-%d %H:%i:%s') as mr_approved_at,
+                DATE_FORMAT(mr.mr_completed_at, '%Y-%m-%d %H:%i:%s') as mr_completed_at,
                 ru.room_number,
                 bhr.room_name,
                 bhr.bhr_id,
@@ -106,6 +108,8 @@ try {
                 mr.mr_description,
                 mr.mr_status,
                 DATE_FORMAT(mr.mr_created_at, '%Y-%m-%d %H:%i:%s') as mr_created_at,
+                DATE_FORMAT(mr.mr_approved_at, '%Y-%m-%d %H:%i:%s') as mr_approved_at,
+                DATE_FORMAT(mr.mr_completed_at, '%Y-%m-%d %H:%i:%s') as mr_completed_at,
                 ru.room_number,
                 bhr.room_name,
                 bhr.bhr_id,
@@ -132,7 +136,9 @@ try {
             'in_progress' => 'In Progress',
             'in progress' => 'In Progress',
             'resolved' => 'Resolved',
-            'completed' => 'Resolved'
+            'completed' => 'Resolved',
+            'declined' => 'Declined',
+            'rejected' => 'Declined'
         );
         
         $status_value = isset($status_mapping[strtolower($status_filter)]) 
@@ -190,6 +196,22 @@ try {
             $description = $mr['subject'] ?? 'Maintenance request';
         }
         
+        // Get approved date (when status changed to "In Progress")
+        // Check if mr_approved_at column exists and use it, otherwise fallback to created_at
+        $approved_date = '';
+        if (isset($mr['mr_approved_at']) && !empty($mr['mr_approved_at'])) {
+            $approved_date = $mr['mr_approved_at'];
+        } elseif (($status === 'In Progress' || $statusDisplay === 'In Progress')) {
+            // Fallback: If status is In Progress but no approved_at, use created_at
+            $approved_date = $mr['mr_created_at'] ?? '';
+        }
+        
+        // Get completed date (when status changed to "Resolved")
+        $completed_date = '';
+        if (isset($mr['mr_completed_at']) && !empty($mr['mr_completed_at'])) {
+            $completed_date = $mr['mr_completed_at'];
+        }
+        
         $formattedRequests[] = array(
             'request_id' => (int)$mr['request_id'],
             'maintenance_id' => (int)$mr['request_id'], // For compatibility
@@ -204,6 +226,9 @@ try {
             'area_for_maintenance' => $mr['area_for_maintenance'] ?? '',
             'request_date' => $mr['mr_created_at'] ?? '',
             'created_at' => $mr['mr_created_at'] ?? '',
+            'approved_date' => $approved_date,
+            'completed_date' => $completed_date,
+            'work_completed_date' => $completed_date, // For compatibility with Android
             'status' => $statusDisplay,
             'priority' => '', // Not in table structure, keep empty
             'location' => $mr['area_for_maintenance'] ?? ''
