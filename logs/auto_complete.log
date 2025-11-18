@@ -6,3 +6,31 @@ auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders
 
+[18/11/2025  7:55:07.01] Starting auto_complete_stays.php 
+PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+
+Warning: Undefined variable $pdo in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+PHP Fatal error:  Uncaught Error: Call to a member function inTransaction() on null in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php:235
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+
+Fatal error: Uncaught Error: Call to a member function inTransaction() on null in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php:235
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+
+
+[18/11/2025  8:57:46.51] Starting auto_complete_stays.php 
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+
+[18/11/2025  9:25:00.95] Checking MySQL connection... 
+[18/11/2025  9:25:05.12] ERROR: MySQL is not running! 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[18/11/2025  9:27:48.35] Checking MySQL connection... 
+[18/11/2025  9:27:50.46] Starting auto_complete_stays.php 
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+

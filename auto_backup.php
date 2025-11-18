@@ -141,9 +141,17 @@ try {
     $backup = backupDatabase($host, $username, $password, $database);
     
     if (strpos($backup, 'Error:') === 0) {
+        // Check if it's a connection error
+        $errorMsg = $backup;
+        if (strpos($backup, 'refused') !== false || 
+            strpos($backup, 'Connection refused') !== false ||
+            strpos($backup, 'target machine actively refused') !== false) {
+            $errorMsg .= " - MySQL/XAMPP may not be running. Please start MySQL service.";
+        }
+        
         // Log error
-        logBackup("Auto backup FAILED: " . $backup);
-        echo "ERROR: " . $backup . PHP_EOL;
+        logBackup("Auto backup FAILED: " . $errorMsg);
+        echo "ERROR: " . $errorMsg . PHP_EOL;
         exit(1);
     }
     
@@ -190,23 +198,18 @@ try {
     exit(0);
     
 } catch (Exception $e) {
-    logBackup("Auto backup FAILED with exception: " . $e->getMessage());
-    echo "ERROR: " . $e->getMessage() . PHP_EOL;
+    $errorMsg = $e->getMessage();
+    
+    // Check if it's a connection error
+    if (strpos($errorMsg, 'refused') !== false || 
+        strpos($errorMsg, 'Connection refused') !== false ||
+        strpos($errorMsg, 'target machine actively refused') !== false) {
+        $errorMsg .= " - MySQL/XAMPP may not be running. Please start MySQL service.";
+    }
+    
+    logBackup("Auto backup FAILED with exception: " . $errorMsg);
+    echo "ERROR: " . $errorMsg . PHP_EOL;
     exit(1);
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

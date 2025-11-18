@@ -75,3 +75,62 @@ PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Fai
 Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
 Auto backup process completed successfully
 [17/11/2025 20:02:23.39] Backup completed successfully 
+[18/11/2025  7:55:06.79] Starting database backup... 
+PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\BoardEase2\dbConfig.php:14
+Stack trace:
+#0 C:\xampp\htdocs\BoardEase2\dbConfig.php(14): mysqli->__construct('localhost', 'boardease', Object(SensitiveParameterValue), 'boardease2')
+#1 C:\xampp\htdocs\BoardEase2\auto_backup.php(6): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\dbConfig.php on line 14
+
+Fatal error: Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\BoardEase2\dbConfig.php:14
+Stack trace:
+#0 C:\xampp\htdocs\BoardEase2\dbConfig.php(14): mysqli->__construct('localhost', 'boardease', Object(SensitiveParameterValue), 'boardease2')
+#1 C:\xampp\htdocs\BoardEase2\auto_backup.php(6): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\dbConfig.php on line 14
+[18/11/2025  7:55:11.25] Backup FAILED with error code 255 
+[18/11/2025  8:58:01.32] Starting database backup... 
+
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+Auto backup created successfully: C:\xampp\htdocs\BoardEase2/backups/boardease_auto_backup_2025-11-18_01-58-05.sql (Size: 0.18 MB)
+Auto backup completed successfully: C:\xampp\htdocs\BoardEase2/backups/boardease_auto_backup_2025-11-18_01-58-05.sql (Size: 0.18 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 157
+Auto backup process completed successfully
+[18/11/2025  8:58:05.47] Backup completed successfully 
+[2025-11-18 01:59:52] Auto backup process started
+[2025-11-18 01:59:54] Auto backup created successfully: C:\xampp\htdocs\BoardEase2/backups/boardease_auto_backup_2025-11-18_01-59-54.sql (Size: 0.18 MB)
+[2025-11-18 01:59:54] Auto backup process completed successfully
+[18/11/2025  9:25:03.08] Checking MySQL connection... 
+[18/11/2025  9:25:07.24] ERROR: MySQL is not running Backup aborted. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[18/11/2025  9:27:50.22] Checking MySQL connection... 
+[18/11/2025  9:27:52.36] MySQL connection OK. Proceeding with backup... 
+[18/11/2025  9:27:52.37] Starting database backup... 
+
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup created successfully: backups/boardease_auto_backup_2025-11-18_02-27-56.sql (Size: 0.18 MB)
+Auto backup completed successfully: backups/boardease_auto_backup_2025-11-18_02-27-56.sql (Size: 0.18 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process completed successfully
+[18/11/2025  9:27:56.54] Backup completed successfully 
+[2025-11-18 02:28:31] Auto backup process started
+[2025-11-18 02:28:33] Auto backup created successfully: backups/boardease_auto_backup_2025-11-18_02-28-33.sql (Size: 0.18 MB)
+[2025-11-18 02:28:33] Auto backup process completed successfully

@@ -1,0 +1,13 @@
+[18/11/2025  7:55:07.01] Starting auto_complete_stays.php 
+PHP Warning:  Undefined variable $pdo in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+
+Warning: Undefined variable $pdo in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+PHP Fatal error:  Uncaught Error: Call to a member function inTransaction() on null in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php:235
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235
+
+Fatal error: Uncaught Error: Call to a member function inTransaction() on null in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php:235
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\auto_complete_stays.php on line 235

@@ -232,25 +232,41 @@ try {
     }
     
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
+    // Check if $pdo exists and is in transaction before rolling back
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
-    error_log("Database error in auto_complete_stays.php: " . $e->getMessage());
+    
+    $errorMessage = "Database error in auto_complete_stays.php: " . $e->getMessage();
+    
+    // Check if it's a connection error
+    if (strpos($e->getMessage(), 'refused') !== false || 
+        strpos($e->getMessage(), 'Connection refused') !== false ||
+        strpos($e->getMessage(), 'target machine actively refused') !== false) {
+        $errorMessage .= " - MySQL/XAMPP may not be running. Please start MySQL service.";
+    }
+    
+    error_log($errorMessage);
     
     if (php_sapi_name() !== 'cli') {
         header('Content-Type: application/json');
         http_response_code(500);
         echo json_encode([
             'success' => false,
-            'error' => 'Database error: ' . $e->getMessage()
+            'error' => $errorMessage
         ]);
     } else {
-        echo "Error: " . $e->getMessage() . "\n";
+        echo "Error: " . $errorMessage . "\n";
+        if (strpos($e->getMessage(), 'refused') !== false) {
+            echo "TIP: Make sure MySQL/XAMPP is running before running this script.\n";
+        }
     }
 } catch (Exception $e) {
-    if ($pdo->inTransaction()) {
+    // Check if $pdo exists and is in transaction before rolling back
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
+    
     error_log("Error in auto_complete_stays.php: " . $e->getMessage());
     
     if (php_sapi_name() !== 'cli') {

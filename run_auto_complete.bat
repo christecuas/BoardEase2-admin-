@@ -36,6 +36,41 @@ REM Get current date/time for log filename
 for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
 set logfile=logs\auto_complete_%datetime:~0,8%_%datetime:~8,6%.log
 
+REM Wait for MySQL to be ready (check every 15 seconds, max 5 minutes)
+echo [%date% %time%] Waiting for MySQL connection... >> "logs\auto_complete.log"
+echo [%date% %time%] Waiting for MySQL connection... >> "%logfile%"
+
+set MAX_WAIT=20
+set WAIT_COUNT=0
+set WAIT_INTERVAL=15
+
+:WAIT_FOR_MYSQL
+"%PHP_EXEC%" check_mysql_connection.php > "%TEMP%\mysql_check.tmp" 2>&1
+if %ERRORLEVEL% == 0 (
+    echo [%date% %time%] MySQL is ready! Proceeding... >> "logs\auto_complete.log"
+    echo [%date% %time%] MySQL is ready! Proceeding... >> "%logfile%"
+    del "%TEMP%\mysql_check.tmp" >nul 2>&1
+    goto MYSQL_READY
+)
+
+set /a WAIT_COUNT+=1
+if %WAIT_COUNT% GEQ %MAX_WAIT% (
+    echo [%date% %time%] ERROR: MySQL not available after 5 minutes. Exiting. >> "logs\auto_complete.log"
+    echo [%date% %time%] ERROR: MySQL not available after 5 minutes. Exiting. >> "%logfile%"
+    type "%TEMP%\mysql_check.tmp" >> "logs\auto_complete.log"
+    type "%TEMP%\mysql_check.tmp" >> "%logfile%"
+    del "%TEMP%\mysql_check.tmp" >nul 2>&1
+    exit /b 1
+)
+
+echo [%date% %time%] MySQL not ready yet. Waiting... (%WAIT_COUNT%/%MAX_WAIT%) >> "logs\auto_complete.log"
+echo [%date% %time%] MySQL not ready yet. Waiting... (%WAIT_COUNT%/%MAX_WAIT%) >> "%logfile%"
+timeout /t %WAIT_INTERVAL% /nobreak >nul
+goto WAIT_FOR_MYSQL
+
+:MYSQL_READY
+del "%TEMP%\mysql_check.tmp" >nul 2>&1
+
 REM Run the PHP script ONCE and log to both files
 echo [%date% %time%] Starting auto_complete_stays.php >> "logs\auto_complete.log"
 echo [%date% %time%] Starting auto_complete_stays.php >> "%logfile%"

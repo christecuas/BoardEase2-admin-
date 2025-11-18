@@ -1,0 +1,9 @@
+[2025-11-18 02:32:58] === Notification Cleanup Started ===
+[2025-11-18 02:32:58] Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+[2025-11-18 02:32:58] Connecting to database...
+[2025-11-18 02:33:00] Database connection successful
+[2025-11-18 02:33:00] Transaction started
+[2025-11-18 02:33:00] Cutoff date calculated: 2025-10-19 02:33:00 (notifications older than this will be deleted)
+[2025-11-18 02:33:00] Found 0 notification(s) to delete
+[2025-11-18 02:33:00] No notifications found to delete (all notifications are newer than cutoff date)
+[2025-11-18 02:33:00] === Notification Cleanup Completed Successfully ===
