@@ -1,0 +1,9 @@
+[19/11/2025  8:00:01.96] Waiting for MySQL connection... 
+[19/11/2025  8:00:04.05] MySQL is ready! Proceeding... 
+[19/11/2025  8:00:04.05] Starting auto_complete_stays.php 
+auto_complete_stays.php - Marked booking 48 as Completed (end_date: 2025-11-18)
+auto_complete_stays.php - Removed user 35 from active_boarders (room_id: 91)
+auto_complete_stays.php - Updated room 91 (Private Room) to 'Available'
+auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
+auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
+

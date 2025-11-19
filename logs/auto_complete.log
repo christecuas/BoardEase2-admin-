@@ -34,3 +34,35 @@ Please start MySQL/XAMPP service.
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
 
+[19/11/2025  7:28:16.26] Waiting for MySQL connection... 
+[19/11/2025  7:28:20.59] MySQL not ready yet. Waiting... (1/20) 
+[19/11/2025  7:28:39.27] MySQL not ready yet. Waiting... (2/20) 
+[19/11/2025  7:28:58.37] MySQL not ready yet. Waiting... (3/20) 
+[19/11/2025  7:29:17.35] MySQL not ready yet. Waiting... (4/20) 
+[19/11/2025  7:29:36.36] MySQL not ready yet. Waiting... (5/20) 
+[19/11/2025  7:29:55.33] MySQL not ready yet. Waiting... (6/20) 
+[19/11/2025  7:30:14.26] MySQL not ready yet. Waiting... (7/20) 
+[19/11/2025  7:30:33.36] MySQL not ready yet. Waiting... (8/20) 
+[19/11/2025  7:30:52.38] MySQL not ready yet. Waiting... (9/20) 
+[19/11/2025  7:31:11.37] MySQL not ready yet. Waiting... (10/20) 
+[19/11/2025  7:31:30.27] MySQL not ready yet. Waiting... (11/20) 
+[19/11/2025  7:31:49.31] MySQL not ready yet. Waiting... (12/20) 
+[19/11/2025  7:32:08.34] MySQL not ready yet. Waiting... (13/20) 
+[19/11/2025  7:32:27.31] MySQL not ready yet. Waiting... (14/20) 
+[19/11/2025  7:32:46.28] MySQL not ready yet. Waiting... (15/20) 
+[19/11/2025  7:33:05.39] MySQL not ready yet. Waiting... (16/20) 
+[19/11/2025  7:33:24.33] MySQL not ready yet. Waiting... (17/20) 
+[19/11/2025  7:33:43.38] MySQL not ready yet. Waiting... (18/20) 
+[19/11/2025  7:34:02.30] MySQL not ready yet. Waiting... (19/20) 
+[19/11/2025  7:34:21.36] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[19/11/2025  8:00:01.96] Waiting for MySQL connection... 
+[19/11/2025  8:00:04.05] MySQL is ready! Proceeding... 
+[19/11/2025  8:00:04.05] Starting auto_complete_stays.php 
+auto_complete_stays.php - Marked booking 48 as Completed (end_date: 2025-11-18)
+auto_complete_stays.php - Removed user 35 from active_boarders (room_id: 91)
+auto_complete_stays.php - Updated room 91 (Private Room) to 'Available'
+auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
+auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
+

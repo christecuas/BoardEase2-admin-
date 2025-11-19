@@ -215160,3 +215160,763 @@ Stack trace:
 [18-Nov-2025 12:51:01 Europe/Berlin] Matched by city code prefix: Bien Unido (city code: 0701248000 starts with province prefix: 07012)
 [18-Nov-2025 12:51:01 Europe/Berlin] Filtered municipalities count: 48 out of 1634 total
 [18-Nov-2025 12:51:01 Europe/Berlin] Final municipalities count: 48
+[19-Nov-2025 01:26:52 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 01:26:52 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 01:46:37 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 01:46:37 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 01:47:05 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 01:47:05 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[19-Nov-2025 01:47:05 Europe/Berlin] Exact match found for province: Bohol -> Code: 0701200000
+[19-Nov-2025 01:47:05 Europe/Berlin] Looking up province ID for: Bohol, found ID: 0701200000
+[19-Nov-2025 01:47:05 Europe/Berlin] Filtering municipalities for province: name='Bohol', code='0701200000', id='0701200000'
+[19-Nov-2025 01:47:05 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[19-Nov-2025 01:47:06 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[19-Nov-2025 01:47:06 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: City of Tagbilaran  (city code: 0701242000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Alburquerque (city code: 0701201000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Alicia (city code: 0701202000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Anda (city code: 0701203000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Antequera (city code: 0701204000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Baclayon (city code: 0701205000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Balilihan (city code: 0701206000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Batuan (city code: 0701207000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Bilar (city code: 0701208000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Buenavista (city code: 0701209000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Calape (city code: 0701210000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Candijay (city code: 0701211000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Carmen (city code: 0701212000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Catigbian (city code: 0701213000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Clarin (city code: 0701214000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Corella (city code: 0701215000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Cortes (city code: 0701216000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Dagohoy (city code: 0701217000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Danao (city code: 0701218000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Dauis (city code: 0701219000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Dimiao (city code: 0701220000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Duero (city code: 0701221000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Garcia Hernandez (city code: 0701222000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Guindulman (city code: 0701223000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Inabanga (city code: 0701224000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Jagna (city code: 0701225000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Getafe (city code: 0701226000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Lila (city code: 0701227000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Loay (city code: 0701228000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Loboc (city code: 0701229000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Loon (city code: 0701230000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Mabini (city code: 0701231000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Maribojoc (city code: 0701232000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Panglao (city code: 0701233000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Pilar (city code: 0701234000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: President Carlos P. Garcia (city code: 0701235000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Sagbayan (city code: 0701236000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: San Isidro (city code: 0701237000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: San Miguel (city code: 0701238000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Sevilla (city code: 0701239000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Sierra Bullones (city code: 0701240000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Sikatuna (city code: 0701241000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Talibon (city code: 0701243000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Trinidad (city code: 0701244000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Tubigon (city code: 0701245000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Ubay (city code: 0701246000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Valencia (city code: 0701247000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Matched by city code prefix: Bien Unido (city code: 0701248000 starts with province prefix: 07012)
+[19-Nov-2025 01:47:06 Europe/Berlin] Filtered municipalities count: 48 out of 1634 total
+[19-Nov-2025 01:47:06 Europe/Berlin] Final municipalities count: 48
+[19-Nov-2025 01:49:11 Europe/Berlin] Including email_config.php...
+[19-Nov-2025 01:49:11 Europe/Berlin] email_config.php included successfully
+[19-Nov-2025 01:49:11 Europe/Berlin] Registration request received at 2025-11-19 01:49:11
+[19-Nov-2025 01:49:11 Europe/Berlin] POST data: Array
+(
+    [lastName] => Oek
+    [gcashNum] => 09925331463
+    [role] => BH Owner
+    [address] => Lucob 123, Lucob, Calape, Bohol
+    [idType] => PhilID (National ID)
+    [suffix] => None
+    [idNumber] => 3076-4365-8904-7269
+    [birthDate] => 11/29/2003
+    [firstName] => Keo
+    [isAgreed] => true
+    [password] => mantekimberly07
+    [phone] => 09925311463
+    [middleName] => Oke
+    [email] => mantekimberly07@gmail.com
+)
+
+[19-Nov-2025 01:49:11 Europe/Berlin] FILES data: Array
+(
+    [qrFile] => Array
+        (
+            [name] => qr.jpg
+            [full_path] => qr.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpA9ED.tmp
+            [error] => 0
+            [size] => 509926
+        )
+
+    [idBackFile] => Array
+        (
+            [name] => back.jpg
+            [full_path] => back.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpAD3A.tmp
+            [error] => 0
+            [size] => 92583
+        )
+
+    [idFrontFile] => Array
+        (
+            [name] => front.jpg
+            [full_path] => front.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpADC7.tmp
+            [error] => 0
+            [size] => 76722
+        )
+
+)
+
+[19-Nov-2025 01:49:11 Europe/Berlin] BirthDate received: '11/29/2003'
+[19-Nov-2025 01:49:11 Europe/Berlin] Request method: POST
+[19-Nov-2025 01:49:11 Europe/Berlin] Content type: multipart/form-data;boundary=apiclient-1763513349355
+[19-Nov-2025 01:49:11 Europe/Berlin] Content length: 680901
+[19-Nov-2025 01:49:11 Europe/Berlin] Starting registration process...
+[19-Nov-2025 01:49:13 Europe/Berlin] Database connected successfully
+[19-Nov-2025 01:49:13 Europe/Berlin] Converting suffix 'None' to NULL for database storage
+[19-Nov-2025 01:49:13 Europe/Berlin] Formatted birthdate: 2003-11-29
+[19-Nov-2025 01:49:13 Europe/Berlin] === REGISTRATION DEBUG ===
+[19-Nov-2025 01:49:13 Europe/Berlin] Registration attempt for email: mantekimberly07@gmail.com
+[19-Nov-2025 01:49:13 Europe/Berlin] Email check result: 0 rows found
+[19-Nov-2025 01:49:13 Europe/Berlin] Email is new - proceeding with registration
+[19-Nov-2025 01:49:13 Europe/Berlin] saveFile called for key: idFrontFile
+[19-Nov-2025 01:49:13 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Checking for file key: idFrontFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpADC7.tmp' to 'uploads/registrations/691d1409be358_front.jpg'
+[19-Nov-2025 01:49:13 Europe/Berlin] File saved successfully: uploads/registrations/691d1409be358_front.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] saveFile called for key: idBackFile
+[19-Nov-2025 01:49:13 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Checking for file key: idBackFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpAD3A.tmp' to 'uploads/registrations/691d1409bf612_back.jpg'
+[19-Nov-2025 01:49:13 Europe/Berlin] File saved successfully: uploads/registrations/691d1409bf612_back.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] saveFile called for key: qrFile
+[19-Nov-2025 01:49:13 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Checking for file key: qrFile
+[19-Nov-2025 01:49:13 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpA9ED.tmp' to 'uploads/registrations/691d1409c0591_qr.jpg'
+[19-Nov-2025 01:49:13 Europe/Berlin] File saved successfully: uploads/registrations/691d1409c0591_qr.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] File upload results - Front: uploads/registrations/691d1409be358_front.jpg, Back: uploads/registrations/691d1409bf612_back.jpg, QR: uploads/registrations/691d1409c0591_qr.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] === QR VALIDATION CALLED ===
+[19-Nov-2025 01:49:13 Europe/Berlin] QR file path: uploads/registrations/691d1409c0591_qr.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] QR file exists: YES
+[19-Nov-2025 01:49:13 Europe/Berlin] === QR CODE VALIDATION STARTED ===
+[19-Nov-2025 01:49:13 Europe/Berlin] File path: uploads/registrations/691d1409c0591_qr.jpg
+[19-Nov-2025 01:49:13 Europe/Berlin] Image info - Width: 3120, Height: 4160, MIME: image/jpeg
+[19-Nov-2025 01:49:13 Europe/Berlin] File size: 497.974609375 KB
+[19-Nov-2025 01:49:13 Europe/Berlin] === STARTING API TESTS ===
+[19-Nov-2025 01:49:13 Europe/Berlin] Testing QR Server API...
+[19-Nov-2025 01:49:13 Europe/Berlin] QR Server API: Starting request for uploads/registrations/691d1409c0591_qr.jpg
+[19-Nov-2025 01:49:16 Europe/Berlin] QR Server API: HTTP Code: 200, Error: 
+[19-Nov-2025 01:49:16 Europe/Berlin] QR Server API: Response: [{"type":"qrcode","symbol":[{"seq":0,"data":"https:\/\/q.me-qr.com\/DOcwymxi","error":null}]}]
+[19-Nov-2025 01:49:16 Europe/Berlin] QR Server API: SUCCESS - Content: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 01:49:16 Europe/Berlin] QR Server API SUCCESS: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 01:49:16 Europe/Berlin] Testing QuickChart API...
+[19-Nov-2025 01:49:19 Europe/Berlin] QuickChart API FAILED: QuickChart API failed
+[19-Nov-2025 01:49:19 Europe/Berlin] Testing ZXing API...
+[19-Nov-2025 01:49:24 Europe/Berlin] ZXing API FAILED: ZXing API failed
+[19-Nov-2025 01:49:24 Europe/Berlin] TOTAL SUCCESSFUL APIs: 1 out of 3
+[19-Nov-2025 01:49:24 Europe/Berlin] API requirement passed: 1 APIs succeeded
+[19-Nov-2025 01:49:24 Europe/Berlin] === CHECKING CONTENT VALIDATION ===
+[19-Nov-2025 01:49:24 Europe/Berlin] Checking content from API 1: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 01:49:24 Europe/Berlin] Found payment keyword: qr
+[19-Nov-2025 01:49:24 Europe/Berlin] Content is a valid URL
+[19-Nov-2025 01:49:24 Europe/Berlin] VALID CONTENT FOUND: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 01:49:24 Europe/Berlin] QR VALIDATION SUCCESS: Valid QR code detected and verified by 1 APIs
+[19-Nov-2025 01:49:24 Europe/Berlin] === QR CODE VALIDATION COMPLETED ===
+[19-Nov-2025 01:49:24 Europe/Berlin] QR validation result: {"isValid":true,"reason":"Valid QR code detected and verified by 1 APIs"}
+[19-Nov-2025 01:49:24 Europe/Berlin] QR validation PASSED - proceeding with registration
+[19-Nov-2025 01:49:24 Europe/Berlin] Verification record created successfully
+[19-Nov-2025 01:49:24 Europe/Berlin] Registration SUCCESS - sending immediate response
+[19-Nov-2025 01:49:24 Europe/Berlin] === SENDING IMMEDIATE RESPONSE ===
+[19-Nov-2025 01:49:24 Europe/Berlin] Response array: Array
+(
+    [success] => 1
+    [message] => Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.
+    [requires_verification] => 1
+)
+
+[19-Nov-2025 01:49:24 Europe/Berlin] JSON response: {"success":true,"message":"Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.","requires_verification":true}
+[19-Nov-2025 01:49:24 Europe/Berlin] === IMMEDIATE RESPONSE SENT ===
+[19-Nov-2025 01:49:24 Europe/Berlin] Sending verification email in background to: mantekimberly07@gmail.com
+[19-Nov-2025 01:49:28 Europe/Berlin] Background email send result: SUCCESS
+[19-Nov-2025 02:56:30 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 02:56:30 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 02:57:15 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 02:57:15 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[19-Nov-2025 02:57:15 Europe/Berlin] Exact match found for province: Bohol -> Code: 0701200000
+[19-Nov-2025 02:57:15 Europe/Berlin] Looking up province ID for: Bohol, found ID: 0701200000
+[19-Nov-2025 02:57:15 Europe/Berlin] Filtering municipalities for province: name='Bohol', code='0701200000', id='0701200000'
+[19-Nov-2025 02:57:15 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[19-Nov-2025 02:57:16 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[19-Nov-2025 02:57:16 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: City of Tagbilaran  (city code: 0701242000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Alburquerque (city code: 0701201000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Alicia (city code: 0701202000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Anda (city code: 0701203000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Antequera (city code: 0701204000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Baclayon (city code: 0701205000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Balilihan (city code: 0701206000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Batuan (city code: 0701207000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Bilar (city code: 0701208000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Buenavista (city code: 0701209000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Calape (city code: 0701210000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Candijay (city code: 0701211000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Carmen (city code: 0701212000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Catigbian (city code: 0701213000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Clarin (city code: 0701214000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Corella (city code: 0701215000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Cortes (city code: 0701216000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Dagohoy (city code: 0701217000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Danao (city code: 0701218000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Dauis (city code: 0701219000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Dimiao (city code: 0701220000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Duero (city code: 0701221000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Garcia Hernandez (city code: 0701222000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Guindulman (city code: 0701223000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Inabanga (city code: 0701224000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Jagna (city code: 0701225000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Getafe (city code: 0701226000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Lila (city code: 0701227000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Loay (city code: 0701228000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Loboc (city code: 0701229000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Loon (city code: 0701230000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Mabini (city code: 0701231000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Maribojoc (city code: 0701232000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Panglao (city code: 0701233000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Pilar (city code: 0701234000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: President Carlos P. Garcia (city code: 0701235000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Sagbayan (city code: 0701236000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: San Isidro (city code: 0701237000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: San Miguel (city code: 0701238000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Sevilla (city code: 0701239000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Sierra Bullones (city code: 0701240000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Sikatuna (city code: 0701241000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Talibon (city code: 0701243000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Trinidad (city code: 0701244000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Tubigon (city code: 0701245000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Ubay (city code: 0701246000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Valencia (city code: 0701247000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Matched by city code prefix: Bien Unido (city code: 0701248000 starts with province prefix: 07012)
+[19-Nov-2025 02:57:16 Europe/Berlin] Filtered municipalities count: 48 out of 1634 total
+[19-Nov-2025 02:57:16 Europe/Berlin] Final municipalities count: 48
+[19-Nov-2025 02:58:36 Europe/Berlin] Including email_config.php...
+[19-Nov-2025 02:58:36 Europe/Berlin] email_config.php included successfully
+[19-Nov-2025 02:58:36 Europe/Berlin] Registration request received at 2025-11-19 02:58:36
+[19-Nov-2025 02:58:36 Europe/Berlin] POST data: Array
+(
+    [lastName] => Cuas
+    [gcashNum] => 
+    [role] => Boarder
+    [address] => Purok 2, Tinibgan, Calape, Bohol
+    [idType] => PhilID (National ID)
+    [suffix] => None
+    [idNumber] => 2938-6034-9840-8726
+    [birthDate] => 11/19/2000
+    [firstName] => Christe Hanna Mae
+    [isAgreed] => true
+    [password] => christe2004
+    [phone] => 09925311409
+    [middleName] => Dalugdog
+    [email] => christehannamae.cuas@bisu.edu.ph
+)
+
+[19-Nov-2025 02:58:36 Europe/Berlin] FILES data: Array
+(
+    [idBackFile] => Array
+        (
+            [name] => back.jpg
+            [full_path] => back.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\php38CF.tmp
+            [error] => 0
+            [size] => 90220
+        )
+
+    [idFrontFile] => Array
+        (
+            [name] => front.jpg
+            [full_path] => front.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\php398B.tmp
+            [error] => 0
+            [size] => 81940
+        )
+
+)
+
+[19-Nov-2025 02:58:36 Europe/Berlin] BirthDate received: '11/19/2000'
+[19-Nov-2025 02:58:36 Europe/Berlin] Request method: POST
+[19-Nov-2025 02:58:36 Europe/Berlin] Content type: multipart/form-data;boundary=apiclient-1763517471226
+[19-Nov-2025 02:58:36 Europe/Berlin] Content length: 173725
+[19-Nov-2025 02:58:36 Europe/Berlin] Starting registration process...
+[19-Nov-2025 02:58:38 Europe/Berlin] Database connected successfully
+[19-Nov-2025 02:58:38 Europe/Berlin] Converting suffix 'None' to NULL for database storage
+[19-Nov-2025 02:58:38 Europe/Berlin] Formatted birthdate: 2000-11-19
+[19-Nov-2025 02:58:38 Europe/Berlin] === REGISTRATION DEBUG ===
+[19-Nov-2025 02:58:38 Europe/Berlin] Registration attempt for email: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 02:58:38 Europe/Berlin] Email check result: 0 rows found
+[19-Nov-2025 02:58:38 Europe/Berlin] Email is new - proceeding with registration
+[19-Nov-2025 02:58:38 Europe/Berlin] saveFile called for key: idFrontFile
+[19-Nov-2025 02:58:38 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 02:58:38 Europe/Berlin] Checking for file key: idFrontFile
+[19-Nov-2025 02:58:38 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\php398B.tmp' to 'uploads/registrations/691d244e406df_front.jpg'
+[19-Nov-2025 02:58:38 Europe/Berlin] File saved successfully: uploads/registrations/691d244e406df_front.jpg
+[19-Nov-2025 02:58:38 Europe/Berlin] saveFile called for key: idBackFile
+[19-Nov-2025 02:58:38 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 02:58:38 Europe/Berlin] Checking for file key: idBackFile
+[19-Nov-2025 02:58:38 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\php38CF.tmp' to 'uploads/registrations/691d244e42042_back.jpg'
+[19-Nov-2025 02:58:38 Europe/Berlin] File saved successfully: uploads/registrations/691d244e42042_back.jpg
+[19-Nov-2025 02:58:38 Europe/Berlin] saveFile called for key: qrFile
+[19-Nov-2025 02:58:38 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 02:58:38 Europe/Berlin] Checking for file key: qrFile
+[19-Nov-2025 02:58:38 Europe/Berlin] File key 'qrFile' not found in FILES array
+[19-Nov-2025 02:58:38 Europe/Berlin] File upload results - Front: uploads/registrations/691d244e406df_front.jpg, Back: uploads/registrations/691d244e42042_back.jpg, QR: null
+[19-Nov-2025 02:58:38 Europe/Berlin] No QR file uploaded - allowed for Boarder role
+[19-Nov-2025 02:58:38 Europe/Berlin] Boarder role detected - Setting GCash number and QR code to null
+[19-Nov-2025 02:58:38 Europe/Berlin] Verification record created successfully
+[19-Nov-2025 02:58:38 Europe/Berlin] Registration SUCCESS - sending immediate response
+[19-Nov-2025 02:58:38 Europe/Berlin] === SENDING IMMEDIATE RESPONSE ===
+[19-Nov-2025 02:58:38 Europe/Berlin] Response array: Array
+(
+    [success] => 1
+    [message] => Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.
+    [requires_verification] => 1
+)
+
+[19-Nov-2025 02:58:38 Europe/Berlin] JSON response: {"success":true,"message":"Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.","requires_verification":true}
+[19-Nov-2025 02:58:38 Europe/Berlin] === IMMEDIATE RESPONSE SENT ===
+[19-Nov-2025 02:58:38 Europe/Berlin] Sending verification email in background to: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 02:58:42 Europe/Berlin] Background email send result: SUCCESS
+[19-Nov-2025 02:59:07 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 02:59:07 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:08:01 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:08:01 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:08:31 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:08:31 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[19-Nov-2025 03:08:31 Europe/Berlin] Exact match found for province: Bohol -> Code: 0701200000
+[19-Nov-2025 03:08:31 Europe/Berlin] Looking up province ID for: Bohol, found ID: 0701200000
+[19-Nov-2025 03:08:31 Europe/Berlin] Filtering municipalities for province: name='Bohol', code='0701200000', id='0701200000'
+[19-Nov-2025 03:08:31 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[19-Nov-2025 03:08:32 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[19-Nov-2025 03:08:32 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: City of Tagbilaran  (city code: 0701242000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Alburquerque (city code: 0701201000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Alicia (city code: 0701202000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Anda (city code: 0701203000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Antequera (city code: 0701204000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Baclayon (city code: 0701205000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Balilihan (city code: 0701206000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Batuan (city code: 0701207000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Bilar (city code: 0701208000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Buenavista (city code: 0701209000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Calape (city code: 0701210000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Candijay (city code: 0701211000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Carmen (city code: 0701212000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Catigbian (city code: 0701213000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Clarin (city code: 0701214000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Corella (city code: 0701215000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Cortes (city code: 0701216000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Dagohoy (city code: 0701217000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Danao (city code: 0701218000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Dauis (city code: 0701219000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Dimiao (city code: 0701220000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Duero (city code: 0701221000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Garcia Hernandez (city code: 0701222000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Guindulman (city code: 0701223000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Inabanga (city code: 0701224000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Jagna (city code: 0701225000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Getafe (city code: 0701226000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Lila (city code: 0701227000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Loay (city code: 0701228000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Loboc (city code: 0701229000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Loon (city code: 0701230000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Mabini (city code: 0701231000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Maribojoc (city code: 0701232000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Panglao (city code: 0701233000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Pilar (city code: 0701234000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: President Carlos P. Garcia (city code: 0701235000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Sagbayan (city code: 0701236000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: San Isidro (city code: 0701237000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: San Miguel (city code: 0701238000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Sevilla (city code: 0701239000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Sierra Bullones (city code: 0701240000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Sikatuna (city code: 0701241000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Talibon (city code: 0701243000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Trinidad (city code: 0701244000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Tubigon (city code: 0701245000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Ubay (city code: 0701246000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Valencia (city code: 0701247000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Matched by city code prefix: Bien Unido (city code: 0701248000 starts with province prefix: 07012)
+[19-Nov-2025 03:08:32 Europe/Berlin] Filtered municipalities count: 48 out of 1634 total
+[19-Nov-2025 03:08:32 Europe/Berlin] Final municipalities count: 48
+[19-Nov-2025 03:09:38 Europe/Berlin] Including email_config.php...
+[19-Nov-2025 03:09:38 Europe/Berlin] email_config.php included successfully
+[19-Nov-2025 03:09:38 Europe/Berlin] Registration request received at 2025-11-19 03:09:38
+[19-Nov-2025 03:09:38 Europe/Berlin] POST data: Array
+(
+    [lastName] => Cuas
+    [gcashNum] => 
+    [role] => Boarder
+    [address] => Purok 2, Tinibgan, Calape, Bohol
+    [idType] => PhilID (National ID)
+    [suffix] => None
+    [idNumber] => 2938-6034-9840-8726
+    [birthDate] => 11/19/1983
+    [firstName] => Christe Hanna Mae
+    [isAgreed] => true
+    [password] => christe2004
+    [phone] => 09925311409
+    [middleName] => Dalugdog
+    [email] => christehannamae.cuas@bisu.edu.ph
+)
+
+[19-Nov-2025 03:09:38 Europe/Berlin] FILES data: Array
+(
+    [idBackFile] => Array
+        (
+            [name] => back.jpg
+            [full_path] => back.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\php5470.tmp
+            [error] => 0
+            [size] => 86098
+        )
+
+    [idFrontFile] => Array
+        (
+            [name] => front.jpg
+            [full_path] => front.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\php54CF.tmp
+            [error] => 0
+            [size] => 79586
+        )
+
+)
+
+[19-Nov-2025 03:09:38 Europe/Berlin] BirthDate received: '11/19/1983'
+[19-Nov-2025 03:09:38 Europe/Berlin] Request method: POST
+[19-Nov-2025 03:09:38 Europe/Berlin] Content type: multipart/form-data;boundary=apiclient-1763518133628
+[19-Nov-2025 03:09:38 Europe/Berlin] Content length: 167249
+[19-Nov-2025 03:09:38 Europe/Berlin] Starting registration process...
+[19-Nov-2025 03:09:40 Europe/Berlin] Database connected successfully
+[19-Nov-2025 03:09:40 Europe/Berlin] Converting suffix 'None' to NULL for database storage
+[19-Nov-2025 03:09:40 Europe/Berlin] Formatted birthdate: 1983-11-19
+[19-Nov-2025 03:09:40 Europe/Berlin] === REGISTRATION DEBUG ===
+[19-Nov-2025 03:09:40 Europe/Berlin] Registration attempt for email: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 03:09:40 Europe/Berlin] Email check result: 0 rows found
+[19-Nov-2025 03:09:40 Europe/Berlin] Email is new - proceeding with registration
+[19-Nov-2025 03:09:40 Europe/Berlin] saveFile called for key: idFrontFile
+[19-Nov-2025 03:09:40 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 03:09:40 Europe/Berlin] Checking for file key: idFrontFile
+[19-Nov-2025 03:09:40 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\php54CF.tmp' to 'uploads/registrations/691d26e498f2f_front.jpg'
+[19-Nov-2025 03:09:40 Europe/Berlin] File saved successfully: uploads/registrations/691d26e498f2f_front.jpg
+[19-Nov-2025 03:09:40 Europe/Berlin] saveFile called for key: idBackFile
+[19-Nov-2025 03:09:40 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 03:09:40 Europe/Berlin] Checking for file key: idBackFile
+[19-Nov-2025 03:09:40 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\php5470.tmp' to 'uploads/registrations/691d26e49a045_back.jpg'
+[19-Nov-2025 03:09:40 Europe/Berlin] File saved successfully: uploads/registrations/691d26e49a045_back.jpg
+[19-Nov-2025 03:09:40 Europe/Berlin] saveFile called for key: qrFile
+[19-Nov-2025 03:09:40 Europe/Berlin] FILES array keys: idBackFile, idFrontFile
+[19-Nov-2025 03:09:40 Europe/Berlin] Checking for file key: qrFile
+[19-Nov-2025 03:09:40 Europe/Berlin] File key 'qrFile' not found in FILES array
+[19-Nov-2025 03:09:40 Europe/Berlin] File upload results - Front: uploads/registrations/691d26e498f2f_front.jpg, Back: uploads/registrations/691d26e49a045_back.jpg, QR: null
+[19-Nov-2025 03:09:40 Europe/Berlin] No QR file uploaded - allowed for Boarder role
+[19-Nov-2025 03:09:40 Europe/Berlin] Boarder role detected - Setting GCash number and QR code to null
+[19-Nov-2025 03:09:40 Europe/Berlin] Verification record created successfully
+[19-Nov-2025 03:09:40 Europe/Berlin] Registration SUCCESS - sending immediate response
+[19-Nov-2025 03:09:40 Europe/Berlin] === SENDING IMMEDIATE RESPONSE ===
+[19-Nov-2025 03:09:40 Europe/Berlin] Response array: Array
+(
+    [success] => 1
+    [message] => Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.
+    [requires_verification] => 1
+)
+
+[19-Nov-2025 03:09:40 Europe/Berlin] JSON response: {"success":true,"message":"Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.","requires_verification":true}
+[19-Nov-2025 03:09:40 Europe/Berlin] === IMMEDIATE RESPONSE SENT ===
+[19-Nov-2025 03:09:40 Europe/Berlin] Sending verification email in background to: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 03:09:44 Europe/Berlin] Background email send result: SUCCESS
+[19-Nov-2025 03:09:49 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:09:49 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:18:03 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:18:03 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:18:26 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:18:26 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[19-Nov-2025 03:18:26 Europe/Berlin] Exact match found for province: Antique -> Code: 0600600000
+[19-Nov-2025 03:18:26 Europe/Berlin] Looking up province ID for: Antique, found ID: 0600600000
+[19-Nov-2025 03:18:26 Europe/Berlin] Filtering municipalities for province: name='Antique', code='0600600000', id='0600600000'
+[19-Nov-2025 03:18:26 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[19-Nov-2025 03:18:26 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[19-Nov-2025 03:18:26 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Anini-Y (city code: 0600601000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Barbaza (city code: 0600602000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Belison (city code: 0600603000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Bugasong (city code: 0600604000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Caluya (city code: 0600605000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Culasi (city code: 0600606000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Tobias Fornier (city code: 0600607000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Hamtic (city code: 0600608000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Laua-An (city code: 0600609000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Libertad (city code: 0600610000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Pandan (city code: 0600611000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Patnongon (city code: 0600612000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: San Jose  (city code: 0600613000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: San Remigio (city code: 0600614000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Sebaste (city code: 0600615000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Sibalom (city code: 0600616000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Tibiao (city code: 0600617000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Matched by city code prefix: Valderrama (city code: 0600618000 starts with province prefix: 06006)
+[19-Nov-2025 03:18:26 Europe/Berlin] Filtered municipalities count: 18 out of 1634 total
+[19-Nov-2025 03:18:26 Europe/Berlin] Final municipalities count: 18
+[19-Nov-2025 03:20:09 Europe/Berlin] Including email_config.php...
+[19-Nov-2025 03:20:09 Europe/Berlin] email_config.php included successfully
+[19-Nov-2025 03:20:09 Europe/Berlin] Registration request received at 2025-11-19 03:20:09
+[19-Nov-2025 03:20:09 Europe/Berlin] POST data: Array
+(
+    [lastName] => Narrates
+    [gcashNum] => 09925311463
+    [role] => BH Owner
+    [address] => Kshsjsj, Lucob, Culasi, Antique
+    [idType] => Driver's License
+    [suffix] => None
+    [idNumber] => 3076-4365-8904-7269
+    [birthDate] => 11/19/1995
+    [firstName] => Kikyam
+    [isAgreed] => true
+    [password] => kikyamnarrates123
+    [phone] => 09925311463
+    [middleName] => Nore
+    [email] => kikyamnarrates@gmail.com
+)
+
+[19-Nov-2025 03:20:09 Europe/Berlin] FILES data: Array
+(
+    [qrFile] => Array
+        (
+            [name] => qr.jpg
+            [full_path] => qr.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpF556.tmp
+            [error] => 0
+            [size] => 509926
+        )
+
+    [idBackFile] => Array
+        (
+            [name] => back.jpg
+            [full_path] => back.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpF72B.tmp
+            [error] => 0
+            [size] => 92573
+        )
+
+    [idFrontFile] => Array
+        (
+            [name] => front.jpg
+            [full_path] => front.jpg
+            [type] => null
+            [tmp_name] => C:\xampp\tmp\phpF76B.tmp
+            [error] => 0
+            [size] => 80822
+        )
+
+)
+
+[19-Nov-2025 03:20:09 Europe/Berlin] BirthDate received: '11/19/1995'
+[19-Nov-2025 03:20:09 Europe/Berlin] Request method: POST
+[19-Nov-2025 03:20:09 Europe/Berlin] Content type: multipart/form-data;boundary=apiclient-1763518807952
+[19-Nov-2025 03:20:09 Europe/Berlin] Content length: 684997
+[19-Nov-2025 03:20:09 Europe/Berlin] Starting registration process...
+[19-Nov-2025 03:20:11 Europe/Berlin] Database connected successfully
+[19-Nov-2025 03:20:11 Europe/Berlin] Converting suffix 'None' to NULL for database storage
+[19-Nov-2025 03:20:11 Europe/Berlin] Formatted birthdate: 1995-11-19
+[19-Nov-2025 03:20:11 Europe/Berlin] === REGISTRATION DEBUG ===
+[19-Nov-2025 03:20:11 Europe/Berlin] Registration attempt for email: kikyamnarrates@gmail.com
+[19-Nov-2025 03:20:11 Europe/Berlin] Email check result: 0 rows found
+[19-Nov-2025 03:20:11 Europe/Berlin] Email is new - proceeding with registration
+[19-Nov-2025 03:20:11 Europe/Berlin] saveFile called for key: idFrontFile
+[19-Nov-2025 03:20:11 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 03:20:11 Europe/Berlin] Checking for file key: idFrontFile
+[19-Nov-2025 03:20:11 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpF76B.tmp' to 'uploads/registrations/691d295bebcf7_front.jpg'
+[19-Nov-2025 03:20:11 Europe/Berlin] File saved successfully: uploads/registrations/691d295bebcf7_front.jpg
+[19-Nov-2025 03:20:11 Europe/Berlin] saveFile called for key: idBackFile
+[19-Nov-2025 03:20:11 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 03:20:12 Europe/Berlin] Checking for file key: idBackFile
+[19-Nov-2025 03:20:12 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpF72B.tmp' to 'uploads/registrations/691d295c00709_back.jpg'
+[19-Nov-2025 03:20:12 Europe/Berlin] File saved successfully: uploads/registrations/691d295c00709_back.jpg
+[19-Nov-2025 03:20:12 Europe/Berlin] saveFile called for key: qrFile
+[19-Nov-2025 03:20:12 Europe/Berlin] FILES array keys: qrFile, idBackFile, idFrontFile
+[19-Nov-2025 03:20:12 Europe/Berlin] Checking for file key: qrFile
+[19-Nov-2025 03:20:12 Europe/Berlin] Attempting to move file from 'C:\xampp\tmp\phpF556.tmp' to 'uploads/registrations/691d295c0228e_qr.jpg'
+[19-Nov-2025 03:20:12 Europe/Berlin] File saved successfully: uploads/registrations/691d295c0228e_qr.jpg
+[19-Nov-2025 03:20:12 Europe/Berlin] File upload results - Front: uploads/registrations/691d295bebcf7_front.jpg, Back: uploads/registrations/691d295c00709_back.jpg, QR: uploads/registrations/691d295c0228e_qr.jpg
+[19-Nov-2025 03:20:12 Europe/Berlin] === QR VALIDATION CALLED ===
+[19-Nov-2025 03:20:12 Europe/Berlin] QR file path: uploads/registrations/691d295c0228e_qr.jpg
+[19-Nov-2025 03:20:12 Europe/Berlin] QR file exists: YES
+[19-Nov-2025 03:20:12 Europe/Berlin] === QR CODE VALIDATION STARTED ===
+[19-Nov-2025 03:20:12 Europe/Berlin] File path: uploads/registrations/691d295c0228e_qr.jpg
+[19-Nov-2025 03:20:12 Europe/Berlin] Image info - Width: 3120, Height: 4160, MIME: image/jpeg
+[19-Nov-2025 03:20:12 Europe/Berlin] File size: 497.974609375 KB
+[19-Nov-2025 03:20:12 Europe/Berlin] === STARTING API TESTS ===
+[19-Nov-2025 03:20:12 Europe/Berlin] Testing QR Server API...
+[19-Nov-2025 03:20:12 Europe/Berlin] QR Server API: Starting request for uploads/registrations/691d295c0228e_qr.jpg
+[19-Nov-2025 03:20:14 Europe/Berlin] QR Server API: HTTP Code: 200, Error: 
+[19-Nov-2025 03:20:14 Europe/Berlin] QR Server API: Response: [{"type":"qrcode","symbol":[{"seq":0,"data":"https:\/\/q.me-qr.com\/DOcwymxi","error":null}]}]
+[19-Nov-2025 03:20:14 Europe/Berlin] QR Server API: SUCCESS - Content: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 03:20:14 Europe/Berlin] QR Server API SUCCESS: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 03:20:14 Europe/Berlin] Testing QuickChart API...
+[19-Nov-2025 03:20:17 Europe/Berlin] QuickChart API FAILED: QuickChart API failed
+[19-Nov-2025 03:20:17 Europe/Berlin] Testing ZXing API...
+[19-Nov-2025 03:20:19 Europe/Berlin] ZXing API FAILED: ZXing API failed
+[19-Nov-2025 03:20:19 Europe/Berlin] TOTAL SUCCESSFUL APIs: 1 out of 3
+[19-Nov-2025 03:20:19 Europe/Berlin] API requirement passed: 1 APIs succeeded
+[19-Nov-2025 03:20:19 Europe/Berlin] === CHECKING CONTENT VALIDATION ===
+[19-Nov-2025 03:20:19 Europe/Berlin] Checking content from API 1: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 03:20:19 Europe/Berlin] Found payment keyword: qr
+[19-Nov-2025 03:20:19 Europe/Berlin] Content is a valid URL
+[19-Nov-2025 03:20:19 Europe/Berlin] VALID CONTENT FOUND: https://q.me-qr.com/DOcwymxi
+[19-Nov-2025 03:20:19 Europe/Berlin] QR VALIDATION SUCCESS: Valid QR code detected and verified by 1 APIs
+[19-Nov-2025 03:20:19 Europe/Berlin] === QR CODE VALIDATION COMPLETED ===
+[19-Nov-2025 03:20:19 Europe/Berlin] QR validation result: {"isValid":true,"reason":"Valid QR code detected and verified by 1 APIs"}
+[19-Nov-2025 03:20:19 Europe/Berlin] QR validation PASSED - proceeding with registration
+[19-Nov-2025 03:20:19 Europe/Berlin] Verification record created successfully
+[19-Nov-2025 03:20:19 Europe/Berlin] Registration SUCCESS - sending immediate response
+[19-Nov-2025 03:20:19 Europe/Berlin] === SENDING IMMEDIATE RESPONSE ===
+[19-Nov-2025 03:20:19 Europe/Berlin] Response array: Array
+(
+    [success] => 1
+    [message] => Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.
+    [requires_verification] => 1
+)
+
+[19-Nov-2025 03:20:19 Europe/Berlin] JSON response: {"success":true,"message":"Registration successful! Please check your email for verification code. You have 30 minutes to verify your account.","requires_verification":true}
+[19-Nov-2025 03:20:19 Europe/Berlin] === IMMEDIATE RESPONSE SENT ===
+[19-Nov-2025 03:20:19 Europe/Berlin] Sending verification email in background to: kikyamnarrates@gmail.com
+[19-Nov-2025 03:20:23 Europe/Berlin] Background email send result: SUCCESS
+[19-Nov-2025 03:22:34 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:22:34 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:23:39 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:23:39 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:26:18 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:26:18 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:26:20 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:26:20 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:26:23 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:26:23 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:26:28 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:26:28 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:26:30 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[19-Nov-2025 03:26:30 Europe/Berlin] Returning 82 provinces
+[19-Nov-2025 03:28:28 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 03:28:28 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 03:28:28 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 03:28:30 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 03:28:30 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 10:28:54 Asia/Manila] ActivityNotifications: Sending registration approval notification to user_id=63 only (not to all users)
+[19-Nov-2025 10:28:54 Asia/Manila] ============================================
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper::createNotification() START
+[19-Nov-2025 10:28:54 Asia/Manila] ============================================
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Input parameters:
+[19-Nov-2025 10:28:54 Asia/Manila]   - user_id: 63 (type: integer)
+[19-Nov-2025 10:28:54 Asia/Manila]   - title: Registration Approved
+[19-Nov-2025 10:28:54 Asia/Manila]   - message: Your registration has been approved! You can now login to your account
+[19-Nov-2025 10:28:54 Asia/Manila]   - type: registration_approved
+[19-Nov-2025 10:28:54 Asia/Manila]   - send_fcm: true
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Database connection obtained
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Resolving user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper::resolveUserId() - Input user_id: 63 (type: integer)
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper::resolveUserId() - Found user by users.user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Resolved user_id: '63'
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Using resolved user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper: Creating notification for user_id=63, type=registration_approved, title='Registration Approved'
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Executing with params: user_id=63, title='Registration Approved', message='Your registration has been approved! You can now login to your account', type='registration_approved'
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Notification inserted successfully, notif_id: 568
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Verification successful:
+[19-Nov-2025 10:28:54 Asia/Manila]   - notif_id: 568
+[19-Nov-2025 10:28:54 Asia/Manila]   - user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila]   - notif_title: Registration Approved
+[19-Nov-2025 10:28:54 Asia/Manila]   - notif_message: Your registration has been approved! You can now login to your account
+[19-Nov-2025 10:28:54 Asia/Manila]   - notif_type: 
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Executing user query for user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - User found:
+[19-Nov-2025 10:28:54 Asia/Manila]   - user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila]   - reg_id: 113
+[19-Nov-2025 10:28:54 Asia/Manila]   - name: Christe Hanna Mae Cuas
+[19-Nov-2025 10:28:54 Asia/Manila]   - email: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 10:28:54 Asia/Manila]   - role: Boarder
+[19-Nov-2025 10:28:54 Asia/Manila]   - reg_status: approved
+[19-Nov-2025 10:28:54 Asia/Manila]   - user_status: Active
+[19-Nov-2025 10:28:54 Asia/Manila]   - device_token: NULL
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper: User has no device token - user_id: 63
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":568,"user_id":"63","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 10:28:54 Asia/Manila] ============================================
+[19-Nov-2025 10:28:54 Asia/Manila] NotificationHelper::createNotification() END
+[19-Nov-2025 10:28:54 Asia/Manila] ============================================
+[19-Nov-2025 10:28:54 Asia/Manila] In-app notification sent to user_id: 63 for registration approval
+[19-Nov-2025 10:28:54 Asia/Manila] Admin activity logged successfully: activity_id=13, admin_id=1, type=user_approved, title=User registration approved: Christe Hanna Mae  Cuas
+[19-Nov-2025 10:28:54 Asia/Manila] Admin activity logged: user_approved for registration ID 113
+[19-Nov-2025 10:28:54 Asia/Manila] Registration approve successful: ID 113, Email: christehannamae.cuas@bisu.edu.ph, User created: Yes (user_id=63)
+[19-Nov-2025 03:29:03 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 03:29:03 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 03:29:03 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 03:29:05 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 03:29:05 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 03:35:28 Europe/Berlin] === GET_ALL_BOARDING_HOUSES_PUBLIC.PHP START ===
+[19-Nov-2025 03:35:28 Europe/Berlin] Request method: POST
+[19-Nov-2025 03:35:28 Europe/Berlin] Database connection successful
+[19-Nov-2025 03:35:28 Europe/Berlin] SQL Query: 
+        SELECT DISTINCT
+            bh.bh_id,
+            bh.bh_name,
+            bh.bh_address,
+            bh.bh_description,
+            bh.bh_rules,
+            bh.number_of_bathroom,
+            bh.area,
+            bh.build_year,
+            (SELECT image_path FROM boarding_house_images WHERE bh_id = bh.bh_id LIMIT 1) as image_path
+        FROM boarding_houses bh
+        ORDER BY bh.bh_id DESC
+    
+[19-Nov-2025 03:35:28 Europe/Berlin] Found 61 boarding houses
+[19-Nov-2025 03:35:28 Europe/Berlin] Returning 61 boarding houses
+[19-Nov-2025 03:35:28 Europe/Berlin] === GET_ALL_BOARDING_HOUSES_PUBLIC.PHP END ===
