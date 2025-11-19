@@ -68,6 +68,8 @@ try {
     
     // Get boarding houses if user is an owner
     $boarding_houses = [];
+    // Get business permits if user is an owner
+    $business_permits = [];
     if ($user['role'] === 'BH Owner') {
         $sql = "SELECT 
                     bh.bh_id,
@@ -89,6 +91,27 @@ try {
         while ($row = $result->fetch_assoc()) {
             $boarding_houses[] = $row;
         }
+        
+        // Get business permits for this registration
+        $permit_sql = "SELECT 
+                    permit_id,
+                    permit_file,
+                    permit_number,
+                    created_at,
+                    updated_at
+                FROM bs_permits
+                WHERE reg_id = ?
+                ORDER BY permit_number ASC";
+        
+        $permit_stmt = $conn->prepare($permit_sql);
+        $permit_stmt->bind_param("i", $user['reg_id']);
+        $permit_stmt->execute();
+        $permit_result = $permit_stmt->get_result();
+        
+        while ($permit_row = $permit_result->fetch_assoc()) {
+            $business_permits[] = $permit_row;
+        }
+        $permit_stmt->close();
     }
     
     // Get bookings if user is a boarder
@@ -144,7 +167,8 @@ try {
         'data' => [
             'user' => $user,
             'boarding_houses' => $boarding_houses,
-            'bookings' => $bookings
+            'bookings' => $bookings,
+            'business_permits' => $business_permits
         ]
     ];
     

@@ -3525,7 +3525,7 @@ $conn->close();
                                 <span id="verifyType">Boarding House Owner</span>
                             </div>
                             <div class="info-item">
-                                <label>Business Name:</label>
+                                <label>Address:</label>
                                 <span id="verifyBusiness">Sunshine Boarding House</span>
                             </div>
                         </div>
@@ -3554,6 +3554,11 @@ $conn->close();
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Business Permits Section (only for BH Owners) -->
+                    <div class="document-section" id="businessPermitsContainer" style="display: none;">
+                        <!-- Business permits will be dynamically inserted here -->
                     </div>
 
                     <!-- Verification Checklist -->
@@ -3845,6 +3850,38 @@ $conn->close();
                     }
                     if (reg.gcash_qr) {
                         document.getElementById('gcashQrImage').src = '../' + reg.gcash_qr;
+                    }
+                    
+                    // Update business permits if user is BH Owner
+                    if (reg.role === 'BH Owner' && reg.business_permits && reg.business_permits.length > 0) {
+                        const businessPermitsContainer = document.getElementById('businessPermitsContainer');
+                        if (businessPermitsContainer) {
+                            let permitsHtml = '<h3><i class="fas fa-file-contract"></i> Business Permits</h3><div class="document-grid">';
+                            reg.business_permits.forEach((permit, index) => {
+                                permitsHtml += `
+                                    <div class="document-item">
+                                        <h4>Business Permit ${permit.permit_number || (index + 1)}</h4>
+                                        <div class="document-preview">
+                                            <img src="../${permit.permit_file}" alt="Business Permit ${permit.permit_number || (index + 1)}" class="verification-image" onclick="zoomImage('../${permit.permit_file}', 'Business Permit ${permit.permit_number || (index + 1)}')">
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            permitsHtml += '</div>';
+                            businessPermitsContainer.innerHTML = permitsHtml;
+                            businessPermitsContainer.style.display = 'block';
+                        }
+                    } else if (reg.role === 'BH Owner') {
+                        const businessPermitsContainer = document.getElementById('businessPermitsContainer');
+                        if (businessPermitsContainer) {
+                            businessPermitsContainer.innerHTML = '<h3><i class="fas fa-file-contract"></i> Business Permits</h3><div class="no-data"><i class="fas fa-file-contract"></i><p>No business permits uploaded</p></div>';
+                            businessPermitsContainer.style.display = 'block';
+                        }
+                    } else {
+                        const businessPermitsContainer = document.getElementById('businessPermitsContainer');
+                        if (businessPermitsContainer) {
+                            businessPermitsContainer.style.display = 'none';
+                        }
                     }
                     
                     // Store registration ID for approve/decline actions
@@ -4215,6 +4252,7 @@ $conn->close();
             const user = data.user;
             const boardingHouses = data.boarding_houses || [];
             const bookings = data.bookings || [];
+            const businessPermits = data.business_permits || [];
             
             const userInitials = (user.first_name.charAt(0) + user.last_name.charAt(0)).toUpperCase();
             let fullName = user.middle_name ? `${user.first_name} ${user.middle_name} ${user.last_name}` : `${user.first_name} ${user.last_name}`;
@@ -4363,6 +4401,48 @@ $conn->close();
                     </div>
                 </div>
             `;
+            
+            // Add business permits section if user is BH Owner
+            if (user.role === 'BH Owner') {
+                html += `
+                    <div class="user-details-section">
+                        <h3><i class="fas fa-file-contract"></i> Business Permits</h3>
+                `;
+                
+                if (businessPermits.length > 0) {
+                    html += `
+                        <div class="verification-images-section">
+                            <h4>Uploaded Business Permits (${businessPermits.length})</h4>
+                            <div class="images-grid">
+                    `;
+                    
+                    businessPermits.forEach((permit, index) => {
+                        html += `
+                            <div class="image-item">
+                                <h5>Business Permit ${permit.permit_number || (index + 1)}</h5>
+                                ${permit.permit_file ? 
+                                    `<img src="../${permit.permit_file}" alt="Business Permit ${permit.permit_number || (index + 1)}" class="verification-image" onclick="zoomImage('../${permit.permit_file}', 'Business Permit ${permit.permit_number || (index + 1)}')">` : 
+                                    '<div class="no-image">Not provided</div>'
+                                }
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="no-data">
+                            <i class="fas fa-file-contract"></i>
+                            <p>No business permits uploaded</p>
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`;
+            }
             
             // Add boarding houses if user is an owner
             if (user.role === 'BH Owner' && boardingHouses.length > 0) {

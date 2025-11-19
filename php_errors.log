@@ -242507,3 +242507,974 @@ Stack trace:
 )
 
 [19-Nov-2025 14:59:17 Europe/Berlin] === GET_MESSAGES.PHP DEBUG END ===
+[19-Nov-2025 15:04:00 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:04:00 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:04:00 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:04:02 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:04:02 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:08:29 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:08:29 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:08:31 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:08:31 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:09:26 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:09:26 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:10:06 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:10:06 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:10:08 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:10:08 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:12:56 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:12:56 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:12:56 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:01 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:01 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:02 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:02 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:03 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:03 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:09 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:09 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:11 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:11 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:12 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:12 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:12 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: '2' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolving user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '2' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolved user_id: '2'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Using resolved user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing with params: user_id=2, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 601
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_id: 601
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing user query for user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin]   - name: Test User
+[19-Nov-2025 15:13:45 Europe/Berlin]   - email: test@example.com
+[19-Nov-2025 15:13:45 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:45 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper: User has no device token - user_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":601,"user_id":"2","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] Announcement sent to user_id=2 (this is correct - announcements go to all users)
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: '1' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolving user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '1' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolved user_id: '1'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Using resolved user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing with params: user_id=1, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 602
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_id: 602
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing user query for user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 1
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_id: 2
+[19-Nov-2025 15:13:45 Europe/Berlin]   - name: Test User
+[19-Nov-2025 15:13:45 Europe/Berlin]   - email: test2@example.com
+[19-Nov-2025 15:13:45 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:45 Europe/Berlin]   - device_token: dlQeJkN4TmiBs4zkc_w-...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1763561625583063%308096db308096db"}}
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":602,"user_id":"1","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1763561625583063%308096db308096db"}}}}
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] Announcement sent to user_id=1 (this is correct - announcements go to all users)
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: '4' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolving user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '4' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolved user_id: '4'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Using resolved user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing with params: user_id=4, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 603
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_id: 603
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing user query for user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_id: 3
+[19-Nov-2025 15:13:45 Europe/Berlin]   - name: Kimberly Jul Mante
+[19-Nov-2025 15:13:45 Europe/Berlin]   - email: kimjul@gmail.con
+[19-Nov-2025 15:13:45 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:45 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper: User has no device token - user_id: 4
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":603,"user_id":"4","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] Announcement sent to user_id=4 (this is correct - announcements go to all users)
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:45 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: '6' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolving user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '6' (type: string)
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Resolved user_id: '6'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Using resolved user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing with params: user_id=6, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 604
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_id: 604
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:45 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Executing user query for user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_id: 6
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_id: 5
+[19-Nov-2025 15:13:45 Europe/Berlin]   - name: Christe Hanna Cuas
+[19-Nov-2025 15:13:45 Europe/Berlin]   - email: christehanna@gmail.com
+[19-Nov-2025 15:13:45 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:45 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:45 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:45 Europe/Berlin]   - device_token: cvivWukjRtuy1HWtqnBv...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:45 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - FCM result: {"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":604,"user_id":"6","fcm_sent":false,"fcm_result":{"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}}}
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: '58' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolving user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '58' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolved user_id: '58'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Using resolved user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing with params: user_id=58, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 605
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_id: 605
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing user query for user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_id: 8
+[19-Nov-2025 15:13:46 Europe/Berlin]   - name: Flora Mante
+[19-Nov-2025 15:13:46 Europe/Berlin]   - email: floramante@gmail.com
+[19-Nov-2025 15:13:46 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:46 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper: User has no device token - user_id: 58
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":605,"user_id":"58","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: '27' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolving user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '27' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolved user_id: '27'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Using resolved user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing with params: user_id=27, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 606
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_id: 606
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing user query for user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_id: 31
+[19-Nov-2025 15:13:46 Europe/Berlin]   - name: Hanna Baer
+[19-Nov-2025 15:13:46 Europe/Berlin]   - email: hanna@gmail.com
+[19-Nov-2025 15:13:46 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:46 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper: User has no device token - user_id: 27
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":606,"user_id":"27","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:46 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: '24' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolving user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '24' (type: string)
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Resolved user_id: '24'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Using resolved user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing with params: user_id=24, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 607
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_id: 607
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:46 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Executing user query for user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_id: 24
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_id: 35
+[19-Nov-2025 15:13:46 Europe/Berlin]   - name: Mari Baer
+[19-Nov-2025 15:13:46 Europe/Berlin]   - email: mari@gmail.com
+[19-Nov-2025 15:13:46 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:46 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:46 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:46 Europe/Berlin]   - device_token: dAXDgbwuQLyxAEpSsU24...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:46 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - FCM result: {"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":607,"user_id":"24","fcm_sent":false,"fcm_result":{"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}}}
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: '23' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolving user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '23' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolved user_id: '23'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Using resolved user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing with params: user_id=23, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 608
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_id: 608
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing user query for user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_id: 42
+[19-Nov-2025 15:13:47 Europe/Berlin]   - name: Mama Ko
+[19-Nov-2025 15:13:47 Europe/Berlin]   - email: mama@gmail.com
+[19-Nov-2025 15:13:47 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:47 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper: User has no device token - user_id: 23
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":608,"user_id":"23","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: '28' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolving user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '28' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolved user_id: '28'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Using resolved user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing with params: user_id=28, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 609
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_id: 609
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing user query for user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_id: 51
+[19-Nov-2025 15:13:47 Europe/Berlin]   - name: Liz Uy
+[19-Nov-2025 15:13:47 Europe/Berlin]   - email: hannacuas536@gmail.com
+[19-Nov-2025 15:13:47 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:47 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper: User has no device token - user_id: 28
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":609,"user_id":"28","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: '29' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolving user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '29' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolved user_id: '29'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Using resolved user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing with params: user_id=29, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 610
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_id: 610
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing user query for user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 29
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_id: 53
+[19-Nov-2025 15:13:47 Europe/Berlin]   - name: Namz Baer
+[19-Nov-2025 15:13:47 Europe/Berlin]   - email: namzbaer@gmail.com
+[19-Nov-2025 15:13:47 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:47 Europe/Berlin]   - device_token: dlQeJkN4TmiBs4zkc_w-...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1763561627250262%308096db308096db"}}
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":610,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1763561627250262%308096db308096db"}}}}
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:47 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: '35' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolving user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '35' (type: string)
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Resolved user_id: '35'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Using resolved user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing with params: user_id=35, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 611
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_id: 611
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:47 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Executing user query for user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_id: 35
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_id: 79
+[19-Nov-2025 15:13:47 Europe/Berlin]   - name: Ruel Cuas
+[19-Nov-2025 15:13:47 Europe/Berlin]   - email: cuasruel028@gmail.com
+[19-Nov-2025 15:13:47 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:47 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:47 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:47 Europe/Berlin]   - device_token: efnfrm_1Te6MAO-sjd62...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:47 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - FCM result: {"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":611,"user_id":"35","fcm_sent":false,"fcm_result":{"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}}}
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: '36' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolving user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '36' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolved user_id: '36'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Using resolved user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing with params: user_id=36, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 612
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_id: 612
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing user query for user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 36
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_id: 84
+[19-Nov-2025 15:13:48 Europe/Berlin]   - name: Kimberly Mante
+[19-Nov-2025 15:13:48 Europe/Berlin]   - email: kimjulmante@gmail.com
+[19-Nov-2025 15:13:48 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:48 Europe/Berlin]   - device_token: fTbyP38mRYmoXKxi-YRL...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - FCM result: {"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":612,"user_id":"36","fcm_sent":false,"fcm_result":{"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}}}
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: '37' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolving user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '37' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolved user_id: '37'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Using resolved user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing with params: user_id=37, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 613
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_id: 613
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing user query for user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_id: 85
+[19-Nov-2025 15:13:48 Europe/Berlin]   - name: Shevic Tacatane
+[19-Nov-2025 15:13:48 Europe/Berlin]   - email: mayettacatane@gmail.com
+[19-Nov-2025 15:13:48 Europe/Berlin]   - role: BH Owner
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:48 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper: User has no device token - user_id: 37
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":613,"user_id":"37","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: '38' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolving user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '38' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolved user_id: '38'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Using resolved user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing with params: user_id=38, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 614
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_id: 614
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing user query for user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_id: 86
+[19-Nov-2025 15:13:48 Europe/Berlin]   - name: John Mark Sagetarios
+[19-Nov-2025 15:13:48 Europe/Berlin]   - email: johnmark.sagetarios@bisu.edu.ph
+[19-Nov-2025 15:13:48 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:48 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper: User has no device token - user_id: 38
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":614,"user_id":"38","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: '44' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolving user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '44' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolved user_id: '44'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Using resolved user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing with params: user_id=44, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 615
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_id: 615
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing user query for user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_id: 103
+[19-Nov-2025 15:13:48 Europe/Berlin]   - name: Ruel Cuas
+[19-Nov-2025 15:13:48 Europe/Berlin]   - email: lizacuas975@gmail.com
+[19-Nov-2025 15:13:48 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:48 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper: User has no device token - user_id: 44
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":615,"user_id":"44","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:48 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: '59' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolving user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '59' (type: string)
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Resolved user_id: '59'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Using resolved user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing with params: user_id=59, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 616
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_id: 616
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:48 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Executing user query for user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_id: 59
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_id: 105
+[19-Nov-2025 15:13:48 Europe/Berlin]   - name: John Sagetarios
+[19-Nov-2025 15:13:48 Europe/Berlin]   - email: johnmarksagetarios114@gmail.com
+[19-Nov-2025 15:13:48 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:48 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:48 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:48 Europe/Berlin]   - device_token: efnfrm_1Te6MAO-sjd62...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[19-Nov-2025 15:13:48 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - FCM result: {"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":616,"user_id":"59","fcm_sent":false,"fcm_result":{"success":false,"http_code":404,"response":{"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.firebase.fcm.v1.FcmError","errorCode":"UNREGISTERED"}]}}}}}
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: '62' (type: string)
+[19-Nov-2025 15:13:49 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:49 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Resolving user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '62' (type: string)
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Resolved user_id: '62'
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Using resolved user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Executing with params: user_id=62, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 617
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_id: 617
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Executing user query for user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin]   - reg_id: 108
+[19-Nov-2025 15:13:49 Europe/Berlin]   - name: Liza Cuas
+[19-Nov-2025 15:13:49 Europe/Berlin]   - email: christecuas947@gmail.com
+[19-Nov-2025 15:13:49 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:49 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:49 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper: User has no device token - user_id: 62
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":617,"user_id":"62","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::createNotification() START
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Input parameters:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: '63' (type: string)
+[19-Nov-2025 15:13:49 Europe/Berlin]   - title: New Announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - message: Meeting: meeting -admin
+[19-Nov-2025 15:13:49 Europe/Berlin]   - type: announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - send_fcm: true
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Database connection obtained
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Resolving user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: '63' (type: string)
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Resolved user_id: '63'
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Using resolved user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Executing with params: user_id=63, title='New Announcement', message='Meeting: meeting -admin', type='announcement'
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 618
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verification successful:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_id: 618
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_title: New Announcement
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_message: Meeting: meeting -admin
+[19-Nov-2025 15:13:49 Europe/Berlin]   - notif_type: announcement
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Executing user query for user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - User found:
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin]   - reg_id: 113
+[19-Nov-2025 15:13:49 Europe/Berlin]   - name: Christe Hanna Mae Cuas
+[19-Nov-2025 15:13:49 Europe/Berlin]   - email: christehannamae.cuas@bisu.edu.ph
+[19-Nov-2025 15:13:49 Europe/Berlin]   - role: Boarder
+[19-Nov-2025 15:13:49 Europe/Berlin]   - reg_status: approved
+[19-Nov-2025 15:13:49 Europe/Berlin]   - user_status: Active
+[19-Nov-2025 15:13:49 Europe/Berlin]   - device_token: NULL
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper: User has no device token - user_id: 63
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":618,"user_id":"63","fcm_sent":false,"fcm_result":null}}
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] NotificationHelper::createNotification() END
+[19-Nov-2025 15:13:49 Europe/Berlin] ============================================
+[19-Nov-2025 15:13:49 Europe/Berlin] Admin announcement sent: Title='Meeting', Recipients='all', Total users=18, Sent=18, Failed=0
+[19-Nov-2025 15:13:49 Europe/Berlin] Admin notification sent: Title='Meeting', Recipients='all', Sent=18, Failed=0, Total=18
+[19-Nov-2025 15:13:52 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:13:52 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:13:52 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:14:46 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:14:46 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:15:17 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:15:17 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[19-Nov-2025 15:15:19 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[19-Nov-2025 15:15:19 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'

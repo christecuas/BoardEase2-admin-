@@ -43,6 +43,30 @@ try {
     $registration = $result->fetch_assoc();
     $stmt->close();
 
+    // Get business permits if user is a BH Owner
+    $business_permits = [];
+    if ($registration['role'] === 'BH Owner') {
+        $permit_sql = "SELECT 
+                    permit_id,
+                    permit_file,
+                    permit_number,
+                    created_at,
+                    updated_at
+                FROM bs_permits
+                WHERE reg_id = ?
+                ORDER BY permit_number ASC";
+        
+        $permit_stmt = $conn->prepare($permit_sql);
+        $permit_stmt->bind_param("i", $registrationId);
+        $permit_stmt->execute();
+        $permit_result = $permit_stmt->get_result();
+        
+        while ($permit_row = $permit_result->fetch_assoc()) {
+            $business_permits[] = $permit_row;
+        }
+        $permit_stmt->close();
+    }
+
     // Format the response
     $response = array(
         "success" => true,
@@ -66,7 +90,8 @@ try {
             "gcash_qr" => $registration['gcash_qr'],
             "status" => $registration['status'],
             "email_verified" => $registration['email_verified'],
-            "created_at" => $registration['created_at']
+            "created_at" => $registration['created_at'],
+            "business_permits" => $business_permits
         )
     );
 
