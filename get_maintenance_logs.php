@@ -115,7 +115,7 @@ try {
                 $image_url = $bh_image;
             } else {
                 // Format image path similar to other files
-                $base_url = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+                $base_url = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
                 $cleanPath = ltrim($bh_image, '/');
                 // If image_path already contains 'uploads/', use it as is, otherwise prepend 'uploads/'
                 if (strpos($cleanPath, 'uploads/') === 0) {

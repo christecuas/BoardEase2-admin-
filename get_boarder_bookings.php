@@ -128,7 +128,7 @@ try {
     error_log("get_boarder_bookings.php - Found " . count($results) . " bookings for user_id: $userId");
     
     // Get base URL for images
-    $baseUrl = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
     
     // Separate bookings into sections
     $currentBookings = array();

@@ -191,7 +191,7 @@ try {
 
     // FIXED: Use ngrok URL to match Android app base URL
     // This ensures images are accessible from the Android device
-    $baseUrl = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
 
     // Format image URLs
     $formattedImages = array();

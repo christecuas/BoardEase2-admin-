@@ -43,7 +43,7 @@ $limit = isset($_GET['limit']) ? intval($_GET['limit']) : (isset($_POST['limit']
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : (isset($_POST['offset']) ? intval($_POST['offset']) : 0);
 
 // Base URL for profile pictures
-$baseUrl = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+$baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
 
 try {
     // Build the WHERE clause

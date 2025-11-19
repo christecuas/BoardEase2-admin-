@@ -160,7 +160,7 @@ $subject = "Password Reset Request - BoardEase";
 
 // Build reset link - use simple HTTPS link (most reliable and clickable in email clients)
 // The redirect page will immediately open the app
-$resetLink = "https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/redirect_reset_password.php?token=" . urlencode($token);
+$resetLink = "https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/redirect_reset_password.php?token=" . urlencode($token);
 
 // Build email message
 $message = "

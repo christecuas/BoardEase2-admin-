@@ -108,7 +108,7 @@ foreach ($payments as $payment) {
     $amount = "₱" . number_format((float)$payment['payment_amount'], 2, '.', ',');
     
     // Format boarding house image URL
-    $baseUrl = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
     $rawImagePath = $payment['bh_image_path'] ?? "";
     $bhImageUrl = "";
     

@@ -420,7 +420,7 @@ function sendVerificationEmail($email, $firstName, $verificationCode) {
                 <div class='verification-link'>
                     <p><strong>Quick Access:</strong> Click the button below to open the verification screen directly in the BoardEase app:</p>
                     <div style='text-align: center; margin: 20px 0;'>
-                        <a href='https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/verify.php?email=" . urlencode($email) . "' style='display: inline-block; padding: 14px 40px; background-color: #A18167; color: #FFFFFF !important; text-decoration: none !important; border-radius: 5px; font-size: 16px; font-weight: bold; border: 2px solid #A18167;'>Open Verification Screen</a>
+                        <a href='https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/verify.php?email=" . urlencode($email) . "' style='display: inline-block; padding: 14px 40px; background-color: #A18167; color: #FFFFFF !important; text-decoration: none !important; border-radius: 5px; font-size: 16px; font-weight: bold; border: 2px solid #A18167;'>Open Verification Screen</a>
                     </div>
                     <p style='font-size: 12px; color: #666; margin-top: 10px;'><strong>Note:</strong> Clicking the button will open a page that will immediately try to open the BoardEase app. If Android shows an app chooser, please select <strong>BoardEase</strong> and choose <strong>&quot;Always&quot;</strong> to set it as default.</p>
                 </div>

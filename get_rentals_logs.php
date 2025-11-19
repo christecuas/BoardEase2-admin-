@@ -122,7 +122,7 @@ foreach ($rentals as $rental) {
     }
     
     // Format boarder profile image URL
-    $baseUrl = 'https://hookiest-unprotecting-cher.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
     $rawProfilePath = $rental['profile_image'] ?? "";
     $profileImageUrl = "";
     
