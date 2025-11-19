@@ -387,3 +387,4 @@
 {"message_id":"307","sender_id":"38","receiver_id":"29","message":"b**o","timestamp":"2025-11-19 14:19:45","status":"sent","notification_sent":true}
 {"message_id":308,"sender_id":"38","receiver_id":"29","message":"jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj","timestamp":"2025-11-19 14:31:52","status":"sent","notification_sent":true}
 {"message_id":"308","sender_id":"38","receiver_id":"29","message":"jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj","timestamp":"2025-11-19 14:31:54","status":"sent","notification_sent":true}
+{"message_id":309,"sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-19 14:57:51","status":"sent","notification_sent":false}

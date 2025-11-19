@@ -279,6 +279,7 @@ try {
             TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
             COALESCE(reg.email, '') as boarder_email,
             COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
             -- Room information
             COALESCE(bhr.room_name, 'Room N/A') as room_name,
             COALESCE(bhr.room_category, 'Monthly') as rent_type,
@@ -454,15 +455,19 @@ try {
         foreach ($simplePayments as $simplePayment) {
             // Try to get boarder info
             $boarderInfo = null;
+            $profilePicture = '';
             if (!empty($simplePayment['user_id'])) {
                 $boarderSql = "SELECT reg.first_name, reg.middle_name, reg.last_name, reg.suffix, 
-                              reg.email, reg.phone 
+                              reg.email, reg.phone, COALESCE(u.profile_picture, '') as profile_picture
                               FROM users u 
                               LEFT JOIN registrations reg ON u.reg_id = reg.id 
                               WHERE u.user_id = :user_id";
                 $boarderStmt = $pdo->prepare($boarderSql);
                 $boarderStmt->execute([':user_id' => $simplePayment['user_id']]);
                 $boarderInfo = $boarderStmt->fetch(PDO::FETCH_ASSOC);
+                if ($boarderInfo) {
+                    $profilePicture = $boarderInfo['profile_picture'] ?? '';
+                }
             }
             
             // Try to get room/booking info
@@ -563,6 +568,7 @@ try {
                 'notes' => $simplePayment['notes'] ?? '',
                 'payment_proof' => $paymentProofUrl,
                 'receipt_url' => $simplePayment['receipt_url'] ?? '',
+                'profile_picture' => $profilePicture,
                 'payment_month' => $simplePayment['payment_month'] ?? '',
                 'payment_year' => intval($simplePayment['payment_year'] ?? 0),
                 'is_monthly_payment' => intval($simplePayment['is_monthly_payment'] ?? 1),
@@ -661,6 +667,7 @@ try {
                 'notes' => $payment['notes'] ?? '',
                 'payment_proof' => $paymentProofUrl,
                 'receipt_url' => $payment['receipt_url'] ?? '',
+                'profile_picture' => $payment['profile_picture'] ?? '',
                 'payment_month' => $payment['payment_month'] ?? '',
                 'payment_year' => intval($payment['payment_year'] ?? 0),
                 'is_monthly_payment' => intval($payment['is_monthly_payment'] ?? 1),
