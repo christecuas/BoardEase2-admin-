@@ -40,6 +40,7 @@ try {
     // Fetch ALL unpaid payment breakdowns for this booking (current and future periods)
     // Show all breakdowns that are not paid, regardless of selection status (allows advance payment)
     // Also dynamically calculate if status should be 'Overdue' based on due_date
+    // If a breakdown is linked to a payment with "Pending" status, mark it as "For Approval"
     $sql = "
         SELECT 
             pb.breakdown_id,
@@ -54,21 +55,25 @@ try {
             pb.is_selected,
             pb.is_paid,
             COALESCE(pb.due_date, pb.period_start_date) as due_date,
+            pb.payment_status as db_payment_status,
             CASE 
                 WHEN pb.is_paid = 1 THEN 'Paid'
                 WHEN pb.payment_status = 'Cancelled' THEN 'Cancelled'
-                WHEN COALESCE(pb.due_date, pb.period_start_date) < CURDATE() AND pb.payment_status IN ('Pending', 'Overdue') THEN 'Overdue'
-                WHEN COALESCE(pb.due_date, pb.period_start_date) >= CURDATE() 
-                     AND COALESCE(pb.due_date, pb.period_start_date) <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) 
-                     AND pb.payment_status IN ('Pending', 'Overdue') THEN 'Pending'
+                WHEN pb.payment_id IS NOT NULL AND COALESCE(p.payment_status, '') = 'Pending' THEN 'For Approval'
+                WHEN pb.payment_status = 'Overdue' OR (COALESCE(pb.due_date, pb.period_start_date) < CURDATE() AND COALESCE(pb.payment_status, 'Pending') IN ('Pending', 'Overdue')) THEN 'Overdue'
+                WHEN COALESCE(pb.payment_status, 'Pending') = 'Pending' AND COALESCE(pb.due_date, pb.period_start_date) >= CURDATE() 
+                     AND COALESCE(pb.due_date, pb.period_start_date) <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) THEN 'Pending'
+                WHEN pb.payment_status IS NOT NULL AND pb.payment_status != '' THEN pb.payment_status
                 ELSE 'Pending'
             END as payment_status,
             pb.created_at,
             pb.updated_at
         FROM payment_breakdowns pb
+        LEFT JOIN payments p ON pb.payment_id = p.payment_id
         WHERE pb.booking_id = :booking_id
             AND pb.is_paid = 0
             AND (pb.payment_status != 'Cancelled' OR pb.payment_status IS NULL)
+            AND (pb.payment_status != 'Paid' OR pb.payment_status IS NULL)
         ORDER BY 
             COALESCE(pb.due_date, pb.period_start_date) ASC
     ";
@@ -93,8 +98,14 @@ try {
             $dueDateStr = $row['period_start_date'];
         }
         
-        // Log for debugging
-        error_log("Breakdown: ID=" . $row['breakdown_id'] . ", Label=" . $row['period_label'] . ", Status=" . $paymentStatus . ", Due=" . $dueDateStr . ", IsPaid=" . $row['is_paid']);
+        // Log for debugging - also log the raw database value
+        $dbStatus = isset($row['db_payment_status']) ? $row['db_payment_status'] : 'NULL';
+        error_log("Breakdown: ID=" . $row['breakdown_id'] . ", Label=" . $row['period_label'] . 
+                  ", DB Status=[" . $dbStatus . "]" . 
+                  ", Calculated Status=[" . $paymentStatus . "]" . 
+                  ", Due=" . $dueDateStr . 
+                  ", IsPaid=" . $row['is_paid'] . 
+                  ", PaymentID=" . ($row['payment_id'] ?? 'NULL'));
         
         $breakdown = array(
             'breakdown_id' => (int)$row['breakdown_id'],

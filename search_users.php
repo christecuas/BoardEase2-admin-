@@ -4,7 +4,7 @@ error_reporting(0);
 ini_set('display_errors', 0);
 ob_start();
 
-require_once '../db_helper.php';
+require_once 'db_helper.php';
 
 header('Content-Type: application/json');
 
@@ -41,6 +41,9 @@ try {
         throw new Exception('Current user not found');
     }
     
+    $formatted_users = [];
+    $user_map = []; // To track unique users by user_id
+    
     // Search users based on role and boarding house relationships
     if ($current_user['user_role'] === 'BH Owner') {
         // OWNER SIDE: Search only boarders from their own boarding houses
@@ -49,6 +52,7 @@ try {
                 u.user_id,
                 r.first_name,
                 r.last_name,
+                r.suffix,
                 r.role as user_type,
                 r.email,
                 r.phone as phone,
@@ -71,12 +75,20 @@ try {
             AND ab.status = 'Active'
             AND r.role = 'Boarder'
             AND r.status = 'approved'
-                AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name) LIKE ? OR r.email LIKE ?)
+            AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name, 
+                CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                     THEN CONCAT(' ', r.suffix) 
+                     ELSE '' 
+                END) LIKE ? OR r.email LIKE ?)
             ORDER BY 
                 CASE 
                     WHEN r.first_name LIKE ? THEN 1
                     WHEN r.last_name LIKE ? THEN 2
-                    WHEN CONCAT(r.first_name, ' ', r.last_name) LIKE ? THEN 3
+                    WHEN CONCAT(r.first_name, ' ', r.last_name, 
+                        CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                             THEN CONCAT(' ', r.suffix) 
+                             ELSE '' 
+                        END) LIKE ? THEN 3
                     ELSE 4
                 END,
                 is_online DESC,
@@ -93,10 +105,49 @@ try {
         ]);
         $users = $stmt->fetchAll();
         
+        // Format users and deduplicate by user_id
+        foreach ($users as $user) {
+            $user_id = (int)$user['user_id'];
+            
+            // If user already exists, skip (keep first occurrence)
+            if (isset($user_map[$user_id])) {
+                continue;
+            }
+            
+            // Build full name with suffix
+            $first_name = trim($user['first_name']);
+            $last_name = trim($user['last_name']);
+            $suffix = isset($user['suffix']) ? trim($user['suffix']) : '';
+            
+            $fullName = $first_name . ' ' . $last_name;
+            if (!empty($suffix) && strtolower($suffix) !== 'none') {
+                $fullName .= ' ' . $suffix;
+            }
+            
+            $formatted_users[] = [
+                'user_id' => $user_id,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'full_name' => $fullName,
+                'user_type' => $user['user_type'],
+                'email' => $user['email'],
+                'phone' => $user['phone'],
+                'status' => $user['status'],
+                'profile_picture' => isset($user['profile_picture']) ? $user['profile_picture'] : '',
+                'has_device_token' => !empty($user['device_token']),
+                'is_online' => (bool)$user['is_online'],
+                'boarding_house_name' => $user['boarding_house_name'] ?? '',
+                'boarding_house_address' => $user['boarding_house_address'] ?? '',
+                'boarding_house_id' => $user['boarding_house_id'] ?? null
+            ];
+            
+            $user_map[$user_id] = true; // Mark as added
+        }
+        
     } else if ($current_user['user_role'] === 'Boarder') {
         // BOARDER SIDE: Search owner and other boarders from same boarding house
         
-        // First, find which boarding house this boarder is staying in
+        // First, find which boarding houses this boarder is staying in
         $stmt = $db->prepare("
             SELECT
                 ab.boarding_house_id,
@@ -108,9 +159,10 @@ try {
             WHERE ab.user_id = ? AND ab.status = 'Active'
         ");
         $stmt->execute([$current_user_id]);
-        $boarder_bh = $stmt->fetch();
+        $boarder_bh_list = $stmt->fetchAll();
         
-        if ($boarder_bh) {
+        // Process all boarding houses the boarder is in
+        foreach ($boarder_bh_list as $boarder_bh) {
             $stmt = $db->prepare("
                 SELECT 
                     u.user_id,
@@ -139,13 +191,20 @@ try {
                         AND ab2.user_id != ? 
                         AND ab2.status = 'Active'
                     ) AND r.role = 'Boarder' AND r.status = 'approved'))
-                AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name) LIKE ? OR r.email LIKE ?)
+                AND (r.first_name LIKE ? OR r.last_name LIKE ? OR CONCAT(r.first_name, ' ', r.last_name, 
+                    CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                         THEN CONCAT(' ', r.suffix) 
+                         ELSE '' 
+                    END) LIKE ? OR r.email LIKE ?)
                 ORDER BY 
                     CASE 
                         WHEN r.first_name LIKE ? THEN 1
                         WHEN r.last_name LIKE ? THEN 2
                         WHEN CONCAT(r.first_name, ' ', r.last_name, 
-                            CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) LIKE ? THEN 3
+                            CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                                 THEN CONCAT(' ', r.suffix) 
+                                 ELSE '' 
+                            END) LIKE ? THEN 3
                         ELSE 4
                     END,
                     is_online DESC,
@@ -163,37 +222,53 @@ try {
                 $search_exact, $search_exact, $search_exact
             ]);
             $users = $stmt->fetchAll();
-        } else {
-            // Boarder has no active boarding house - return empty
-            $users = [];
+            
+            // Format users and deduplicate by user_id
+            foreach ($users as $user) {
+                $user_id = (int)$user['user_id'];
+                
+                // Only add if not already in the list (deduplicate)
+                if (!isset($user_map[$user_id])) {
+                    // Build full name with suffix
+                    $first_name = trim($user['first_name']);
+                    $last_name = trim($user['last_name']);
+                    $suffix = isset($user['suffix']) ? trim($user['suffix']) : '';
+                    
+                    $fullName = $first_name . ' ' . $last_name;
+                    if (!empty($suffix) && strtolower($suffix) !== 'none') {
+                        $fullName .= ' ' . $suffix;
+                    }
+                    
+                    $formatted_users[] = [
+                        'user_id' => $user_id,
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                        'full_name' => $fullName,
+                        'user_type' => $user['user_type'],
+                        'email' => $user['email'],
+                        'phone' => $user['phone'],
+                        'status' => $user['status'],
+                        'profile_picture' => isset($user['profile_picture']) ? $user['profile_picture'] : '',
+                        'has_device_token' => !empty($user['device_token']),
+                        'is_online' => (bool)$user['is_online'],
+                        'boarding_house_name' => $boarder_bh['bh_name'],
+                        'boarding_house_address' => $boarder_bh['bh_address'],
+                        'boarding_house_id' => (int)$boarder_bh['bh_id']
+                    ];
+                    
+                    $user_map[$user_id] = true; // Mark as added
+                }
+            }
         }
     } else {
         // Unknown role - return empty
-        $users = [];
+        $formatted_users = [];
     }
     
-    // Format users for response
-    $formatted_users = [];
-    foreach ($users as $user) {
-        $fullName = trim($user['first_name'] . ' ' . $user['last_name']);
-        
-        $formatted_users[] = [
-            'user_id' => $user['user_id'],
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name'],
-            'full_name' => $fullName,
-            'user_type' => $user['user_type'],
-            'email' => $user['email'],
-            'phone' => $user['phone'],
-            'status' => $user['status'],
-            'profile_picture' => $user['profile_picture'],
-            'has_device_token' => !empty($user['device_token']),
-            'is_online' => (bool)$user['is_online'],
-            'boarding_house_name' => $user['boarding_house_name'] ?? '',
-            'boarding_house_address' => $user['boarding_house_address'] ?? '',
-            'boarding_house_id' => $user['boarding_house_id'] ?? null
-        ];
-    }
+    // Sort by full name for consistent ordering
+    usort($formatted_users, function($a, $b) {
+        return strcasecmp($a['full_name'], $b['full_name']);
+    });
     
     $response = [
         'success' => true,
@@ -217,21 +292,4 @@ ob_clean();
 echo json_encode($response);
 exit;
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

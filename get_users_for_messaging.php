@@ -36,17 +36,26 @@ try {
     }
     
     $formatted_users = [];
+    $user_map = []; // To track unique users by user_id
     
     if ($current_user['user_role'] === 'BH Owner') {
         // OWNER SIDE: Get boarders from their own boarding houses only
         $stmt = $db->prepare("
             SELECT 
                 u.user_id,
-                CONCAT(r.first_name, ' ', r.last_name) as full_name,
+                CONCAT(r.first_name, ' ', r.last_name, 
+                       CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                            THEN CONCAT(' ', r.suffix) 
+                            ELSE '' 
+                       END) as full_name,
+                r.first_name,
+                r.last_name,
+                r.suffix,
                 r.role as user_type,
                 r.email,
                 r.phone,
                 r.status,
+                u.profile_picture,
                 bh.bh_name as boarding_house_name,
                 bh.bh_address as boarding_house_address,
                 bh.bh_id as boarding_house_id,
@@ -76,15 +85,34 @@ try {
         $stmt->execute([$current_user_id, $current_user_id]);
         $users = $stmt->fetchAll();
         
-        // Format users for response
+        // Format users and deduplicate by user_id
         foreach ($users as $user) {
+            $user_id = (int)$user['user_id'];
+            
+            // If user already exists, skip (keep first occurrence)
+            if (isset($user_map[$user_id])) {
+                continue;
+            }
+            
+            // Ensure full first name is used (not truncated) and include suffix
+            $full_first_name = trim($user['first_name']);
+            $full_last_name = trim($user['last_name']);
+            $suffix = isset($user['suffix']) ? trim($user['suffix']) : '';
+            
+            // Build full name with suffix if present
+            $full_name = $full_first_name . ' ' . $full_last_name;
+            if (!empty($suffix) && strtolower($suffix) !== 'none') {
+                $full_name .= ' ' . $suffix;
+            }
+            
             $user_data = [
-                'user_id' => (int)$user['user_id'],
-                'full_name' => $user['full_name'],
+                'user_id' => $user_id,
+                'full_name' => $full_name,
                 'user_type' => $user['user_type'],
                 'email' => $user['email'],
                 'phone' => $user['phone'],
                 'status' => $user['status'],
+                'profile_picture' => isset($user['profile_picture']) ? $user['profile_picture'] : '',
                 'has_device_token' => (bool)$user['has_device_token'],
                 'status_text' => $user['status_text'],
                 'boarding_house_name' => $user['boarding_house_name'],
@@ -93,6 +121,7 @@ try {
             ];
             
             $formatted_users[] = $user_data;
+            $user_map[$user_id] = true; // Mark as added
         }
         
     } else if ($current_user['user_role'] === 'Boarder') {
@@ -108,18 +137,27 @@ try {
             WHERE ab.user_id = ? AND ab.status = 'active'
         ");
         $stmt->execute([$current_user_id]);
-        $boarder_bh = $stmt->fetch();
+        $boarder_bh_list = $stmt->fetchAll();
         
-        if ($boarder_bh) {
+        // Process all boarding houses the boarder is in
+        foreach ($boarder_bh_list as $boarder_bh) {
             // Get the owner of the boarding house
             $stmt = $db->prepare("
                 SELECT 
                     u.user_id,
-                    CONCAT(r.first_name, ' ', r.last_name) as full_name,
+                    CONCAT(r.first_name, ' ', r.last_name, 
+                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                                THEN CONCAT(' ', r.suffix) 
+                                ELSE '' 
+                           END) as full_name,
+                    r.first_name,
+                    r.last_name,
+                    r.suffix,
                     r.role as user_type,
                     r.email,
                     r.phone,
                     r.status,
+                    u.profile_picture,
                     CASE 
                         WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 1 
                         ELSE 0 
@@ -139,30 +177,57 @@ try {
             $owner = $stmt->fetch();
             
             if ($owner) {
-                $formatted_users[] = [
-                    'user_id' => (int)$owner['user_id'],
-                    'full_name' => $owner['full_name'],
-                    'user_type' => $owner['user_type'],
-                    'email' => $owner['email'],
-                    'phone' => $owner['phone'],
-                    'status' => $owner['status'],
-                    'has_device_token' => (bool)$owner['has_device_token'],
-                    'status_text' => $owner['status_text'],
-                    'boarding_house_name' => $boarder_bh['bh_name'],
-                    'boarding_house_address' => $boarder_bh['bh_address'],
-                    'boarding_house_id' => (int)$boarder_bh['bh_id']
-                ];
+                $owner_id = (int)$owner['user_id'];
+                
+                // Only add if not already in the list
+                if (!isset($user_map[$owner_id])) {
+                    // Ensure full first name is used and include suffix
+                    $full_first_name = trim($owner['first_name']);
+                    $full_last_name = trim($owner['last_name']);
+                    $suffix = isset($owner['suffix']) ? trim($owner['suffix']) : '';
+                    
+                    // Build full name with suffix if present
+                    $full_name = $full_first_name . ' ' . $full_last_name;
+                    if (!empty($suffix) && strtolower($suffix) !== 'none') {
+                        $full_name .= ' ' . $suffix;
+                    }
+                    
+                    $formatted_users[] = [
+                        'user_id' => $owner_id,
+                        'full_name' => $full_name,
+                        'user_type' => $owner['user_type'],
+                        'email' => $owner['email'],
+                        'phone' => $owner['phone'],
+                        'status' => $owner['status'],
+                        'profile_picture' => isset($owner['profile_picture']) ? $owner['profile_picture'] : '',
+                        'has_device_token' => (bool)$owner['has_device_token'],
+                        'status_text' => $owner['status_text'],
+                        'boarding_house_name' => $boarder_bh['bh_name'],
+                        'boarding_house_address' => $boarder_bh['bh_address'],
+                        'boarding_house_id' => (int)$boarder_bh['boarding_house_id']
+                    ];
+                    
+                    $user_map[$owner_id] = true; // Mark as added
+                }
             }
             
             // Get other boarders from the same boarding house
             $stmt = $db->prepare("
                 SELECT 
                     u.user_id,
-                    CONCAT(r.first_name, ' ', r.last_name) as full_name,
+                    CONCAT(r.first_name, ' ', r.last_name, 
+                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' AND r.suffix != 'None' 
+                                THEN CONCAT(' ', r.suffix) 
+                                ELSE '' 
+                           END) as full_name,
+                    r.first_name,
+                    r.last_name,
+                    r.suffix,
                     r.role as user_type,
                     r.email,
                     r.phone,
                     r.status,
+                    u.profile_picture,
                     CASE 
                         WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 1 
                         ELSE 0 
@@ -186,22 +251,46 @@ try {
             $other_boarders = $stmt->fetchAll();
             
             foreach ($other_boarders as $boarder) {
-                $formatted_users[] = [
-                    'user_id' => (int)$boarder['user_id'],
-                    'full_name' => $boarder['full_name'],
-                    'user_type' => $boarder['user_type'],
-                    'email' => $boarder['email'],
-                    'phone' => $boarder['phone'],
-                    'status' => $boarder['status'],
-                    'has_device_token' => (bool)$boarder['has_device_token'],
-                    'status_text' => $boarder['status_text'],
-                    'boarding_house_name' => $boarder_bh['bh_name'],
-                    'boarding_house_address' => $boarder_bh['bh_address'],
-                    'boarding_house_id' => (int)$boarder_bh['bh_id']
-                ];
+                $boarder_id = (int)$boarder['user_id'];
+                
+                // Only add if not already in the list (deduplicate)
+                if (!isset($user_map[$boarder_id])) {
+                    // Ensure full first name is used and include suffix
+                    $full_first_name = trim($boarder['first_name']);
+                    $full_last_name = trim($boarder['last_name']);
+                    $suffix = isset($boarder['suffix']) ? trim($boarder['suffix']) : '';
+                    
+                    // Build full name with suffix if present
+                    $full_name = $full_first_name . ' ' . $full_last_name;
+                    if (!empty($suffix) && strtolower($suffix) !== 'none') {
+                        $full_name .= ' ' . $suffix;
+                    }
+                    
+                    $formatted_users[] = [
+                        'user_id' => $boarder_id,
+                        'full_name' => $full_name,
+                        'user_type' => $boarder['user_type'],
+                        'email' => $boarder['email'],
+                        'phone' => $boarder['phone'],
+                        'status' => $boarder['status'],
+                        'profile_picture' => isset($boarder['profile_picture']) ? $boarder['profile_picture'] : '',
+                        'has_device_token' => (bool)$boarder['has_device_token'],
+                        'status_text' => $boarder['status_text'],
+                        'boarding_house_name' => $boarder_bh['bh_name'],
+                        'boarding_house_address' => $boarder_bh['bh_address'],
+                        'boarding_house_id' => (int)$boarder_bh['boarding_house_id']
+                    ];
+                    
+                    $user_map[$boarder_id] = true; // Mark as added
+                }
             }
         }
     }
+    
+    // Sort by full name for consistent ordering
+    usort($formatted_users, function($a, $b) {
+        return strcasecmp($a['full_name'], $b['full_name']);
+    });
     
     $response = [
         'success' => true,
@@ -226,23 +315,4 @@ ob_clean();
 echo json_encode($response);
 exit;
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

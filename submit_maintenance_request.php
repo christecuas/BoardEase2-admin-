@@ -14,6 +14,9 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept");
 
+// Load notification helper
+require_once __DIR__ . '/activity_notifications.php';
+
 // Database configuration
 $servername = "localhost";
 $username = "boardease";

@@ -156,9 +156,9 @@ try {
             ]);
         }
         
-        // IMPORTANT: Update ONLY the payment_breakdowns linked to this specific payment_id
-        // This handles partial payments correctly (e.g., 1/2 periods paid)
-        // Only breakdowns with payment_id = X will be updated, others remain unchanged
+        // IMPORTANT: Update ALL payment_breakdowns linked to this specific payment_id
+        // When a payment is marked as paid, ALL breakdowns linked to that payment should be updated
+        // This ensures consistency - if payment_id is set, those breakdowns are part of that payment
         
         // First, check how many breakdowns are linked to this payment
         $countStmt = $pdo->prepare("SELECT COUNT(*) as count FROM payment_breakdowns WHERE payment_id = :payment_id");
@@ -174,8 +174,8 @@ try {
         $breakdownStatusMap = [
             'Paid' => 'Paid',
             'Completed' => 'Paid',
-            'Partially Paid' => 'Paid',  // Partial payment - mark selected periods as paid
-            'Fully Paid' => 'Paid',           // Fully paid - mark selected periods as paid
+            'Partially Paid' => 'Paid',  // Partial payment - mark linked periods as paid
+            'Fully Paid' => 'Paid',      // Fully paid - mark linked periods as paid
             'Pending' => 'Pending',
             'Overdue' => 'Overdue',
             'Failed' => 'Cancelled',
@@ -185,6 +185,11 @@ try {
         
         $breakdownStatus = isset($breakdownStatusMap[$newStatus]) ? $breakdownStatusMap[$newStatus] : 'Pending';
         
+        // Ensure breakdown status is never blank/null - default to 'Pending' if somehow empty
+        if (empty($breakdownStatus) || $breakdownStatus === null) {
+            $breakdownStatus = 'Pending';
+        }
+        
         // Determine if breakdowns should be marked as paid
         // Mark as paid if status is Paid, Completed, Partially Paid, or Fully Paid
         $isPaid = ($newStatus === 'Paid' || 
@@ -192,17 +197,16 @@ try {
                    $newStatus === 'Partially Paid' || 
                    $newStatus === 'Fully Paid') ? 1 : 0;
         
-        // Update ONLY the payment_breakdowns linked to this payment_id AND is_selected = 1
-        // CRITICAL: Only update periods that were actually selected for payment (is_selected = 1)
-        // Example: Booking 16 has 2 periods both with payment_id = 19:
-        //   - Period 1: is_selected = 1 (this was paid) → UPDATE to is_paid = 1
-        //   - Period 2: is_selected = 0 (not selected) → REMAIN is_paid = 0
+        // Update ALL payment_breakdowns linked to this payment_id
+        // CRITICAL: Update ALL breakdowns with this payment_id, not just is_selected = 1
+        // When a payment is submitted, breakdowns are linked via payment_id
+        // When marking as paid, ALL linked breakdowns should be updated to reflect payment status
+        // Status will be 'Pending' until payment is marked as paid, then it becomes 'Paid'
         $breakdownUpdateSql = "UPDATE payment_breakdowns 
-                              SET payment_status = :breakdown_status,
+                              SET payment_status = COALESCE(:breakdown_status, 'Pending'),
                                   is_paid = :is_paid,
                                   updated_at = NOW()
-                              WHERE payment_id = :payment_id
-                              AND is_selected = 1";
+                              WHERE payment_id = :payment_id";
         
         $breakdownUpdateStmt = $pdo->prepare($breakdownUpdateSql);
         $breakdownUpdateStmt->execute([
@@ -210,25 +214,6 @@ try {
             ':is_paid' => $isPaid,
             ':payment_id' => $paymentId
         ]);
-        
-        // Also handle status changes for non-selected periods (if marking as Pending/Overdue/Cancelled)
-        // Non-selected periods should also reflect the payment status change
-        if ($newStatus !== 'Paid' && 
-            $newStatus !== 'Completed' && 
-            $newStatus !== 'Partially Paid' && 
-            $newStatus !== 'Fully Paid') {
-            $breakdownUpdateAllSql = "UPDATE payment_breakdowns 
-                                     SET payment_status = :breakdown_status,
-                                         updated_at = NOW()
-                                     WHERE payment_id = :payment_id
-                                     AND is_selected = 0";
-            
-            $breakdownUpdateAllStmt = $pdo->prepare($breakdownUpdateAllSql);
-            $breakdownUpdateAllStmt->execute([
-                ':breakdown_status' => $breakdownStatus,
-                ':payment_id' => $paymentId
-            ]);
-        }
         
         // Log breakdown update (minimal logging during transaction to speed up response)
         // Detailed logging will happen after response is sent
@@ -561,12 +546,18 @@ try {
                         $duplicate = $checkDuplicateStmt->fetch(PDO::FETCH_ASSOC);
                         
                         if (!$duplicate) {
-                            ActivityNotifications::notifyPaymentOverdue($boarderUserId, [
-                                'amount' => $paymentAmount,
-                                'payment_id' => $paymentId,
-                                'room_name' => $paymentDetails['room_name'] ?? 'room'
-                            ]);
-                            error_log("Notification sent to boarder (user_id: $boarderUserId) about overdue payment");
+                            // Use ActivityNotifications which will save to DB and send FCM (ensures it appears in notification center)
+                            if (class_exists('ActivityNotifications')) {
+                                ActivityNotifications::notifyPaymentOverdue($boarderUserId, [
+                                    'amount' => $paymentAmount,
+                                    'payment_id' => $paymentId,
+                                    'room_name' => $paymentDetails['room_name'] ?? 'room'
+                                ]);
+                                
+                                error_log("Notification sent to boarder (user_id: $boarderUserId) about overdue payment");
+                            } else {
+                                error_log("Warning: ActivityNotifications class not found - notification not sent");
+                            }
                         } else {
                             error_log("Duplicate notification prevented for boarder (user_id: $boarderUserId) - payment_id: $paymentId (overdue notification already sent within last 10 seconds)");
                         }
@@ -589,14 +580,20 @@ try {
                         $duplicate = $checkDuplicateStmt->fetch(PDO::FETCH_ASSOC);
                         
                         if (!$duplicate) {
-                            ActivityNotifications::notifyPaymentStatusUpdated($boarderUserId, [
-                                'status' => $newStatus,
-                                'amount' => $paymentAmount,
-                                'payment_id' => $paymentId,
-                                'room_name' => $paymentDetails['room_name'] ?? 'room',
-                                'old_status' => $oldStatus
-                            ]);
-                            error_log("Notification sent to boarder (user_id: $boarderUserId) about payment status update to: $newStatus");
+                            // Use ActivityNotifications which will save to DB and send FCM (ensures it appears in notification center)
+                            if (class_exists('ActivityNotifications')) {
+                                ActivityNotifications::notifyPaymentStatusUpdated($boarderUserId, [
+                                    'status' => $newStatus,
+                                    'amount' => $paymentAmount,
+                                    'payment_id' => $paymentId,
+                                    'room_name' => $paymentDetails['room_name'] ?? 'room',
+                                    'old_status' => $oldStatus
+                                ]);
+                                
+                                error_log("Notification sent to boarder (user_id: $boarderUserId) about payment status update to: $newStatus");
+                            } else {
+                                error_log("Warning: ActivityNotifications class not found - notification not sent");
+                            }
                         } else {
                             error_log("Duplicate notification prevented for boarder (user_id: $boarderUserId) - payment_id: $paymentId (status update notification already sent within last 10 seconds)");
                         }
@@ -627,15 +624,20 @@ try {
                     $duplicate = $checkDuplicateStmt->fetch(PDO::FETCH_ASSOC);
                     
                     if (!$duplicate) {
-                        // No duplicate found - safe to send notification
-                        ActivityNotifications::notifyPaymentReceived($ownerUserId, [
-                            'amount' => $paymentAmount,
-                            'description' => 'Payment for ' . ($paymentDetails['room_name'] ?? 'room') . ' at ' . ($paymentDetails['bh_name'] ?? 'boarding house'),
-                            'payment_id' => $paymentId,
-                            'boarder_user_id' => $boarderUserId,
-                            'status' => $newStatus
-                        ]);
-                        error_log("Notification sent to owner (user_id: $ownerUserId) about payment received");
+                        // Use ActivityNotifications which will save to DB and send FCM (ensures it appears in notification center)
+                        if (class_exists('ActivityNotifications')) {
+                            ActivityNotifications::notifyPaymentReceived($ownerUserId, [
+                                'amount' => $paymentAmount,
+                                'description' => 'Payment for ' . ($paymentDetails['room_name'] ?? 'room') . ' at ' . ($paymentDetails['bh_name'] ?? 'boarding house'),
+                                'payment_id' => $paymentId,
+                                'boarder_user_id' => $boarderUserId,
+                                'status' => $newStatus
+                            ]);
+                            
+                            error_log("Notification sent to owner (user_id: $ownerUserId) about payment received");
+                        } else {
+                            error_log("Warning: ActivityNotifications class not found - notification not sent");
+                        }
                     } else {
                         error_log("Duplicate notification prevented for owner (user_id: $ownerUserId) - payment_id: $paymentId (notification already sent within last 10 seconds)");
                     }

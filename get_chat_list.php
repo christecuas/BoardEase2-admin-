@@ -40,8 +40,10 @@ try {
                 other_user_id,
                 first_name,
                 last_name,
+                suffix,
                 user_type,
                 user_status,
+                profile_picture,
                 last_message,
                 last_message_time,
                 last_message_status
@@ -53,8 +55,10 @@ try {
                     END as other_user_id,
                     r.first_name,
                     r.last_name,
+                    r.suffix,
                     r.role as user_type,
                     u.status as user_status,
+                    u.profile_picture,
                     m.msg_text as last_message,
                     m.msg_timestamp as last_message_time,
                     m.msg_status as last_message_status,
@@ -102,8 +106,10 @@ try {
                     other_user_id,
                     first_name,
                     last_name,
+                    suffix,
                     user_type,
                     user_status,
+                    profile_picture,
                     last_message,
                     last_message_time,
                     last_message_status
@@ -115,8 +121,10 @@ try {
                         END as other_user_id,
                         r.first_name,
                         r.last_name,
+                        r.suffix,
                         r.role as user_type,
                         u.status as user_status,
+                        u.profile_picture,
                         m.msg_text as last_message,
                         m.msg_timestamp as last_message_time,
                         m.msg_status as last_message_status,
@@ -245,13 +253,24 @@ try {
             $display_sender_name = 'You';
         }
         
+        // Build full name with suffix
+        $first_name = trim($chat['first_name']);
+        $last_name = trim($chat['last_name']);
+        $suffix = isset($chat['suffix']) ? trim($chat['suffix']) : '';
+        
+        $full_name = $first_name . ' ' . $last_name;
+        if (!empty($suffix) && strtolower($suffix) !== 'none') {
+            $full_name .= ' ' . $suffix;
+        }
+        
         $formatted_individual_chats[] = [
             'chat_id' => 'individual_' . $chat['other_user_id'],
             'chat_type' => 'individual',
             'other_user_id' => $chat['other_user_id'],
-            'other_user_name' => trim($chat['first_name'] . ' ' . $chat['last_name']),
+            'other_user_name' => $full_name,
             'other_user_type' => $chat['user_type'],
             'user_status' => $chat['user_status'],
+            'other_user_profile_picture' => isset($chat['profile_picture']) ? $chat['profile_picture'] : '',
             'last_message' => $chat['last_message'],
             'last_message_time' => $chat['last_message_time'],
             'last_message_status' => $chat['last_message_status'],
@@ -297,7 +316,8 @@ try {
                             gm.groupmessage_text as last_message,
                             gm.groupmessage_timestamp as last_message_time,
                             r.first_name as last_sender_first_name,
-                            r.last_name as last_sender_last_name
+                            r.last_name as last_sender_last_name,
+                            r.suffix as last_sender_suffix
                         FROM group_messages gm
                         JOIN users u ON gm.sender_id = u.user_id
                         JOIN registrations r ON u.reg_id = r.id
@@ -309,7 +329,16 @@ try {
                     $last_message = $stmt->fetch();
                     
                     if ($last_message && $last_message['last_sender_first_name'] && $last_message['last_sender_last_name']) {
-                        $last_sender_name = trim($last_message['last_sender_first_name'] . ' ' . $last_message['last_sender_last_name']);
+                        // Build full name with suffix for last sender
+                        $sender_first_name = trim($last_message['last_sender_first_name']);
+                        $sender_last_name = trim($last_message['last_sender_last_name']);
+                        $sender_suffix = isset($last_message['last_sender_suffix']) ? trim($last_message['last_sender_suffix']) : '';
+                        
+                        $last_sender_name = $sender_first_name . ' ' . $sender_last_name;
+                        if (!empty($sender_suffix) && strtolower($sender_suffix) !== 'none') {
+                            $last_sender_name .= ' ' . $sender_suffix;
+                        }
+                        
                         $last_message_time = $last_message['last_message_time'];
                     }
                 } catch (Exception $e) {
@@ -408,3 +437,4 @@ ob_clean();
 echo json_encode($response);
 exit;
 ?>
+
