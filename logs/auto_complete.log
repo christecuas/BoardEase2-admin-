@@ -66,3 +66,8 @@ auto_complete_stays.php - Updated room 91 (Private Room) to 'Available'
 auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
 auto_complete_stays.php - Completed: 1 bookings, Removed: 1 from active_boarders, Updated: 1 rooms to Available
 
+[20/11/2025 10:22:10.75] Waiting for MySQL connection... 
+[20/11/2025 10:22:14.93] MySQL not ready yet. Waiting... (1/20) 
+[20/11/2025 10:22:34.34] MySQL not ready yet. Waiting... (2/20) 
+[20/11/2025 10:22:53.40] MySQL not ready yet. Waiting... (3/20) 
+[20/11/2025 10:23:12.38] MySQL not ready yet. Waiting... (4/20) 

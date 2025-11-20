@@ -388,3 +388,33 @@
 {"message_id":308,"sender_id":"38","receiver_id":"29","message":"jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj","timestamp":"2025-11-19 14:31:52","status":"sent","notification_sent":true}
 {"message_id":"308","sender_id":"38","receiver_id":"29","message":"jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj","timestamp":"2025-11-19 14:31:54","status":"sent","notification_sent":true}
 {"message_id":309,"sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-19 14:57:51","status":"sent","notification_sent":false}
+{"message_id":310,"sender_id":"29","receiver_id":"38","message":"B**o ka","timestamp":"2025-11-20 06:16:06","status":"sent","notification_sent":false}
+{"message_id":311,"sender_id":"29","receiver_id":"38","message":"Putangina mo","timestamp":"2025-11-20 06:16:54","status":"sent","notification_sent":false}
+{"message_id":312,"sender_id":"29","receiver_id":"38","message":"P*******a mo","timestamp":"2025-11-20 06:17:17","status":"sent","notification_sent":false}
+{"message_id":313,"sender_id":"29","receiver_id":"38","message":"Hi","timestamp":"2025-11-20 06:17:34","status":"sent","notification_sent":false}
+{"message_id":"313","sender_id":"29","receiver_id":"38","message":"Hi","timestamp":"2025-11-20 06:17:36","status":"sent","notification_sent":false}
+{"message_id":314,"sender_id":"59","receiver_id":"29","message":"hi","timestamp":"2025-11-20 06:21:10","status":"sent","notification_sent":true}
+{"message_id":"314","sender_id":"59","receiver_id":"29","message":"hi","timestamp":"2025-11-20 06:21:13","status":"sent","notification_sent":true}
+{"message_id":315,"sender_id":"28","receiver_id":"29","message":"Hi","timestamp":"2025-11-20 07:47:45","status":"sent","notification_sent":true}
+{"message_id":"315","sender_id":"28","receiver_id":"29","message":"Hi","timestamp":"2025-11-20 07:47:48","status":"sent","notification_sent":true}
+{"message_id":316,"sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-20 07:48:33","status":"sent","notification_sent":false}
+{"message_id":317,"sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-20 07:49:14","status":"sent","notification_sent":false}
+{"message_id":"317","sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-20 07:49:16","status":"sent","notification_sent":false}
+{"message_id":318,"sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-20 07:53:26","status":"sent","notification_sent":false}
+{"message_id":"318","sender_id":"29","receiver_id":"28","message":"Hi","timestamp":"2025-11-20 07:53:29","status":"sent","notification_sent":false}
+{"message_id":319,"sender_id":"29","receiver_id":"28","message":"Hikims","timestamp":"2025-11-20 07:53:40","status":"sent","notification_sent":false}
+{"message_id":320,"sender_id":"29","receiver_id":"28","message":"Hiiihi po","timestamp":"2025-11-20 07:54:07","status":"sent","notification_sent":false}
+{"message_id":"320","sender_id":"29","receiver_id":"28","message":"Hiiihi po","timestamp":"2025-11-20 07:54:10","status":"sent","notification_sent":false}
+{"message_id":321,"sender_id":"29","receiver_id":"28","message":"Jhhh","timestamp":"2025-11-20 07:54:49","status":"sent","notification_sent":false}
+{"message_id":"321","sender_id":"29","receiver_id":"28","message":"Jhhh","timestamp":"2025-11-20 07:54:52","status":"sent","notification_sent":false}
+{"message_id":322,"sender_id":"28","receiver_id":"29","message":"hiii","timestamp":"2025-11-20 07:55:56","status":"sent","notification_sent":true}
+{"message_id":"322","sender_id":"28","receiver_id":"29","message":"hiii","timestamp":"2025-11-20 07:56:00","status":"sent","notification_sent":true}
+{"message_id":323,"sender_id":"29","receiver_id":"28","message":"His","timestamp":"2025-11-20 07:56:58","status":"sent","notification_sent":false}
+{"message_id":"323","sender_id":"29","receiver_id":"28","message":"His","timestamp":"2025-11-20 07:57:02","status":"sent","notification_sent":false}
+{"message_id":324,"sender_id":"28","receiver_id":"29","message":"Hi kimmmmm","timestamp":"2025-11-20 08:10:46","status":"sent","notification_sent":true}
+{"message_id":"324","sender_id":"28","receiver_id":"29","message":"Hi kimmmmm","timestamp":"2025-11-20 08:10:48","status":"sent","notification_sent":true}
+{"message_id":325,"sender_id":"29","receiver_id":"28","message":"uy hallo","timestamp":"2025-11-20 08:11:06","status":"sent","notification_sent":false}
+{"message_id":326,"sender_id":"28","receiver_id":"29","message":"Halo","timestamp":"2025-11-20 11:48:33","status":"sent","notification_sent":true}
+{"message_id":"326","sender_id":"28","receiver_id":"29","message":"Halo","timestamp":"2025-11-20 11:48:35","status":"sent","notification_sent":true}
+{"message_id":327,"sender_id":"29","receiver_id":"28","message":"Hrllo","timestamp":"2025-11-20 11:49:12","status":"sent","notification_sent":true}
+{"message_id":"327","sender_id":"29","receiver_id":"28","message":"Hrllo","timestamp":"2025-11-20 11:49:15","status":"sent","notification_sent":true}

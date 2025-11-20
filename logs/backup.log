@@ -175,3 +175,8 @@ PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Fai
 Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
 Auto backup process completed successfully
 [19/11/2025  8:00:08.04] Backup completed successfully 
+[20/11/2025 10:22:10.34] Waiting for MySQL connection... 
+[20/11/2025 10:22:14.54] MySQL not ready yet. Waiting... (1/20) 
+[20/11/2025 10:22:33.52] MySQL not ready yet. Waiting... (2/20) 
+[20/11/2025 10:22:52.49] MySQL not ready yet. Waiting... (3/20) 
+[20/11/2025 10:23:11.46] MySQL not ready yet. Waiting... (4/20) 
