@@ -180,3 +180,45 @@ Auto backup process completed successfully
 [20/11/2025 10:22:33.52] MySQL not ready yet. Waiting... (2/20) 
 [20/11/2025 10:22:52.49] MySQL not ready yet. Waiting... (3/20) 
 [20/11/2025 10:23:11.46] MySQL not ready yet. Waiting... (4/20) 
+[21/11/2025  8:33:46.73] Waiting for MySQL connection... 
+[21/11/2025  8:33:50.91] MySQL not ready yet. Waiting... (1/20) 
+[21/11/2025  8:34:10.38] MySQL not ready yet. Waiting... (2/20) 
+[21/11/2025  8:34:29.32] MySQL not ready yet. Waiting... (3/20) 
+[21/11/2025  8:34:48.40] MySQL not ready yet. Waiting... (4/20) 
+[21/11/2025  8:35:07.32] MySQL not ready yet. Waiting... (5/20) 
+[21/11/2025  8:35:26.36] MySQL not ready yet. Waiting... (6/20) 
+[21/11/2025  8:35:45.28] MySQL not ready yet. Waiting... (7/20) 
+[21/11/2025  8:36:04.34] MySQL not ready yet. Waiting... (8/20) 
+[21/11/2025  8:36:23.29] MySQL not ready yet. Waiting... (9/20) 
+[21/11/2025  8:36:42.36] MySQL not ready yet. Waiting... (10/20) 
+[21/11/2025  8:37:01.34] MySQL not ready yet. Waiting... (11/20) 
+[21/11/2025  8:37:20.30] MySQL not ready yet. Waiting... (12/20) 
+[21/11/2025  8:37:39.34] MySQL not ready yet. Waiting... (13/20) 
+[21/11/2025  8:37:58.40] MySQL not ready yet. Waiting... (14/20) 
+[21/11/2025  8:38:17.32] MySQL not ready yet. Waiting... (15/20) 
+[21/11/2025  8:38:36.24] MySQL not ready yet. Waiting... (16/20) 
+[21/11/2025  8:38:55.28] MySQL not ready yet. Waiting... (17/20) 
+[21/11/2025  8:39:14.30] MySQL not ready yet. Waiting... (18/20) 
+[21/11/2025  8:39:33.30] MySQL not ready yet. Waiting... (19/20) 
+[21/11/2025  8:39:52.28] ERROR: MySQL not available after 5 minutes. Backup aborted. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[21/11/2025  9:28:43.82] Waiting for MySQL connection... 
+[21/11/2025  9:28:45.92] MySQL is ready Proceeding with backup... 
+[21/11/2025  9:28:45.92] Starting database backup... 
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup created successfully: backups/boardease_auto_backup_2025-11-21_02-28-50.sql (Size: 0.23 MB)
+Auto backup completed successfully: backups/boardease_auto_backup_2025-11-21_02-28-50.sql (Size: 0.23 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process completed successfully
+[21/11/2025  9:28:50.11] Backup completed successfully 
+[2025-11-21 02:28:51] Auto backup created successfully: backups/boardease_auto_backup_2025-11-21_02-28-51.sql (Size: 0.23 MB)
+[2025-11-21 02:28:51] Auto backup process completed successfully

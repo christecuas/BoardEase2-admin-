@@ -1662,6 +1662,10 @@ $conn->close();
             background: linear-gradient(145deg, #F5F5DC 0%, #E6DAC8 100%);
             border-radius: 16px;
             padding: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             box-shadow: 0 6px 24px rgba(141, 110, 99, 0.12), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.3);
             border: 1px solid rgba(141, 110, 99, 0.15);
@@ -1700,7 +1704,7 @@ $conn->close();
         }
 
         .chart-container h4 i {
-            color: #8D6E63;
+            color: #2196F3;
             font-size: 1.3rem;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
         }
@@ -1709,6 +1713,15 @@ $conn->close();
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(141, 110, 99, 0.1);
             transition: all 0.3s ease;
+            width: 100% !important;
+            height: 300px !important;
+            max-height: 300px !important;
+            min-height: 300px !important;
+        }
+        
+        .chart-container > div {
+            height: 300px !important;
+            min-height: 300px !important;
         }
 
         .chart-container:hover canvas {
@@ -5225,16 +5238,26 @@ $conn->close();
                         {
                             label: 'Users',
                             data: growthData.map(item => item.users),
-                            borderColor: '#8D6E63',
-                            backgroundColor: 'rgba(141, 110, 99, 0.1)',
-                            tension: 0.4
+                            borderColor: '#2196F3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#2196F3',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         },
                         {
                             label: 'Boarding Houses',
                             data: growthData.map(item => item.boarding_houses),
-                            borderColor: '#A1887F',
-                            backgroundColor: 'rgba(161, 136, 127, 0.1)',
-                            tension: 0.4
+                            borderColor: '#FF9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#FF9800',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         },
                         {
                             label: 'Revenue (₱)',
@@ -5242,12 +5265,19 @@ $conn->close();
                             borderColor: '#4CAF50',
                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
                             tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#4CAF50',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
                             yAxisID: 'y1'
                         }
                     ]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -5285,13 +5315,16 @@ $conn->close();
                     labels: Object.keys(userData),
                     datasets: [{
                         data: Object.values(userData),
-                        backgroundColor: ['#8D6E63', '#A1887F', '#D7CCC8'],
-                        borderWidth: 2,
-                        borderColor: '#fff'
+                        backgroundColor: ['#2196F3', '#9C27B0', '#607D8B'],
+                        borderWidth: 3,
+                        borderColor: '#fff',
+                        hoverBorderWidth: 4
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     plugins: {
                         legend: {
                             position: 'bottom'
@@ -5309,21 +5342,37 @@ $conn->close();
             const ctx = document.getElementById('bookingStatusChart');
             if (!ctx) return;
             
+            const labels = Object.keys(bookingData);
+            const statusColors = {
+                'Pending': '#FFC107',
+                'Confirmed': '#2196F3',
+                'Completed': '#4CAF50',
+                'Cancelled': '#F44336',
+                'Active': '#2196F3',
+                'Inactive': '#9E9E9E'
+            };
+            
+            const backgroundColors = labels.map(label => statusColors[label] || '#8D6E63');
+            const borderColors = labels.map(label => statusColors[label] || '#8D6E63');
+            
             try {
                 analyticsCharts.bookingStatusChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(bookingData),
+                    labels: labels,
                     datasets: [{
                         label: 'Bookings',
                         data: Object.values(bookingData),
-                        backgroundColor: '#8D6E63',
-                        borderColor: '#8D6E63',
-                        borderWidth: 1
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 2,
+                        borderRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -5341,21 +5390,37 @@ $conn->close();
             const ctx = document.getElementById('paymentStatusChart');
             if (!ctx) return;
             
+            const labels = Object.keys(paymentData);
+            const statusColors = {
+                'Paid': '#4CAF50',
+                'Fully Paid': '#4CAF50',
+                'Pending': '#FFC107',
+                'Overdue': '#F44336',
+                'Completed': '#4CAF50',
+                'Unpaid': '#FF9800'
+            };
+            
+            const backgroundColors = labels.map(label => statusColors[label] || '#2196F3');
+            const borderColors = labels.map(label => statusColors[label] || '#2196F3');
+            
             try {
                 analyticsCharts.paymentStatusChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(paymentData),
+                    labels: labels,
                     datasets: [{
                         label: 'Payments',
                         data: Object.values(paymentData),
-                        backgroundColor: '#4CAF50',
-                        borderColor: '#4CAF50',
-                        borderWidth: 1
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 2,
+                        borderRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -5385,6 +5450,31 @@ $conn->close();
             const labels = locationData.map(item => item.location);
             const data = locationData.map(item => parseInt(item.user_count));
             
+            // Create a distinct color palette for locations
+            const locationColorPalette = [
+                '#2196F3', // Blue
+                '#9C27B0', // Purple
+                '#E91E63', // Pink
+                '#FF5722', // Deep Orange
+                '#FF9800', // Orange
+                '#FFC107', // Amber
+                '#4CAF50', // Green
+                '#00BCD4', // Cyan
+                '#3F51B5', // Indigo
+                '#F44336', // Red
+                '#009688', // Teal
+                '#795548', // Brown
+                '#607D8B', // Blue Grey
+                '#9E9E9E', // Grey
+                '#673AB7', // Deep Purple
+                '#FF6F00'  // Orange 800
+            ];
+            
+            // Assign colors to each location (cycle through palette if more locations than colors)
+            const backgroundColors = labels.map((label, index) => {
+                return locationColorPalette[index % locationColorPalette.length];
+            });
+            
             try {
                 analyticsCharts.userLocationChart = new Chart(ctx, {
                 type: 'bar',
@@ -5393,22 +5483,16 @@ $conn->close();
                     datasets: [{
                         label: 'Users',
                         data: data,
-                        backgroundColor: [
-                            '#8D6E63',
-                            '#A1887F', 
-                            '#D7CCC8',
-                            '#BCAAA4',
-                            '#A1887F',
-                            '#8D6E63',
-                            '#795548',
-                            '#6D4C41'
-                        ],
-                        borderColor: '#8D6E63',
-                        borderWidth: 1
+                        backgroundColor: backgroundColors,
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        borderRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -5462,21 +5546,24 @@ $conn->close();
                         label: 'Boarding Houses',
                         data: data,
                         backgroundColor: [
-                            '#8D6E63',
-                            '#A1887F', 
-                            '#D7CCC8',
-                            '#BCAAA4',
-                            '#A1887F',
-                            '#8D6E63',
-                            '#795548',
-                            '#6D4C41'
+                            '#2196F3',
+                            '#9C27B0',
+                            '#E91E63',
+                            '#FF5722',
+                            '#FF9800',
+                            '#FFC107',
+                            '#4CAF50',
+                            '#00BCD4'
                         ],
-                        borderWidth: 2,
-                        borderColor: '#fff'
+                        borderWidth: 3,
+                        borderColor: '#fff',
+                        hoverBorderWidth: 4
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 1.5,
                     plugins: {
                         legend: {
                             position: 'bottom'
@@ -7580,19 +7667,29 @@ $conn->close();
                      type: 'line',
                      data: {
                          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                         datasets: [{
-                             label: 'Boarders',
-                             data: [45, 52, 48, 61],
-                             borderColor: '#8D6E63',
-                             backgroundColor: 'rgba(141, 110, 99, 0.1)',
-                             tension: 0.4
-                         }, {
-                             label: 'Owners',
-                             data: [12, 15, 18, 22],
-                             borderColor: '#A97A50',
-                             backgroundColor: 'rgba(169, 122, 80, 0.1)',
-                             tension: 0.4
-                         }]
+                        datasets: [{
+                            label: 'Boarders',
+                            data: [45, 52, 48, 61],
+                            borderColor: '#2196F3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#2196F3',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }, {
+                            label: 'Owners',
+                            data: [12, 15, 18, 22],
+                            borderColor: '#9C27B0',
+                            backgroundColor: 'rgba(156, 39, 176, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#9C27B0',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }]
                      },
                      options: {
                          responsive: true,
@@ -7618,12 +7715,19 @@ $conn->close();
                      type: 'bar',
                      data: {
                          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                         datasets: [{
-                             label: 'Revenue (₱K)',
-                             data: [180, 220, 195, 250],
-                             backgroundColor: '#A97A50',
-                             borderRadius: 4
-                         }]
+                        datasets: [{
+                            label: 'Revenue (₱K)',
+                            data: [180, 220, 195, 250],
+                            backgroundColor: [
+                                'rgba(76, 175, 80, 0.8)',
+                                'rgba(76, 175, 80, 0.9)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(76, 175, 80, 1)'
+                            ],
+                            borderColor: '#4CAF50',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
                      },
                      options: {
                          responsive: true,
@@ -7649,11 +7753,13 @@ $conn->close();
                      type: 'doughnut',
                      data: {
                          labels: ['Occupied', 'Available', 'Maintenance'],
-                         datasets: [{
-                             data: [1, 74, 0],
-                             backgroundColor: ['#8D6E63', '#A97A50', '#dc3545'],
-                             borderWidth: 0
-                         }]
+                        datasets: [{
+                            data: [1, 74, 0],
+                            backgroundColor: ['#2196F3', '#4CAF50', '#FF9800'],
+                            borderWidth: 3,
+                            borderColor: '#fff',
+                            hoverBorderWidth: 4
+                        }]
                      },
                      options: {
                          responsive: true,
@@ -7674,12 +7780,14 @@ $conn->close();
                      type: 'bar',
                      data: {
                          labels: ['GCash', 'Bank Transfer', 'Cash', 'Credit Card'],
-                         datasets: [{
-                             label: 'Payment Methods',
-                             data: [45, 30, 15, 10],
-                             backgroundColor: ['#8D6E63', '#A97A50', '#28a745', '#007bff'],
-                             borderRadius: 4
-                         }]
+                        datasets: [{
+                            label: 'Payment Methods',
+                            data: [45, 30, 15, 10],
+                            backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0'],
+                            borderColor: '#fff',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
                      },
                      options: {
                          responsive: true,
@@ -7705,11 +7813,13 @@ $conn->close();
                      type: 'pie',
                      data: {
                          labels: ['Quezon City', 'Makati City', 'Manila City', 'Pasig City', 'Other Areas'],
-                         datasets: [{
-                             data: [23, 18, 15, 12, 21],
-                             backgroundColor: ['#8D6E63', '#A97A50', '#6c757d', '#28a745', '#007bff'],
-                             borderWidth: 0
-                         }]
+                        datasets: [{
+                            data: [23, 18, 15, 12, 21],
+                            backgroundColor: ['#2196F3', '#9C27B0', '#E91E63', '#4CAF50', '#FF9800'],
+                            borderWidth: 3,
+                            borderColor: '#fff',
+                            hoverBorderWidth: 4
+                        }]
                      },
                      options: {
                          responsive: true,
@@ -8553,7 +8663,31 @@ $conn->close();
             justify-content: center;
             font-size: 1.5rem;
             color: white;
-            background: linear-gradient(135deg, #8D6E63, #A1887F);
+        }
+        
+        /* Different colors for each card icon */
+        .analytics-card:nth-child(1) .card-icon {
+            background: linear-gradient(135deg, #2196F3, #1976D2); /* Blue - Total Users */
+        }
+        
+        .analytics-card:nth-child(2) .card-icon {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2); /* Purple - Boarding Houses */
+        }
+        
+        .analytics-card:nth-child(3) .card-icon {
+            background: linear-gradient(135deg, #FF9800, #F57C00); /* Orange - Room Units */
+        }
+        
+        .analytics-card:nth-child(4) .card-icon {
+            background: linear-gradient(135deg, #4CAF50, #388E3C); /* Green - Total Bookings */
+        }
+        
+        .analytics-card:nth-child(5) .card-icon {
+            background: linear-gradient(135deg, #F44336, #D32F2F); /* Red - Total Revenue */
+        }
+        
+        .analytics-card:nth-child(6) .card-icon {
+            background: linear-gradient(135deg, #00BCD4, #0097A7); /* Cyan - Messages */
         }
 
         .analytics-card .card-content {
@@ -8608,7 +8742,12 @@ $conn->close();
 
         .chart-container canvas {
             max-width: 100%;
-            height: auto;
+            height: 300px !important;
+            min-height: 300px !important;
+        }
+        
+        .chart-container {
+            min-height: 400px;
         }
 
         .top-performing-section {

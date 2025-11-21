@@ -131,15 +131,15 @@ try {
     $result = $conn->query($totalPaymentsQuery);
     $paymentStats['total_payments'] = $result->fetch_assoc()['total_payments'];
     
-    // Total revenue
+    // Total revenue - only count Fully Paid payments
     $totalRevenueQuery = "SELECT SUM(payment_amount) as total_revenue FROM payments 
-                         WHERE payment_status = 'Completed'";
+                         WHERE payment_status = 'Fully Paid'";
     $result = $conn->query($totalRevenueQuery);
     $paymentStats['total_revenue'] = $result->fetch_assoc()['total_revenue'] ?? 0;
     
-    // Revenue this month
+    // Revenue this month - only count Fully Paid payments
     $monthlyRevenueQuery = "SELECT SUM(payment_amount) as monthly_revenue FROM payments 
-                           WHERE payment_status = 'Completed' 
+                           WHERE payment_status = 'Fully Paid'
                            AND DATE_FORMAT(payment_date, '%Y-%m') = '$currentMonth'";
     $result = $conn->query($monthlyRevenueQuery);
     $paymentStats['monthly_revenue'] = $result->fetch_assoc()['monthly_revenue'] ?? 0;
@@ -201,9 +201,9 @@ try {
         $result = $conn->query($bhGrowthQuery);
         $bhCount = $result->fetch_assoc()['boarding_houses'];
         
-        // Revenue growth
+        // Revenue growth - only count Fully Paid payments
         $revenueGrowthQuery = "SELECT SUM(payment_amount) as revenue FROM payments 
-                              WHERE payment_status = 'Completed' 
+                              WHERE payment_status = 'Fully Paid'
                               AND DATE_FORMAT(payment_date, '%Y-%m') = '$month'";
         $result = $conn->query($revenueGrowthQuery);
         $revenue = $result->fetch_assoc()['revenue'] ?? 0;
