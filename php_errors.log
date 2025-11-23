@@ -453171,3 +453171,222 @@ Stack trace:
 [23-Nov-2025 09:46:47 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
 [23-Nov-2025 09:46:47 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
 [23-Nov-2025 09:46:47 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[23-Nov-2025 10:50:42 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[23-Nov-2025 10:50:42 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[23-Nov-2025 10:50:44 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[23-Nov-2025 10:50:44 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[23-Nov-2025 13:02:15 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[23-Nov-2025 13:02:15 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[23-Nov-2025 13:02:51 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[23-Nov-2025 13:02:51 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[23-Nov-2025 13:02:51 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[23-Nov-2025 13:26:37 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:26:37 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:29:37 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:29:37 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 13:29:37 Europe/Berlin] Exact match found for province: Agusan del Sur -> Code: 1600300000
+[23-Nov-2025 13:29:37 Europe/Berlin] Looking up province ID for: Agusan del Sur, found ID: 1600300000
+[23-Nov-2025 13:29:37 Europe/Berlin] Filtering municipalities for province: name='Agusan del Sur', code='1600300000', id='1600300000'
+[23-Nov-2025 13:29:37 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 13:29:38 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 13:29:38 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: City of Bayugan (city code: 1600301000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Bunawan (city code: 1600302000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Esperanza (city code: 1600303000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: La Paz (city code: 1600304000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Loreto (city code: 1600305000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Prosperidad  (city code: 1600306000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Rosario (city code: 1600307000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: San Francisco (city code: 1600308000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: San Luis (city code: 1600309000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Santa Josefa (city code: 1600310000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Talacogon (city code: 1600311000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Trento (city code: 1600312000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Veruela (city code: 1600313000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Matched by city code prefix: Sibagat (city code: 1600314000 starts with province prefix: 16003)
+[23-Nov-2025 13:29:38 Europe/Berlin] Filtered municipalities count: 14 out of 1634 total
+[23-Nov-2025 13:29:38 Europe/Berlin] Final municipalities count: 14
+[23-Nov-2025 13:30:27 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:30:27 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:30:42 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:30:42 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 13:30:42 Europe/Berlin] Exact match found for province: Albay -> Code: 0500500000
+[23-Nov-2025 13:30:42 Europe/Berlin] Looking up province ID for: Albay, found ID: 0500500000
+[23-Nov-2025 13:30:42 Europe/Berlin] Filtering municipalities for province: name='Albay', code='0500500000', id='0500500000'
+[23-Nov-2025 13:30:42 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 13:30:45 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 13:30:45 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: City of Legazpi  (city code: 0500506000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: City of Ligao (city code: 0500508000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: City of Tabaco (city code: 0500517000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Bacacay (city code: 0500501000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Camalig (city code: 0500502000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Daraga (city code: 0500503000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Guinobatan (city code: 0500504000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Jovellar (city code: 0500505000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Libon (city code: 0500507000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Malilipot (city code: 0500509000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Malinao (city code: 0500510000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Manito (city code: 0500511000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Oas (city code: 0500512000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Pio Duran (city code: 0500513000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Polangui (city code: 0500514000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Rapu-Rapu (city code: 0500515000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Santo Domingo (city code: 0500516000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Matched by city code prefix: Tiwi (city code: 0500518000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:45 Europe/Berlin] Filtered municipalities count: 18 out of 1634 total
+[23-Nov-2025 13:30:45 Europe/Berlin] Final municipalities count: 18
+[23-Nov-2025 13:30:45 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:30:45 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 13:30:45 Europe/Berlin] Exact match found for province: Albay -> Code: 0500500000
+[23-Nov-2025 13:30:45 Europe/Berlin] Looking up province ID for: Albay, found ID: 0500500000
+[23-Nov-2025 13:30:45 Europe/Berlin] Filtering municipalities for province: name='Albay', code='0500500000', id='0500500000'
+[23-Nov-2025 13:30:46 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 13:30:46 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 13:30:46 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: City of Legazpi  (city code: 0500506000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: City of Ligao (city code: 0500508000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: City of Tabaco (city code: 0500517000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Bacacay (city code: 0500501000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Camalig (city code: 0500502000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Daraga (city code: 0500503000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Guinobatan (city code: 0500504000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Jovellar (city code: 0500505000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Libon (city code: 0500507000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Malilipot (city code: 0500509000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Malinao (city code: 0500510000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Manito (city code: 0500511000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Oas (city code: 0500512000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Pio Duran (city code: 0500513000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Polangui (city code: 0500514000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Rapu-Rapu (city code: 0500515000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Santo Domingo (city code: 0500516000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Matched by city code prefix: Tiwi (city code: 0500518000 starts with province prefix: 05005)
+[23-Nov-2025 13:30:46 Europe/Berlin] Filtered municipalities count: 18 out of 1634 total
+[23-Nov-2025 13:30:46 Europe/Berlin] Final municipalities count: 18
+[23-Nov-2025 13:32:10 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:32:10 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:33:43 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:33:43 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:35:39 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:35:39 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:36:19 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:36:19 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 13:36:19 Europe/Berlin] Exact match found for province: Agusan del Sur -> Code: 1600300000
+[23-Nov-2025 13:36:19 Europe/Berlin] Looking up province ID for: Agusan del Sur, found ID: 1600300000
+[23-Nov-2025 13:36:19 Europe/Berlin] Filtering municipalities for province: name='Agusan del Sur', code='1600300000', id='1600300000'
+[23-Nov-2025 13:36:20 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 13:36:20 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 13:36:20 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: City of Bayugan (city code: 1600301000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Bunawan (city code: 1600302000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Esperanza (city code: 1600303000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: La Paz (city code: 1600304000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Loreto (city code: 1600305000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Prosperidad  (city code: 1600306000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Rosario (city code: 1600307000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: San Francisco (city code: 1600308000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: San Luis (city code: 1600309000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Santa Josefa (city code: 1600310000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Talacogon (city code: 1600311000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Trento (city code: 1600312000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Veruela (city code: 1600313000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Matched by city code prefix: Sibagat (city code: 1600314000 starts with province prefix: 16003)
+[23-Nov-2025 13:36:20 Europe/Berlin] Filtered municipalities count: 14 out of 1634 total
+[23-Nov-2025 13:36:20 Europe/Berlin] Final municipalities count: 14
+[23-Nov-2025 13:38:19 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:38:19 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 13:38:42 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 13:38:42 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 13:38:42 Europe/Berlin] Exact match found for province: Abra -> Code: 1400100000
+[23-Nov-2025 13:38:42 Europe/Berlin] Looking up province ID for: Abra, found ID: 1400100000
+[23-Nov-2025 13:38:42 Europe/Berlin] Filtering municipalities for province: name='Abra', code='1400100000', id='1400100000'
+[23-Nov-2025 13:38:43 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 13:38:43 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 13:38:43 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Bangued  (city code: 1400101000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Boliney (city code: 1400102000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Bucay (city code: 1400103000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Bucloc (city code: 1400104000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Daguioman (city code: 1400105000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Danglas (city code: 1400106000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Dolores (city code: 1400107000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: La Paz (city code: 1400108000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Lacub (city code: 1400109000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Lagangilang (city code: 1400110000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Lagayan (city code: 1400111000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Langiden (city code: 1400112000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Licuan-Baay (city code: 1400113000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Luba (city code: 1400114000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Malibcong (city code: 1400115000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Manabo (city code: 1400116000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: PeÃ±arrubia (city code: 1400117000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Pidigan (city code: 1400118000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Pilar (city code: 1400119000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Sallapadan (city code: 1400120000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: San Isidro (city code: 1400121000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: San Juan (city code: 1400122000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: San Quintin (city code: 1400123000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Tayum (city code: 1400124000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Tineg (city code: 1400125000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Tubo (city code: 1400126000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Matched by city code prefix: Villaviciosa (city code: 1400127000 starts with province prefix: 14001)
+[23-Nov-2025 13:38:43 Europe/Berlin] Filtered municipalities count: 27 out of 1634 total
+[23-Nov-2025 13:38:43 Europe/Berlin] Final municipalities count: 27
+[23-Nov-2025 14:11:50 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 14:11:50 Europe/Berlin] Returning 82 provinces
+[23-Nov-2025 14:12:25 Europe/Berlin] API call successful: https://psgc.cloud/api/provinces (HTTP 200, 3474 bytes)
+[23-Nov-2025 14:12:25 Europe/Berlin] Province cache loaded with 82 provinces (direct array)
+[23-Nov-2025 14:12:25 Europe/Berlin] Exact match found for province: Agusan del Sur -> Code: 1600300000
+[23-Nov-2025 14:12:25 Europe/Berlin] Looking up province ID for: Agusan del Sur, found ID: 1600300000
+[23-Nov-2025 14:12:25 Europe/Berlin] Filtering municipalities for province: name='Agusan del Sur', code='1600300000', id='1600300000'
+[23-Nov-2025 14:12:25 Europe/Berlin] API call successful: https://psgc.cloud/api/cities (HTTP 200, 14367 bytes)
+[23-Nov-2025 14:12:26 Europe/Berlin] API call successful: https://psgc.cloud/api/municipalities (HTTP 200, 129032 bytes)
+[23-Nov-2025 14:12:26 Europe/Berlin] Fetched 1634 total cities/municipalities from PSGC Cloud API
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: City of Bayugan (city code: 1600301000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Bunawan (city code: 1600302000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Esperanza (city code: 1600303000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: La Paz (city code: 1600304000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Loreto (city code: 1600305000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Prosperidad  (city code: 1600306000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Rosario (city code: 1600307000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: San Francisco (city code: 1600308000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: San Luis (city code: 1600309000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Santa Josefa (city code: 1600310000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Talacogon (city code: 1600311000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Trento (city code: 1600312000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Veruela (city code: 1600313000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Matched by city code prefix: Sibagat (city code: 1600314000 starts with province prefix: 16003)
+[23-Nov-2025 14:12:26 Europe/Berlin] Filtered municipalities count: 14 out of 1634 total
+[23-Nov-2025 14:12:26 Europe/Berlin] Final municipalities count: 14

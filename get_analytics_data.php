@@ -131,27 +131,34 @@ try {
     $result = $conn->query($totalPaymentsQuery);
     $paymentStats['total_payments'] = $result->fetch_assoc()['total_payments'];
     
-    // Total revenue - only count Fully Paid payments that are linked to bookings and boarding houses
-    // This ensures consistency with the top earning boarding houses calculation
-    $totalRevenueQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as total_revenue 
-                         FROM payments p
-                         INNER JOIN bookings b ON p.booking_id = b.booking_id
+    // Total revenue - count from payment_breakdowns where status is 'Paid' 
+    // AND payments table where status is 'Partially Paid' or 'Fully Paid'
+    $totalRevenueQuery = "SELECT COALESCE(SUM(pb.amount), 0) as total_revenue 
+                         FROM payment_breakdowns pb
+                         INNER JOIN bookings b ON pb.booking_id = b.booking_id
+                         INNER JOIN payments p ON pb.payment_id = p.payment_id
                          INNER JOIN room_units ru ON b.room_id = ru.room_id
                          INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                          INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                         WHERE p.payment_status = 'Fully Paid'
+                         WHERE pb.payment_status = 'Paid'
+                         AND pb.is_paid = 1
+                         AND p.payment_status IN ('Partially Paid', 'Fully Paid')
                          AND bh.status = 'Active'";
     $result = $conn->query($totalRevenueQuery);
     $paymentStats['total_revenue'] = $result->fetch_assoc()['total_revenue'] ?? 0;
     
-    // Revenue this month - only count Fully Paid payments linked to bookings and boarding houses
-    $monthlyRevenueQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as monthly_revenue 
-                           FROM payments p
-                           INNER JOIN bookings b ON p.booking_id = b.booking_id
+    // Revenue this month - count from payment_breakdowns where status is 'Paid' 
+    // AND payments table where status is 'Partially Paid' or 'Fully Paid'
+    $monthlyRevenueQuery = "SELECT COALESCE(SUM(pb.amount), 0) as monthly_revenue 
+                           FROM payment_breakdowns pb
+                           INNER JOIN bookings b ON pb.booking_id = b.booking_id
+                           INNER JOIN payments p ON pb.payment_id = p.payment_id
                            INNER JOIN room_units ru ON b.room_id = ru.room_id
                            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                           WHERE p.payment_status = 'Fully Paid'
+                           WHERE pb.payment_status = 'Paid'
+                           AND pb.is_paid = 1
+                           AND p.payment_status IN ('Partially Paid', 'Fully Paid')
                            AND bh.status = 'Active'
                            AND DATE_FORMAT(p.payment_date, '%Y-%m') = '$currentMonth'";
     $result = $conn->query($monthlyRevenueQuery);
@@ -214,15 +221,19 @@ try {
         $result = $conn->query($bhGrowthQuery);
         $bhCount = $result->fetch_assoc()['boarding_houses'];
         
-        // Revenue growth - only count Fully Paid payments linked to bookings and boarding houses
+        // Revenue growth - count from payment_breakdowns where status is 'Paid' 
+        // AND payments table where status is 'Partially Paid' or 'Fully Paid'
         // This ensures consistency with total revenue calculation
-        $revenueGrowthQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as revenue 
-                              FROM payments p
-                              INNER JOIN bookings b ON p.booking_id = b.booking_id
+        $revenueGrowthQuery = "SELECT COALESCE(SUM(pb.amount), 0) as revenue 
+                              FROM payment_breakdowns pb
+                              INNER JOIN bookings b ON pb.booking_id = b.booking_id
+                              INNER JOIN payments p ON pb.payment_id = p.payment_id
                               INNER JOIN room_units ru ON b.room_id = ru.room_id
                               INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                               INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                              WHERE p.payment_status = 'Fully Paid'
+                              WHERE pb.payment_status = 'Paid'
+                              AND pb.is_paid = 1
+                              AND p.payment_status IN ('Partially Paid', 'Fully Paid')
                               AND bh.status = 'Active'
                               AND DATE_FORMAT(p.payment_date, '%Y-%m') = '$month'";
         $result = $conn->query($revenueGrowthQuery);
@@ -308,16 +319,21 @@ try {
     }
     
     // 11. TOP EARNING BOARDING HOUSES
-    // Start from payments (like total revenue) to ensure all payments are counted
+    // Count from payment_breakdowns where status is 'Paid' 
+    // AND payments table where status is 'Partially Paid' or 'Fully Paid'
+    // This ensures consistency with total revenue calculation
     $topEarningBHQuery = "SELECT bh.bh_name, bh.bh_address,
-                         COALESCE(SUM(p.payment_amount), 0) as total_revenue,
-                         COUNT(DISTINCT p.payment_id) as payment_count
-                         FROM payments p
-                         INNER JOIN bookings b ON p.booking_id = b.booking_id
+                         COALESCE(SUM(pb.amount), 0) as total_revenue,
+                         COUNT(DISTINCT pb.payment_id) as payment_count
+                         FROM payment_breakdowns pb
+                         INNER JOIN bookings b ON pb.booking_id = b.booking_id
+                         INNER JOIN payments p ON pb.payment_id = p.payment_id
                          INNER JOIN room_units ru ON b.room_id = ru.room_id
                          INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
                          INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                         WHERE p.payment_status = 'Fully Paid'
+                         WHERE pb.payment_status = 'Paid'
+                         AND pb.is_paid = 1
+                         AND p.payment_status IN ('Partially Paid', 'Fully Paid')
                          AND bh.status = 'Active'
                          GROUP BY bh.bh_id, bh.bh_name, bh.bh_address
                          HAVING total_revenue > 0
