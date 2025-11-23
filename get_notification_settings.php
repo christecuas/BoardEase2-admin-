@@ -269,7 +269,7 @@ function getNotificationSettings($db) {
         'payment_notifications' => true,
         'maintenance_notifications' => true,
         'announcement_notifications' => true,
-        'booking_template' => $templates['booking_created']['template_message'] ?? 'New booking request from {tenant_name} for {room_name}',
+        'booking_template' => $templates['booking_created']['template_message'] ?? 'New booking request from {boarder_name} for {room_name}',
         'payment_template' => $templates['payment_received']['template_message'] ?? 'Payment of ₱{amount} has been received',
         'maintenance_template' => $templates['maintenance_request']['template_message'] ?? 'New maintenance request: {description}',
         'announcement_template' => $templates['announcement_new']['template_message'] ?? '{title}: {message}',
@@ -307,7 +307,7 @@ function getNotificationTemplates($db) {
     // Return default templates if database is empty
     if (empty($templates)) {
         $templates = [
-            'booking_created' => ['title' => 'New Booking Request', 'message' => 'You have a new booking request from {tenant_name} for {room_name}', 'type' => 'booking'],
+            'booking_created' => ['title' => 'New Booking Request', 'message' => 'You have a new booking request from {boarder_name} for {room_name}', 'type' => 'booking'],
             'booking_approved' => ['title' => 'Booking Approved', 'message' => 'Your booking request for {room_name} has been approved!', 'type' => 'booking'],
             'booking_declined' => ['title' => 'Booking Declined', 'message' => 'Your booking request for {room_name} has been declined.{reason}', 'type' => 'booking'],
             'booking_cancelled' => ['title' => 'Booking Cancelled', 'message' => 'Booking for {room_name} has been cancelled.', 'type' => 'booking'],

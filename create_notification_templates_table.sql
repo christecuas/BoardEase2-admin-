@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS notification_templates (
 
 -- Insert default templates
 INSERT INTO notification_templates (template_key, template_title, template_message, notification_type) VALUES
-('booking_created', 'New Booking Request', 'You have a new booking request from {tenant_name} for {room_name}', 'booking'),
+('booking_created', 'New Booking Request', 'You have a new booking request from {boarder_name} for {room_name}', 'booking'),
 ('booking_approved', 'Booking Approved', 'Your booking request for {room_name} has been approved!', 'booking'),
 ('booking_declined', 'Booking Declined', 'Your booking request for {room_name} has been declined.{reason}', 'booking'),
 ('booking_cancelled', 'Booking Cancelled', 'Booking for {room_name} has been cancelled.', 'booking'),

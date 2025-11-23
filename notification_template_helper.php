@@ -123,7 +123,7 @@ class NotificationTemplateHelper {
         return [
             'booking_created' => [
                 'title' => 'New Booking Request',
-                'message' => 'You have a new booking request from {tenant_name} for {room_name}',
+                'message' => 'You have a new booking request from {boarder_name} for {room_name}',
                 'type' => 'booking'
             ],
             'booking_approved' => [

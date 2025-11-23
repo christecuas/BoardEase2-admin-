@@ -82,11 +82,12 @@ try {
         $stmt->close();
         
     } else {
-        // Return all boarding houses for explore/search
+        // Return all boarding houses for explore/search (only active ones)
         $sql = "SELECT b.bh_id, b.bh_name, b.bh_address, b.bh_description, b.bh_rules,
                        b.number_of_bathroom, b.area, b.build_year, b.user_id,
                        (SELECT img.image_path FROM boarding_house_images img WHERE img.bh_id = b.bh_id LIMIT 1) AS image_path
                 FROM boarding_houses b
+                WHERE b.status = 'Active'
                 ORDER BY b.bh_id DESC";
 
         $stmt = $conn->prepare($sql);

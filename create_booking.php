@@ -845,7 +845,7 @@ try {
         if ($bookingDetails && $ownerId > 0) {
             error_log("Step 9-5: All checks passed, calling ActivityNotifications::notifyBookingCreated");
             error_log("Step 9-5a: Parameters - owner_id: $ownerId");
-            error_log("Step 9-5b: Parameters - tenant_name: " . ($bookingDetails['boarder_name'] ?? 'null'));
+            error_log("Step 9-5b: Parameters - boarder_name: " . ($bookingDetails['boarder_name'] ?? 'null'));
             error_log("Step 9-5c: Parameters - room_name: " . ($bookingDetails['room_name'] ?? 'null'));
             error_log("Step 9-5d: Parameters - booking_id: $bookingId");
             error_log("Step 9-5e: Parameters - bh_name: " . ($bookingDetails['bh_name'] ?? 'null'));
@@ -878,7 +878,7 @@ try {
             
             error_log("Step 9-6: Calling ActivityNotifications::notifyBookingCreated()...");
             $notificationResult = ActivityNotifications::notifyBookingCreated($ownerId, [
-                'tenant_name' => $bookingDetails['boarder_name'],
+                'boarder_name' => $bookingDetails['boarder_name'],
                 'room_name' => $bookingDetails['room_name'],
                 'booking_id' => $bookingId,
                 'bh_name' => $bookingDetails['bh_name']
@@ -933,7 +933,7 @@ try {
                     if ($foundOwner && $foundOwner['user_id']) {
                         error_log("Step 9-10a: Found owner user_id: " . $foundOwner['user_id'] . " - retrying notification");
                         $retryResult = ActivityNotifications::notifyBookingCreated($foundOwner['user_id'], [
-                            'tenant_name' => $bookingDetails['boarder_name'],
+                            'boarder_name' => $bookingDetails['boarder_name'],
                             'room_name' => $bookingDetails['room_name'],
                             'booking_id' => $bookingId,
                             'bh_name' => $bookingDetails['bh_name']
@@ -967,7 +967,7 @@ try {
                         error_log("Step 9-11c: Attempting notification with this user_id");
                         try {
                             $finalResult = ActivityNotifications::notifyBookingCreated($finalOwner['user_id'], [
-                                'tenant_name' => $bookingDetails['boarder_name'],
+                                'boarder_name' => $bookingDetails['boarder_name'],
                                 'room_name' => $bookingDetails['room_name'],
                                 'booking_id' => $bookingId,
                                 'bh_name' => $bookingDetails['bh_name']

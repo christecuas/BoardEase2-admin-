@@ -32,9 +32,9 @@ class ActivityNotifications {
         
         // Get template from database
         $template = NotificationTemplateHelper::getNotificationMessage('booking_created', [
-            'tenant_name' => $booking_details['tenant_name'] ?? 'a boarder',
+            'boarder_name' => $booking_details['boarder_name'] ?? $booking_details['tenant_name'] ?? 'a boarder',
             'room_name' => $booking_details['room_name'] ?? 'a room'
-        ], 'New Booking Request', 'You have a new booking request from {tenant_name} for {room_name}');
+        ], 'New Booking Request', 'You have a new booking request from {boarder_name} for {room_name}');
         
         $title = $template['title'];
         $message = $template['message'];

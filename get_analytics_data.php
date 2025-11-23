@@ -131,16 +131,29 @@ try {
     $result = $conn->query($totalPaymentsQuery);
     $paymentStats['total_payments'] = $result->fetch_assoc()['total_payments'];
     
-    // Total revenue - only count Fully Paid payments
-    $totalRevenueQuery = "SELECT SUM(payment_amount) as total_revenue FROM payments 
-                         WHERE payment_status = 'Fully Paid'";
+    // Total revenue - only count Fully Paid payments that are linked to bookings and boarding houses
+    // This ensures consistency with the top earning boarding houses calculation
+    $totalRevenueQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as total_revenue 
+                         FROM payments p
+                         INNER JOIN bookings b ON p.booking_id = b.booking_id
+                         INNER JOIN room_units ru ON b.room_id = ru.room_id
+                         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                         INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                         WHERE p.payment_status = 'Fully Paid'
+                         AND bh.status = 'Active'";
     $result = $conn->query($totalRevenueQuery);
     $paymentStats['total_revenue'] = $result->fetch_assoc()['total_revenue'] ?? 0;
     
-    // Revenue this month - only count Fully Paid payments
-    $monthlyRevenueQuery = "SELECT SUM(payment_amount) as monthly_revenue FROM payments 
-                           WHERE payment_status = 'Fully Paid'
-                           AND DATE_FORMAT(payment_date, '%Y-%m') = '$currentMonth'";
+    // Revenue this month - only count Fully Paid payments linked to bookings and boarding houses
+    $monthlyRevenueQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as monthly_revenue 
+                           FROM payments p
+                           INNER JOIN bookings b ON p.booking_id = b.booking_id
+                           INNER JOIN room_units ru ON b.room_id = ru.room_id
+                           INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                           INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                           WHERE p.payment_status = 'Fully Paid'
+                           AND bh.status = 'Active'
+                           AND DATE_FORMAT(p.payment_date, '%Y-%m') = '$currentMonth'";
     $result = $conn->query($monthlyRevenueQuery);
     $paymentStats['monthly_revenue'] = $result->fetch_assoc()['monthly_revenue'] ?? 0;
     
@@ -201,10 +214,17 @@ try {
         $result = $conn->query($bhGrowthQuery);
         $bhCount = $result->fetch_assoc()['boarding_houses'];
         
-        // Revenue growth - only count Fully Paid payments
-        $revenueGrowthQuery = "SELECT SUM(payment_amount) as revenue FROM payments 
-                              WHERE payment_status = 'Fully Paid'
-                              AND DATE_FORMAT(payment_date, '%Y-%m') = '$month'";
+        // Revenue growth - only count Fully Paid payments linked to bookings and boarding houses
+        // This ensures consistency with total revenue calculation
+        $revenueGrowthQuery = "SELECT COALESCE(SUM(p.payment_amount), 0) as revenue 
+                              FROM payments p
+                              INNER JOIN bookings b ON p.booking_id = b.booking_id
+                              INNER JOIN room_units ru ON b.room_id = ru.room_id
+                              INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                              INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                              WHERE p.payment_status = 'Fully Paid'
+                              AND bh.status = 'Active'
+                              AND DATE_FORMAT(p.payment_date, '%Y-%m') = '$month'";
         $result = $conn->query($revenueGrowthQuery);
         $revenue = $result->fetch_assoc()['revenue'] ?? 0;
         
@@ -287,6 +307,28 @@ try {
         $topBoardingHouses[] = $row;
     }
     
+    // 11. TOP EARNING BOARDING HOUSES
+    // Start from payments (like total revenue) to ensure all payments are counted
+    $topEarningBHQuery = "SELECT bh.bh_name, bh.bh_address,
+                         COALESCE(SUM(p.payment_amount), 0) as total_revenue,
+                         COUNT(DISTINCT p.payment_id) as payment_count
+                         FROM payments p
+                         INNER JOIN bookings b ON p.booking_id = b.booking_id
+                         INNER JOIN room_units ru ON b.room_id = ru.room_id
+                         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                         INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                         WHERE p.payment_status = 'Fully Paid'
+                         AND bh.status = 'Active'
+                         GROUP BY bh.bh_id, bh.bh_name, bh.bh_address
+                         HAVING total_revenue > 0
+                         ORDER BY total_revenue DESC
+                         LIMIT 5";
+    $result = $conn->query($topEarningBHQuery);
+    $topEarningBoardingHouses = [];
+    while ($row = $result->fetch_assoc()) {
+        $topEarningBoardingHouses[] = $row;
+    }
+    
     // Compile all analytics
     $analytics = [
         'success' => true,
@@ -301,6 +343,7 @@ try {
             'growth' => $growthStats,
             'geographic' => $geographicStats,
             'top_boarding_houses' => $topBoardingHouses,
+            'top_earning_boarding_houses' => $topEarningBoardingHouses,
             'generated_at' => date('Y-m-d H:i:s')
         ]
     ];

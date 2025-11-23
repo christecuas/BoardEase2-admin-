@@ -273,6 +273,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .status-badge {
@@ -406,7 +407,7 @@
         .approval-card {
             background: white;
             border-radius: 8px;
-            padding: 1rem;
+            padding: 0.875rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
@@ -414,13 +415,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .approval-user {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+        }
+        
+        .approval-user > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        
+        .approval-user strong {
+            line-height: 1.2;
+            margin: 0;
+        }
+        
+        .approval-user small {
+            line-height: 1.2;
+            margin: 0;
         }
 
         .approval-actions {
@@ -431,7 +448,9 @@
         .approval-details {
             font-size: 0.9rem;
             color: #666;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            line-height: 1.5;
         }
 
         .verification-badge {
@@ -525,6 +544,95 @@
         }
 
         /* Responsive Design */
+        
+        /* Large screens (1200px and above) - Default styles apply */
+        
+        /* Medium-large screens (992px to 1199px) */
+        @media (max-width: 1199px) {
+            .analytics-overview-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .analytics-overview-chart {
+                height: 180px;
+            }
+        }
+        
+        /* Tablets and small desktops (768px to 991px) */
+        @media (max-width: 991px) {
+            .analytics-overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .analytics-overview-chart {
+                height: 200px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .pending-approvals {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .priority-section {
+                padding: 1.5rem;
+            }
+            
+            .priority-section h2 {
+                font-size: 1.3rem;
+                text-align: center;
+            }
+            
+            .approval-card {
+                text-align: center;
+            }
+            
+            .approval-header {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .approval-user {
+                justify-content: center;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .approval-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .approval-details {
+                text-align: center;
+            }
+            
+            /* Responsive charts for tablets */
+            .chart-container canvas {
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 220px !important;
+            }
+            
+            .chart-container {
+                min-height: auto !important;
+                padding: 1.25rem !important;
+            }
+            
+            .charts-section {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        
+        /* Mobile and small tablets (max-width: 768px) */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -541,25 +649,283 @@
             }
 
             .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.5rem;
+            }
+            
+            .stat-content h3 {
+                font-size: 2rem;
+            }
+            
+            .stat-content p {
+                font-size: 0.9rem;
             }
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
+            
+            /* Analytics Overview - Stack all 3 charts vertically on mobile */
+            .analytics-overview-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .analytics-overview-item {
+                padding: 1.5rem;
+            }
+            
+            .analytics-overview-chart {
+                width: 100%;
+                height: 220px;
+                margin-bottom: 1rem;
+            }
+            
+            .analytics-overview-chart canvas {
+                max-width: 100%;
+                height: auto !important;
+            }
+            
+            .analytics-overview-info {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .analytics-overview-info h4 {
+                font-size: 1.1rem;
+                text-align: center;
+            }
+            
+            .analytics-overview-info p {
+                font-size: 0.85rem;
+                text-align: center;
+            }
+            
+            .analytics-overview-info .analytics-trend {
+                display: block;
+                margin: 0.5rem auto;
+                text-align: center;
+            }
 
             .pending-approvals {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .priority-section {
+                padding: 1.5rem 1rem;
+                margin-top: 2rem;
+            }
+            
+            .priority-section h2 {
+                font-size: 1.2rem;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+            
+            .approval-card {
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .approval-header {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .approval-user {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 0.4rem;
+            }
+            
+            .approval-user strong {
+                display: block;
+                margin-bottom: 0;
+                line-height: 1.2;
+            }
+            
+            .approval-user small {
+                line-height: 1.2;
+            }
+            
+            .approval-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                width: 100%;
+            }
+            
+            .approval-actions .action-btn {
+                flex: 1;
+                min-width: 100px;
+                max-width: 150px;
+            }
+            
+            .approval-details {
+                text-align: center;
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+                margin-top: 0.5rem;
+                line-height: 1.4;
+            }
+            
+            .approval-details strong {
+                display: inline-block;
+                margin-right: 0.25rem;
+            }
+            
+            .verification-badge {
+                display: flex;
+                justify-content: center;
+                margin: 0.4rem 0;
+            }
+            
+            .registration-date {
+                text-align: center;
+                margin-top: 0.4rem;
             }
 
             .content-header {
                 padding: 1rem;
+                text-align: center;
             }
 
             .content-header h1 {
                 font-size: 1.5rem;
+            }
+            
+            .content-header p {
+                font-size: 0.9rem;
+            }
+            
+            /* Chart containers in analytics section */
+            .chart-container {
+                width: 100%;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .chart-container canvas {
+                max-width: 100%;
+                height: auto !important;
+                display: block;
+                margin: 0 auto;
+            }
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .analytics-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Override inline styles for responsive charts */
+            .chart-container canvas {
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 200px !important;
+            }
+            
+            .chart-container {
+                min-height: auto !important;
+                padding: 1rem !important;
+            }
+            
+            .chart-container h4 {
+                font-size: 1rem !important;
+                text-align: center;
+            }
+            
+            .card-content {
+                padding: 1rem;
+            }
+        }
+        
+        /* Small mobile devices (max-width: 480px) */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.75rem;
+            }
+            
+            .stats-grid {
+                gap: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .stat-content h3 {
+                font-size: 1.75rem;
+            }
+            
+            .stat-content p {
+                font-size: 0.85rem;
+            }
+            
+            .analytics-overview-chart {
+                height: 200px;
+            }
+            
+            .priority-section {
+                padding: 1rem 0.75rem;
+            }
+            
+            .priority-section h2 {
+                font-size: 1.1rem;
+                padding: 0 0.5rem;
+            }
+            
+            .approval-card {
+                padding: 0.75rem;
+            }
+            
+            .approval-actions .action-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+                min-width: 80px;
+            }
+            
+            .approval-details {
+                font-size: 0.8rem;
+            }
+            
+            .content-header h1 {
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* Extra small devices (max-width: 360px) */
+        @media (max-width: 360px) {
+            .stat-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .analytics-overview-chart {
+                height: 180px;
+            }
+            
+            .approval-actions .action-btn {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.6rem;
+                min-width: 70px;
             }
         }
 
@@ -1030,12 +1396,50 @@
          .chart-container {
              margin-bottom: 1.5rem;
              text-align: center;
+             width: 100%;
+             position: relative;
+             overflow: hidden;
+         }
+         
+         .chart-container canvas {
+             max-width: 100%;
+             height: auto !important;
+             display: block;
+             margin: 0 auto;
+         }
+         
+         .charts-section {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+             gap: 2rem;
          }
 
          .analytics-metrics {
              display: grid;
              grid-template-columns: repeat(3, 1fr);
              gap: 1rem;
+         }
+         
+         /* Responsive styles for analytics metrics */
+         @media (max-width: 768px) {
+             .analytics-metrics {
+                 grid-template-columns: 1fr;
+                 gap: 0.75rem;
+             }
+             
+             .metric {
+                 padding: 0.75rem;
+             }
+             
+             .metric-value {
+                 font-size: 1.25rem;
+             }
+         }
+         
+         @media (max-width: 991px) and (min-width: 769px) {
+             .analytics-metrics {
+                 grid-template-columns: repeat(2, 1fr);
+             }
          }
 
          .metric {
@@ -1064,6 +1468,14 @@
              grid-template-columns: 1fr 1fr;
              gap: 2rem;
              align-items: start;
+         }
+         
+         /* Responsive styles for geographic grid */
+         @media (max-width: 768px) {
+             .geographic-grid {
+                 grid-template-columns: 1fr;
+                 gap: 1.5rem;
+             }
          }
 
          .location-stats {
@@ -1161,6 +1573,16 @@
              width: 100%;
              height: 200px;
              margin-bottom: 1rem;
+             position: relative;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+         
+         .analytics-overview-chart canvas {
+             max-width: 100%;
+             height: auto !important;
+             object-fit: contain;
          }
 
          .analytics-overview-info h4 {

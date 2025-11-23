@@ -222,3 +222,65 @@ Auto backup process completed successfully
 [21/11/2025  9:28:50.11] Backup completed successfully 
 [2025-11-21 02:28:51] Auto backup created successfully: backups/boardease_auto_backup_2025-11-21_02-28-51.sql (Size: 0.23 MB)
 [2025-11-21 02:28:51] Auto backup process completed successfully
+[22/11/2025 17:19:40.80] Waiting for MySQL connection... 
+[22/11/2025 17:19:46.41] MySQL not ready yet. Waiting... (1/20) 
+[22/11/2025 17:20:05.35] MySQL not ready yet. Waiting... (2/20) 
+[22/11/2025 17:20:24.32] MySQL not ready yet. Waiting... (3/20) 
+[22/11/2025 17:20:41.36] MySQL is ready Proceeding with backup... 
+[22/11/2025 17:20:41.37] Starting database backup... 
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup created successfully: backups/boardease_auto_backup_2025-11-22_10-20-45.sql (Size: 0.23 MB)
+Auto backup completed successfully: backups/boardease_auto_backup_2025-11-22_10-20-45.sql (Size: 0.23 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Deleted old backup: backups/boardease_auto_backup_2025-11-15_04-10-37.sql
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Deleted old backup: backups/boardease_auto_backup_2025-11-15_04-12-07.sql
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Deleted old backup: backups/boardease_auto_backup_2025-11-15_04-13-18.sql
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Deleted old backup: backups/boardease_auto_backup_2025-11-15_04-15-54.sql
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Deleted old backup: backups/boardease_auto_backup_2025-11-15_04-16-51.sql
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Cleaned up 5 old backup file(s)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process completed successfully
+[22/11/2025 17:20:46.02] Backup completed successfully 
+[23/11/2025 10:26:10.71] Waiting for MySQL connection... 
+[2025-11-23 03:26:12] Auto backup process started
+[23/11/2025 10:26:13.12] MySQL is ready Proceeding with backup... 
+[23/11/2025 10:26:13.13] Starting database backup... 
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup created successfully: backups/boardease_auto_backup_2025-11-23_03-26-17.sql (Size: 0.23 MB)
+Auto backup completed successfully: backups/boardease_auto_backup_2025-11-23_03-26-17.sql (Size: 0.23 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process completed successfully
+[23/11/2025 10:26:17.67] Backup completed successfully 

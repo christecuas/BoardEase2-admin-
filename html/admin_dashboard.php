@@ -367,18 +367,19 @@ $conn->close();
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1.2rem; /* Reduced from 1.5rem (80%) */
+            margin-bottom: 1.6rem; /* Reduced from 2rem (80%) */
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            font-size: 0.8em; /* Scale down all text to 80% */
         }
 
         .stat-card {
             background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
-            padding: 2.5rem;
-            border-radius: 20px;
+            padding: 2rem; /* Reduced from 2.5rem (80%) */
+            border-radius: 16px; /* Reduced from 20px (80%) */
             box-shadow: 
-                0 8px 32px rgba(141, 110, 99, 0.15),
-                0 4px 16px rgba(141, 110, 99, 0.1),
+                0 6.4px 25.6px rgba(141, 110, 99, 0.15),
+                0 3.2px 12.8px rgba(141, 110, 99, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -427,15 +428,15 @@ $conn->close();
         .stat-card:nth-child(3) { animation-delay: 0.3s; }
 
         .stat-icon {
-            width: 70px;
-            height: 70px;
+            width: 56px; /* Reduced from 70px (80%) */
+            height: 56px; /* Reduced from 70px (80%) */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.44rem; /* Reduced from 1.8rem (80%) */
             color: white;
-            margin: 0 auto 1rem;
+            margin: 0 auto 0.8rem; /* Reduced from 1rem (80%) */
             position: relative;
             animation: iconFloat 3s ease-in-out infinite;
         }
@@ -450,9 +451,9 @@ $conn->close();
         }
 
         .stat-content h3 {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Reduced from 2.5rem (80%) */
             font-weight: bold;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem; /* Reduced from 0.5rem (80%) */
             color: #2c3e50;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
             animation: numberCount 1s ease-out;
@@ -532,19 +533,22 @@ $conn->close();
 
         .pending-approvals {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 380px));
             gap: 2rem;
             animation: fadeInUp 0.8s ease-out 0.4s both;
+            align-items: stretch;
+            justify-content: start;
         }
 
         .dashboard-card {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px; /* Reduced from 15px (80%) */
+            box-shadow: 0 3.2px 12px rgba(0,0,0,0.1); /* Reduced from 4px 15px (80%) */
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             animation: cardSlideIn 0.6s ease-out;
+            font-size: 0.8em; /* Scale down all text to 80% */
         }
 
         .dashboard-card::before {
@@ -572,7 +576,7 @@ $conn->close();
         .card-header {
             background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 1.2rem; /* Reduced from 1.5rem (80%) */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -598,7 +602,7 @@ $conn->close();
         }
 
         .card-header h3 {
-            font-size: 1.3rem;
+            font-size: 1.04rem; /* Reduced from 1.3rem (80%) */
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -890,42 +894,96 @@ $conn->close();
         .approval-card {
             background: white;
             border-radius: 8px;
-            padding: 1rem;
+            padding: 0.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .approval-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.05rem;
+            flex-shrink: 0;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .approval-user {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 200px;
+            color: #000;
+        }
+        
+        .approval-user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        
+        .approval-user strong {
+            color: #000;
+            display: inline-block;
+        }
+        
+        .approval-role {
+            display: inline-flex;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            color: #000;
+        }
+        
+        .role-type,
+        .role-status {
+            color: #000;
+        }
+        
+        .approval-user small {
+            color: #000;
         }
 
         .approval-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            align-items: flex-start;
         }
 
         .approval-details {
             font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.75rem;
+            color: #000;
+            margin-bottom: 0.2rem;
+            margin-top: 0.5rem;
+            overflow: hidden;
+            line-height: 1.2;
+        }
+        
+        .approval-details strong {
+            color: #000;
+        }
+        
+        .approval-details br {
+            line-height: 1.2;
+            margin: 0;
+            padding: 0;
         }
 
         .verification-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.25rem;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 500;
+            margin-top: 0.15rem;
+            margin-bottom: 0.05rem;
         }
 
         .verification-verified {
@@ -960,8 +1018,9 @@ $conn->close();
 
         .registration-date {
             font-size: 0.8rem;
-            color: #999;
-            margin-top: 0.5rem;
+            color: #000;
+            margin-top: 0.1rem;
+            margin-bottom: 0;
         }
 
         .tabs {
@@ -1041,7 +1100,7 @@ $conn->close();
         
         #system-notifications-loading .fa-spinner {
             font-size: 2.5rem;
-            color: #007bff;
+            color: #8D6E63;
             animation: spin 1s linear infinite;
         }
         
@@ -1890,15 +1949,16 @@ $conn->close();
         .analytics-overview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            padding: 1rem;
+            gap: 2rem; /* Reduced from 2.5rem (80%) */
+            padding: 0.8rem; /* Reduced from 1rem (80%) */
+            font-size: 0.8em; /* Scale down all text to 80% */
         }
 
         .analytics-overview-item {
             background: linear-gradient(145deg, #F5F5DC 0%, #E6DAC8 100%);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(141, 110, 99, 0.15), 
+            border-radius: 16px; /* Reduced from 20px (80%) */
+            padding: 1.6rem; /* Reduced from 2rem (80%) */
+            box-shadow: 0 6.4px 25.6px rgba(141, 110, 99, 0.15), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.3);
             border: 1px solid rgba(141, 110, 99, 0.2);
             position: relative;
@@ -1909,7 +1969,7 @@ $conn->close();
             flex-direction: column;
             align-items: center;
             text-align: center;
-            min-height: 400px;
+            min-height: 320px; /* Reduced from 400px (80%) */
         }
 
         .analytics-overview-item:nth-child(1) { animation-delay: 0.1s; }
@@ -1947,14 +2007,14 @@ $conn->close();
 
          .analytics-overview-chart {
              width: 100%;
-             height: 250px;
-             margin-bottom: 1.5rem;
+             height: 200px; /* Reduced from 250px (80%) */
+             margin-bottom: 1.2rem; /* Reduced from 1.5rem (80%) */
              display: flex;
              align-items: center;
              justify-content: center;
              background: rgba(255, 255, 255, 0.5);
-             border-radius: 12px;
-             box-shadow: 0 4px 16px rgba(141, 110, 99, 0.1);
+             border-radius: 9.6px; /* Reduced from 12px (80%) */
+             box-shadow: 0 3.2px 12.8px rgba(141, 110, 99, 0.1);
              position: relative;
          }
 
@@ -1970,17 +2030,17 @@ $conn->close();
          }
 
          .analytics-overview-info h4 {
-             font-size: 1.4rem;
+             font-size: 1.12rem; /* Reduced from 1.4rem (80%) */
              font-weight: 700;
-             margin-bottom: 0.8rem;
+             margin-bottom: 0.64rem; /* Reduced from 0.8rem (80%) */
              color: #5D4037;
              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
          }
 
          .analytics-overview-info p {
-             font-size: 1rem;
+             font-size: 0.8rem; /* Reduced from 1rem (80%) */
              color: #8D6E63;
-             margin-bottom: 1rem;
+             margin-bottom: 0.8rem; /* Reduced from 1rem (80%) */
              font-weight: 500;
          }
 
@@ -2237,15 +2297,16 @@ $conn->close();
          }
 
          .approval-actions .action-btn {
-             padding: 0.4rem 0.8rem;
-             font-size: 0.8rem;
+             padding: 0.3rem 0.5rem;
+             font-size: 0.7rem;
              min-width: auto;
              white-space: nowrap;
+             line-height: 1.2;
          }
 
          .approval-actions .action-btn i {
-             font-size: 0.75rem;
-             margin-right: 0.25rem;
+             font-size: 0.65rem;
+             margin-right: 0.2rem;
          }
 
          /* Final Action Buttons Styling */
@@ -2289,6 +2350,12 @@ $conn->close();
 
         .loading-spinner i {
             font-size: 1.2rem;
+            color: #8D6E63;
+        }
+
+        /* Make all spinner icons brown by default */
+        .fa-spinner {
+            color: #8D6E63 !important;
         }
 
         /* Analytics Loading Styles */
@@ -2296,22 +2363,30 @@ $conn->close();
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 400px;
-            background: #f8f9fa;
-            border-radius: 12px;
+            min-height: 500px;
+            background: transparent;
+            border-radius: 20px;
             margin: 2rem 0;
         }
 
         .analytics-loading .loading-spinner {
             flex-direction: column;
-            gap: 1rem;
-            font-size: 1.1rem;
+            gap: 1.5rem;
+            font-size: 1.2rem;
             color: #8D6E63;
+            font-weight: 600;
         }
 
         .analytics-loading .loading-spinner i {
-            font-size: 2rem;
+            font-size: 3rem;
             color: #8D6E63;
+            animation: spin 1s linear infinite;
+            filter: drop-shadow(0 2px 8px rgba(141, 110, 99, 0.3));
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
          .no-data {
@@ -2481,7 +2556,7 @@ $conn->close();
 
         <!-- Priority Section: Pending Approvals -->
         <div class="priority-section" style="margin-top: 3rem;">
-            <h2><i class="fas fa-exclamation-circle"></i> Pending User Approvals - Action Required</h2>
+            <h2><i class="fas fa-exclamation-circle"></i> Pending User Approvals - Action Required (<?php echo $pending_count; ?>)</h2>
             <div class="pending-approvals">
                 <?php if (empty($pending_registrations)): ?>
                     <div class="no-data">No pending registrations</div>
@@ -2529,24 +2604,21 @@ $conn->close();
                             }
                         }
                         ?>
+                        <?php
+                        $roleParts = $registration['role'] === 'BH Owner' ? ['type' => 'Owner', 'status' => 'Registration'] : ['type' => 'Boarder', 'status' => 'Registration'];
+                        ?>
                         <div class="approval-card" data-registration-id="<?php echo $registration['id']; ?>">
                     <div class="approval-header">
                         <div class="approval-user">
                                     <div class="user-avatar"><?php echo $initials; ?></div>
-                            <div>
-                                        <strong><?php echo htmlspecialchars($registration['full_name']); ?></strong><br>
-                                        <small><?php echo $roleText; ?></small>
+                            <div class="approval-user-info">
+                                        <strong><?php echo htmlspecialchars($registration['full_name']); ?></strong>
+                                        <span class="approval-role"><span class="role-type"><?php echo $roleParts['type']; ?></span> <span class="role-status"><?php echo $roleParts['status']; ?></span></span>
                             </div>
                         </div>
                         <div class="approval-actions">
                                     <button class="action-btn" onclick="viewDocuments(<?php echo $registration['id']; ?>)">
                                 <i class="fas fa-id-card"></i> View ID
-                            </button>
-                                    <button class="action-btn success" onclick="approveUser(<?php echo $registration['id']; ?>)">
-                                <i class="fas fa-check"></i> Approve
-                            </button>
-                                    <button class="action-btn danger" onclick="rejectUser(<?php echo $registration['id']; ?>)">
-                                <i class="fas fa-times"></i> Reject
                             </button>
                         </div>
                     </div>
@@ -2668,7 +2740,7 @@ $conn->close();
                                 });
                                 
                                 
-                                // Show all boarders by default - active users + pending registrations only
+                                // Show all boarders by default - active + inactive users + pending registrations
                                 $all_boarders = [];
                                 $processed_emails = [];
                                 
@@ -2676,6 +2748,14 @@ $conn->close();
                                 foreach ($active_boarders as $user) {
                                     $all_boarders[] = $user;
                                     $processed_emails[] = $user['email'];
+                                }
+                                
+                                // Then add inactive users
+                                foreach ($inactive_boarders as $user) {
+                                    if (!in_array($user['email'], $processed_emails)) {
+                                        $all_boarders[] = $user;
+                                        $processed_emails[] = $user['email'];
+                                    }
                                 }
                                 
                                 // Then add pending registrations (if not already processed)
@@ -2708,13 +2788,17 @@ $conn->close();
                                             // This is an active/inactive user
                                             $status = $user['status'] === 'Active' ? 'Active' : 'Inactive';
                                             $statusClass = $user['status'] === 'Active' ? 'status-active' : 'status-inactive';
+                                            $suspendButtonText = $user['status'] === 'Active' ? 'Suspend' : 'Unsuspend';
+                                            $suspendButtonIcon = $user['status'] === 'Active' ? 'ban' : 'check';
+                                            $suspendButtonClass = $user['status'] === 'Active' ? 'danger' : 'success';
+                                            $suspendFunction = $user['status'] === 'Active' ? 'suspendUser' : 'unsuspendUser';
                                             $actions = '
                                          <div class="action-buttons-container">
                                                     <button class="action-btn" onclick="viewUserDetails(' . $user['user_id'] . ')">
                                                  <i class="fas fa-eye"></i> View
                                              </button>
-                                                    <button class="action-btn danger" onclick="suspendUser(' . $user['user_id'] . ')">
-                                                 <i class="fas fa-ban"></i> Suspend
+                                                    <button class="action-btn ' . $suspendButtonClass . '" onclick="' . $suspendFunction . '(' . $user['user_id'] . ')">
+                                                 <i class="fas fa-' . $suspendButtonIcon . '"></i> ' . $suspendButtonText . '
                                              </button>
                                                 </div>';
                                             $dataId = 'data-user-id="' . $user['user_id'] . '"';
@@ -2794,7 +2878,7 @@ $conn->close();
                                     return $reg['role'] === 'BH Owner';
                                 });
                                 
-                                // Show all owners by default - active users + pending registrations only
+                                // Show all owners by default - active + inactive users + pending registrations
                                 $all_owners = [];
                                 $processed_emails = [];
                                 
@@ -2802,6 +2886,14 @@ $conn->close();
                                 foreach ($active_owners as $user) {
                                     $all_owners[] = $user;
                                     $processed_emails[] = $user['email'];
+                                }
+                                
+                                // Then add inactive users
+                                foreach ($inactive_owners as $user) {
+                                    if (!in_array($user['email'], $processed_emails)) {
+                                        $all_owners[] = $user;
+                                        $processed_emails[] = $user['email'];
+                                    }
                                 }
                                 
                                 // Then add pending registrations (if not already processed)
@@ -2832,13 +2924,17 @@ $conn->close();
                                             // This is an active/inactive user
                                             $status = $user['status'] === 'Active' ? 'Active' : 'Inactive';
                                             $statusClass = $user['status'] === 'Active' ? 'status-active' : 'status-inactive';
+                                            $suspendButtonText = $user['status'] === 'Active' ? 'Suspend' : 'Unsuspend';
+                                            $suspendButtonIcon = $user['status'] === 'Active' ? 'ban' : 'check';
+                                            $suspendButtonClass = $user['status'] === 'Active' ? 'danger' : 'success';
+                                            $suspendFunction = $user['status'] === 'Active' ? 'suspendUser' : 'unsuspendUser';
                                             $actions = '
                                          <div class="action-buttons-container">
                                                     <button class="action-btn" onclick="viewUserDetails(' . $user['user_id'] . ')">
                                                  <i class="fas fa-eye"></i> View
                                              </button>
-                                                    <button class="action-btn danger" onclick="suspendUser(' . $user['user_id'] . ')">
-                                                 <i class="fas fa-ban"></i> Suspend
+                                                    <button class="action-btn ' . $suspendButtonClass . '" onclick="' . $suspendFunction . '(' . $user['user_id'] . ')">
+                                                 <i class="fas fa-' . $suspendButtonIcon . '"></i> ' . $suspendButtonText . '
                                              </button>
                                                 </div>';
                                             $dataId = 'data-user-id="' . $user['user_id'] . '"';
@@ -3165,11 +3261,20 @@ $conn->close();
                                 </div>
                                         </div>
                 
-                <!-- Top Performing Boarding Houses -->
+                <!-- Top Performing and Earning Boarding Houses -->
+                <div class="top-boarding-houses-container">
                 <div class="top-performing-section">
                     <h4><i class="fas fa-trophy"></i> Top Performing Boarding Houses</h4>
                     <div class="top-performing-list" id="top-boarding-houses">
                         <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="top-performing-section">
+                        <h4><i class="fas fa-money-bill-wave"></i> Top Earning Boarding Houses</h4>
+                        <div class="top-performing-list" id="top-earning-boarding-houses">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -3584,11 +3689,6 @@ $conn->close();
                                 Name on ID matches user information
                             </label>
                             <label class="checklist-item">
-                                <input type="checkbox" id="photoMatch">
-                                <span class="checkmark"></span>
-                                Photo on ID appears to match user
-                            </label>
-                            <label class="checklist-item">
                                 <input type="checkbox" id="documentValid">
                                 <span class="checkmark"></span>
                                 Document appears valid and not tampered
@@ -3610,12 +3710,6 @@ $conn->close();
                                 <span id="emailVerificationText">Loading verification status...</span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Verification Notes -->
-                    <div class="verification-notes">
-                        <h3><i class="fas fa-sticky-note"></i> Verification Notes</h3>
-                        <textarea id="verificationNotes" placeholder="Add any notes about the verification process..." rows="4"></textarea>
                     </div>
 
                     <!-- Action Buttons -->
@@ -3640,6 +3734,80 @@ $conn->close();
         <div class="modal-content image-modal">
             <button class="modal-close" onclick="closeModal('imageModal')">&times;</button>
             <img id="zoomedImage" src="" alt="Zoomed Document">
+        </div>
+    </div>
+
+    <!-- Rejection Reason Modal -->
+    <div id="rejectionReasonModal" class="modal">
+        <div class="modal-content document-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-times-circle"></i> Reject Application</h2>
+                <button class="modal-close" onclick="closeModal('rejectionReasonModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 1.5rem;">
+                    <p style="margin-bottom: 1.5rem; color: #333; font-size: 1rem;">Please provide a reason for rejecting this application:</p>
+                    <textarea id="rejectionReason" placeholder="Enter rejection reason..." rows="5" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-family: inherit; font-size: 0.95rem; resize: vertical; margin-bottom: 1.5rem;"></textarea>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="action-btn" onclick="closeModal('rejectionReasonModal')" style="background: #6c757d;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="action-btn danger" onclick="confirmRejection()">
+                            <i class="fas fa-check"></i> Reject Application
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suspend User Modal -->
+    <div id="suspendUserModal" class="modal">
+        <div class="modal-content document-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-ban"></i> Suspend User Account</h2>
+                <button class="modal-close" onclick="closeModal('suspendUserModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 1.5rem;">
+                    <p style="margin-bottom: 1rem; color: #333; font-size: 1rem; font-weight: 500;">Please provide a reason for suspending this user account:</p>
+                    <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.9rem;">The user will not be able to access their account until it is unsuspended.</p>
+                    <textarea id="suspendReason" placeholder="Enter suspension reason..." rows="5" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-family: inherit; font-size: 0.95rem; resize: vertical; margin-bottom: 1.5rem;"></textarea>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="action-btn" onclick="closeModal('suspendUserModal')" style="background: #6c757d;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="action-btn danger" onclick="confirmSuspendUser()">
+                            <i class="fas fa-ban"></i> Suspend User
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deactivate Boarding House Modal -->
+    <div id="deactivateBoardingHouseModal" class="modal">
+        <div class="modal-content document-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-ban"></i> Deactivate Boarding House</h2>
+                <button class="modal-close" onclick="closeModal('deactivateBoardingHouseModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 1.5rem;">
+                    <p style="margin-bottom: 1rem; color: #333; font-size: 1rem; font-weight: 500;">Please provide a reason for deactivating this boarding house:</p>
+                    <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.9rem;">The boarding house will be hidden from search results and no new bookings will be accepted.</p>
+                    <textarea id="deactivateReason" placeholder="Enter deactivation reason..." rows="5" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; font-family: inherit; font-size: 0.95rem; resize: vertical; margin-bottom: 1.5rem;"></textarea>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="action-btn" onclick="closeModal('deactivateBoardingHouseModal')" style="background: #6c757d;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="action-btn danger" onclick="confirmDeactivateBoardingHouse()">
+                            <i class="fas fa-ban"></i> Deactivate Boarding House
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3807,19 +3975,19 @@ $conn->close();
         }
 
         function suspendUser(userId) {
-            const reason = prompt('Please provide a reason for suspension:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to suspend this user?')) {
-                    alert(`User ${userId} has been suspended. Reason: ${reason}`);
-                    // Here you would update the database and refresh the table
-                }
-            }
+            // Store user ID in modal
+            document.getElementById('suspendUserModal').setAttribute('data-user-id', userId);
+            
+            // Clear previous reason
+            document.getElementById('suspendReason').value = '';
+            
+            // Open the modal
+            openModal('suspendUserModal');
         }
 
         function unsuspendUser(userId) {
-            if (confirm('Are you sure you want to unsuspend this user?')) {
-                alert(`User ${userId} has been unsuspended`);
-                // Here you would update the database and refresh the table
+            if (confirm('Are you sure you want to unsuspend this user? They will be able to access their account again.')) {
+                processSuspendUser(userId, '', 'unsuspend');
             }
         }
 
@@ -3933,8 +4101,8 @@ $conn->close();
                 return;
             }
             
-            if (confirm('Are you sure you want to approve this registration?')) {
-                approveUser(registrationId);
+            if (confirm('Are you sure you want to approve this registration? The user will be moved to the users table.')) {
+                processApproval(registrationId);
                 closeModal('documentModal');
             }
         }
@@ -3948,9 +4116,255 @@ $conn->close();
                 return;
             }
             
-            if (confirm('Are you sure you want to reject this registration?')) {
-                rejectUser(registrationId);
+            // Store registration ID in rejection modal
+            document.getElementById('rejectionReasonModal').setAttribute('data-registration-id', registrationId);
+            
+            // Clear previous reason
+            document.getElementById('rejectionReason').value = '';
+            
+            // Close document modal and open rejection reason modal
                 closeModal('documentModal');
+            setTimeout(() => {
+                openModal('rejectionReasonModal');
+            }, 300);
+        }
+
+        function confirmRejection() {
+            const rejectionModal = document.getElementById('rejectionReasonModal');
+            const registrationId = rejectionModal.getAttribute('data-registration-id');
+            const reason = document.getElementById('rejectionReason').value.trim();
+            
+            if (!registrationId) {
+                alert('Error: Registration ID not found');
+                return;
+            }
+            
+            if (!reason) {
+                alert('Please provide a reason for rejection.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to reject this registration?')) {
+                processRejection(registrationId, reason);
+                closeModal('rejectionReasonModal');
+            }
+        }
+
+        function confirmSuspendUser() {
+            const suspendModal = document.getElementById('suspendUserModal');
+            const userId = suspendModal.getAttribute('data-user-id');
+            const reason = document.getElementById('suspendReason').value.trim();
+            
+            if (!userId) {
+                alert('Error: User ID not found');
+                return;
+            }
+            
+            if (!reason) {
+                alert('Please provide a reason for suspension.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to suspend this user? They will not be able to access their account.')) {
+                processSuspendUser(userId, reason);
+                closeModal('suspendUserModal');
+            }
+        }
+
+        function confirmDeactivateBoardingHouse() {
+            const deactivateModal = document.getElementById('deactivateBoardingHouseModal');
+            const houseId = deactivateModal.getAttribute('data-house-id');
+            const reason = document.getElementById('deactivateReason').value.trim();
+            
+            if (!houseId) {
+                alert('Error: Boarding House ID not found');
+                return;
+            }
+            
+            if (!reason) {
+                alert('Please provide a reason for deactivation.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to deactivate this boarding house? It will be hidden from search results.')) {
+                processDeactivateBoardingHouse(houseId, reason);
+                closeModal('deactivateBoardingHouseModal');
+            }
+        }
+
+        // Actual approval processing function
+        function processApproval(registrationId) {
+            const formData = new FormData();
+            formData.append('registration_id', registrationId);
+            formData.append('action', 'approve');
+
+            fetch('../approved_registration.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Check if response is OK
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`HTTP ${response.status}: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Approval response:', data);
+                if (data.success) {
+                    // Show success message - this is a blocking call
+                    alert('Registration approved successfully! User has been added to the system.\n\nClick OK to refresh the page automatically.');
+                    
+                    // After alert closes (user clicks OK), immediately reload the page
+                    // Using location.reload(true) forces a hard refresh from server
+                    // This ensures fresh data is loaded
+                    try {
+                        window.location.reload(true);
+                    } catch (e) {
+                        // Fallback if reload(true) doesn't work (some browsers)
+                        const currentUrl = window.location.href.split('?')[0];
+                        window.location.href = currentUrl + '?approved=' + data.registration_id + '&t=' + new Date().getTime();
+                    }
+                } else {
+                    alert('Error approving registration: ' + (data.message || data.error_details || 'Unknown error'));
+                    console.error('Approval error:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error approving registration: ' + error.message + '. Please check the console for details.');
+            });
+        }
+
+        // Actual rejection processing function
+        function processRejection(registrationId, reason) {
+            const formData = new FormData();
+            formData.append('registration_id', registrationId);
+            formData.append('action', 'reject');
+            formData.append('reason', reason);
+
+            fetch('../approved_registration.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration rejected successfully!\n\nClick OK to refresh the page automatically.');
+                    
+                    // After alert closes, immediately reload the page
+                    try {
+                        window.location.reload(true);
+                    } catch (e) {
+                        // Fallback if reload(true) doesn't work
+                        const currentUrl = window.location.href.split('?')[0];
+                        window.location.href = currentUrl + '?rejected=' + registrationId + '&t=' + new Date().getTime();
+                    }
+                } else {
+                    alert('Error rejecting registration: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error rejecting registration. Please try again.');
+            });
+        }
+
+        // Actual suspend user processing function
+        function processSuspendUser(userId, reason, action = 'suspend') {
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('action', action);
+            if (reason) {
+                formData.append('reason', reason);
+            }
+
+            fetch('../suspend_user.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const message = action === 'suspend' 
+                        ? 'User suspended successfully!\n\nClick OK to refresh the page automatically.'
+                        : 'User unsuspended successfully!\n\nClick OK to refresh the page automatically.';
+                    alert(message);
+                    
+                    // After alert closes, immediately reload the page
+                    try {
+                        window.location.reload(true);
+                    } catch (e) {
+                        // Fallback if reload(true) doesn't work
+                        const currentUrl = window.location.href.split('?')[0];
+                        window.location.href = currentUrl + '?' + action + '=' + userId + '&t=' + new Date().getTime();
+                    }
+                } else {
+                    const errorMsg = action === 'suspend' 
+                        ? 'Error suspending user: ' 
+                        : 'Error unsuspending user: ';
+                    alert(errorMsg + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMsg = action === 'suspend' 
+                    ? 'Error suspending user. Please try again.'
+                    : 'Error unsuspending user. Please try again.';
+                alert(errorMsg);
+            });
+        }
+
+        // Actual deactivate boarding house processing function
+        function processDeactivateBoardingHouse(houseId, reason, action = 'deactivate') {
+            const formData = new FormData();
+            formData.append('bh_id', houseId);
+            formData.append('action', action);
+            if (reason) {
+                formData.append('reason', reason);
+            }
+
+            fetch('../deactivate_boarding_house.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const message = action === 'deactivate' 
+                        ? 'Boarding house deactivated successfully!\n\nClick OK to refresh the page automatically.'
+                        : 'Boarding house activated successfully!\n\nClick OK to refresh the page automatically.';
+                    alert(message);
+                    
+                    // After alert closes, immediately reload the page
+                    try {
+                        window.location.reload(true);
+                    } catch (e) {
+                        // Fallback if reload(true) doesn't work
+                        const currentUrl = window.location.href.split('?')[0];
+                        window.location.href = currentUrl + '?' + action + '=' + houseId + '&t=' + new Date().getTime();
+                    }
+                } else {
+                    const errorMsg = action === 'deactivate' 
+                        ? 'Error deactivating boarding house: ' 
+                        : 'Error activating boarding house: ';
+                    alert(errorMsg + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMsg = action === 'deactivate' 
+                    ? 'Error deactivating boarding house. Please try again.'
+                    : 'Error activating boarding house. Please try again.';
+                alert(errorMsg);
+            });
+        }
+
+        function activateBoardingHouse(houseId) {
+            if (confirm('Are you sure you want to activate this boarding house? It will be visible in search results again.')) {
+                processDeactivateBoardingHouse(houseId, '', 'activate');
             }
         }
 
@@ -4019,13 +4433,10 @@ $conn->close();
         function clearVerificationData() {
             // Clear checkboxes
             document.getElementById('nameMatch').checked = false;
-            document.getElementById('photoMatch').checked = false;
             document.getElementById('documentValid').checked = false;
             document.getElementById('informationComplete').checked = false;
             
             // Clear notes
-            document.getElementById('verificationNotes').value = '';
-            
             // Reset email verification status
             resetEmailVerificationStatus();
         }
@@ -4082,9 +4493,7 @@ $conn->close();
         }
 
         function approveWithVerification() {
-            const notes = document.getElementById('verificationNotes').value;
             const nameMatch = document.getElementById('nameMatch').checked;
-            const photoMatch = document.getElementById('photoMatch').checked;
             const documentValid = document.getElementById('documentValid').checked;
             const informationComplete = document.getElementById('informationComplete').checked;
             
@@ -4095,7 +4504,7 @@ $conn->close();
                 return;
             }
             
-            if (!nameMatch || !photoMatch || !documentValid || !informationComplete) {
+            if (!nameMatch || !documentValid || !informationComplete) {
                 alert('Please complete all verification checklist items before approving.');
                 return;
             }
@@ -4126,12 +4535,14 @@ $conn->close();
         }
 
         function deactivateBoardingHouse(houseId) {
-            const reason = prompt('Please provide a reason for deactivation:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to deactivate this boarding house?')) {
-                    alert(`Boarding house ${houseId} deactivated successfully!`);
-                }
-            }
+            // Store boarding house ID in modal
+            document.getElementById('deactivateBoardingHouseModal').setAttribute('data-house-id', houseId);
+            
+            // Clear previous reason
+            document.getElementById('deactivateReason').value = '';
+            
+            // Open the modal
+            openModal('deactivateBoardingHouseModal');
         }
 
 
@@ -5003,7 +5414,7 @@ $conn->close();
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#8D6E63', '#A1887F'],
+                        backgroundColor: ['#2196F3', '#9C27B0'], // Match analytics section colors
                         borderWidth: 2,
                         borderColor: '#fff'
                     }]
@@ -5045,6 +5456,25 @@ $conn->close();
             const labels = locationData.map(item => item.location);
             const data = locationData.map(item => parseInt(item.user_count));
             
+            // Create a distinct color palette for locations (one should be purple)
+            const locationColorPalette = [
+                '#2196F3', // Blue
+                '#9C27B0', // Purple
+                '#E91E63', // Pink
+                '#FF5722', // Deep Orange
+                '#FF9800', // Orange
+                '#4CAF50', // Green
+                '#00BCD4', // Cyan
+                '#3F51B5', // Indigo
+                '#F44336', // Red
+                '#009688'  // Teal
+            ];
+            
+            // Assign colors to each location (cycle through palette if more locations than colors)
+            const backgroundColors = labels.map((label, index) => {
+                return locationColorPalette[index % locationColorPalette.length];
+            });
+            
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -5052,9 +5482,10 @@ $conn->close();
                     datasets: [{
                         label: 'Users',
                         data: data,
-                        backgroundColor: '#8D6E63',
-                        borderColor: '#8D6E63',
-                        borderWidth: 1
+                        backgroundColor: backgroundColors,
+                        borderColor: backgroundColors,
+                        borderWidth: 2,
+                        borderRadius: 6
                     }]
                 },
                 options: {
@@ -5103,16 +5534,26 @@ $conn->close();
                         {
                             label: 'Users',
                             data: growthData.map(item => item.users),
-                            borderColor: '#8D6E63',
-                            backgroundColor: 'rgba(141, 110, 99, 0.1)',
-                            tension: 0.4
+                            borderColor: '#2196F3', // Match analytics section colors
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#2196F3',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         },
                         {
                             label: 'Boarding Houses',
                             data: growthData.map(item => item.boarding_houses),
-                            borderColor: '#A1887F',
-                            backgroundColor: 'rgba(161, 136, 127, 0.1)',
-                            tension: 0.4
+                            borderColor: '#FF9800', // Match analytics section colors
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#FF9800',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         }
                     ]
                 },
@@ -5157,6 +5598,9 @@ $conn->close();
             
             // Update top performing boarding houses
             updateTopPerformingBoardingHouses(analytics.top_boarding_houses);
+            
+            // Update top earning boarding houses
+            updateTopEarningBoardingHouses(analytics.top_earning_boarding_houses || []);
         }
         
         // Update Top Performing Boarding Houses
@@ -5165,7 +5609,7 @@ $conn->close();
             if (!container) return;
             
             if (boardingHouses.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No boarding houses data available</p>';
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem; font-size: 0.72rem;">No boarding houses data available</p>';
                 return;
             }
             
@@ -5178,12 +5622,44 @@ $conn->close();
                     <div class="item-stats">
                         <div class="stat-value">${bh.occupancy_rate}%</div>
                         <div class="stat-label">Occupancy Rate</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 0.25rem;">
+                        <div style="font-size: 0.64rem; color: #666; margin-top: 0.2rem;">
                             ${bh.occupied_units}/${bh.total_units} units
                         </div>
                     </div>
                 </div>
             `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        // Update Top Earning Boarding Houses
+        function updateTopEarningBoardingHouses(boardingHouses) {
+            const container = document.getElementById('top-earning-boarding-houses');
+            if (!container) return;
+            
+            if (boardingHouses.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem; font-size: 0.72rem;">No revenue data available</p>';
+                return;
+            }
+            
+            const html = boardingHouses.map((bh, index) => {
+                const revenue = parseFloat(bh.total_revenue || 0);
+                return `
+                <div class="top-performing-item">
+                    <div class="item-info">
+                        <h5>${index + 1}. ${bh.bh_name}</h5>
+                        <p>${bh.bh_address}</p>
+                    </div>
+                    <div class="item-stats">
+                        <div class="stat-value" style="color: #4CAF50;">₱${revenue.toLocaleString()}</div>
+                        <div class="stat-label">Total Revenue</div>
+                        <div style="font-size: 0.64rem; color: #666; margin-top: 0.2rem;">
+                            ${bh.payment_count || 0} payments
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
             
             container.innerHTML = html;
         }
@@ -5373,6 +5849,11 @@ $conn->close();
                     responsive: true,
                     maintainAspectRatio: false,
                     aspectRatio: 1.5,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true
@@ -5421,6 +5902,11 @@ $conn->close();
                     responsive: true,
                     maintainAspectRatio: false,
                     aspectRatio: 1.5,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true
@@ -5537,6 +6023,25 @@ $conn->close();
             const labels = locationData.map(item => item.location);
             const data = locationData.map(item => parseInt(item.boarding_house_count));
             
+            // Create a distinct color palette for locations (one should be purple)
+            const locationColorPalette = [
+                '#2196F3', // Blue
+                '#9C27B0', // Purple
+                '#E91E63', // Pink
+                '#FF5722', // Deep Orange
+                '#FF9800', // Orange
+                '#4CAF50', // Green
+                '#00BCD4', // Cyan
+                '#3F51B5', // Indigo
+                '#F44336', // Red
+                '#009688'  // Teal
+            ];
+            
+            // Assign colors to each location (cycle through palette if more locations than colors)
+            const backgroundColors = labels.map((label, index) => {
+                return locationColorPalette[index % locationColorPalette.length];
+            });
+            
             try {
                 analyticsCharts.bhLocationChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -5545,16 +6050,7 @@ $conn->close();
                     datasets: [{
                         label: 'Boarding Houses',
                         data: data,
-                        backgroundColor: [
-                            '#2196F3',
-                            '#9C27B0',
-                            '#E91E63',
-                            '#FF5722',
-                            '#FF9800',
-                            '#FFC107',
-                            '#4CAF50',
-                            '#00BCD4'
-                        ],
+                        backgroundColor: backgroundColors,
                         borderWidth: 3,
                         borderColor: '#fff',
                         hoverBorderWidth: 4
@@ -5618,25 +6114,21 @@ $conn->close();
                     console.warn('Registration missing created_at:', registration.id, registration);
                 }
                 
+                const roleParts = registration.role === 'BH Owner' ? { type: 'Owner', status: 'Registration' } : { type: 'Boarder', status: 'Registration' };
+                
                 html += `
                     <div class="approval-card" data-registration-id="${registration.id}">
                         <div class="approval-header">
                             <div class="approval-user">
                                 <div class="user-avatar">${initials}</div>
-                                <div>
-                                    <strong>${registration.full_name}</strong><br>
-                                    <small>${roleText}</small>
+                                <div class="approval-user-info">
+                                    <strong>${registration.full_name}</strong>
+                                    <span class="approval-role"><span class="role-type">${roleParts.type}</span> <span class="role-status">${roleParts.status}</span></span>
                                 </div>
                             </div>
                             <div class="approval-actions">
                                 <button class="action-btn" onclick="viewDocuments(${registration.id})">
                                     <i class="fas fa-id-card"></i> View ID
-                                </button>
-                                <button class="action-btn success" onclick="approveUser(${registration.id})">
-                                    <i class="fas fa-check"></i> Approve
-                                </button>
-                                <button class="action-btn danger" onclick="rejectUser(${registration.id})">
-                                    <i class="fas fa-times"></i> Reject
                                 </button>
                             </div>
                         </div>
@@ -5930,8 +6422,7 @@ $conn->close();
                                     <div class="user-info-cell">
                                         <div class="user-avatar-small" style="background: #8D6E63; color: white;">${initials}</div>
                                         <div>
-                                            <strong>${house.bh_name}</strong><br>
-                                            <small>${house.bh_address}</small>
+                                            <strong>${house.bh_name}</strong>
                                         </div>
                             </div>
                         </td>
@@ -6021,6 +6512,10 @@ $conn->close();
 
                 owner.boarding_houses.forEach(house => {
                     const statusClass = house.status === 'Active' ? 'status-active' : 'status-inactive';
+                    const activateButtonText = house.status === 'Active' ? 'Deactivate' : 'Activate';
+                    const activateButtonIcon = house.status === 'Active' ? 'ban' : 'check';
+                    const activateButtonClass = house.status === 'Active' ? 'danger' : 'success';
+                    const activateFunction = house.status === 'Active' ? 'deactivateBoardingHouse' : 'activateBoardingHouse';
                     html += `
                         <div class="boarding-house-item">
                             <div class="house-info">
@@ -6032,6 +6527,9 @@ $conn->close();
                                 <div class="action-buttons-container">
                                     <button class="action-btn" onclick="viewBoardingHouseDetails(${house.bh_id})">
                                         <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="action-btn ${activateButtonClass}" onclick="${activateFunction}(${house.bh_id})">
+                                        <i class="fas fa-${activateButtonIcon}"></i> ${activateButtonText}
                                     </button>
                                 </div>
                             </div>
@@ -6437,12 +6935,8 @@ $conn->close();
         }
 
         function suspendBoarder(boarderId) {
-            const reason = prompt('Please provide a reason for suspension:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to suspend this boarder?')) {
-                    alert(`Boarder ${boarderId} suspended successfully!`);
-                }
-            }
+            // Use the same suspend user modal
+            suspendUser(boarderId);
         }
 
         function approveBoarder(boarderId) {
@@ -6509,12 +7003,8 @@ $conn->close();
         }
 
         function suspendOwner(ownerId) {
-            const reason = prompt('Please provide a reason for suspension:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to suspend this owner?')) {
-                    alert(`Owner ${ownerId} suspended successfully!`);
-                }
-            }
+            // Use the same suspend user modal
+            suspendUser(ownerId);
         }
 
         function approveOwner(ownerId) {
@@ -6679,7 +7169,7 @@ $conn->close();
             // Default templates structure if database is empty
             const defaultTemplates = {
                 'booking': [
-                    { key: 'booking_created', title: 'New Booking Request', message: 'You have a new booking request from {tenant_name} for {room_name}', type: 'booking' },
+                    { key: 'booking_created', title: 'New Booking Request', message: 'You have a new booking request from {boarder_name} for {room_name}', type: 'booking' },
                     { key: 'booking_approved', title: 'Booking Approved', message: 'Your booking request for {room_name} has been approved!', type: 'booking' },
                     { key: 'booking_declined', title: 'Booking Declined', message: 'Your booking request for {room_name} has been declined.{reason}', type: 'booking' },
                     { key: 'booking_cancelled', title: 'Booking Cancelled', message: 'Booking for {room_name} has been cancelled.', type: 'booking' }
@@ -6777,7 +7267,7 @@ $conn->close();
                                 <input type="hidden" id="template_key_${templateKey}" value="${templateKey}">
                                 <input type="hidden" id="template_type_${templateKey}" value="${type}">
                                 <small style="color: #888; font-size: 0.85em; display: block; margin-top: 5px;">
-                                    Available variables: {tenant_name}, {room_name}, {amount}, {status}, {description}, {sender_name}, etc.
+                                    Available variables: {boarder_name}, {room_name}, {amount}, {status}, {description}, {sender_name}, etc.
                                 </small>
                             </div>
                         </div>
@@ -7087,7 +7577,7 @@ $conn->close();
             progressOverlay.innerHTML = `
                 <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; min-width: 300px;">
                     <div style="font-size: 2.5rem; margin-bottom: 15px;">
-                        <i class="fas fa-spinner fa-spin" style="color: #2196F3;"></i>
+                        <i class="fas fa-spinner fa-spin" style="color: #8D6E63;"></i>
                     </div>
                     <div style="font-size: 1.2rem; font-weight: 600; color: #333; margin-bottom: 15px;">
                         Saving Templates...
@@ -7188,88 +7678,13 @@ $conn->close();
 
         // User approval functions
         function approveUser(registrationId) {
-            if (confirm('Are you sure you want to approve this registration? The user will be moved to the users table.')) {
-                const formData = new FormData();
-                formData.append('registration_id', registrationId);
-                formData.append('action', 'approve');
-
-                fetch('../approved_registration.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    // Check if response is OK
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`HTTP ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Approval response:', data);
-                    if (data.success) {
-                        // Show success message - this is a blocking call
-                        alert('Registration approved successfully! User has been added to the system.\n\nClick OK to refresh the page automatically.');
-                        
-                        // After alert closes (user clicks OK), immediately reload the page
-                        // Using location.reload(true) forces a hard refresh from server
-                        // This ensures fresh data is loaded
-                        try {
-                            window.location.reload(true);
-                        } catch (e) {
-                            // Fallback if reload(true) doesn't work (some browsers)
-                            const currentUrl = window.location.href.split('?')[0];
-                            window.location.href = currentUrl + '?approved=' + data.registration_id + '&t=' + new Date().getTime();
-                        }
-                    } else {
-                        alert('Error approving registration: ' + (data.message || data.error_details || 'Unknown error'));
-                        console.error('Approval error:', data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error approving registration: ' + error.message + '. Please check the console for details.');
-                });
-            }
+            // Open document verification modal first
+            viewDocuments(registrationId);
         }
 
         function rejectUser(registrationId) {
-            const reason = prompt('Please provide a reason for rejection:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to reject this registration?')) {
-                    const formData = new FormData();
-                    formData.append('registration_id', registrationId);
-                    formData.append('action', 'reject');
-                    formData.append('reason', reason);
-
-                    fetch('../approved_registration.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Registration rejected successfully!\n\nClick OK to refresh the page automatically.');
-                            
-                            // After alert closes, immediately reload the page
-                            try {
-                                window.location.reload(true);
-                            } catch (e) {
-                                // Fallback if reload(true) doesn't work
-                                const currentUrl = window.location.href.split('?')[0];
-                                window.location.href = currentUrl + '?rejected=' + registrationId + '&t=' + new Date().getTime();
-                            }
-                        } else {
-                            alert('Error rejecting registration: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error rejecting registration. Please try again.');
-                    });
-                }
-            }
+            // Open document verification modal first
+            viewDocuments(registrationId);
         }
 
         function updatePendingCount(change) {
@@ -7342,39 +7757,7 @@ $conn->close();
         }
 
 
-        function suspendUser(userId) {
-            const reason = prompt('Please provide a reason for suspension:');
-            if (reason && reason.trim() !== '') {
-                if (confirm('Are you sure you want to suspend this user? They will not be able to access their account.')) {
-                    // Simulate API call
-                    fetch('/api/suspend-user', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            userId: userId,
-                            reason: reason,
-                            action: 'suspend'
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('User suspended successfully!');
-                            // Update the UI to show suspended status
-                            location.reload(); // Simple way to refresh the page
-                        } else {
-                            alert('Error suspending user: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error suspending user. Please try again.');
-                    });
-                }
-            }
-        }
+        // This duplicate function is removed - using the one defined earlier that opens the modal
 
          // Initialize Charts with Real Data
          async function initializeCharts() {
@@ -8075,6 +8458,23 @@ $conn->close();
             overflow: hidden;
         }
 
+        .document-modal {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+        }
+
+        #rejectionReasonModal .modal-content {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            max-width: 600px;
+        }
+
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
@@ -8629,65 +9029,150 @@ $conn->close();
         /* Analytics Section Styles */
         .analytics-container {
             padding: 0;
+            padding: 2rem; /* Reduced from 2.5rem (80%) */
+            margin-top: 1.5rem;
+            font-size: 0.8em; /* Scale down all text to 80% */
         }
 
         .analytics-overview {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem; /* Reduced from 2rem (80%) */
+            margin-bottom: 2.4rem; /* Reduced from 3rem (80%) */
         }
 
         .analytics-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12.8px; /* Reduced from 16px (80%) */
+            padding: 1.4rem 1.6rem; /* Reduced from 1.75rem 2rem (80%) */
+            box-shadow: 0 6.4px 19.2px rgba(0, 0, 0, 0.08),
+                        0 1.6px 6.4px rgba(0, 0, 0, 0.04),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            gap: 1.2rem; /* Reduced from 1.5rem (80%) */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(141, 110, 99, 0.08);
+            border-left: 4px solid; /* Reduced from 5px (80%) */
+            position: relative;
+            overflow: hidden;
+            min-height: 96px; /* Reduced from 120px (80%) */
+        }
+
+        /* Brown left border for each card - matching the theme */
+        .analytics-card:nth-child(1) {
+            border-left-color: #8D6E63;
+        }
+
+        .analytics-card:nth-child(2) {
+            border-left-color: #A97A50;
+        }
+
+        .analytics-card:nth-child(3) {
+            border-left-color: #8D6E63;
+        }
+
+        .analytics-card:nth-child(4) {
+            border-left-color: #A97A50;
+        }
+
+        .analytics-card:nth-child(5) {
+            border-left-color: #8D6E63;
+        }
+
+        .analytics-card:nth-child(6) {
+            border-left-color: #A97A50;
+        }
+
+        .analytics-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(141, 110, 99, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .analytics-card:hover::before {
+            transform: translateX(100%);
         }
 
         .analytics-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12),
+                        0 4px 12px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .analytics-card .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 56px; /* Reduced from 70px (80%) */
+            height: 56px; /* Reduced from 70px (80%) */
+            border-radius: 12.8px; /* Reduced from 16px (80%) */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.44rem; /* Reduced from 1.8rem (80%) */
             color: white;
+            box-shadow: 0 3.2px 9.6px rgba(0, 0, 0, 0.15),
+                        0 1.6px 3.2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analytics-card .card-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+
+        .analytics-card:hover .card-icon::before {
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         /* Different colors for each card icon */
         .analytics-card:nth-child(1) .card-icon {
-            background: linear-gradient(135deg, #2196F3, #1976D2); /* Blue - Total Users */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Purple-Blue - Total Users */
         }
         
         .analytics-card:nth-child(2) .card-icon {
-            background: linear-gradient(135deg, #9C27B0, #7B1FA2); /* Purple - Boarding Houses */
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Pink-Red - Boarding Houses */
         }
         
         .analytics-card:nth-child(3) .card-icon {
-            background: linear-gradient(135deg, #FF9800, #F57C00); /* Orange - Room Units */
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); /* Blue-Cyan - Room Units */
         }
         
         .analytics-card:nth-child(4) .card-icon {
-            background: linear-gradient(135deg, #4CAF50, #388E3C); /* Green - Total Bookings */
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); /* Green-Cyan - Total Bookings */
         }
         
         .analytics-card:nth-child(5) .card-icon {
-            background: linear-gradient(135deg, #F44336, #D32F2F); /* Red - Total Revenue */
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); /* Pink-Yellow - Total Revenue */
         }
         
         .analytics-card:nth-child(6) .card-icon {
-            background: linear-gradient(135deg, #00BCD4, #0097A7); /* Cyan - Messages */
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); /* Cyan-Purple - Messages */
+        }
+
+        .analytics-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2),
+                        0 3px 8px rgba(0, 0, 0, 0.15);
         }
 
         .analytics-card .card-content {
@@ -8695,107 +9180,197 @@ $conn->close();
         }
 
         .analytics-card h3 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 0 0 0.25rem 0;
+            font-size: 1.8rem; /* Reduced from 2.25rem (80%) */
+            font-weight: 700;
+            color: #1a202c;
+            margin: 0 0 0.4rem 0; /* Reduced from 0.5rem (80%) */
+            letter-spacing: -0.4px; /* Reduced from -0.5px (80%) */
+            line-height: 1.2;
         }
 
         .analytics-card p {
-            color: #666;
-            margin: 0 0 0.5rem 0;
-            font-weight: 500;
+            color: #4a5568;
+            margin: 0 0 0.6rem 0; /* Reduced from 0.75rem (80%) */
+            font-weight: 600;
+            font-size: 0.76rem; /* Reduced from 0.95rem (80%) */
+            text-transform: uppercase;
+            letter-spacing: 0.4px; /* Reduced from 0.5px (80%) */
         }
 
         .analytics-card .card-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.7rem; /* Reduced from 0.875rem (80%) */
             color: #8D6E63;
             font-weight: 600;
+            display: inline-block;
+            padding: 0.2rem 0.6rem; /* Reduced from 0.25rem 0.75rem (80%) */
+            background: rgba(141, 110, 99, 0.1);
+            border-radius: 9.6px; /* Reduced from 12px (80%) */
+            margin-top: 0.2rem; /* Reduced from 0.25rem (80%) */
         }
 
         .charts-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem; /* Reduced from 2.5rem (80%) */
+            margin-bottom: 2.4rem; /* Reduced from 3rem (80%) */
         }
 
         .chart-container {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px; /* Reduced from 20px (80%) */
+            padding: 1.6rem; /* Reduced from 2rem (80%) */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+                        0 3.2px 9.6px rgba(0, 0, 0, 0.04),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(141, 110, 99, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 336px; /* Reduced from 420px (80%) */
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .chart-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12),
+                        0 8px 20px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .chart-container h4 {
-            color: #2c3e50;
-            margin: 0 0 1rem 0;
-            font-size: 1.1rem;
+            color: #1a202c;
+            margin: 0 0 1.4rem 0; /* Reduced from 1.75rem (80%) */
+            font-size: 1rem; /* Reduced from 1.25rem (80%) */
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem; /* Reduced from 0.75rem (80%) */
+            letter-spacing: -0.24px; /* Reduced from -0.3px (80%) */
+            padding-top: 0.4rem; /* Reduced from 0.5rem (80%) */
         }
 
         .chart-container h4 i {
-            color: #8D6E63;
+            color: #667eea;
+            font-size: 1.12rem; /* Reduced from 1.4rem (80%) */
+            filter: drop-shadow(0 1.6px 3.2px rgba(102, 126, 234, 0.3));
         }
 
         .chart-container canvas {
             max-width: 100%;
-            height: 300px !important;
-            min-height: 300px !important;
+            height: 256px !important; /* Reduced from 320px (80%) */
+            min-height: 256px !important; /* Reduced from 320px (80%) */
+            border-radius: 9.6px; /* Reduced from 12px (80%) */
+            transition: all 0.3s ease;
         }
-        
-        .chart-container {
-            min-height: 400px;
+
+        .chart-container:hover canvas {
+            transform: scale(1.02);
+        }
+
+        .top-boarding-houses-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem; /* Reduced from 2.5rem (80%) */
+            margin-bottom: 2.4rem; /* Reduced from 3rem (80%) */
         }
 
         .top-performing-section {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px; /* Reduced from 20px (80%) */
+            padding: 2rem; /* Reduced from 2.5rem (80%) */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+                        0 3.2px 9.6px rgba(0, 0, 0, 0.04),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(141, 110, 99, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-performing-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
         }
 
         .top-performing-section h4 {
-            color: #2c3e50;
-            margin: 0 0 1.5rem 0;
-            font-size: 1.2rem;
+            color: #1a202c;
+            margin: 0 0 1.6rem 0; /* Reduced from 2rem (80%) */
+            font-size: 1.12rem; /* Reduced from 1.4rem (80%) */
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem; /* Reduced from 0.75rem (80%) */
+            letter-spacing: -0.24px; /* Reduced from -0.3px (80%) */
+            padding-top: 0.4rem; /* Reduced from 0.5rem (80%) */
         }
 
         .top-performing-section h4 i {
-            color: #8D6E63;
+            color: #f5576c;
+            font-size: 1.2rem; /* Reduced from 1.5rem (80%) */
+            filter: drop-shadow(0 1.6px 3.2px rgba(245, 87, 108, 0.3));
         }
 
         .top-performing-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1rem; /* Reduced from 1.25rem (80%) */
         }
 
         .top-performing-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #8D6E63;
+            padding: 1.2rem; /* Reduced from 1.5rem (80%) */
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 11.2px; /* Reduced from 14px (80%) */
+            border-left: 4px solid; /* Reduced from 5px (80%) */
+            border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+            box-shadow: 0 3.2px 9.6px rgba(0, 0, 0, 0.06),
+                        0 1.6px 3.2px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .top-performing-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1),
+                        0 4px 8px rgba(0, 0, 0, 0.06);
         }
 
         .top-performing-item .item-info h5 {
-            margin: 0 0 0.25rem 0;
-            color: #2c3e50;
-            font-size: 1rem;
+            margin: 0 0 0.4rem 0; /* Reduced from 0.5rem (80%) */
+            color: #1a202c;
+            font-size: 0.88rem; /* Reduced from 1.1rem (80%) */
+            font-weight: 700;
+            letter-spacing: -0.24px; /* Reduced from -0.3px (80%) */
         }
 
         .top-performing-item .item-info p {
             margin: 0;
-            color: #666;
-            font-size: 0.9rem;
+            color: #718096;
+            font-size: 0.72rem; /* Reduced from 0.9rem (80%) */
+            font-weight: 500;
         }
 
         .top-performing-item .item-stats {
@@ -8803,38 +9378,121 @@ $conn->close();
         }
 
         .top-performing-item .item-stats .stat-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #8D6E63;
+            font-size: 1.12rem; /* Reduced from 1.4rem (80%) */
+            font-weight: 700;
+            color: #667eea;
+            letter-spacing: -0.4px; /* Reduced from -0.5px (80%) */
         }
 
         .top-performing-item .item-stats .stat-label {
-            font-size: 0.8rem;
-            color: #666;
+            font-size: 0.64rem; /* Reduced from 0.8rem (80%) */
+            color: #a0aec0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px; /* Reduced from 0.5px (80%) */
         }
 
         /* Responsive Design for Analytics */
+        @media (max-width: 1400px) {
+            .analytics-overview {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .charts-section {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .analytics-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .charts-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
+            .analytics-container {
+                padding: 1.5rem;
+            }
+
             .analytics-overview {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .charts-section {
                 grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .top-boarding-houses-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .analytics-card {
-                padding: 1rem;
+                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
             }
             
             .analytics-card .card-icon {
-                width: 50px;
-                height: 50px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .analytics-card h3 {
+                font-size: 1.75rem;
+            }
+
+            .chart-container {
+                padding: 1.5rem;
+                min-height: 350px;
+            }
+
+            .chart-container h4 {
+                font-size: 1.1rem;
+            }
+
+            .chart-container canvas {
+                height: 280px !important;
+                min-height: 280px !important;
+            }
+
+            .top-performing-section {
+                padding: 1.5rem;
+            }
+
+            .top-performing-section h4 {
                 font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .analytics-container {
+                padding: 1rem;
+            }
+
+            .analytics-card {
+                padding: 1.25rem;
             }
             
             .analytics-card h3 {
                 font-size: 1.5rem;
+            }
+
+            .chart-container {
+                padding: 1.25rem;
+                min-height: 320px;
+            }
+
+            .chart-container canvas {
+                height: 250px !important;
+                min-height: 250px !important;
             }
         }
 
@@ -9325,7 +9983,7 @@ $conn->close();
                 <div id="templates-tab" class="tab-content">
                     <h3>Notification Templates</h3>
                     <p style="color: #666; margin-bottom: 20px; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196F3; border-radius: 4px;">
-                        <i class="fas fa-info-circle"></i> Edit notification message templates. Use variables like {tenant_name}, {room_name}, {amount}, etc. in curly braces.
+                        <i class="fas fa-info-circle"></i> Edit notification message templates. Use variables like {boarder_name}, {room_name}, {amount}, etc. in curly braces.
                     </p>
                     
                     <div class="template-section" id="templates-container">

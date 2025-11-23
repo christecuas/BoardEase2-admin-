@@ -6,7 +6,7 @@ class AutoNotifyBooking {
     
     public static function newBooking($user_id, $booking_details) {
         $title = "New Booking Request";
-        $message = "You have a new booking request from " . $booking_details['tenant_name'] . " for " . $booking_details['room_name'];
+        $message = "You have a new booking request from " . ($booking_details['boarder_name'] ?? $booking_details['tenant_name'] ?? 'a boarder') . " for " . $booking_details['room_name'];
         
         return self::createNotification($user_id, $title, $message, 'booking', $booking_details);
     }

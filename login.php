@@ -89,6 +89,31 @@ if ($result->num_rows === 0) {
     if ($passwordValid) {
         // Check if account is approved by admin
         if ($user['status'] === 'approved') {
+            // If user exists in users table, check if account is suspended
+            if ($user['user_id']) {
+                $checkUserStatus = $conn->prepare("SELECT status FROM users WHERE user_id = ?");
+                $checkUserStatus->bind_param("i", $user['user_id']);
+                $checkUserStatus->execute();
+                $userStatusResult = $checkUserStatus->get_result();
+                
+                if ($userStatusResult->num_rows > 0) {
+                    $userStatusData = $userStatusResult->fetch_assoc();
+                    if ($userStatusData['status'] === 'Inactive') {
+                        $response = array(
+                            "success" => false,
+                            "message" => "Your account has been suspended. Please contact the administrator for more information."
+                        );
+                        error_log("Login blocked - account suspended for: " . $email);
+                        echo json_encode($response);
+                        $checkUserStatus->close();
+                        $stmt->close();
+                        $conn->close();
+                        exit;
+                    }
+                }
+                $checkUserStatus->close();
+            }
+            
             // Construct full name with suffix
             $fullName = trim($user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['last_name']);
             if (!empty($user['suffix'])) {

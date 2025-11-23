@@ -24,7 +24,7 @@ function createBookingWithNotification($tenant_id, $owner_id, $room_id, $booking
     
     // Send notification to owner
     $result = AutoNotifyBooking::newBooking($owner_id, [
-        'tenant_name' => $booking_details['tenant_name'],
+        'boarder_name' => $booking_details['boarder_name'] ?? $booking_details['tenant_name'],
         'room_name' => $booking_details['room_name'],
         'booking_id' => $booking_id
     ]);

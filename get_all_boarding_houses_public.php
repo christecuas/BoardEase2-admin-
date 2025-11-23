@@ -28,7 +28,7 @@ try {
     $db = getDB();
     error_log("Database connection successful");
     
-    // Get all boarding houses (for guests/public view)
+    // Get all boarding houses (for guests/public view) - only active ones
     $sql = "
         SELECT DISTINCT
             bh.bh_id,
@@ -41,6 +41,7 @@ try {
             bh.build_year,
             (SELECT image_path FROM boarding_house_images WHERE bh_id = bh.bh_id LIMIT 1) as image_path
         FROM boarding_houses bh
+        WHERE bh.status = 'Active'
         ORDER BY bh.bh_id DESC
     ";
     
