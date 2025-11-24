@@ -115,3 +115,26 @@ auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
 auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
 
+[24/11/2025  9:17:07.00] Waiting for MySQL connection... 
+[24/11/2025  9:17:11.15] MySQL not ready yet. Waiting... (1/20) 
+[24/11/2025  9:17:30.34] MySQL not ready yet. Waiting... (2/20) 
+[24/11/2025  9:17:49.30] MySQL not ready yet. Waiting... (3/20) 
+[24/11/2025  9:18:08.36] MySQL not ready yet. Waiting... (4/20) 
+[24/11/2025  9:18:27.41] MySQL not ready yet. Waiting... (5/20) 
+[24/11/2025  9:18:46.32] MySQL not ready yet. Waiting... (6/20) 
+[24/11/2025  9:19:05.33] MySQL not ready yet. Waiting... (7/20) 
+[24/11/2025  9:19:24.39] MySQL not ready yet. Waiting... (8/20) 
+[24/11/2025  9:19:43.36] MySQL not ready yet. Waiting... (9/20) 
+[24/11/2025  9:20:02.40] MySQL not ready yet. Waiting... (10/20) 
+[24/11/2025  9:20:21.33] MySQL not ready yet. Waiting... (11/20) 
+[24/11/2025  9:20:40.34] MySQL not ready yet. Waiting... (12/20) 
+[24/11/2025  9:20:59.30] MySQL not ready yet. Waiting... (13/20) 
+[24/11/2025  9:21:18.39] MySQL not ready yet. Waiting... (14/20) 
+[24/11/2025  9:21:37.32] MySQL not ready yet. Waiting... (15/20) 
+[24/11/2025  9:21:56.38] MySQL not ready yet. Waiting... (16/20) 
+[24/11/2025  9:22:15.35] MySQL not ready yet. Waiting... (17/20) 
+[24/11/2025  9:22:34.38] MySQL not ready yet. Waiting... (18/20) 
+[24/11/2025  9:22:53.36] MySQL not ready yet. Waiting... (19/20) 
+[24/11/2025  9:23:12.37] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.

@@ -1,0 +1,40 @@
+[24/11/2025 10:49:28.02] Waiting for MySQL connection... 
+[24/11/2025 10:49:30.20] MySQL is ready! Proceeding... 
+[24/11/2025 10:49:30.20] Starting auto_notify_payment_reminders.php 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== Payment Reminder Check Started ===
+Date: 2025-11-24
+Checking for payment breakdowns with due dates between today and 5 days from now...
+Database Analysis:
+  - Total breakdowns: 19
+  - Unpaid breakdowns: 7
+  - Unpaid (not cancelled): 7
+  - Unpaid with due date: 7
+  - Unpaid with future due date: 7
+  - Unpaid within 5 days: 1
+Found 1 payment breakdown(s) to check
+Breakdown details (found 1 breakdown(s) matching criteria):
+  - Breakdown ID: 28, Due Date: 2025-11-24 (from: due_date, days: 0), Amount: ₱5,000.00, BH: Kikyam BH, Room: Room PR0-2 (Private Room 01), User ID: 28, Status: Pending, Is Paid: 0
+Processing Breakdown ID 28: Due Date = 2025-11-24, Days Until Due = 0
+✓ Reminder sent successfully: Breakdown ID 28, User ID 28, Type: due_date, Days: 0
+=== Payment Reminder Check Completed ===
+Summary: Sent 1 reminder(s), Failed: 0
+=========================================
+

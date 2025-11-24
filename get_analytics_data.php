@@ -301,15 +301,31 @@ try {
     
     // 10. TOP PERFORMING BOARDING HOUSES
     $topBHQuery = "SELECT bh.bh_name, bh.bh_address, 
-                   COUNT(DISTINCT bhr.bhr_id) as room_types,
-                   SUM(bhr.total_rooms) as total_units,
-                   COUNT(ru.room_id) as occupied_units,
-                   ROUND((COUNT(ru.room_id) / SUM(bhr.total_rooms)) * 100, 2) as occupancy_rate
+                   (SELECT COUNT(DISTINCT bhr2.bhr_id) 
+                    FROM boarding_house_rooms bhr2 
+                    WHERE bhr2.bh_id = bh.bh_id) as room_types,
+                   (SELECT COUNT(*) 
+                    FROM room_units ru2 
+                    JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id 
+                    WHERE bhr2.bh_id = bh.bh_id) as total_units,
+                   (SELECT COUNT(*) 
+                    FROM room_units ru2 
+                    JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id 
+                    WHERE bhr2.bh_id = bh.bh_id AND ru2.status = 'Occupied') as occupied_units,
+                   ROUND((SELECT COUNT(*) 
+                          FROM room_units ru2 
+                          JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id 
+                          WHERE bhr2.bh_id = bh.bh_id AND ru2.status = 'Occupied') / 
+                         NULLIF((SELECT COUNT(*) 
+                                FROM room_units ru2 
+                                JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id 
+                                WHERE bhr2.bh_id = bh.bh_id), 0) * 100, 2) as occupancy_rate
                    FROM boarding_houses bh
-                   LEFT JOIN boarding_house_rooms bhr ON bh.bh_id = bhr.bh_id
-                   LEFT JOIN room_units ru ON bhr.bhr_id = ru.bhr_id AND ru.status = 'Occupied'
                    WHERE bh.status = 'Active'
-                   GROUP BY bh.bh_id, bh.bh_name, bh.bh_address
+                   AND (SELECT COUNT(*) 
+                        FROM room_units ru2 
+                        JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id 
+                        WHERE bhr2.bh_id = bh.bh_id) > 0
                    ORDER BY occupancy_rate DESC, total_units DESC
                    LIMIT 5";
     $result = $conn->query($topBHQuery);

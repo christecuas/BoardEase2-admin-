@@ -768,6 +768,66 @@ try {
         }
     }
     
+    // Remove duplicate "Partially Paid" payments - only keep the most recent one per booking
+    // This prevents showing multiple "Partially Paid" payments for the same booking
+    // (e.g., if 1st payment was partially paid, and 2nd payment is also partially paid,
+    // only show the 2nd payment since it represents the current state)
+    $partiallyPaidByBooking = array();
+    $otherPayments = array();
+    
+    foreach ($formattedPayments as $payment) {
+        $paymentStatus = isset($payment['payment_status']) ? strtolower($payment['payment_status']) : '';
+        $isPartiallyPaid = $paymentStatus === 'partially paid' || 
+                          $paymentStatus === 'partially_paid' ||
+                          (strpos($paymentStatus, 'partially') !== false && strpos($paymentStatus, 'paid') !== false);
+        
+        if ($isPartiallyPaid) {
+            $bookingId = intval($payment['booking_id'] ?? 0);
+            
+            // Get payment date for comparison (prefer payment_date, fallback to created_at)
+            $paymentDate = '';
+            if (!empty($payment['payment_date'])) {
+                $paymentDate = $payment['payment_date'];
+            } elseif (!empty($payment['created_at'])) {
+                $paymentDate = $payment['created_at'];
+            }
+            
+            // If we haven't seen this booking yet, or this payment is more recent, keep it
+            if (!isset($partiallyPaidByBooking[$bookingId])) {
+                $partiallyPaidByBooking[$bookingId] = $payment;
+            } else {
+                // Compare dates - keep the more recent payment
+                $existingDate = '';
+                if (!empty($partiallyPaidByBooking[$bookingId]['payment_date'])) {
+                    $existingDate = $partiallyPaidByBooking[$bookingId]['payment_date'];
+                } elseif (!empty($partiallyPaidByBooking[$bookingId]['created_at'])) {
+                    $existingDate = $partiallyPaidByBooking[$bookingId]['created_at'];
+                }
+                
+                // If current payment is more recent, replace the existing one
+                if (!empty($paymentDate) && !empty($existingDate)) {
+                    if (strtotime($paymentDate) > strtotime($existingDate)) {
+                        $partiallyPaidByBooking[$bookingId] = $payment;
+                    }
+                } elseif (!empty($paymentDate)) {
+                    // Current payment has a date, existing doesn't - use current
+                    $partiallyPaidByBooking[$bookingId] = $payment;
+                }
+            }
+        } else {
+            // Not a "Partially Paid" payment, keep it as is
+            $otherPayments[] = $payment;
+        }
+    }
+    
+    // Combine: most recent "Partially Paid" payment per booking + all other payments
+    $formattedPayments = array_merge(array_values($partiallyPaidByBooking), $otherPayments);
+    
+    if (function_exists('error_log')) {
+        $removedCount = count($partiallyPaidByBooking);
+        error_log("get_payment_status.php - Removed duplicate Partially Paid payments, kept most recent per booking. Unique Partially Paid bookings: " . $removedCount);
+    }
+    
     // Include debug info in response for troubleshooting
     $response = array(
         'success' => true,

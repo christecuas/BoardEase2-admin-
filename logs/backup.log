@@ -284,3 +284,26 @@ PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Fai
 Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
 Auto backup process completed successfully
 [23/11/2025 10:26:17.67] Backup completed successfully 
+[24/11/2025  9:17:06.74] Waiting for MySQL connection... 
+[24/11/2025  9:17:11.10] MySQL not ready yet. Waiting... (1/20) 
+[24/11/2025  9:17:30.36] MySQL not ready yet. Waiting... (2/20) 
+[24/11/2025  9:17:49.30] MySQL not ready yet. Waiting... (3/20) 
+[24/11/2025  9:18:08.36] MySQL not ready yet. Waiting... (4/20) 
+[24/11/2025  9:18:27.42] MySQL not ready yet. Waiting... (5/20) 
+[24/11/2025  9:18:46.36] MySQL not ready yet. Waiting... (6/20) 
+[24/11/2025  9:19:05.33] MySQL not ready yet. Waiting... (7/20) 
+[24/11/2025  9:19:24.40] MySQL not ready yet. Waiting... (8/20) 
+[24/11/2025  9:19:43.36] MySQL not ready yet. Waiting... (9/20) 
+[24/11/2025  9:20:02.40] MySQL not ready yet. Waiting... (10/20) 
+[24/11/2025  9:20:21.30] MySQL not ready yet. Waiting... (11/20) 
+[24/11/2025  9:20:40.33] MySQL not ready yet. Waiting... (12/20) 
+[24/11/2025  9:20:59.31] MySQL not ready yet. Waiting... (13/20) 
+[24/11/2025  9:21:18.42] MySQL not ready yet. Waiting... (14/20) 
+[24/11/2025  9:21:37.32] MySQL not ready yet. Waiting... (15/20) 
+[24/11/2025  9:21:56.40] MySQL not ready yet. Waiting... (16/20) 
+[24/11/2025  9:22:15.35] MySQL not ready yet. Waiting... (17/20) 
+[24/11/2025  9:22:34.38] MySQL not ready yet. Waiting... (18/20) 
+[24/11/2025  9:22:53.36] MySQL not ready yet. Waiting... (19/20) 
+[24/11/2025  9:23:12.39] ERROR: MySQL not available after 5 minutes. Backup aborted. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.

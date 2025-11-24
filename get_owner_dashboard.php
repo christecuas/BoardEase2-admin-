@@ -828,8 +828,9 @@ if (!empty($bookingIds)) {
     $response["payment_status"]["paid_amount"] = $totalRevenueValue;
     
     // Pending payments
+    // Count all payment_breakdowns that are pending, not just distinct payment_ids
     $sqlPendingPayments = "SELECT 
-                              COUNT(DISTINCT pb.payment_id) AS pending_count,
+                              COUNT(pb.breakdown_id) AS pending_count,
                               COALESCE(SUM(pb.amount), 0) AS pending_amount
                           FROM payment_breakdowns pb
                           LEFT JOIN payments p ON pb.payment_id = p.payment_id
