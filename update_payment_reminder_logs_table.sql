@@ -8,3 +8,5 @@ ALTER TABLE `payment_reminder_logs`
 MODIFY COLUMN `reminder_type` enum('5_days_before','4_days_before','3_days_before','2_days_before','1_day_before','due_date') NOT NULL COMMENT 'Type of reminder';
 
 
+
+
