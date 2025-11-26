@@ -12,15 +12,44 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        html::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #F5F5DC 0%, #D2B48C 50%, #CD853F 100%);
-            min-height: 100vh;
+            min-height: 100%;
+            min-height: 100dvh;
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         /* Glimmer Effects */
@@ -176,9 +205,17 @@
             max-width: 400px;
             position: relative;
             overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
             z-index: 10;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .login-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         .login-container::before {
@@ -294,6 +331,89 @@
             padding-left: 45px;
         }
 
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            z-index: 15;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 4px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            height: auto;
+            line-height: 1;
+        }
+
+        .password-toggle:hover {
+            color: #D2B48C;
+        }
+
+        .password-toggle:focus {
+            outline: none;
+        }
+
+        .input-icon.password-field {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon.password-field input {
+            padding-right: 40px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Remove default browser password toggle icons */
+        .input-icon.password-field input::-webkit-textfield-decoration-container {
+            display: none;
+        }
+
+        .input-icon.password-field input::-webkit-credentials-auto-fill-button {
+            display: none !important;
+        }
+
+        .input-icon.password-field input::-ms-reveal {
+            display: none;
+        }
+
+        .input-icon.password-field input::-ms-clear {
+            display: none;
+        }
+
+        .input-icon.password-field .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            padding: 5px;
+            line-height: 1;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            width: 30px;
+            height: 30px;
+            pointer-events: auto;
+        }
+
+        .input-icon.password-field .password-toggle i {
+            font-size: 16px;
+            color: #999;
+            pointer-events: none;
+        }
+
         .login-btn {
             width: 100%;
             padding: 15px;
@@ -384,10 +504,209 @@
             text-decoration: underline;
         }
 
+        @media (max-width: 767.98px) {
+            html, body {
+                height: 100dvh !important;
+                min-height: 100dvh !important;
+                max-height: 100dvh !important;
+                overflow: hidden !important;
+            }
+
+            .login-container {
+                margin: 1.5rem 2rem;
+                padding: 1.25rem 1rem;
+                max-width: calc(100% - 4rem);
+                width: calc(100% - 4rem);
+                max-height: calc(100dvh - 3rem);
+                overflow: hidden !important;
+                overflow-y: hidden !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Smaller font sizes for mobile */
+            .login-header h1 {
+                font-size: 1.5rem !important;
+            }
+
+            .login-header p {
+                font-size: 0.85rem !important;
+            }
+
+            .form-group label {
+                font-size: 0.85rem !important;
+            }
+
+            .form-group input {
+                font-size: 0.9rem !important;
+                padding: 0.75rem 1rem !important;
+                padding-left: 2.5rem !important;
+            }
+
+            .password-field input {
+                padding-right: 2.5rem !important;
+            }
+
+            .password-field .password-toggle {
+                right: 0.75rem !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+            }
+
+            .input-icon i {
+                font-size: 0.9rem !important;
+                left: 0.9rem !important;
+            }
+
+            .password-toggle {
+                font-size: 0.9rem !important;
+                right: 0.65rem !important;
+            }
+
+            .login-btn {
+                font-size: 0.9rem !important;
+                padding: 0.75rem 1rem !important;
+            }
+
+            .error-message,
+            .success-message {
+                font-size: 0.85rem !important;
+                padding: 0.75rem !important;
+            }
+
+            .footer {
+                font-size: 0.75rem !important;
+                margin-top: 1.5rem !important;
+            }
+        }
+
         @media (max-width: 480px) {
             .login-container {
-                margin: 20px;
-                padding: 30px 20px;
+                margin: 1.25rem 1.5rem;
+                padding: 1rem 0.875rem;
+                max-width: calc(100% - 3rem);
+                width: calc(100% - 3rem);
+                overflow: hidden !important;
+                overflow-y: hidden !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Even smaller fonts for very small screens */
+            .login-header h1 {
+                font-size: 1.3rem !important;
+            }
+
+            .login-header p {
+                font-size: 0.8rem !important;
+            }
+
+            .form-group label {
+                font-size: 0.8rem !important;
+            }
+
+            .form-group input {
+                font-size: 0.85rem !important;
+                padding: 0.65rem 0.9rem !important;
+                padding-left: 2.25rem !important;
+            }
+
+            .password-field input {
+                padding-right: 2.25rem !important;
+            }
+
+            .password-field .password-toggle {
+                right: 0.65rem !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+            }
+
+            .input-icon i {
+                font-size: 0.85rem !important;
+                left: 0.8rem !important;
+            }
+
+            .password-toggle {
+                font-size: 0.85rem !important;
+                right: 0.55rem !important;
+            }
+
+            .login-btn {
+                font-size: 0.85rem !important;
+                padding: 0.65rem 1rem !important;
+            }
+
+            .error-message,
+            .success-message {
+                font-size: 0.8rem !important;
+                padding: 0.65rem !important;
+            }
+
+            .footer {
+                font-size: 0.7rem !important;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .login-container {
+                margin: 1rem 1.25rem;
+                padding: 0.875rem 0.625rem;
+                max-width: calc(100% - 2.5rem);
+                width: calc(100% - 2.5rem);
+                overflow: hidden !important;
+                overflow-y: hidden !important;
+                overflow-x: hidden !important;
+            }
+
+            .login-header h1 {
+                font-size: 1.2rem !important;
+            }
+
+            .login-header p {
+                font-size: 0.75rem !important;
+            }
+
+            .form-group label {
+                font-size: 0.75rem !important;
+            }
+
+            .form-group input {
+                font-size: 0.8rem !important;
+                padding: 0.6rem 0.8rem !important;
+                padding-left: 2rem !important;
+            }
+
+            .password-field input {
+                padding-right: 2rem !important;
+            }
+
+            .password-field .password-toggle {
+                right: 0.55rem !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+            }
+
+            .input-icon i {
+                font-size: 0.8rem !important;
+                left: 0.75rem !important;
+            }
+
+            .password-toggle {
+                font-size: 0.8rem !important;
+                right: 0.5rem !important;
+            }
+
+            .login-btn {
+                font-size: 0.8rem !important;
+                padding: 0.6rem 1rem !important;
+            }
+
+            .error-message,
+            .success-message {
+                font-size: 0.75rem !important;
+                padding: 0.6rem !important;
+            }
+
+            .footer {
+                font-size: 0.65rem !important;
             }
         }
     </style>
@@ -426,9 +745,12 @@
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <div class="input-icon">
+                <div class="input-icon password-field">
                     <i class="fas fa-lock"></i>
                     <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="off">
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye-slash" id="passwordToggleIcon"></i>
+                    </button>
                 </div>
             </div>
 
@@ -502,6 +824,27 @@
             });
         });
 
+
+        // Password toggle functionality
+        const passwordToggle = document.getElementById('passwordToggle');
+        const passwordInput = document.getElementById('password');
+        const passwordToggleIcon = document.getElementById('passwordToggleIcon');
+
+        if (passwordToggle && passwordInput && passwordToggleIcon) {
+            passwordToggle.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    // Show password - change to text and show open eye icon
+                    passwordInput.type = 'text';
+                    passwordToggleIcon.classList.remove('fa-eye-slash');
+                    passwordToggleIcon.classList.add('fa-eye');
+                } else {
+                    // Hide password - change to password and show closed eye icon
+                    passwordInput.type = 'password';
+                    passwordToggleIcon.classList.remove('fa-eye');
+                    passwordToggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+        }
 
         // No auto-focus for security
     </script>

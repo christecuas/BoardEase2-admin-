@@ -154,11 +154,20 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>BoardEase Admin Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/admin_dashboard.css">
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -167,12 +176,25 @@ $conn->close();
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #E6DAC8 0%, #F5F5DC 50%, #E6DAC8 100%);
             color: #4A4A4A;
             display: flex;
-            min-height: 100vh;
+            min-height: 100%;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
             position: relative;
             overflow-x: hidden;
         }
@@ -184,6 +206,7 @@ $conn->close();
             left: 0;
             width: 100%;
             height: 100%;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             background: 
                 radial-gradient(circle at 20% 80%, rgba(141, 110, 99, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(141, 110, 99, 0.06) 0%, transparent 50%),
@@ -200,6 +223,7 @@ $conn->close();
             color: #E6DAC8;
             position: fixed;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             left: 0;
             top: 0;
             z-index: 1000;
@@ -207,6 +231,68 @@ $conn->close();
             backdrop-filter: blur(15px);
             border-right: 2px solid rgba(230, 218, 200, 0.2);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Offcanvas sidebar styling */
+        .offcanvas.sidebar {
+            width: 280px !important;
+            max-width: 85vw !important;
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%) !important;
+            color: #E6DAC8;
+            z-index: 1055 !important;
+        }
+
+        .offcanvas.sidebar .offcanvas-header {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1.5rem 1.25rem;
+        }
+
+        .offcanvas.sidebar .offcanvas-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .offcanvas.sidebar .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0.5rem;
+        }
+
+        /* Fix backdrop shadow - make it lighter and not covering sidebar */
+        .offcanvas-backdrop {
+            background-color: rgba(0, 0, 0, 0.3) !important;
+            z-index: 1050 !important;
+        }
+
+        .offcanvas-backdrop.show {
+            opacity: 0.3 !important;
+        }
+
+        /* Ensure sidebar is above backdrop */
+        #sidebarOffcanvas {
+            z-index: 1055 !important;
+        }
+
+        @media (max-width: 575.98px) {
+            .offcanvas.sidebar {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .offcanvas.sidebar .offcanvas-header {
+                padding: 1.25rem 1rem;
+            }
+
+            .offcanvas.sidebar .offcanvas-title {
+                font-size: 1.2rem;
+            }
+
+            .offcanvas.sidebar .nav-item {
+                padding: 1rem 1.25rem !important;
+                min-height: 48px;
+            }
         }
 
         .sidebar-header {
@@ -273,12 +359,19 @@ $conn->close();
         /* Main Content */
         .main-content {
             flex: 1;
-            margin-left: 250px;
-            padding: 2rem;
+            margin-left: 0;
+            padding: 0;
             background: linear-gradient(135deg, #E6DAC8 0%, #F5F5DC 50%, #E6DAC8 100%);
             min-height: 100vh;
             animation: fadeInUp 0.6s ease-out;
             position: relative;
+        }
+
+        /* Responsive margin for desktop */
+        @media (min-width: 768px) {
+            .main-content {
+                margin-left: 250px;
+            }
         }
 
         .main-content::before {
@@ -375,7 +468,6 @@ $conn->close();
 
         .stat-card {
             background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
-            padding: 2rem; /* Reduced from 2.5rem (80%) */
             border-radius: 16px; /* Reduced from 20px (80%) */
             box-shadow: 
                 0 6.4px 25.6px rgba(141, 110, 99, 0.15),
@@ -387,6 +479,10 @@ $conn->close();
             overflow: hidden;
             animation: cardSlideIn 0.6s ease-out;
             border: 1px solid rgba(141, 110, 99, 0.3);
+        }
+
+        .stat-card .card-body {
+            padding: 1.5rem;
         }
 
         .stat-card::before {
@@ -423,9 +519,80 @@ $conn->close();
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
+        /* Pause pulse animation on hover for pending card */
+        .stat-card.pending-card-pulse:hover {
+            animation: none !important;
+            transform: translateY(-10px) scale(1.02) !important;
+            box-shadow: 0 20px 40px rgba(255, 193, 7, 0.25) !important;
+        }
+
+        .stat-card.pending-card-pulse:hover .stat-icon {
+            animation: none !important;
+        }
+
+        .stat-card.pending-card-pulse:hover .stat-content h3 {
+            animation: none !important;
+            transform: scale(1) !important;
+        }
+
         .stat-card:nth-child(1) { animation-delay: 0.1s; }
         .stat-card:nth-child(2) { animation-delay: 0.2s; }
         .stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Slow pulse animation for pending approvals card when there are pending approvals */
+        .stat-card.pending-card-pulse {
+            animation: slowPulse 1.5s ease-in-out infinite !important;
+        }
+
+        @keyframes slowPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 
+                    0 6.4px 25.6px rgba(141, 110, 99, 0.15),
+                    0 3.2px 12.8px rgba(141, 110, 99, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 
+                    0 6.4px 25.6px rgba(255, 193, 7, 0.3),
+                    0 3.2px 12.8px rgba(255, 193, 7, 0.2),
+                    0 0 20px rgba(255, 193, 7, 0.15),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Pulse the icon inside the pending card */
+        .stat-card.pending-card-pulse .stat-icon {
+            animation: iconSlowPulse 1.5s ease-in-out infinite !important;
+        }
+
+        @keyframes iconSlowPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(255, 193, 7, 0.5);
+            }
+        }
+
+        /* Pulse the number when there are pending approvals */
+        .stat-card.pending-card-pulse .stat-content h3 {
+            animation: numberSlowPulse 1.5s ease-in-out infinite !important;
+        }
+
+        @keyframes numberSlowPulse {
+            0%, 100% {
+                transform: scale(1);
+                color: #e74c3c;
+            }
+            50% {
+                transform: scale(1.05);
+                color: #c0392b;
+            }
+        }
 
         .stat-icon {
             width: 56px; /* Reduced from 70px (80%) */
@@ -436,7 +603,7 @@ $conn->close();
             justify-content: center;
             font-size: 1.44rem; /* Reduced from 1.8rem (80%) */
             color: white;
-            margin: 0 auto 0.8rem; /* Reduced from 1rem (80%) */
+            margin: 0 auto 0.6rem; /* Reduced from 0.8rem */
             position: relative;
             animation: iconFloat 3s ease-in-out infinite;
         }
@@ -453,7 +620,7 @@ $conn->close();
         .stat-content h3 {
             font-size: 2rem; /* Reduced from 2.5rem (80%) */
             font-weight: bold;
-            margin-bottom: 0.4rem; /* Reduced from 0.5rem (80%) */
+            margin-bottom: 0.3rem; /* Reduced from 0.4rem */
             color: #2c3e50;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
             animation: numberCount 1s ease-out;
@@ -514,31 +681,44 @@ $conn->close();
         .dashboard-grid .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
 
         .priority-section {
-            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%) !important;
+            color: white !important;
+            padding: 2rem !important;
+            border-radius: 15px !important;
+            margin-bottom: 2rem !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
         }
 
         .priority-section h2 {
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 600;
+            margin-bottom: 1.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            font-size: 1.5rem !important;
+            font-weight: 600 !important;
+            color: white !important;
         }
 
         .pending-approvals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 380px));
-            gap: 2rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-            align-items: stretch;
-            justify-content: start;
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 380px)) !important;
+            gap: 2rem !important;
+            animation: fadeInUp 0.8s ease-out 0.4s both !important;
+            align-items: stretch !important;
+            justify-content: start !important;
         }
+
+        /* Staggered animation for approval cards */
+        .pending-approvals .approval-card {
+            animation: cardSlideIn 0.6s ease-out both;
+        }
+
+        .pending-approvals .approval-card:nth-child(1) { animation-delay: 0.1s; }
+        .pending-approvals .approval-card:nth-child(2) { animation-delay: 0.2s; }
+        .pending-approvals .approval-card:nth-child(3) { animation-delay: 0.3s; }
+        .pending-approvals .approval-card:nth-child(4) { animation-delay: 0.4s; }
+        .pending-approvals .approval-card:nth-child(5) { animation-delay: 0.5s; }
+        .pending-approvals .approval-card:nth-child(6) { animation-delay: 0.6s; }
 
         .dashboard-card {
             background: white;
@@ -753,14 +933,23 @@ $conn->close();
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, #8D6E63, #A97A50) !important;
+            color: white !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-weight: bold !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(141, 110, 99, 0.3) !important;
+            flex-shrink: 0;
+        }
+
+        .approval-card:hover .user-avatar {
+            transform: scale(1.1) rotate(5deg) !important;
+            box-shadow: 0 4px 12px rgba(141, 110, 99, 0.4) !important;
         }
 
         .status-badge {
@@ -892,12 +1081,38 @@ $conn->close();
         }
 
         .approval-card {
-            background: white;
-            border-radius: 8px;
-            padding: 0.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
+            background: white !important;
+            border-radius: 8px !important;
+            padding: 0.5rem !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            cursor: pointer;
+        }
+
+        .approval-card::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 3px !important;
+            background: linear-gradient(90deg, #8D6E63, #A97A50, #D2B48C) !important;
+            opacity: 0 !important;
+            transition: opacity 0.3s ease !important;
+            z-index: 1;
+        }
+
+        .approval-card:hover::before {
+            opacity: 1 !important;
+        }
+
+        .approval-card:hover {
+            transform: translateY(-5px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(141, 110, 99, 0.25) !important;
         }
 
         .approval-header {
@@ -975,30 +1190,36 @@ $conn->close();
         }
 
         .verification-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-top: 0.15rem;
-            margin-bottom: 0.05rem;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.25rem !important;
+            padding: 0.2rem 0.5rem !important;
+            border-radius: 15px !important;
+            font-size: 0.8rem !important;
+            font-weight: 500 !important;
+            margin-top: 0.15rem !important;
+            margin-bottom: 0.05rem !important;
+            transition: all 0.3s ease !important;
         }
 
         .verification-verified {
-            background: #d4edda;
-            color: #155724;
+            background: #d4edda !important;
+            color: #155724 !important;
         }
 
         .verification-pending {
-            background: #fff3cd;
-            color: #856404;
+            background: #fff3cd !important;
+            color: #856404 !important;
+            animation: pulse 2s ease-in-out infinite !important;
         }
 
         .verification-failed {
-            background: #f8d7da;
-            color: #721c24;
+            background: #f8d7da !important;
+            color: #721c24 !important;
+        }
+
+        .approval-card:hover .verification-badge {
+            transform: scale(1.05) !important;
         }
 
         .email-status {
@@ -1028,6 +1249,8 @@ $conn->close();
             border-bottom: 1px solid #e9ecef;
             margin-bottom: 0;
             background: #f8f9fa;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .tab {
@@ -1057,15 +1280,99 @@ $conn->close();
         .tab-content {
             display: none;
             padding: 0;
+            overflow: visible;
         }
 
         .tab-content.active {
             display: block;
+            overflow: visible;
         }
 
         .tab-content .card-content {
             padding: 1.5rem;
         }
+
+        /* Scrollable data areas for boarding houses section */
+        #boarding-houses-section #all-tab .table-container {
+            position: relative;
+        }
+
+        #boarding-houses-section #all-tab .table-responsive {
+            max-height: calc(100vh - 500px);
+            overflow-y: auto;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+
+        /* Sticky table header - keeps column names fixed */
+        #boarding-houses-section #all-tab .table {
+            margin-bottom: 0;
+        }
+
+        #boarding-houses-section #all-tab .table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #f8f9fa !important;
+        }
+
+        #boarding-houses-section #all-tab .table thead th {
+            background: #f8f9fa !important;
+            position: sticky;
+            top: 0;
+            z-index: 11;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        #boarding-houses-section #by-owner-tab .card-content {
+            max-height: calc(100vh - 400px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Default scrollbar for by-owner tab content */
+
+        /* Default scrollbar for table responsive in all-tab */
+
+        /* User Management Section - Sticky headers and brown scrollbars */
+        #user-management-section .table-container {
+            position: relative;
+        }
+
+        #user-management-section .table-responsive {
+            max-height: calc(100vh - 500px);
+            overflow-y: auto;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+
+        #user-management-section .table {
+            margin-bottom: 0;
+        }
+
+        /* Sticky table headers for User Management */
+        #user-management-section .table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #f8f9fa !important;
+        }
+
+        #user-management-section .table thead th {
+            background: #f8f9fa !important;
+            position: sticky;
+            top: 0;
+            z-index: 11;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        /* Default scrollbar for User Management tables */
 
         /* Reduce padding for system notifications container specifically */
         #system-tab .card-content {
@@ -1081,6 +1388,11 @@ $conn->close();
         #system-notifications-container .notification-item:first-child {
             margin-top: 0;
             padding-top: 0.75rem;
+        }
+
+        /* Notifications section scrollable content */
+        #notifications-section #system-tab .card-content {
+            position: relative;
         }
         
         /* Loading Indicator Styling */
@@ -1129,24 +1441,59 @@ $conn->close();
             color: rgba(255,255,255,0.6);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+        /* Responsive Design - Tablet and below */
+        @media (max-width: 991.98px) {
+            .container-fluid {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
             }
 
-            .sidebar.open {
-                transform: translateX(0);
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .analytics-overview-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+                padding: 0.5rem !important;
+            }
+
+            .analytics-overview-item {
+                min-height: auto !important;
+                padding: 1.25rem !important;
+            }
+        }
+
+        /* Responsive Design - Mobile */
+        @media (max-width: 767.98px) {
+            html, body {
+                height: 100dvh !important;
+                min-height: 100dvh !important;
+                max-height: 100dvh !important;
+                overflow-x: hidden;
             }
 
             .main-content {
-                margin-left: 0;
-                padding: 1rem;
+                margin-left: 0 !important;
+                padding: 0 !important;
+                min-height: 100dvh !important;
+            }
+
+            .container-fluid {
+                padding: 1rem !important;
+                min-height: calc(100dvh - 2rem) !important;
+            }
+
+            /* Ensure modal covers full viewport on mobile */
+            .modal {
+                height: 100dvh !important;
+                min-height: 100dvh !important;
+                max-height: 100dvh !important;
             }
 
             .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 1rem;
             }
 
@@ -1156,37 +1503,1410 @@ $conn->close();
             }
 
             .pending-approvals {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
             }
 
             .content-header {
-                padding: 1rem;
+                padding: 1.25rem 1rem !important;
+                margin-bottom: 1.5rem !important;
             }
 
             .content-header h1 {
-                font-size: 1.5rem;
+                font-size: 1.3rem !important;
+                line-height: 1.3;
+            }
+
+            .content-header p {
+                font-size: 0.85rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Comprehensive font size adjustments for all components on mobile */
+            /* Buttons */
+            .btn-modern,
+            .btn,
+            button,
+            .action-btn,
+            .btn-primary,
+            .btn-secondary,
+            .btn-success,
+            .btn-danger,
+            .btn-warning {
+                font-size: 0.85rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+
+            /* Stat Cards */
+            .stat-card .stat-content h3,
+            .stat-card h3 {
+                font-size: 1.5rem !important;
+            }
+
+            .stat-card .stat-content p,
+            .stat-card p {
+                font-size: 0.8rem !important;
+            }
+
+            .stat-card .stat-label {
+                font-size: 0.75rem !important;
+            }
+
+            /* Tables */
+            .table th,
+            .table td,
+            table th,
+            table td {
+                font-size: 0.85rem !important;
+                padding: 0.5rem 0.75rem !important;
+            }
+
+            .table thead th {
+                font-size: 0.9rem !important;
+            }
+
+            /* Cards */
+            .card-header h3,
+            .card h3,
+            .card-header h2,
+            .card h2 {
+                font-size: 1rem !important;
+            }
+
+            .card-body,
+            .card p,
+            .card span,
+            .card div {
+                font-size: 0.85rem !important;
+            }
+
+            /* Section Headings */
+            .section-title,
+            .section-title h2,
+            .section-title h3 {
+                font-size: 1.1rem !important;
+            }
+
+            /* Approval Cards */
+            .approval-card h4,
+            .approval-card .user-name {
+                font-size: 0.9rem !important;
+            }
+
+            .approval-card p,
+            .approval-card .user-email,
+            .approval-card .user-role {
+                font-size: 0.8rem !important;
+            }
+
+            .verification-badge {
+                font-size: 0.7rem !important;
+                padding: 2px 8px !important;
+            }
+
+            /* Status Badges */
+            .status-badge,
+            .status-badge-table,
+            .badge {
+                font-size: 0.75rem !important;
+                padding: 3px 10px !important;
+            }
+
+            /* Tabs */
+            .tabs .tab,
+            .tab {
+                font-size: 0.85rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+
+            /* Filters */
+            .table-filters .filter-btn,
+            .filter-btn {
+                font-size: 0.85rem !important;
+                padding: 0.4rem 0.8rem !important;
+            }
+
+            /* Search Boxes */
+            .search-box input,
+            input[type="text"],
+            input[type="search"],
+            input[type="email"],
+            input[type="date"],
+            select {
+                font-size: 0.85rem !important;
+            }
+
+            /* Lists */
+            .admin-list,
+            .activity-list,
+            .boarding-houses-list,
+            .user-list {
+                font-size: 0.85rem !important;
+            }
+
+            .admin-item h4,
+            .activity-item h4,
+            .boarding-house-item h4 {
+                font-size: 0.9rem !important;
+            }
+
+            .admin-item p,
+            .activity-item p,
+            .boarding-house-item p {
+                font-size: 0.8rem !important;
+            }
+
+            /* Analytics */
+            .analytics-card h3,
+            .analytics-card .card-title {
+                font-size: 1.2rem !important;
+            }
+
+            .analytics-card p,
+            .analytics-card .card-text {
+                font-size: 0.85rem !important;
+            }
+
+            /* Charts */
+            .chart-container h4 {
+                font-size: 0.9rem !important;
+            }
+
+            /* Notifications */
+            .notification-item,
+            .notification-item p,
+            .notification-item span {
+                font-size: 0.85rem !important;
+            }
+
+            .notification-item h4 {
+                font-size: 0.9rem !important;
+            }
+
+            /* Sidebar/Navigation */
+            .sidebar .nav-link,
+            .offcanvas .nav-link,
+            .menu-item,
+            .nav-item a {
+                font-size: 0.85rem !important;
+            }
+
+            .sidebar .menu-title,
+            .offcanvas .menu-title {
+                font-size: 0.9rem !important;
+            }
+
+            /* General text elements */
+            h1 { font-size: 1.3rem !important; }
+            h2 { font-size: 1.1rem !important; }
+            h3 { font-size: 1rem !important; }
+            h4 { font-size: 0.9rem !important; }
+            h5 { font-size: 0.85rem !important; }
+            h6 { font-size: 0.8rem !important; }
+            p, span, div, li, td, th { font-size: 0.85rem !important; }
+            small { font-size: 0.75rem !important; }
+
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+
+            .table-responsive {
+                border-radius: 0;
+            }
+
+            .table {
+                font-size: 0.875rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem !important;
+                white-space: nowrap;
+            }
+
+            .stat-card .card-body {
+                padding: 1.25rem !important;
+            }
+
+            .stat-icon {
+                width: 48px !important;
+                height: 48px !important;
+                font-size: 1.2rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+
+            .stat-content h3 {
+                font-size: 1.75rem !important;
+            }
+
+            .stat-content p {
+                font-size: 0.95rem !important;
+            }
+
+            .dashboard-card {
+                margin-bottom: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem !important;
+            }
+
+            .card-header h3 {
+                font-size: 1.1rem !important;
+            }
+
+            .card-content {
+                padding: 1rem !important;
+            }
+
+            .action-btn {
+                padding: 0.625rem 1.25rem !important;
+                font-size: 0.875rem !important;
+                min-height: 44px; /* Touch-friendly */
+            }
+
+            .approval-card {
+                padding: 0.75rem !important;
+            }
+
+            .approval-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.75rem !important;
+            }
+
+            .approval-actions {
+                width: 100%;
+                justify-content: flex-start !important;
+            }
+
+            .approval-actions .action-btn {
+                flex: 1;
+                min-width: auto;
+            }
+
+            .tabs {
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+                min-width: fit-content !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+
+            .priority-section {
+                padding: 1.25rem 1rem !important;
+                margin-top: 2rem !important;
+            }
+
+            .priority-section h2 {
+                font-size: 1.25rem !important;
+                flex-wrap: wrap;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 0.875rem !important;
+                font-size: 0.85rem !important;
+                margin: 0 !important;
+                min-height: 40px !important;
+            }
+
+            .table-filters {
+                padding: 0.75rem 1rem !important;
+                gap: 0.5rem !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                flex-wrap: nowrap !important;
+            }
+
+            /* Owner section - no horizontal scrolling, display all content */
+            .owner-section {
+                padding: 1rem !important;
+                width: 100% !important;
+                overflow-x: visible !important;
+            }
+
+            .owner-header {
+                flex-wrap: wrap !important;
+                width: 100% !important;
+            }
+
+            .boarding-houses-list {
+                width: 100% !important;
+            }
+
+            .boarding-house-item {
+                flex-wrap: wrap !important;
+                width: 100% !important;
+            }
+
+            .house-status {
+                flex-wrap: wrap !important;
+            }
+
+            /* Adjust scrollable areas for mobile */
+            #boarding-houses-section #all-tab .table-responsive {
+                max-height: calc(100vh - 300px) !important;
+            }
+
+            #user-management-section .table-responsive {
+                max-height: calc(100vh - 300px) !important;
+            }
+
+            /* Notifications section mobile */
+            #system-notifications-container {
+                max-height: calc(100vh - 300px) !important;
+            }
+
+            #boarding-houses-section #by-owner-tab .card-content {
+                max-height: calc(100vh - 350px) !important;
+            }
+
+            .owner-boarding-houses {
+                max-height: calc(100vh - 350px) !important;
+            }
+
+            /* Modal improvements for mobile */
+            .modal-content {
+                margin: 0.5rem !important;
+                width: calc(100% - 1rem) !important;
+                max-width: 100% !important;
+                max-height: calc(100vh - 1rem) !important;
+                overflow: hidden !important;
+            }
+
+            .modal-body {
+                padding: 1rem !important;
+            }
+
+            /* Modal tabs - horizontal scroll on mobile */
+            .settings-tabs,
+            .account-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+                flex-wrap: nowrap;
+            }
+
+            .settings-tabs .tab,
+            .account-tabs .tab {
+                white-space: nowrap;
+                flex-shrink: 0;
+                min-width: fit-content;
+                padding: 10px 16px;
+            }
+
+            /* Tab content - responsive on mobile */
+            #notificationSettingsModal .tab-content,
+            #accountManagementModal .tab-content {
+                overflow-x: hidden;
+                overflow-y: visible;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                min-height: fit-content;
+            }
+
+            /* Ensure modal content structure on mobile - small screens */
+            #notificationSettingsModal .modal-content,
+            #accountManagementModal .modal-content,
+            #userDetailsModal .modal-content,
+            #boardingHouseDetailsModal .modal-content {
+                margin: 0.5rem !important;
+                width: calc(100% - 1rem) !important;
+                max-width: 100% !important;
+                max-height: 90vh !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            /* Modal header - fixed height on mobile */
+            #notificationSettingsModal .modal-header,
+            #accountManagementModal .modal-header {
+                flex-shrink: 0 !important;
+                padding: 1rem !important;
+                min-height: auto !important;
+            }
+
+            /* Modal footer - fixed height on mobile */
+            #notificationSettingsModal .modal-footer,
+            #accountManagementModal .modal-footer {
+                flex-shrink: 0 !important;
+                padding: 1rem !important;
+                min-height: auto !important;
+            }
+
+            /* Modal body should scroll to show all content on small screens */
+            #notificationSettingsModal .modal-body,
+            #accountManagementModal .modal-body,
+            #userDetailsModal .modal-body,
+            #boardingHouseDetailsModal .modal-body {
+                overflow-y: scroll !important;
+                overflow-x: hidden !important;
+                flex: 1 1 0% !important;
+                height: 0 !important;
+                min-height: 0 !important;
+                -webkit-overflow-scrolling: touch;
+                padding: 1rem !important;
+                padding-bottom: 4rem !important;
+                position: relative;
+            }
+
+            /* Font size adjustments for mobile - make text smaller */
+            #notificationSettingsModal .modal-header h2,
+            #accountManagementModal .modal-header h2 {
+                font-size: 1.1rem !important;
+            }
+
+            #notificationSettingsModal .tab-content h3,
+            #accountManagementModal .tab-content h3 {
+                font-size: 1rem !important;
+            }
+
+            #notificationSettingsModal .tab-content h4,
+            #accountManagementModal .tab-content h4 {
+                font-size: 0.9rem !important;
+            }
+
+            #notificationSettingsModal .tab-content p,
+            #accountManagementModal .tab-content p {
+                font-size: 0.85rem !important;
+            }
+
+            #notificationSettingsModal .tab-content,
+            #accountManagementModal .tab-content {
+                font-size: 0.85rem !important;
+            }
+
+            #notificationSettingsModal .settings-tabs .tab,
+            #accountManagementModal .account-tabs .tab {
+                font-size: 0.85rem !important;
+                padding: 8px 12px !important;
+            }
+
+            #notificationSettingsModal .btn-modern,
+            #accountManagementModal .btn-modern {
+                font-size: 0.85rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+
+            #notificationSettingsModal .setting-item,
+            #notificationSettingsModal .channel-item,
+            #notificationSettingsModal .template-item,
+            #accountManagementModal .admin-item,
+            #accountManagementModal .activity-item {
+                font-size: 0.85rem !important;
+            }
+
+            #notificationSettingsModal .setting-item h4,
+            #notificationSettingsModal .channel-item h4,
+            #notificationSettingsModal .template-item h4 {
+                font-size: 0.9rem !important;
+            }
+
+            #notificationSettingsModal .admin-info h4,
+            #accountManagementModal .admin-info h4 {
+                font-size: 0.9rem !important;
+            }
+
+            #notificationSettingsModal .admin-info p,
+            #accountManagementModal .admin-info p {
+                font-size: 0.8rem !important;
+            }
+
+            /* Font size adjustments for User Details and Boarding House modals on mobile */
+            #userDetailsModal .modal-header h2,
+            #boardingHouseDetailsModal .modal-header h2 {
+                font-size: 1.1rem !important;
+            }
+
+            #userDetailsModal .modal-body h2,
+            #userDetailsModal .modal-body h3,
+            #boardingHouseDetailsModal .modal-body h2,
+            #boardingHouseDetailsModal .modal-body h3 {
+                font-size: 1rem !important;
+            }
+
+            #userDetailsModal .modal-body h4,
+            #userDetailsModal .modal-body h5,
+            #boardingHouseDetailsModal .modal-body h4,
+            #boardingHouseDetailsModal .modal-body h5 {
+                font-size: 0.9rem !important;
+            }
+
+            #userDetailsModal .modal-body p,
+            #userDetailsModal .modal-body span,
+            #userDetailsModal .modal-body div,
+            #boardingHouseDetailsModal .modal-body p,
+            #boardingHouseDetailsModal .modal-body span,
+            #boardingHouseDetailsModal .modal-body div {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .modal-body,
+            #boardingHouseDetailsModal .modal-body {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .user-details-section h3,
+            #userDetailsModal .profile-info h2,
+            #boardingHouseDetailsModal .user-details-section h3,
+            #boardingHouseDetailsModal .property-info h3 {
+                font-size: 1rem !important;
+            }
+
+            #userDetailsModal .user-details-section h4,
+            #boardingHouseDetailsModal .user-details-section h4 {
+                font-size: 0.9rem !important;
+            }
+
+            #userDetailsModal .info-label,
+            #userDetailsModal .info-value,
+            #boardingHouseDetailsModal .info-label,
+            #boardingHouseDetailsModal .info-value {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .status-badge,
+            #boardingHouseDetailsModal .status-badge {
+                font-size: 0.75rem !important;
+                padding: 3px 10px !important;
+            }
+
+            #userDetailsModal .boarding-house-item,
+            #userDetailsModal .booking-item,
+            #boardingHouseDetailsModal .room-item,
+            #boardingHouseDetailsModal .booking-item {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .boarding-house-item strong,
+            #userDetailsModal .booking-item .item-title,
+            #boardingHouseDetailsModal .room-item h4,
+            #boardingHouseDetailsModal .booking-item .item-title {
+                font-size: 0.9rem !important;
+            }
+
+            #userDetailsModal .boarding-house-item p,
+            #userDetailsModal .booking-item .item-details,
+            #boardingHouseDetailsModal .room-item p,
+            #boardingHouseDetailsModal .booking-item .item-details {
+                font-size: 0.8rem !important;
+            }
+
+            #userDetailsModal .property-address,
+            #boardingHouseDetailsModal .property-address {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .user-info-grid,
+            #boardingHouseDetailsModal .user-info-grid {
+                font-size: 0.85rem !important;
+            }
+
+            /* Ensure tab content is fully visible */
+            #notificationSettingsModal .tab-content,
+            #accountManagementModal .tab-content {
+                min-height: fit-content;
+                padding-bottom: 2rem;
+                overflow: visible !important;
+            }
+
+            /* Ensure all containers inside can expand */
+            #notificationSettingsModal .tab-content > *,
+            #accountManagementModal .tab-content > * {
+                overflow: visible !important;
+            }
+
+            #notificationSettingsModal #current-settings-container,
+            #notificationSettingsModal #channels-container,
+            #notificationSettingsModal #types-container,
+            #notificationSettingsModal #templates-container {
+                overflow: visible !important;
+                min-height: fit-content !important;
+            }
+
+            /* Settings grid - single column on mobile */
+            .settings-grid,
+            .template-section,
+            .channel-settings {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+
+            /* Admin controls - stack vertically on mobile */
+            .tab-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .admin-controls {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            /* Admin item - stack vertically on mobile */
+            .admin-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .admin-info {
+                width: 100%;
+            }
+
+            .admin-status {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .admin-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            /* Activity list - single column on mobile */
+            .activity-list {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            /* Activity filters - stack on mobile */
+            .activity-filters {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .activity-filters select,
+            .activity-filters input {
+                width: 100%;
+            }
+
+            /* Security stats - single column on mobile */
+            #security-stats-container {
+                grid-template-columns: 1fr !important;
+                display: grid !important;
+            }
+
+            /* All dynamically generated containers - responsive */
+            #current-settings-container,
+            #channels-container,
+            #types-container,
+            #templates-container {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Override any inline grid styles for mobile */
+            #current-settings-container .settings-grid,
+            #channels-container .channels-grid,
+            #types-container .types-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* All text content - wrap properly */
+            #notificationSettingsModal .tab-content,
+            #accountManagementModal .tab-content {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            #notificationSettingsModal .tab-content h3,
+            #accountManagementModal .tab-content h3,
+            #notificationSettingsModal .tab-content p,
+            #accountManagementModal .tab-content p,
+            #notificationSettingsModal .tab-content h4,
+            #accountManagementModal .tab-content h4,
+            #notificationSettingsModal .tab-content span,
+            #accountManagementModal .tab-content span,
+            #notificationSettingsModal .tab-content div,
+            #accountManagementModal .tab-content div {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                max-width: 100%;
+            }
+
+            /* Buttons - full width on mobile if needed */
+            #notificationSettingsModal .btn-modern,
+            #accountManagementModal .btn-modern {
+                width: auto;
+                min-width: fit-content;
+            }
+
+            /* Cards and containers - full width */
+            .setting-card,
+            .channel-card,
+            .template-item,
+            .channel-item {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Tables in modals - responsive */
+            #notificationSettingsModal .tab-content table,
+            #accountManagementModal .tab-content table {
+                width: 100%;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Setting items - stack on mobile */
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            /* Channel items - full width */
+            .channel-item {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Template items - full width */
+            .template-item {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .template-item textarea {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Form elements mobile-friendly */
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 0.75rem !important;
+                min-height: 44px; /* Touch-friendly */
+            }
+
+            /* Button groups */
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .btn-group .btn:last-child {
+                margin-bottom: 0;
             }
         }
 
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            background: #8D6E63;
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-size: 1.2rem;
+        /* Additional responsive utilities - Small mobile */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding: 0.75rem !important;
+            }
+
+            .content-header {
+                padding: 1rem 0.75rem !important;
+            }
+
+            .content-header h1 {
+                font-size: 1.25rem !important;
+            }
+
+            .content-header p {
+                font-size: 0.875rem !important;
+            }
+
+            .stat-card .card-body {
+                padding: 1rem !important;
+            }
+
+            .stat-icon {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.1rem !important;
+            }
+
+            .stat-content h3 {
+                font-size: 1.5rem !important;
+            }
+
+            .stat-content p {
+                font-size: 0.875rem !important;
+            }
+
+            .card-header {
+                padding: 0.875rem !important;
+            }
+
+            .card-header h3 {
+                font-size: 1rem !important;
+            }
+
+            .card-content {
+                padding: 0.875rem !important;
+            }
+
+            .action-btn {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.8125rem !important;
+            }
+
+            .priority-section {
+                padding: 1rem 0.75rem !important;
+            }
+
+            .priority-section h2 {
+                font-size: 1.1rem !important;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.5rem 0.375rem !important;
+                font-size: 0.8125rem !important;
+            }
+
+            .approval-card {
+                padding: 0.625rem !important;
+            }
+
+            .user-avatar {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 0.875rem !important;
+            }
+
+            .approval-user-info strong {
+                font-size: 0.95rem !important;
+            }
+
+            .approval-details {
+                font-size: 0.8125rem !important;
+            }
+
+            .verification-badge {
+                font-size: 0.75rem !important;
+                padding: 0.15rem 0.4rem !important;
+            }
+
+            /* Owner section - display all content, no horizontal scroll */
+            .owner-section {
+                padding: 0.875rem !important;
+                width: 100% !important;
+            }
+
+            .owner-header {
+                width: 100% !important;
+                flex-wrap: wrap !important;
+            }
+
+            .boarding-houses-list {
+                width: 100% !important;
+            }
+
+            .boarding-house-item {
+                width: 100% !important;
+                flex-wrap: wrap !important;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 375px) {
+            .content-header h1 {
+                font-size: 1.1rem !important;
+            }
+
+            .content-header p {
+                font-size: 0.8rem !important;
+            }
+
+            .stat-content h3 {
+                font-size: 1.2rem !important;
+            }
+
+            .stat-content p {
+                font-size: 0.75rem !important;
+            }
+
+            .card-header h3 {
+                font-size: 0.9rem !important;
+            }
+
+            .action-btn {
+                padding: 0.5rem 0.875rem !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* Even smaller fonts for very small screens - all components */
+            /* Buttons */
+            .btn-modern,
+            .btn,
+            button,
+            .action-btn,
+            .btn-primary,
+            .btn-secondary,
+            .btn-success,
+            .btn-danger,
+            .btn-warning {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.8rem !important;
+            }
+
+            /* Stat Cards */
+            .stat-card .stat-content h3,
+            .stat-card h3 {
+                font-size: 1.3rem !important;
+            }
+
+            .stat-card .stat-content p,
+            .stat-card p {
+                font-size: 0.7rem !important;
+            }
+
+            .stat-card .stat-label {
+                font-size: 0.65rem !important;
+            }
+
+            /* Tables */
+            .table th,
+            .table td,
+            table th,
+            table td {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.6rem !important;
+            }
+
+            .table thead th {
+                font-size: 0.8rem !important;
+            }
+
+            /* Cards */
+            .card-header h3,
+            .card h3,
+            .card-header h2,
+            .card h2 {
+                font-size: 0.9rem !important;
+            }
+
+            .card-body,
+            .card p,
+            .card span,
+            .card div {
+                font-size: 0.75rem !important;
+            }
+
+            /* Section Headings */
+            .section-title,
+            .section-title h2,
+            .section-title h3 {
+                font-size: 1rem !important;
+            }
+
+            /* Approval Cards */
+            .approval-card h4,
+            .approval-card .user-name {
+                font-size: 0.85rem !important;
+            }
+
+            .approval-card p,
+            .approval-card .user-email,
+            .approval-card .user-role {
+                font-size: 0.75rem !important;
+            }
+
+            .verification-badge {
+                font-size: 0.65rem !important;
+                padding: 2px 6px !important;
+            }
+
+            /* Status Badges */
+            .status-badge,
+            .status-badge-table,
+            .badge {
+                font-size: 0.7rem !important;
+                padding: 2px 8px !important;
+            }
+
+            /* Tabs */
+            .tabs .tab,
+            .tab {
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.8rem !important;
+            }
+
+            /* Filters */
+            .table-filters .filter-btn,
+            .filter-btn {
+                font-size: 0.75rem !important;
+                padding: 0.3rem 0.6rem !important;
+            }
+
+            /* Search Boxes */
+            .search-box input,
+            input[type="text"],
+            input[type="search"],
+            input[type="email"],
+            input[type="date"],
+            select {
+                font-size: 0.75rem !important;
+            }
+
+            /* Lists */
+            .admin-list,
+            .activity-list,
+            .boarding-houses-list,
+            .user-list {
+                font-size: 0.75rem !important;
+            }
+
+            .admin-item h4,
+            .activity-item h4,
+            .boarding-house-item h4 {
+                font-size: 0.85rem !important;
+            }
+
+            .admin-item p,
+            .activity-item p,
+            .boarding-house-item p {
+                font-size: 0.7rem !important;
+            }
+
+            /* Analytics */
+            .analytics-card h3,
+            .analytics-card .card-title {
+                font-size: 1rem !important;
+            }
+
+            .analytics-card p,
+            .analytics-card .card-text {
+                font-size: 0.75rem !important;
+            }
+
+            /* Charts */
+            .chart-container h4 {
+                font-size: 0.85rem !important;
+            }
+
+            /* Notifications */
+            .notification-item,
+            .notification-item p,
+            .notification-item span {
+                font-size: 0.75rem !important;
+            }
+
+            .notification-item h4 {
+                font-size: 0.85rem !important;
+            }
+
+            /* Sidebar/Navigation - even smaller */
+            .sidebar .nav-link,
+            .offcanvas .nav-link,
+            .menu-item,
+            .nav-item a {
+                font-size: 0.75rem !important;
+            }
+
+            .sidebar .menu-title,
+            .offcanvas .menu-title {
+                font-size: 0.85rem !important;
+            }
+
+            /* General text elements - even smaller */
+            h1 { font-size: 1.1rem !important; }
+            h2 { font-size: 1rem !important; }
+            h3 { font-size: 0.9rem !important; }
+            h4 { font-size: 0.85rem !important; }
+            h5 { font-size: 0.8rem !important; }
+            h6 { font-size: 0.75rem !important; }
+            p, span, div, li, td, th { font-size: 0.75rem !important; }
+            small { font-size: 0.65rem !important; }
+
+            /* Modal for very small screens */
+            #notificationSettingsModal .modal-content,
+            #accountManagementModal .modal-content,
+            #userDetailsModal .modal-content,
+            #boardingHouseDetailsModal .modal-content {
+                margin: 0.25rem !important;
+                width: calc(100% - 0.5rem) !important;
+                max-height: calc(100vh - 0.5rem) !important;
+                height: calc(100vh - 0.5rem) !important;
+            }
+
+            #notificationSettingsModal .modal-header,
+            #accountManagementModal .modal-header,
+            #userDetailsModal .modal-header,
+            #boardingHouseDetailsModal .modal-header {
+                padding: 0.75rem !important;
+            }
+
+            #notificationSettingsModal .modal-header h2,
+            #accountManagementModal .modal-header h2,
+            #userDetailsModal .modal-header h2,
+            #boardingHouseDetailsModal .modal-header h2 {
+                font-size: 0.95rem !important;
+            }
+
+            #notificationSettingsModal .modal-footer,
+            #accountManagementModal .modal-footer {
+                padding: 0.75rem !important;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            #notificationSettingsModal .modal-body,
+            #accountManagementModal .modal-body,
+            #userDetailsModal .modal-body,
+            #boardingHouseDetailsModal .modal-body {
+                padding: 0.75rem !important;
+                padding-bottom: 3rem !important;
+            }
+
+            #notificationSettingsModal .btn-modern,
+            #accountManagementModal .btn-modern {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* Even smaller fonts for very small screens */
+            #notificationSettingsModal .modal-header h2,
+            #accountManagementModal .modal-header h2 {
+                font-size: 1rem !important;
+            }
+
+            #notificationSettingsModal .tab-content h3,
+            #accountManagementModal .tab-content h3 {
+                font-size: 0.9rem !important;
+            }
+
+            #notificationSettingsModal .tab-content,
+            #accountManagementModal .tab-content {
+                font-size: 0.8rem !important;
+            }
+
+            #notificationSettingsModal .settings-tabs .tab,
+            #accountManagementModal .account-tabs .tab {
+                font-size: 0.8rem !important;
+                padding: 6px 10px !important;
+            }
+
+            #notificationSettingsModal .tab-content h4,
+            #accountManagementModal .tab-content h4 {
+                font-size: 0.8rem !important;
+            }
+
+            #notificationSettingsModal .tab-content p,
+            #accountManagementModal .tab-content p {
+                font-size: 0.75rem !important;
+            }
+
+            #notificationSettingsModal .setting-item,
+            #notificationSettingsModal .channel-item,
+            #notificationSettingsModal .template-item,
+            #accountManagementModal .admin-item,
+            #accountManagementModal .activity-item {
+                font-size: 0.75rem !important;
+            }
+
+            #notificationSettingsModal .setting-item h4,
+            #notificationSettingsModal .channel-item h4,
+            #notificationSettingsModal .template-item h4 {
+                font-size: 0.85rem !important;
+            }
+
+            #notificationSettingsModal .admin-info h4,
+            #accountManagementModal .admin-info h4 {
+                font-size: 0.8rem !important;
+            }
+
+            #notificationSettingsModal .admin-info p,
+            #accountManagementModal .admin-info p {
+                font-size: 0.7rem !important;
+            }
+
+            #notificationSettingsModal .status-badge,
+            #accountManagementModal .status-badge {
+                font-size: 0.7rem !important;
+                padding: 2px 8px !important;
+            }
+
+            #notificationSettingsModal .admin-role,
+            #accountManagementModal .admin-role {
+                font-size: 0.65rem !important;
+            }
+
+            /* Even smaller fonts for User Details and Boarding House modals on very small screens */
+            #userDetailsModal .modal-body h2,
+            #userDetailsModal .modal-body h3,
+            #boardingHouseDetailsModal .modal-body h2,
+            #boardingHouseDetailsModal .modal-body h3 {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .modal-body h4,
+            #userDetailsModal .modal-body h5,
+            #boardingHouseDetailsModal .modal-body h4,
+            #boardingHouseDetailsModal .modal-body h5 {
+                font-size: 0.8rem !important;
+            }
+
+            #userDetailsModal .modal-body,
+            #userDetailsModal .modal-body p,
+            #userDetailsModal .modal-body span,
+            #userDetailsModal .modal-body div,
+            #boardingHouseDetailsModal .modal-body,
+            #boardingHouseDetailsModal .modal-body p,
+            #boardingHouseDetailsModal .modal-body span,
+            #boardingHouseDetailsModal .modal-body div {
+                font-size: 0.75rem !important;
+            }
+
+            #userDetailsModal .user-details-section h3,
+            #userDetailsModal .profile-info h2,
+            #boardingHouseDetailsModal .user-details-section h3,
+            #boardingHouseDetailsModal .property-info h3 {
+                font-size: 0.85rem !important;
+            }
+
+            #userDetailsModal .user-details-section h4,
+            #boardingHouseDetailsModal .user-details-section h4 {
+                font-size: 0.8rem !important;
+            }
+
+            #userDetailsModal .info-label,
+            #userDetailsModal .info-value,
+            #boardingHouseDetailsModal .info-label,
+            #boardingHouseDetailsModal .info-value {
+                font-size: 0.75rem !important;
+            }
+
+            #userDetailsModal .status-badge,
+            #boardingHouseDetailsModal .status-badge {
+                font-size: 0.7rem !important;
+                padding: 2px 8px !important;
+            }
+
+            #userDetailsModal .boarding-house-item,
+            #userDetailsModal .booking-item,
+            #boardingHouseDetailsModal .room-item,
+            #boardingHouseDetailsModal .booking-item {
+                font-size: 0.75rem !important;
+            }
+
+            #userDetailsModal .boarding-house-item strong,
+            #userDetailsModal .booking-item .item-title,
+            #boardingHouseDetailsModal .room-item h4,
+            #boardingHouseDetailsModal .booking-item .item-title {
+                font-size: 0.8rem !important;
+            }
+
+            #userDetailsModal .boarding-house-item p,
+            #userDetailsModal .booking-item .item-details,
+            #boardingHouseDetailsModal .room-item p,
+            #boardingHouseDetailsModal .booking-item .item-details {
+                font-size: 0.7rem !important;
+            }
+
+            #userDetailsModal .property-address,
+            #boardingHouseDetailsModal .property-address {
+                font-size: 0.75rem !important;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 767.98px) and (orientation: landscape) {
+            .content-header {
+                padding: 1rem !important;
+            }
+
+            .content-header h1 {
+                font-size: 1.35rem !important;
+            }
+
+            .stat-card .card-body {
+                padding: 1rem !important;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item,
+            .action-btn,
+            .tab,
+            .filter-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .approval-card {
             cursor: pointer;
         }
 
-        @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
+            /* Prevent text selection on tap */
+            .nav-item,
+            .action-btn,
+            .tab {
+                -webkit-tap-highlight-color: rgba(141, 110, 99, 0.2);
+                -webkit-touch-callout: none;
+                user-select: none;
+            }
+        }
+
+        /* Smooth scrolling for mobile */
+        @media (max-width: 767.98px) {
+            html {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+
+            body {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .main-content {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        @media (max-width: 767.98px) {
+            body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+
+            .main-content {
+                overflow-x: hidden;
+                width: 100%;
+            }
+
+            .container-fluid {
+                max-width: 100%;
+                overflow-x: hidden;
             }
         }
 
@@ -1232,10 +2952,12 @@ $conn->close();
 
         .table-filters {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             padding: 1rem 1.5rem;
             background: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .filter-btn {
@@ -1247,6 +2969,9 @@ $conn->close();
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            white-space: nowrap;
+            flex: 0 0 auto;
+            min-height: 38px;
         }
 
         .filter-btn.active {
@@ -1257,6 +2982,46 @@ $conn->close();
         .filter-btn:hover {
             background: #8D6E63;
             color: white;
+        }
+
+        /* Mobile responsive for filter buttons */
+        @media (max-width: 767.98px) {
+            .table-filters {
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                flex-wrap: nowrap;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 0.875rem;
+                font-size: 0.85rem;
+                min-height: 40px;
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .table-filters {
+                padding: 0.625rem 0.75rem;
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+                min-height: 38px;
+                border-radius: 18px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .filter-btn {
+                padding: 0.45rem 0.65rem;
+                font-size: 0.75rem;
+                min-height: 36px;
+            }
         }
 
         .table-container {
@@ -1322,6 +3087,10 @@ $conn->close();
         #system-notifications-container {
             padding: 0 !important;
             margin: 0 !important;
+            max-height: calc(100vh - 500px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
         
         #system-notifications-container > div:first-child {
@@ -1333,6 +3102,8 @@ $conn->close();
             margin-top: 0;
             padding-top: 1rem;
         }
+
+        /* Default scrollbar for notifications container */
 
         .notification-item:hover {
             background: #f8f9fa;
@@ -1403,13 +3174,22 @@ $conn->close();
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            max-height: calc(100vh - 400px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 0.5rem;
+            -webkit-overflow-scrolling: touch;
         }
+
+        /* Default scrollbar for owner-boarding-houses */
 
         .owner-section {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 1.5rem;
             border-left: 4px solid #8D6E63;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .owner-header {
@@ -1419,6 +3199,8 @@ $conn->close();
             margin-bottom: 1rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .property-count {
@@ -1445,6 +3227,10 @@ $conn->close();
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
         .boarding-house-item:hover {
@@ -1454,24 +3240,31 @@ $conn->close();
 
         .house-info {
             flex: 1;
+            min-width: 0;
+            margin-right: 1rem;
         }
 
         .house-info strong {
             display: block;
             margin-bottom: 0.25rem;
             color: #333;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .house-info p {
             margin: 0;
             color: #666;
             font-size: 0.9rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
          .house-status {
              display: flex;
              align-items: center;
              gap: 1rem;
+             flex-wrap: wrap;
          }
 
          /* Button Container Styling for Single Line */
@@ -2425,90 +4218,292 @@ $conn->close();
             background: #5D4037;
             border-color: rgba(255, 255, 255, 0.5);
         }
+
+        /* Force approval card effects - highest priority */
+        .priority-section .pending-approvals .approval-card {
+            background: white !important;
+            border-radius: 8px !important;
+            padding: 0.5rem !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            cursor: pointer !important;
+            border: 2px solid transparent !important;
+            animation: pendingCardPulse 2s ease-in-out infinite !important;
+        }
+
+        /* Pulsing glow animation for pending approval cards */
+        @keyframes pendingCardPulse {
+            0%, 100% {
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 0 0 0 rgba(255, 193, 7, 0.4);
+                border-color: transparent;
+            }
+            50% {
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 0 20px 5px rgba(255, 193, 7, 0.6);
+                border-color: rgba(255, 193, 7, 0.5);
+            }
+        }
+
+        /* Shake animation to draw attention */
+        @keyframes pendingCardShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+
+        /* Apply shake animation on page load when there are pending approvals */
+        .priority-section.has-pending .pending-approvals .approval-card {
+            animation: pendingCardPulse 2s ease-in-out infinite, pendingCardShake 0.5s ease-in-out 3 !important;
+        }
+
+        /* Only show pulse animation when there are pending approvals */
+        .priority-section:not(.has-pending) .pending-approvals .approval-card {
+            animation: none !important;
+        }
+
+        .priority-section:not(.has-pending) .pending-approvals .approval-card::before {
+            display: none !important;
+        }
+
+        .priority-section .pending-approvals .approval-card::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 3px !important;
+            background: linear-gradient(90deg, #ffc107, #fd7e14, #ffc107) !important;
+            opacity: 1 !important;
+            animation: pendingBorderGlow 2s ease-in-out infinite !important;
+            z-index: 1 !important;
+        }
+
+        /* Animated border glow */
+        @keyframes pendingBorderGlow {
+            0%, 100% {
+                opacity: 0.6;
+                background: linear-gradient(90deg, #ffc107, #fd7e14, #ffc107);
+            }
+            50% {
+                opacity: 1;
+                background: linear-gradient(90deg, #fd7e14, #ffc107, #fd7e14);
+            }
+        }
+
+        .priority-section .pending-approvals .approval-card:hover::before {
+            opacity: 1 !important;
+            animation: pendingBorderGlow 1s ease-in-out infinite !important;
+        }
+
+        .priority-section .pending-approvals .approval-card:hover {
+            transform: translateY(-5px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4), 0 0 30px 8px rgba(255, 193, 7, 0.3) !important;
+            animation: none !important;
+        }
+
+        /* Pulsing user avatar when there are pending approvals */
+        .priority-section.has-pending .pending-approvals .approval-card .user-avatar {
+            animation: pendingAvatarPulse 2s ease-in-out infinite !important;
+        }
+
+        .priority-section:not(.has-pending) .pending-approvals .approval-card .user-avatar {
+            animation: none !important;
+        }
+
+        @keyframes pendingAvatarPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(141, 110, 99, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 4px 15px rgba(255, 193, 7, 0.5);
+            }
+        }
+
+        .priority-section .pending-approvals .approval-card:hover .user-avatar {
+            transform: scale(1.1) rotate(5deg) !important;
+            box-shadow: 0 4px 12px rgba(141, 110, 99, 0.4) !important;
+            animation: none !important;
+        }
+
+        .priority-section .pending-approvals .approval-card:hover .verification-badge {
+            transform: scale(1.05) !important;
+        }
+
+        /* Priority section header animation when there are pending approvals */
+        .priority-section.has-pending h2 {
+            animation: headerPulse 2s ease-in-out infinite !important;
+        }
+
+        .priority-section.has-pending h2 .fa-exclamation-circle {
+            animation: iconBounce 1s ease-in-out infinite !important;
+            color: #ffc107 !important;
+        }
+
+        @keyframes headerPulse {
+            0%, 100% {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes iconBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-5px) scale(1.1);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+    <!-- Mobile Menu Toggle Button -->
+    <button class="btn btn-primary d-md-none position-fixed top-0 start-0 m-3 z-index-1050" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas" style="z-index: 1050; background: linear-gradient(135deg, #8D6E63 0%, #A97A50 100%); border: none; min-width: 48px; min-height: 48px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
+    <!-- Sidebar - Desktop (always visible on md+) -->
+    <div class="sidebar d-none d-md-block">
         <div class="sidebar-header">
             <h1><i class="fas fa-shield-alt"></i> BoardEase Admin</h1>
         </div>
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+            <a href="#" class="nav-item active" onclick="showSection('dashboard', event); return false;">
                 <i class="fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
-            <a href="#" class="nav-item" onclick="showSection('user-management')">
+            <a href="#" class="nav-item" onclick="showSection('user-management', event); return false;">
                 <i class="fas fa-users"></i>
                 User Management
             </a>
-            <a href="#" class="nav-item" onclick="showSection('notifications')">
+            <a href="#" class="nav-item" onclick="showSection('notifications', event); return false;">
                 <i class="fas fa-bell"></i>
                 Notifications
             </a>
-             <a href="#" class="nav-item" onclick="showSection('boarding-houses')">
+             <a href="#" class="nav-item" onclick="showSection('boarding-houses', event); return false;">
                  <i class="fas fa-home"></i>
                  Boarding Houses
              </a>
-             <a href="#" class="nav-item" onclick="showSection('analytics')">
+             <a href="#" class="nav-item" onclick="showSection('analytics', event); return false;">
                  <i class="fas fa-chart-line"></i>
                  Analytics
              </a>
-             <a href="#" class="nav-item" onclick="showSection('reports')">
+             <a href="#" class="nav-item" onclick="showSection('reports', event); return false;">
                  <i class="fas fa-chart-bar"></i>
                  Reports
              </a>
-            <a href="#" class="nav-item" onclick="showSection('settings')">
+            <a href="#" class="nav-item" onclick="showSection('settings', event); return false;">
                 <i class="fas fa-cog"></i>
                 Settings
             </a>
-            <a href="#" class="nav-item" onclick="logout()">
+            <a href="#" class="nav-item" onclick="logout(); return false;">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout
             </a>
         </nav>
     </div>
 
+    <!-- Sidebar - Mobile (Offcanvas) -->
+    <div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">
+                <i class="fas fa-shield-alt"></i> BoardEase Admin
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showSection('dashboard', event); closeOffcanvas(); return false;">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('user-management', event); closeOffcanvas(); return false;">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('notifications', event); closeOffcanvas(); return false;">
+                    <i class="fas fa-bell"></i>
+                    Notifications
+                </a>
+                 <a href="#" class="nav-item" onclick="showSection('boarding-houses', event); closeOffcanvas(); return false;">
+                     <i class="fas fa-home"></i>
+                     Boarding Houses
+                 </a>
+                 <a href="#" class="nav-item" onclick="showSection('analytics', event); closeOffcanvas(); return false;">
+                     <i class="fas fa-chart-line"></i>
+                     Analytics
+                 </a>
+                 <a href="#" class="nav-item" onclick="showSection('reports', event); closeOffcanvas(); return false;">
+                     <i class="fas fa-chart-bar"></i>
+                     Reports
+                 </a>
+                <a href="#" class="nav-item" onclick="showSection('settings', event); closeOffcanvas(); return false;">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+                <a href="#" class="nav-item" onclick="logout(); closeOffcanvas(); return false;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div class="main-content">
+        <div class="container-fluid px-3 px-md-4 py-3 py-md-4">
         <!-- Dashboard Section -->
         <div id="dashboard-section" class="content-section active">
-            <div class="content-header">
+                <div class="content-header mb-4">
                 <h1>Admin Dashboard</h1>
                 <p>Welcome back! Here's what's happening with your BoardEase platform.</p>
             </div>
         <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
+                <div class="row g-3 g-md-4 mb-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card card h-100 shadow-sm">
+                            <div class="card-body text-center">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #8D6E63, #A97A50);">
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><?php echo $total_users_count; ?></h3>
-                    <p>Total Users</p>
+                                    <h3 class="mb-2"><?php echo $total_users_count; ?></h3>
+                                    <p class="mb-0">Total Users</p>
                 </div>
             </div>
-            <div class="stat-card">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card card h-100 shadow-sm">
+                            <div class="card-body text-center">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #28a745, #20c997);">
                     <i class="fas fa-home"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><?php echo $total_bh_count; ?></h3>
-                    <p>Boarding Houses</p>
+                                    <h3 class="mb-2"><?php echo $total_bh_count; ?></h3>
+                                    <p class="mb-0">Boarding Houses</p>
                 </div>
             </div>
-            <div class="stat-card">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card card h-100 shadow-sm <?php echo $pending_count > 0 ? 'pending-card-pulse' : ''; ?>" id="pending-approvals-card">
+                            <div class="card-body text-center">
                 <div class="stat-icon" style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
                     <i class="fas fa-user-clock"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><?php echo $pending_count; ?></h3>
-                    <p>Pending Approvals</p>
+                                    <h3 class="mb-2"><?php echo $pending_count; ?></h3>
+                                    <p class="mb-0">Pending Approvals</p>
+                                </div>
+                            </div>
                 </div>
             </div>
         </div>
@@ -2555,7 +4550,7 @@ $conn->close();
         </div>
 
         <!-- Priority Section: Pending Approvals -->
-        <div class="priority-section" style="margin-top: 3rem;">
+        <div class="priority-section <?php echo $pending_count > 0 ? 'has-pending' : ''; ?>" style="margin-top: 3rem;">
             <h2><i class="fas fa-exclamation-circle"></i> Pending User Approvals - Action Required (<?php echo $pending_count; ?>)</h2>
             <div class="pending-approvals">
                 <?php if (empty($pending_registrations)): ?>
@@ -2714,8 +4709,9 @@ $conn->close();
                         <button class="filter-btn" onclick="filterBoarders('pending')">Pending Approval</button>
                     </div>
                     <div class="table-container">
-                        <table>
-                             <thead>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                 <thead class="table-light">
                                  <tr>
                                      <th>User</th>
                                      <th>Email</th>
@@ -2840,6 +4836,7 @@ $conn->close();
                                 endif; ?>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
                 
@@ -2852,8 +4849,9 @@ $conn->close();
                         <button class="filter-btn" onclick="filterOwners('pending')">Pending Approval</button>
                     </div>
                     <div class="table-container">
-                        <table>
-                             <thead>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                 <thead class="table-light">
                                  <tr>
                                      <th>Owner</th>
                                      <th>Email</th>
@@ -2977,6 +4975,7 @@ $conn->close();
                                 endif; ?>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
                 
@@ -3101,8 +5100,9 @@ $conn->close();
                          <button class="filter-btn" onclick="filterBoardingHouses('inactive')">Inactive</button>
                      </div>
                     <div class="table-container">
-                        <table>
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-light">
                                 <tr>
                                     <th>Boarding House</th>
                                     <th>Owner</th>
@@ -3124,6 +5124,7 @@ $conn->close();
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
                 
@@ -4551,7 +6552,23 @@ $conn->close();
             sidebar.classList.toggle('open');
         }
 
-        function showSection(sectionName) {
+        function closeOffcanvas() {
+            const offcanvasElement = document.getElementById('sidebarOffcanvas');
+            if (offcanvasElement) {
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+                if (offcanvas) {
+                    offcanvas.hide();
+                }
+            }
+        }
+
+        function showSection(sectionName, event) {
+            // Prevent default link behavior
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
@@ -4563,29 +6580,63 @@ $conn->close();
             });
             
             // Show selected section
-            document.getElementById(sectionName + '-section').classList.add('active');
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Scroll to top of main content
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } else {
+                console.error('Section not found: ' + sectionName + '-section');
+                return;
+            }
             
             // Add active class to clicked nav item
-            event.target.classList.add('active');
+            if (event && event.target) {
+                const navItem = event.target.closest('.nav-item');
+                if (navItem) {
+                    navItem.classList.add('active');
+                }
+            } else {
+                // Fallback: find nav item by section name
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    const onclickAttr = item.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes("'" + sectionName + "'")) {
+                        item.classList.add('active');
+                    }
+                });
+            }
             
             // Load data for specific sections
             switch(sectionName) {
                 case 'dashboard':
                     // Reload recent activity when dashboard is shown
+                    if (typeof loadDashboardRecentActivity === 'function') {
                     loadDashboardRecentActivity();
+                    }
                     break;
                 case 'user-management':
+                    if (typeof loadUserStatsData === 'function') {
                     loadUserStatsData();
+                    }
                     break;
                 case 'boarding-houses':
+                    if (typeof loadBoardingHousesData === 'function') {
                     loadBoardingHousesData();
+                    }
                     break;
                 case 'notifications':
+                    if (typeof loadNotificationsData === 'function') {
                     loadNotificationsData();
+                    }
                     break;
                 case 'analytics':
-                    console.log('Analytics section clicked');
+                    if (typeof loadAnalyticsData === 'function') {
                     loadAnalyticsData();
+                    }
                     break;
             }
         }
@@ -8421,9 +10472,13 @@ $conn->close();
             top: 0;
             width: 100%;
             height: 100%;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            min-height: 100%;
+            min-height: 100dvh;
             background: linear-gradient(135deg, rgba(141, 110, 99, 0.8) 0%, rgba(141, 110, 99, 0.7) 50%, rgba(230, 218, 200, 0.6) 100%);
             backdrop-filter: blur(10px);
             animation: modalFadeIn 0.3s ease-out;
+            overflow-y: auto;
         }
 
         @keyframes modalFadeIn {
@@ -8585,13 +10640,54 @@ $conn->close();
 
         /* Extended background for specific modals */
         #notificationSettingsModal .modal-content,
-        #accountManagementModal .modal-content {
+        #accountManagementModal .modal-content,
+        #userDetailsModal .modal-content,
+        #boardingHouseDetailsModal .modal-content {
             background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            overflow: hidden !important;
+            max-height: 85vh !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
         #notificationSettingsModal .modal-body,
-        #accountManagementModal .modal-body {
+        #accountManagementModal .modal-body,
+        #userDetailsModal .modal-body,
+        #boardingHouseDetailsModal .modal-body {
             background: linear-gradient(145deg, #E6DAC8 0%, #F5F5DC 100%);
+            overflow-y: scroll !important;
+            overflow-x: hidden !important;
+            min-height: 0 !important;
+            flex: 1 1 0% !important;
+            height: 0 !important;
+            -webkit-overflow-scrolling: touch;
+            padding: 2rem;
+            padding-bottom: 4rem !important;
+            position: relative;
+        }
+
+        /* Ensure all content containers can expand */
+        #notificationSettingsModal .modal-body > *,
+        #accountManagementModal .modal-body > * {
+            min-height: fit-content;
+        }
+
+        /* Ensure tab content has enough bottom space for status badges */
+        #notificationSettingsModal .tab-content,
+        #accountManagementModal .tab-content {
+            padding-bottom: 2rem;
+        }
+
+        /* Ensure all containers inside tabs have proper spacing */
+        #notificationSettingsModal #current-settings-container,
+        #notificationSettingsModal #channels-container,
+        #notificationSettingsModal #types-container,
+        #notificationSettingsModal #templates-container,
+        #accountManagementModal .admin-list,
+        #accountManagementModal #security-events-container,
+        #accountManagementModal #activity-list-container {
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
         }
 
         #notificationSettingsModal .modal-footer,
@@ -8602,6 +10698,7 @@ $conn->close();
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
+            flex-shrink: 0;
         }
 
         /* Extended background for admin modals */
@@ -9215,6 +11312,67 @@ $conn->close();
             margin-bottom: 2.4rem; /* Reduced from 3rem (80%) */
         }
 
+        /* Mobile responsive - display charts in 1 column */
+        @media (max-width: 991.98px) {
+            .charts-section {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .chart-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .charts-section {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .chart-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                padding: 1.25rem !important;
+                min-height: auto !important;
+            }
+
+            .chart-container h4 {
+                font-size: 0.95rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .chart-container canvas {
+                height: 220px !important;
+                max-height: 220px !important;
+                min-height: 220px !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .charts-section {
+                gap: 1.25rem !important;
+            }
+
+            .chart-container {
+                padding: 1rem !important;
+            }
+
+            .chart-container h4 {
+                font-size: 0.9rem !important;
+                margin-bottom: 0.875rem !important;
+            }
+
+            .chart-container canvas {
+                height: 200px !important;
+                max-height: 200px !important;
+                min-height: 200px !important;
+            }
+        }
+
         .chart-container {
             background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
             border-radius: 16px; /* Reduced from 20px (80%) */
@@ -9288,6 +11446,39 @@ $conn->close();
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem; /* Reduced from 2.5rem (80%) */
             margin-bottom: 2.4rem; /* Reduced from 3rem (80%) */
+        }
+
+        /* Mobile responsive - display in 1 column */
+        @media (max-width: 991.98px) {
+            .top-boarding-houses-container {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .top-performing-section {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .top-boarding-houses-container {
+                gap: 1.25rem !important;
+            }
+
+            .top-performing-section {
+                padding: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .top-boarding-houses-container {
+                gap: 1rem !important;
+            }
+
+            .top-performing-section {
+                padding: 1.25rem !important;
+            }
         }
 
         .top-performing-section {
@@ -9469,6 +11660,33 @@ $conn->close();
 
             .top-performing-section h4 {
                 font-size: 1.2rem;
+            }
+        }
+
+        /* Extra small screens - ensure modal is fully scrollable */
+        @media (max-width: 480px) {
+            #notificationSettingsModal .modal-content,
+            #accountManagementModal .modal-content {
+                margin: 0.25rem !important;
+                width: calc(100% - 0.5rem) !important;
+                max-height: calc(100vh - 0.5rem) !important;
+                height: calc(100vh - 0.5rem) !important;
+            }
+
+            #notificationSettingsModal .modal-header,
+            #accountManagementModal .modal-header {
+                padding: 0.75rem !important;
+            }
+
+            #notificationSettingsModal .modal-footer,
+            #accountManagementModal .modal-footer {
+                padding: 0.75rem !important;
+            }
+
+            #notificationSettingsModal .modal-body,
+            #accountManagementModal .modal-body {
+                padding: 0.75rem !important;
+                padding-bottom: 3rem !important;
             }
         }
 
@@ -10037,6 +12255,10 @@ $conn->close();
             display: flex;
             border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
+            scroll-behavior: smooth;
         }
         
         .settings-tabs .tab {
@@ -10044,6 +12266,9 @@ $conn->close();
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: fit-content;
         }
         
         .settings-tabs .tab.active {
@@ -10452,6 +12677,10 @@ $conn->close();
             display: flex;
             border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
+            scroll-behavior: smooth;
         }
         
         .account-tabs .tab {
@@ -10462,6 +12691,9 @@ $conn->close();
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: fit-content;
         }
         
         .account-tabs .tab.active {
@@ -10810,6 +13042,18 @@ $conn->close();
             const targetTab = document.querySelector(`.settings-tabs .tab[onclick*="${tabName}"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
+                // Scroll tab into view (centered) on mobile
+                const tabsContainer = document.querySelector('.settings-tabs');
+                if (tabsContainer) {
+                    const containerWidth = tabsContainer.offsetWidth;
+                    const tabLeft = targetTab.offsetLeft;
+                    const tabWidth = targetTab.offsetWidth;
+                    const scrollPosition = tabLeft - (containerWidth / 2) + (tabWidth / 2);
+                    tabsContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
             
             // Enable/Disable Save Settings button based on active tab
@@ -10886,6 +13130,18 @@ $conn->close();
             const targetTab = document.querySelector(`#accountManagementModal .account-tabs .tab[onclick="switchAccountTab('${tabName}')"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
+                // Scroll tab into view (centered) on mobile
+                const tabsContainer = document.querySelector('#accountManagementModal .account-tabs');
+                if (tabsContainer) {
+                    const containerWidth = tabsContainer.offsetWidth;
+                    const tabLeft = targetTab.offsetLeft;
+                    const tabWidth = targetTab.offsetWidth;
+                    const scrollPosition = tabLeft - (containerWidth / 2) + (tabWidth / 2);
+                    tabsContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
             
             // Load data for specific tabs
@@ -11495,6 +13751,8 @@ $conn->close();
             showNotification('Two-factor authentication configuration coming soon!', 'info');
         }
     </script>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
 

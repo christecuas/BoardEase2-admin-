@@ -21,3 +21,8 @@ The superadmin panel also includes dispute management features, allowing adminis
 By integrating these features, BoardEase provided a more organized, accessible, and transparent system for both boarders and boarding house owners. The application improved the overall management workflow, simplified tenant-related transactions, and strengthened communication—ultimately creating a modernized approach to boarding house operation management. The addition of the superadmin panel further enhanced the platform's reliability and scalability by providing centralized oversight and comprehensive management tools that ensure the system operates smoothly and securely at scale.
 
 
+
+
+
+
+
