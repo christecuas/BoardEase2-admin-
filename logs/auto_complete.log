@@ -184,3 +184,6 @@ Please start MySQL/XAMPP service.
 [26/11/2025  8:42:32.45] ERROR: MySQL not available after 5 minutes. Exiting. 
 MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 Please start MySQL/XAMPP service.
+[27/11/2025  8:22:14.24] Waiting for MySQL connection... 
+[27/11/2025  8:22:18.47] MySQL not ready yet. Waiting... (1/20) 
+[27/11/2025  8:22:37.44] MySQL not ready yet. Waiting... (2/20) 

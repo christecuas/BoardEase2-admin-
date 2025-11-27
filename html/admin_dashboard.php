@@ -5285,36 +5285,76 @@ $conn->close();
         <div id="reports-section" class="content-section">
             <div class="content-header">
                 <h1>Reports & Analytics</h1>
-                <p>Generate and download various reports for system analysis and monitoring.</p>
+                <p>Generate and download comprehensive PDF reports for system analysis and monitoring.</p>
             </div>
             
             <div class="data-table">
                 <div class="table-header">
                     <h3><i class="fas fa-chart-bar"></i> Reports & Analytics</h3>
-                    <span style="color: rgba(255,255,255,0.8);">Generate comprehensive system reports</span>
+                    <span style="color: rgba(255,255,255,0.8);">Generate comprehensive system reports with filtering options</span>
                 </div>
                 
                 <div class="card-content">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                        <div class="report-card">
-                            <div class="report-icon" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+                        <!-- Payment Report Card -->
+                        <div class="report-card" style="padding: 1.5rem;">
+                            <div class="report-icon" style="background: linear-gradient(135deg, #28a745, #20c997); margin-bottom: 1rem;">
                                 <i class="fas fa-credit-card"></i>
                             </div>
-                            <h4>Payment Reports</h4>
-                            <p>Generate detailed payment transaction reports</p>
-                            <button class="action-btn" id="paymentReportBtn" onclick="downloadPaymentReport()">
-                                <i class="fas fa-download"></i> Download Payment Report
+                            <h4 style="margin-bottom: 0.5rem;">Payment Reports</h4>
+                            <p style="margin-bottom: 1rem; color: #666;">Generate detailed payment transaction reports with comprehensive analytics</p>
+                            
+                            <!-- Payment Report Filters -->
+                            <div class="report-filters" style="margin-bottom: 1rem;">
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Start Date:</label>
+                                    <input type="date" id="paymentStartDate" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">End Date:</label>
+                                    <input type="date" id="paymentEndDate" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Boarding House:</label>
+                                    <select id="paymentBoardingHouse" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                        <option value="">All Boarding Houses</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button class="action-btn" id="paymentReportBtn" onclick="downloadPaymentReportPDF()" style="width: 100%;">
+                                <i class="fas fa-file-pdf"></i> Generate PDF Report
                             </button>
                         </div>
                         
-                        <div class="report-card">
-                            <div class="report-icon" style="background: linear-gradient(135deg, #007bff, #0056b3);">
+                        <!-- Rental Report Card -->
+                        <div class="report-card" style="padding: 1.5rem;">
+                            <div class="report-icon" style="background: linear-gradient(135deg, #007bff, #0056b3); margin-bottom: 1rem;">
                                 <i class="fas fa-home"></i>
                             </div>
-                            <h4>Rental Reports</h4>
-                            <p>View rental statistics and occupancy reports</p>
-                            <button class="action-btn" id="rentalReportBtn" onclick="downloadRentalReport()">
-                                <i class="fas fa-download"></i> Download Rental Report
+                            <h4 style="margin-bottom: 0.5rem;">Rental Reports</h4>
+                            <p style="margin-bottom: 1rem; color: #666;">View rental statistics, occupancy rates, and upcoming expirations</p>
+                            
+                            <!-- Rental Report Filters -->
+                            <div class="report-filters" style="margin-bottom: 1rem;">
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Start Date:</label>
+                                    <input type="date" id="rentalStartDate" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">End Date:</label>
+                                    <input type="date" id="rentalEndDate" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div style="margin-bottom: 0.75rem;">
+                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Boarding House:</label>
+                                    <select id="rentalBoardingHouse" class="filter-input" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                        <option value="">All Boarding Houses</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button class="action-btn" id="rentalReportBtn" onclick="downloadRentalReportPDF()" style="width: 100%;">
+                                <i class="fas fa-file-pdf"></i> Generate PDF Report
                             </button>
                         </div>
                         
@@ -5808,6 +5848,27 @@ $conn->close();
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Preview Modal -->
+    <div id="pdfPreviewModal" class="modal" style="display: none; z-index: 10000;">
+        <div class="modal-content" style="max-width: 95%; max-height: 95vh; width: 1200px; padding: 0;">
+            <div class="modal-header" style="padding: 1rem 1.5rem; border-bottom: 1px solid #e9ecef;">
+                <h2><i class="fas fa-file-pdf"></i> Report Preview</h2>
+                <button class="modal-close" onclick="closePDFPreviewModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: calc(95vh - 120px); overflow: hidden;">
+                <iframe id="pdfPreviewFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-top: 1px solid #e9ecef;">
+                <button type="button" class="btn-modern btn-cancel" onclick="closePDFPreviewModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button type="button" class="btn-modern btn-save" id="pdfDownloadBtn" onclick="downloadPDFFromPreview()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
             </div>
         </div>
     </div>
@@ -6636,6 +6697,12 @@ $conn->close();
                 case 'analytics':
                     if (typeof loadAnalyticsData === 'function') {
                     loadAnalyticsData();
+                    }
+                    break;
+                case 'reports':
+                    // Load boarding houses for filter dropdowns
+                    if (typeof loadBoardingHousesForFilters === 'function') {
+                        loadBoardingHousesForFilters();
                     }
                     break;
             }
@@ -10288,66 +10355,165 @@ $conn->close();
          // Real-time updates removed - using actual database counts
 
         // Report download functionality
-        function downloadPaymentReport() {
+        // Load boarding houses for filter dropdowns
+        function loadBoardingHousesForFilters() {
+            // Check if already loaded
+            const paymentSelect = document.getElementById('paymentBoardingHouse');
+            const rentalSelect = document.getElementById('rentalBoardingHouse');
+            
+            if (!paymentSelect || !rentalSelect) {
+                return; // Elements not found yet
+            }
+            
+            // Clear existing options (except "All")
+            while (paymentSelect.children.length > 1) {
+                paymentSelect.removeChild(paymentSelect.lastChild);
+            }
+            while (rentalSelect.children.length > 1) {
+                rentalSelect.removeChild(rentalSelect.lastChild);
+            }
+            
+            fetch('../get_boarding_houses_for_filter.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        data.data.forEach(bh => {
+                            const option1 = document.createElement('option');
+                            option1.value = bh.id;
+                            option1.textContent = bh.name;
+                            paymentSelect.appendChild(option1);
+                            
+                            const option2 = document.createElement('option');
+                            option2.value = bh.id;
+                            option2.textContent = bh.name;
+                            rentalSelect.appendChild(option2);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading boarding houses:', error);
+                });
+        }
+
+        function downloadPaymentReportPDF() {
             const reportBtn = document.getElementById('paymentReportBtn');
             const originalText = reportBtn.innerHTML;
             
+            // Get filter values
+            const startDate = document.getElementById('paymentStartDate').value || null;
+            const endDate = document.getElementById('paymentEndDate').value || null;
+            const boardingHouseId = document.getElementById('paymentBoardingHouse').value || null;
+            
             // Show loading state
-            reportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Report...';
+            reportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
             reportBtn.disabled = true;
             
-            // Create download link
-            const downloadLink = document.createElement('a');
-            downloadLink.href = '../generate_payment_report.php?action=payment_report';
-            downloadLink.download = 'payment_report_' + new Date().toISOString().slice(0,19).replace(/:/g, '-') + '.csv';
-            downloadLink.style.display = 'none';
-            document.body.appendChild(downloadLink);
+            // Build query string for preview
+            const params = new URLSearchParams();
+            params.append('action', 'payment_report_preview');
+            if (startDate) params.append('start_date', startDate);
+            if (endDate) params.append('end_date', endDate);
+            if (boardingHouseId) params.append('boarding_house_id', boardingHouseId);
             
-            // Trigger download
-            downloadLink.click();
+            // Store download params for later use
+            const downloadParams = new URLSearchParams();
+            downloadParams.append('action', 'payment_report_pdf');
+            if (startDate) downloadParams.append('start_date', startDate);
+            if (endDate) downloadParams.append('end_date', endDate);
+            if (boardingHouseId) downloadParams.append('boarding_house_id', boardingHouseId);
             
-            // Clean up
-            document.body.removeChild(downloadLink);
+            // Set preview URL and download URL
+            const previewUrl = '../generate_payment_report_pdf.php?' + params.toString();
+            const downloadUrl = '../generate_payment_report_pdf.php?' + downloadParams.toString();
             
-            // Reset button after a delay
+            // Show preview modal
+            showPDFPreviewModal(previewUrl, downloadUrl, 'Payment Report');
+            
+            // Reset button
             setTimeout(() => {
                 reportBtn.innerHTML = originalText;
                 reportBtn.disabled = false;
-                
-                // Show success message
-                showNotification('Payment report generated successfully! Check your Downloads folder.', 'success');
-            }, 2000);
+            }, 500);
+        }
+        
+        let currentDownloadUrl = '';
+        
+        function showPDFPreviewModal(previewUrl, downloadUrl, reportTitle) {
+            const modal = document.getElementById('pdfPreviewModal');
+            const frame = document.getElementById('pdfPreviewFrame');
+            const title = modal.querySelector('h2');
+            
+            // Update modal content
+            title.innerHTML = `<i class="fas fa-file-pdf"></i> ${reportTitle} - Preview`;
+            frame.src = previewUrl;
+            currentDownloadUrl = downloadUrl;
+            
+            // Show modal
+            modal.style.display = 'flex';
+        }
+        
+        function closePDFPreviewModal() {
+            const modal = document.getElementById('pdfPreviewModal');
+            const frame = document.getElementById('pdfPreviewFrame');
+            if (modal) {
+                modal.style.display = 'none';
+                // Clear iframe src to stop loading
+                frame.src = '';
+            }
+        }
+        
+        function downloadPDFFromPreview() {
+            if (!currentDownloadUrl) return;
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.href = currentDownloadUrl;
+            downloadLink.target = '_blank';
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            setTimeout(() => {
+                document.body.removeChild(downloadLink);
+            }, 1000);
+            showNotification('PDF download started!', 'success');
         }
 
-        function downloadRentalReport() {
+        function downloadRentalReportPDF() {
             const reportBtn = document.getElementById('rentalReportBtn');
             const originalText = reportBtn.innerHTML;
             
+            // Get filter values
+            const startDate = document.getElementById('rentalStartDate').value || null;
+            const endDate = document.getElementById('rentalEndDate').value || null;
+            const boardingHouseId = document.getElementById('rentalBoardingHouse').value || null;
+            
             // Show loading state
-            reportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Report...';
+            reportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
             reportBtn.disabled = true;
             
-            // Create download link
-            const downloadLink = document.createElement('a');
-            downloadLink.href = '../generate_rental_report.php?action=rental_report';
-            downloadLink.download = 'rental_report_' + new Date().toISOString().slice(0,19).replace(/:/g, '-') + '.csv';
-            downloadLink.style.display = 'none';
-            document.body.appendChild(downloadLink);
+            // Build query strings for preview/download
+            const previewParams = new URLSearchParams();
+            previewParams.append('action', 'rental_report_preview');
+            if (startDate) previewParams.append('start_date', startDate);
+            if (endDate) previewParams.append('end_date', endDate);
+            if (boardingHouseId) previewParams.append('boarding_house_id', boardingHouseId);
             
-            // Trigger download
-            downloadLink.click();
+            const downloadParams = new URLSearchParams();
+            downloadParams.append('action', 'rental_report_pdf');
+            if (startDate) downloadParams.append('start_date', startDate);
+            if (endDate) downloadParams.append('end_date', endDate);
+            if (boardingHouseId) downloadParams.append('boarding_house_id', boardingHouseId);
             
-            // Clean up
-            document.body.removeChild(downloadLink);
+            const previewUrl = '../generate_rental_report_pdf.php?' + previewParams.toString();
+            const downloadUrl = '../generate_rental_report_pdf.php?' + downloadParams.toString();
             
-            // Reset button after a delay
+            // Show preview modal matching payment flow
+            showPDFPreviewModal(previewUrl, downloadUrl, 'Rental Report');
+            
+            // Reset button state after a short delay
             setTimeout(() => {
                 reportBtn.innerHTML = originalText;
                 reportBtn.disabled = false;
-                
-                // Show success message
-                showNotification('Rental report generated successfully! Check your Downloads folder.', 'success');
-            }, 2000);
+            }, 500);
         }
 
         // Database backup functionality
