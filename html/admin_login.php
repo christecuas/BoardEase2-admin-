@@ -727,9 +727,45 @@
 
     <div class="login-container">
         <div class="login-header">
-            <h1><i class="fas fa-shield-alt"></i> BoardEase Admin</h1>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <img src="../uploads/boardease_logo.jpg" alt="BoardEase Logo" class="login-logo" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; animation: bounce 2s ease-in-out infinite; box-shadow: 0 4px 15px rgba(210, 180, 140, 0.3);">
+            </div>
+            <h1 style="text-align: center;">BoardEase Admin</h1>
             <p>Sign in to access the admin dashboard</p>
         </div>
+        
+        <style>
+            @keyframes bounce {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+            
+            @media (max-width: 767.98px) {
+                .login-logo {
+                    width: 60px !important;
+                    height: 60px !important;
+                }
+                
+                .login-header {
+                    padding-top: 1.5rem !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .login-logo {
+                    width: 60px !important;
+                    height: 60px !important;
+                }
+                
+                .login-header {
+                    padding-top: 1rem !important;
+                }
+            }
+        </style>
 
         <div class="error-message" id="errorMessage"></div>
         <div class="success-message" id="successMessage"></div>

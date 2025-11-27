@@ -277,21 +277,28 @@ $conn->close();
 
         @media (max-width: 575.98px) {
             .offcanvas.sidebar {
-                width: 100% !important;
-                max-width: 100% !important;
+                width: 70% !important;
+                max-width: 70% !important;
             }
 
             .offcanvas.sidebar .offcanvas-header {
                 padding: 1.25rem 1rem;
             }
 
-            .offcanvas.sidebar .offcanvas-title {
-                font-size: 1.2rem;
+            .offcanvas.sidebar .offcanvas-title,
+            .offcanvas.sidebar .offcanvas-title h5,
+            .offcanvas.sidebar h5.offcanvas-title {
+                font-size: 1.1rem !important;
+            }
+            
+            .offcanvas.sidebar .offcanvas-title span {
+                font-size: 1.1rem !important;
             }
 
             .offcanvas.sidebar .nav-item {
                 padding: 1rem 1.25rem !important;
                 min-height: 48px;
+                font-size: 0.85rem !important;
             }
         }
 
@@ -4372,7 +4379,10 @@ $conn->close();
     <!-- Sidebar - Desktop (always visible on md+) -->
     <div class="sidebar d-none d-md-block">
         <div class="sidebar-header">
-            <h1><i class="fas fa-shield-alt"></i> BoardEase Admin</h1>
+            <h1 style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="../uploads/boardease_logo.jpg" alt="BoardEase Logo" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                <span style="line-height: 1.2;">BoardEase Admin</span>
+            </h1>
         </div>
         <nav class="sidebar-nav">
             <a href="#" class="nav-item active" onclick="showSection('dashboard', event); return false;">
@@ -4413,8 +4423,9 @@ $conn->close();
     <!-- Sidebar - Mobile (Offcanvas) -->
     <div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">
-                <i class="fas fa-shield-alt"></i> BoardEase Admin
+            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel" style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="../uploads/boardease_logo.jpg" alt="BoardEase Logo" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                <span style="line-height: 1.2; font-size: 1.1rem;">BoardEase<br>Admin</span>
             </h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -5295,14 +5306,14 @@ $conn->close();
                 </div>
                 
                 <div class="card-content">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+                    <div class="reports-grid">
                         <!-- Payment Report Card -->
-                        <div class="report-card" style="padding: 1.5rem;">
+                        <div class="report-card">
                             <div class="report-icon" style="background: linear-gradient(135deg, #28a745, #20c997); margin-bottom: 1rem;">
                                 <i class="fas fa-credit-card"></i>
                             </div>
                             <h4 style="margin-bottom: 0.5rem;">Payment Reports</h4>
-                            <p style="margin-bottom: 1rem; color: #666;">Generate detailed payment transaction reports with comprehensive analytics</p>
+                            <p style="margin-bottom: 1rem; color: #666;">Generate detailed payment transaction reports</p>
                             
                             <!-- Payment Report Filters -->
                             <div class="report-filters" style="margin-bottom: 1rem;">
@@ -5328,7 +5339,7 @@ $conn->close();
                         </div>
                         
                         <!-- Rental Report Card -->
-                        <div class="report-card" style="padding: 1.5rem;">
+                        <div class="report-card">
                             <div class="report-icon" style="background: linear-gradient(135deg, #007bff, #0056b3); margin-bottom: 1rem;">
                                 <i class="fas fa-home"></i>
                             </div>

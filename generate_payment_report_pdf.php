@@ -140,7 +140,7 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
             " . (!empty($paymentWhereConditions) ? "WHERE " . implode(" AND ", $paymentWhereConditions) : "") . "
             GROUP BY p.payment_id, p.payment_amount, p.payment_status, p.booking_id, r.first_name, r.last_name, r.suffix, 
                      bh.bh_name, bhr.room_category, bhr.room_name, ru.room_number
-            ORDER BY COALESCE(p.payment_date, p.created_at, NOW()) DESC, p.payment_id DESC
+            ORDER BY p.payment_id ASC
         ";
         
         // Status filter removed - show all payments
@@ -313,9 +313,8 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
         
         // Status filter removed - show all breakdowns (pending, paid, overdue)
         
-        // Order by booking_id, then by period_start_date to show breakdowns in chronological order
-        // This ensures paid breakdowns come first, followed by pending ones in sequence
-        $breakdownDetailsQuery .= " ORDER BY pb.booking_id, COALESCE(pb.period_start_date, pb.due_date) ASC, pb.breakdown_id ASC";
+        // Order by breakdown_id ASC as requested
+        $breakdownDetailsQuery .= " ORDER BY pb.breakdown_id ASC";
         
         $stmt = $connection->prepare($breakdownDetailsQuery);
         if (!empty($breakdownParams)) {
@@ -372,35 +371,9 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
             $breakdownsByPayment[$groupKey][] = $breakdown;
         }
         
-        // Sort breakdowns within each group by period_start_date to ensure correct order
-        // This ensures paid breakdowns come first, followed by pending ones in chronological order
+        // Sort breakdowns within each group by breakdown_id to ensure correct order
         foreach ($breakdownsByPayment as $key => $breakdowns) {
             usort($breakdownsByPayment[$key], function($a, $b) {
-                // Sort by period_start_date (raw date) or due_date (formatted string)
-                // Use period_start_date if available, otherwise use due_date
-                $dateA = '';
-                if (isset($a['period_start_date']) && $a['period_start_date']) {
-                    $dateA = $a['period_start_date'];
-                } elseif (isset($a['due_date']) && $a['due_date']) {
-                    // due_date is already formatted as YYYY-MM-DD string, so we can use it directly
-                    $dateA = $a['due_date'];
-                } else {
-                    $dateA = '9999-12-31';
-                }
-                
-                $dateB = '';
-                if (isset($b['period_start_date']) && $b['period_start_date']) {
-                    $dateB = $b['period_start_date'];
-                } elseif (isset($b['due_date']) && $b['due_date']) {
-                    $dateB = $b['due_date'];
-                } else {
-                    $dateB = '9999-12-31';
-                }
-                
-                if ($dateA != $dateB) {
-                    return strcmp($dateA, $dateB);
-                }
-                // If dates are equal, sort by breakdown_id
                 $idA = isset($a['breakdown_id']) ? intval($a['breakdown_id']) : 999999;
                 $idB = isset($b['breakdown_id']) ? intval($b['breakdown_id']) : 999999;
                 return $idA - $idB;
@@ -490,10 +463,25 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
         $pdf->Ln(3);
         
         if (!empty($paymentSummaries)) {
-            $pdf->SetFont('helvetica', 'B', 8);
-            $pdf->SetFillColor(245, 245, 245);
+            // Header function
+            $printPaymentSummaryHeader = function($pdf) {
+                $pdf->SetFont('helvetica', 'B', 8);
+                $pdf->SetFillColor(245, 245, 245);
+                $pdf->Cell(16, 6, 'Payment ID', 1, 0, 'C', true);
+                $pdf->Cell(35, 6, 'Boarder', 1, 0, 'C', true);
+                $pdf->Cell(26, 6, 'Boarding House', 1, 0, 'C', true);
+                $pdf->Cell(29, 6, 'Room', 1, 0, 'C', true);
+                $pdf->Cell(20, 6, 'Total Amount', 1, 0, 'C', true);
+                $pdf->Cell(20, 6, 'Amount Paid', 1, 0, 'C', true);
+                $pdf->Cell(20, 6, 'Balance', 1, 0, 'C', true);
+                $pdf->Cell(24, 6, 'Status', 1, 1, 'C', true);
+                $pdf->SetFont('helvetica', '', 7);
+            };
             
-            // Table header
+            $printPaymentSummaryHeader($pdf);
+            
+            $pdf->SetFont('helvetica', '', 7);
+            
             $columnWidths = [
                 'payment_id' => 16,
                 'boarder' => 35,
@@ -505,16 +493,6 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                 'status' => 24
             ];
             
-            $pdf->Cell($columnWidths['payment_id'], 6, 'Payment ID', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['boarder'], 6, 'Boarder', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['bh'], 6, 'Boarding House', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['room'], 6, 'Room', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['total'], 6, 'Total Amount', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['paid'], 6, 'Amount Paid', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['balance'], 6, 'Balance', 1, 0, 'C', true);
-            $pdf->Cell($columnWidths['status'], 6, 'Status', 1, 1, 'C', true);
-            
-            $pdf->SetFont('helvetica', '', 7);
             foreach ($paymentSummaries as $payment) {
                 $boarderName = $payment['boarder_name'] ?? 'N/A';
                 $bhName = $payment['bh_name'] ?? 'N/A';
@@ -529,6 +507,12 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                 $bhHeight = $pdf->getStringHeight($columnWidths['bh'], $bhName);
                 $roomHeight = $pdf->getStringHeight($columnWidths['room'], $room);
                 $rowHeight = max(7, $boarderHeight, $bhHeight, $roomHeight);
+                
+                // Check for page break
+                if ($pdf->GetY() + $rowHeight > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
+                    $pdf->AddPage();
+                    $printPaymentSummaryHeader($pdf);
+                }
                 
                 $pdf->MultiCell($columnWidths['payment_id'], $rowHeight, $payment['payment_id'] ?? 'N/A', 1, 'C', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
                 $pdf->MultiCell($columnWidths['boarder'], $rowHeight, $boarderName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
@@ -581,6 +565,11 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                     continue;
                 }
                 
+                // Check if there's enough space for the payment header and at least one row
+                if ($pdf->GetY() + 20 > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
+                    $pdf->AddPage();
+                }
+                
                 // Payment ID header
                 $pdf->SetFont('helvetica', 'B', 10);
                 $boarderName = mb_substr($payment['boarder_name'] ?? 'N/A', 0, 30);
@@ -590,16 +579,33 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                 $pdf->SetFont('helvetica', 'B', 8);
                 $pdf->SetFillColor(240, 248, 255);
                 
-                // Breakdown table header
-                $pdf->Cell(25, 6, 'Breakdown ID', 1, 0, 'C', true);
-                $pdf->Cell(25, 6, 'Payment ID', 1, 0, 'C', true);
-                $pdf->Cell(30, 6, 'Due Date', 1, 0, 'C', true);
-                $pdf->Cell(30, 6, 'Amount', 1, 0, 'C', true);
-                $pdf->Cell(30, 6, 'Payment Date', 1, 0, 'C', true);
-                $pdf->Cell(30, 6, 'Status', 1, 1, 'C', true);
+                // Breakdown table header function
+                $printBreakdownHeader = function($pdf) {
+                    $pdf->SetFont('helvetica', 'B', 8);
+                    $pdf->SetFillColor(240, 248, 255);
+                    $pdf->Cell(25, 6, 'Breakdown ID', 1, 0, 'C', true);
+                    $pdf->Cell(25, 6, 'Payment ID', 1, 0, 'C', true);
+                    $pdf->Cell(30, 6, 'Due Date', 1, 0, 'C', true);
+                    $pdf->Cell(30, 6, 'Amount', 1, 0, 'C', true);
+                    $pdf->Cell(30, 6, 'Payment Date', 1, 0, 'C', true);
+                    $pdf->Cell(30, 6, 'Status', 1, 1, 'C', true);
+                    $pdf->SetFont('helvetica', '', 7);
+                };
+                
+                $printBreakdownHeader($pdf);
                 
                 $pdf->SetFont('helvetica', '', 7);
                 foreach ($breakdowns as $breakdown) {
+                    // Check for page break
+                    if ($pdf->GetY() + 6 > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
+                        $pdf->AddPage();
+                        // Reprint payment ID header if page break
+                        $pdf->SetFont('helvetica', 'B', 10);
+                        $pdf->Cell(0, 6, 'Payment ID: ' . $paymentId . ' (' . $boarderName . ') - Continued', 0, 1, 'L');
+                        $pdf->Ln(2);
+                        $printBreakdownHeader($pdf);
+                    }
+                    
                     $pdf->Cell(25, 6, 'B' . ($breakdown['breakdown_id'] ?? 'N/A'), 1, 0, 'C');
                     $pdf->Cell(25, 6, $breakdown['payment_id'] ?: 'N/A', 1, 0, 'C');
                     $pdf->Cell(30, 6, $breakdown['due_date'] ?? 'N/A', 1, 0, 'C');
@@ -635,54 +641,12 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
         $collectionBase = $totalCollected + $pendingAmount + $overdueAmount;
         $collectionRate = $collectionBase > 0 ? ($totalCollected / $collectionBase) * 100 : null;
         
-        // Count breakdown statuses
-        $overdueCount = 0;
-        $pendingCount = 0;
-        foreach ($breakdownDetails as $bd) {
-            if (($bd['status'] ?? '') === 'Overdue') {
-                $overdueCount++;
-            }
-            if (($bd['status'] ?? '') === 'Pending') {
-                $pendingCount++;
-            }
-        }
-        
-        // Count payments that currently have overdue breakdowns
-        $overduePaymentsCount = 0;
-        foreach ($paymentSummaries as $payment) {
-            $pid = $payment['payment_id'] ?? null;
-            $bookingId = $payment['booking_id'] ?? null;
-            $paymentBreakdowns = $pid ? ($breakdownsByPayment[$pid] ?? []) : [];
-            if (empty($paymentBreakdowns) && $bookingId) {
-                $paymentBreakdowns = $breakdownsByPayment['booking_' . $bookingId] ?? [];
-            }
-            
-            foreach ($paymentBreakdowns as $bd) {
-                if (($bd['status'] ?? '') === 'Overdue') {
-                    $overduePaymentsCount++;
-                    break;
-                }
-            }
-        }
-        
         if ($overdueAmount > 0) {
-            $remarks[] = "Total overdue amount: PHP " . number_format($overdueAmount, 2) . " requires immediate attention.";
+            $remarks[] = "• Total overdue amount: PHP " . number_format($overdueAmount, 2) . " requires immediate attention.";
         }
         
         if ($pendingAmount > 0) {
             $remarks[] = "• Total pending payments: PHP " . number_format($pendingAmount, 2) . " are awaiting payment.";
-        }
-        
-        if ($overduePaymentsCount > 0) {
-            $remarks[] = "• " . $overduePaymentsCount . " payment(s) are currently overdue and require follow-up.";
-        }
-        
-        if ($overdueCount > 0) {
-            $remarks[] = $overdueCount . " breakdown(s) are overdue and require immediate attention.";
-        }
-        
-        if ($pendingCount > 0) {
-            $remarks[] = "• " . $pendingCount . " breakdown(s) are pending payment.";
         }
         
         if (!is_null($collectionRate)) {
