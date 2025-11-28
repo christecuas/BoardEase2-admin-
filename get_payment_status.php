@@ -137,8 +137,7 @@ try {
     $simpleSqlViaBh = "
         SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
                p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
-               p.receipt_url, p.payment_month, p.payment_year, p.is_monthly_payment, p.months_paid, 
-               p.total_months_required, p.created_at, p.updated_at,
+               p.receipt_url, p.created_at, p.updated_at,
                bh.user_id as actual_owner_id
         FROM payments p
         LEFT JOIN bookings b ON p.booking_id = b.booking_id
@@ -151,8 +150,7 @@ try {
     // Also try direct owner_id match as fallback (in case payments.owner_id is correct)
     $simpleSql = "SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
                   p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
-                  p.receipt_url, p.payment_month, p.payment_year, p.is_monthly_payment, p.months_paid, 
-                  p.total_months_required, p.created_at, p.updated_at
+                  p.receipt_url, p.created_at, p.updated_at
                   FROM payments p
                   WHERE p.owner_id = :owner_id";
     
@@ -165,10 +163,20 @@ try {
         // Include 'Completed', 'Partially Paid', and 'Paid' in the Completed tab
         $simpleSql .= " AND COALESCE(p.payment_status, 'Pending') IN ('Completed', 'Partially Paid', 'Paid')";
         $simpleSqlViaBh .= " AND COALESCE(p.payment_status, 'Pending') IN ('Completed', 'Partially Paid', 'Paid')";
-    } elseif ($status === 'overdue') {
-        // For overdue, we'll handle this in the main query since we need booking dates
-        $simpleSql .= " AND COALESCE(p.payment_status, 'Pending') = 'Pending'";
-        $simpleSqlViaBh .= " AND COALESCE(p.payment_status, 'Pending') = 'Pending'";
+    } elseif (strtolower($status) === 'overdue') {
+        // For overdue, check payment_breakdowns
+        // Include Pending AND Partially Paid payments that are overdue
+        $overdueCondition = " AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              )";
+        $simpleSql .= $overdueCondition;
+        $simpleSqlViaBh .= $overdueCondition;
     } elseif ($status === 'fully_paid') {
         // For fully_paid, include both Confirmed and Completed bookings
         // Payment progress filtering will be done after getting the results
@@ -264,11 +272,6 @@ try {
             p.notes,
             p.payment_proof,
             p.receipt_url,
-            p.payment_month,
-            p.payment_year,
-            p.is_monthly_payment,
-            p.months_paid,
-            p.total_months_required,
             DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
             DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
             -- Boarder information (use LEFT JOIN to handle missing data)
@@ -296,11 +299,13 @@ try {
             COALESCE(b.booking_status, 'Pending') as rental_status,
             DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
             DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
-            CASE 
-                WHEN b.start_date IS NOT NULL 
-                THEN DATE_FORMAT(DATE_ADD(b.start_date, INTERVAL p.months_paid MONTH), '%Y-%m-%d')
-                ELSE NULL
-            END as due_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
             -- Boarding house information
             COALESCE(bh.bh_name, '') as boarding_house_name,
             COALESCE(bh.bh_address, '') as boarding_house_address,
@@ -321,11 +326,18 @@ try {
     } elseif ($status === 'paid' || $status === 'completed') {
         // Include 'Completed', 'Partially Paid', and 'Paid' in the Completed tab
         $sql .= " AND COALESCE(p.payment_status, 'Pending') IN ('Completed', 'Partially Paid', 'Paid')";
-    } elseif ($status === 'overdue') {
-        // For overdue, we need to check if due_date has passed
-        $sql .= " AND COALESCE(p.payment_status, 'Pending') = 'Pending' 
-                  AND b.start_date IS NOT NULL
-                  AND DATE_ADD(b.start_date, INTERVAL p.months_paid MONTH) < CURDATE()";
+    } elseif (strtolower($status) === 'overdue') {
+        // For overdue, check if the payment is linked to an overdue breakdown
+        // OR if the payment itself is pending/partially paid and past due
+        $sql .= " AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                  AND EXISTS (
+                      SELECT 1 FROM payment_breakdowns pb 
+                      WHERE pb.booking_id = p.booking_id 
+                      AND (
+                          pb.payment_status = 'Overdue' 
+                          OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                      )
+                  )";
     } elseif ($status === 'fully_paid') {
         // For fully paid, include both Confirmed and Completed bookings
         // Payment progress filtering will be done after getting the results
@@ -443,6 +455,121 @@ try {
     
     // Format payments for response
     $formattedPayments = array();
+
+    // If status is 'overdue', also fetch UNPAID overdue breakdowns that don't have a payment record yet
+    if (strtolower($status) === 'overdue') {
+        $overdueBreakdownsSql = "
+            SELECT 
+                pb.breakdown_id,
+                pb.booking_id,
+                pb.amount as payment_amount,
+                pb.due_date,
+                pb.payment_status,
+                pb.period_label,
+                b.user_id,
+                b.start_date, b.end_date,
+                -- Boarder Info
+                COALESCE(u.profile_picture, '') as profile_picture,
+                reg.first_name, reg.middle_name, reg.last_name, reg.suffix,
+                reg.email, reg.phone,
+                -- Room Info
+                bhr.room_name, bhr.room_category, bhr.price, ru.room_number,
+                bh.bh_name, bh.bh_address,
+                b.booking_status as rental_status
+            FROM payment_breakdowns pb
+            JOIN bookings b ON pb.booking_id = b.booking_id
+            LEFT JOIN payments p_link ON pb.payment_id = p_link.payment_id
+            LEFT JOIN users u ON b.user_id = u.user_id
+            LEFT JOIN registrations reg ON u.reg_id = reg.id
+            LEFT JOIN room_units ru ON b.room_id = ru.room_id
+            LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            WHERE (bh.user_id = :owner_id OR p_link.owner_id = :owner_id)
+              AND (pb.payment_status = 'Overdue' OR (pb.due_date < CURDATE() AND pb.is_paid = 0))
+              AND (
+                  pb.payment_id IS NULL 
+                  OR 
+                  pb.payment_id NOT IN (
+                      SELECT payment_id FROM payments 
+                      WHERE payment_status IN ('Pending', 'Partially Paid', 'Fully Paid', 'Completed')
+                  )
+              )
+            ORDER BY pb.due_date ASC
+        ";
+        
+        $overdueStmt = $pdo->prepare($overdueBreakdownsSql);
+        $overdueStmt->execute([':owner_id' => $ownerId]);
+        $overdueBreakdowns = $overdueStmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (function_exists('error_log')) {
+            error_log("get_payment_status.php - Found " . count($overdueBreakdowns) . " overdue breakdowns");
+        }
+        
+        foreach ($overdueBreakdowns as $bd) {
+            // Format boarder name
+            $boarderName = trim(($bd['first_name'] ?? '') . ' ' . 
+                              ($bd['middle_name'] ?? '') . ' ' . 
+                              ($bd['last_name'] ?? '') . ' ' . 
+                              ($bd['suffix'] ?? ''));
+            if (empty($boarderName)) $boarderName = 'Unknown';
+            
+            // Format room name
+            $roomName = $bd['room_name'] ?? 'Room N/A';
+            if (!empty($bd['room_number'])) {
+                $roomName .= ' - Room ' . $bd['room_number'];
+            }
+            
+            // Format amount
+            $amount = '₱' . number_format(floatval($bd['payment_amount']), 2, '.', ',');
+            
+            // Get progress
+            $bookingId = intval($bd['booking_id']);
+            $progress = isset($bookingProgress[$bookingId]) ? $bookingProgress[$bookingId] : array(
+                'total_periods' => 0, 'paid_periods' => 0, 'unpaid_periods' => 0,
+                'total_months' => 0, 'paid_months' => 0, 'remaining_months' => 0,
+                'total_amount' => 0, 'paid_amount' => 0, 'remaining_amount' => 0,
+                'is_fully_paid' => false, 'payment_progress_percent' => 0
+            );
+            
+            $formattedPayments[] = array(
+                'payment_id' => -1 * intval($bd['breakdown_id']), // Negative ID to indicate virtual payment
+                'booking_id' => $bookingId,
+                'user_id' => intval($bd['user_id']),
+                'boarder_name' => $boarderName,
+                'room' => $roomName,
+                'rent_type' => $bd['room_category'] ?? 'Monthly',
+                'amount_paid' => $amount, // Amount due
+                'total_amount' => $amount,
+                'payment_status' => 'Overdue', // Force status to Overdue
+                'rental_status' => $bd['rental_status'] ?? 'Active',
+                'payment_date' => '', // No payment date yet
+                'due_date' => $bd['due_date'],
+                'payment_method' => 'Unpaid',
+                'notes' => 'Overdue Bill: ' . $bd['period_label'],
+                'payment_proof' => '',
+                'receipt_url' => '',
+                'profile_picture' => $bd['profile_picture'],
+                // Progress info
+                'total_periods' => $progress['total_periods'],
+                'paid_periods' => $progress['paid_periods'],
+                'unpaid_periods' => $progress['unpaid_periods'],
+                'total_months_for_booking' => $progress['total_months'],
+                'paid_months_for_booking' => $progress['paid_months'],
+                'remaining_months_to_pay' => $progress['remaining_months'],
+                'total_amount_for_booking' => number_format($progress['total_amount'], 2, '.', ''),
+                'paid_amount_for_booking' => number_format($progress['paid_amount'], 2, '.', ''),
+                'remaining_amount_to_pay' => number_format($progress['remaining_amount'], 2, '.', ''),
+                'is_fully_paid' => $progress['is_fully_paid'],
+                'payment_progress_percent' => $progress['payment_progress_percent'],
+                'created_at' => '',
+                'updated_at' => '',
+                'boarder_email' => $bd['email'] ?? '',
+                'boarder_phone' => $bd['phone'] ?? '',
+                'boarding_house_name' => $bd['bh_name'] ?? '',
+                'boarding_house_address' => $bd['bh_address'] ?? ''
+            );
+        }
+    }
     
     // Always use simple query results if they exist (more reliable)
     // If simple query has results, use those and enrich with additional data
@@ -521,10 +648,23 @@ try {
                 $paymentDate = date('Y-m-d H:i:s', strtotime($simplePayment['payment_date']));
             }
             
+            
+            // Get due date from payment_breakdowns table (most accurate)
             $dueDate = '';
-            if ($roomInfo && !empty($roomInfo['start_date'])) {
-                $monthsPaid = intval($simplePayment['months_paid'] ?? 1);
-                $dueDate = date('Y-m-d', strtotime($roomInfo['start_date'] . " +{$monthsPaid} months"));
+            if (!empty($simplePayment['booking_id'])) {
+                $dueDateSql = "SELECT MIN(pb.due_date) as next_due_date
+                               FROM payment_breakdowns pb
+                               WHERE pb.booking_id = :booking_id
+                                 AND pb.is_paid = 0
+                                 AND pb.due_date IS NOT NULL
+                               ORDER BY pb.due_date ASC
+                               LIMIT 1";
+                $dueDateStmt = $pdo->prepare($dueDateSql);
+                $dueDateStmt->execute([':booking_id' => $simplePayment['booking_id']]);
+                $dueDateResult = $dueDateStmt->fetch(PDO::FETCH_ASSOC);
+                if ($dueDateResult && !empty($dueDateResult['next_due_date'])) {
+                    $dueDate = $dueDateResult['next_due_date'];
+                }
             }
             
             // Get payment proof URL (prefer receipt_url, fallback to payment_proof)
@@ -569,11 +709,6 @@ try {
                 'payment_proof' => $paymentProofUrl,
                 'receipt_url' => $simplePayment['receipt_url'] ?? '',
                 'profile_picture' => $profilePicture,
-                'payment_month' => $simplePayment['payment_month'] ?? '',
-                'payment_year' => intval($simplePayment['payment_year'] ?? 0),
-                'is_monthly_payment' => intval($simplePayment['is_monthly_payment'] ?? 1),
-                'months_paid' => intval($simplePayment['months_paid'] ?? 1),
-                'total_months_required' => intval($simplePayment['total_months_required'] ?? 0),
                 // Payment progress information from payment_breakdowns
                 'total_periods' => $progress['total_periods'],
                 'paid_periods' => $progress['paid_periods'],
@@ -668,11 +803,6 @@ try {
                 'payment_proof' => $paymentProofUrl,
                 'receipt_url' => $payment['receipt_url'] ?? '',
                 'profile_picture' => $payment['profile_picture'] ?? '',
-                'payment_month' => $payment['payment_month'] ?? '',
-                'payment_year' => intval($payment['payment_year'] ?? 0),
-                'is_monthly_payment' => intval($payment['is_monthly_payment'] ?? 1),
-                'months_paid' => intval($payment['months_paid'] ?? 1),
-                'total_months_required' => intval($payment['total_months_required'] ?? 0),
                 // Payment progress information from payment_breakdowns
                 'total_periods' => $progress['total_periods'],
                 'paid_periods' => $progress['paid_periods'],

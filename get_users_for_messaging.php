@@ -70,15 +70,16 @@ try {
             FROM active_boarders ab
             JOIN users u ON ab.user_id = u.user_id
             JOIN registrations r ON u.reg_id = r.id
-            JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+            INNER JOIN room_units ru ON ab.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+
             LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
-            WHERE ab.boarding_house_id IN (
-                SELECT bh_id FROM boarding_houses WHERE user_id = ?
-            )
-            AND ab.user_id != ? 
-            AND ab.status = 'active'
-            AND r.role = 'Boarder' 
-            AND r.status = 'approved'
+            WHERE bh.user_id = ? -- owner_id
+              AND ab.user_id != ? 
+              AND ab.status = 'Active'
+              AND r.role = 'Boarder' 
+              AND r.status = 'approved'
             ORDER BY r.first_name ASC
         ");
         
@@ -128,12 +129,14 @@ try {
         // BOARDER SIDE: Get owner and other boarders from the same boarding house
         $stmt = $db->prepare("
             SELECT 
-                ab.boarding_house_id,
+                bh.bh_id as boarding_house_id,
                 bh.bh_name,
                 bh.bh_address,
                 bh.user_id as owner_id
             FROM active_boarders ab
-            JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+            INNER JOIN room_units ru ON ab.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             WHERE ab.user_id = ? AND ab.status = 'active'
         ");
         $stmt->execute([$current_user_id]);
@@ -240,11 +243,10 @@ try {
                 JOIN users u ON ab.user_id = u.user_id
                 JOIN registrations r ON u.reg_id = r.id
                 LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
-                WHERE ab.boarding_house_id = ? 
-                AND ab.user_id != ? 
-                AND ab.status = 'active'
-                AND r.role = 'Boarder' 
-                AND r.status = 'approved'
+                INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                WHERE bh.bh_id = ? AND ab.user_id != ? AND ab.status = 'Active' AND r.role = 'Boarder' AND r.status = 'approved'
                 ORDER BY r.first_name ASC
             ");
             $stmt->execute([$boarder_bh['boarding_house_id'], $current_user_id]);

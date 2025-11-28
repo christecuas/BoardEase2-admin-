@@ -469708,3 +469708,2501 @@ Stack trace:
 [27-Nov-2025 16:29:28 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
 [27-Nov-2025 16:29:28 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
 [27-Nov-2025 16:29:28 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 09:27:18 Europe/Berlin] ============================================
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 09:27:18 Europe/Berlin] ============================================
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 09:27:18 Europe/Berlin]   - user_id: 28 (type: integer)
+[28-Nov-2025 09:27:18 Europe/Berlin]   - title: Payment Overdue
+[28-Nov-2025 09:27:18 Europe/Berlin]   - message: Your payment of ₱5,000.00 is overdue. Please settle it as soon as possible
+[28-Nov-2025 09:27:18 Europe/Berlin]   - type: payment
+[28-Nov-2025 09:27:18 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Resolving user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 28 (type: integer)
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Resolved user_id: '28'
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Using resolved user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Executing with params: user_id=28, title='Payment Overdue', message='Your payment of ₱5,000.00 is overdue. Please settle it as soon as possible', type='payment'
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 805
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 09:27:18 Europe/Berlin]   - notif_id: 805
+[28-Nov-2025 09:27:18 Europe/Berlin]   - user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin]   - notif_title: Payment Overdue
+[28-Nov-2025 09:27:18 Europe/Berlin]   - notif_message: Your payment of ₱5,000.00 is overdue. Please settle it as soon as possible
+[28-Nov-2025 09:27:18 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Executing user query for user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 09:27:18 Europe/Berlin]   - user_id: 28
+[28-Nov-2025 09:27:18 Europe/Berlin]   - reg_id: 51
+[28-Nov-2025 09:27:18 Europe/Berlin]   - name: Lizz Uy
+[28-Nov-2025 09:27:18 Europe/Berlin]   - email: hannacuas536@gmail.com
+[28-Nov-2025 09:27:18 Europe/Berlin]   - role: Boarder
+[28-Nov-2025 09:27:18 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 09:27:18 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 09:27:18 Europe/Berlin]   - device_token: dQgLH-01QPiODdBeGad6...
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 09:27:18 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 09:27:19 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318439334381%308096db308096db"}}
+[28-Nov-2025 09:27:19 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":805,"user_id":"28","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318439334381%308096db308096db"}}}}
+[28-Nov-2025 09:27:19 Europe/Berlin] ============================================
+[28-Nov-2025 09:27:19 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 09:27:19 Europe/Berlin] ============================================
+[28-Nov-2025 09:27:19 Europe/Berlin] auto_mark_overdue.php - Notification sent to user_id: 28, amount: ₱5,000.00, room: PR0-2
+[28-Nov-2025 09:27:19 Europe/Berlin] auto_mark_overdue.php - Summary: 1 notifications sent, 0 notifications skipped (already sent today)
+[28-Nov-2025 09:32:10 Europe/Berlin] auto_notify_payment_reminders.php - payment_reminder_logs table created or already exists
+[28-Nov-2025 09:32:10 Europe/Berlin] === Payment Reminder Check Started ===
+[28-Nov-2025 09:32:10 Europe/Berlin] Date: 2025-11-28
+[28-Nov-2025 09:32:10 Europe/Berlin] Checking for payment breakdowns with due dates between today and 5 days from now...
+[28-Nov-2025 09:32:10 Europe/Berlin] Database Analysis:
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Total breakdowns: 19
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Unpaid breakdowns: 7
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Unpaid (not cancelled): 7
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Unpaid with due date: 7
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Unpaid with future due date: 6
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Unpaid within 5 days: 0
+[28-Nov-2025 09:32:10 Europe/Berlin] Found 0 payment breakdown(s) to check
+[28-Nov-2025 09:32:10 Europe/Berlin] No breakdowns found matching criteria.
+[28-Nov-2025 09:32:10 Europe/Berlin] Checking database for unpaid breakdowns...
+[28-Nov-2025 09:32:10 Europe/Berlin] Database Statistics:
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Total unpaid breakdowns: 7
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Breakdowns with due dates: 7
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Breakdowns with future due dates: 6
+[28-Nov-2025 09:32:10 Europe/Berlin]   - Breakdowns within 5 days: 1
+[28-Nov-2025 09:32:10 Europe/Berlin] Example unpaid breakdowns (first 5):
+[28-Nov-2025 09:32:10 Europe/Berlin]   - ID: 28, Due: 2025-11-24 (4 days ago), Amount: ₱5,000.00, Status: Overdue
+[28-Nov-2025 09:32:10 Europe/Berlin]   - ID: 20, Due: 2025-12-11 (in 13 days), Amount: ₱1,000.00, Status: Pending
+[28-Nov-2025 09:32:10 Europe/Berlin]   - ID: 21, Due: 2026-01-10 (in 43 days), Amount: ₱733.33, Status: Pending
+[28-Nov-2025 09:32:10 Europe/Berlin]   - ID: 29, Due: 2026-01-13 (in 46 days), Amount: ₱5,000.00, Status: Pending
+[28-Nov-2025 09:32:10 Europe/Berlin]   - ID: 56, Due: 2026-01-16 (in 49 days), Amount: ₱2,666.67, Status: Pending
+[28-Nov-2025 09:32:10 Europe/Berlin] === Payment Reminder Check Completed ===
+[28-Nov-2025 09:32:10 Europe/Berlin] Summary: Sent 0 reminder(s), Failed: 0
+[28-Nov-2025 09:32:10 Europe/Berlin] =========================================
+[28-Nov-2025 09:32:27 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 09:32:27 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 09:32:27 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 09:32:29 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 09:32:29 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 09:35:28 Europe/Berlin] === CREATE_BOOKING.PHP ACCESSED ===
+[28-Nov-2025 09:35:28 Europe/Berlin] Timestamp: 2025-11-28 09:35:28
+[28-Nov-2025 09:35:28 Europe/Berlin] Request Method: POST
+[28-Nov-2025 09:35:28 Europe/Berlin] Request URI: /BoardEase2/create_booking.php
+[28-Nov-2025 09:35:30 Europe/Berlin] create_booking.php - Received data: room_id=89, user_id=35, start_date=2025-11-28, end_date=2025-11-29, total_amount=166.67, number_of_days=1
+[28-Nov-2025 09:35:30 Europe/Berlin] Payment breakdown JSON length: 155
+[28-Nov-2025 09:35:30 Europe/Berlin] === BOOKING PROCESS START ===
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 1: Checking room unit with room_id: 89
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 1 Result: Room unit found - room_id: 89, bhr_id: 49, status: Available
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 1 Success: Room unit is Available, proceeding with booking
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 2: Checking for overlapping bookings...
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 2 Success: No overlapping bookings found
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 3: Attempting to reserve room by updating status to 'Occupied' (atomic operation)...
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 3 Result: Status update attempted - rows affected: 1
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 3 Success: Room reserved (status updated to 'Occupied')
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 4: Creating booking - room_id: 89, user_id: 35, start_date: 2025-11-28, end_date: 2025-11-29
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 4 Result: Booking created with booking_id: 50
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5: Processing payment proof upload...
+[28-Nov-2025 09:35:30 Europe/Berlin] Payment proof saved successfully: uploads/payment_proofs/payment_proof_50_1764318930.jpg
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5: Looking up owner for bhr_id: 49
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5 Result: boarding_houses.user_id (owner_user_id)=29, owner_reg_id=53
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5 Details: owner_email=namzbaer@gmail.com, owner_role=BH Owner, owner_status=Active
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5a: Verifying owner user_id: 29 exists in users table
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 5a Success: Owner verified - user_id: 29, reg_id: 53, status: Active
+[28-Nov-2025 09:35:30 Europe/Berlin] Using calculated total_amount from Android: 166.67
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 6: Creating payment record...
+[28-Nov-2025 09:35:30 Europe/Berlin] Payment record created successfully - payment_id: 58, amount: 166.67
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 7: Processing payment breakdown...
+[28-Nov-2025 09:35:30 Europe/Berlin] Saving payment breakdown - 1 periods
+[28-Nov-2025 09:35:30 Europe/Berlin] payment_breakdowns table exists
+[28-Nov-2025 09:35:30 Europe/Berlin] Saved breakdown period 0: 1 day - Amount: 166.66666666667 - Selected: Yes
+[28-Nov-2025 09:35:30 Europe/Berlin] Payment breakdown saved successfully - 1 periods
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 8: Committing transaction for booking_id: 50
+[28-Nov-2025 09:35:30 Europe/Berlin] Step 8 Success: Transaction committed successfully
+[28-Nov-2025 09:35:32 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 09:35:32 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 09:35:32 Europe/Berlin]   - user_id: 29 (type: integer)
+[28-Nov-2025 09:35:32 Europe/Berlin]   - title: New Payment Pending
+[28-Nov-2025 09:35:32 Europe/Berlin]   - message: A new payment of ₱166.67 is pending for Payment for Private Room 01 at Kikyam BH
+[28-Nov-2025 09:35:32 Europe/Berlin]   - type: payment
+[28-Nov-2025 09:35:32 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Resolving user_id: 29
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 29 (type: integer)
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 29
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 29
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Resolved user_id: '29'
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Using resolved user_id: 29
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 09:35:32 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Executing with params: user_id=29, title='New Payment Pending', message='A new payment of ₱166.67 is pending for Payment for Private Room 01 at Kikyam BH', type='payment'
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 807
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_id: 807
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_title: New Payment Pending
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_message: A new payment of ₱166.67 is pending for Payment for Private Room 01 at Kikyam BH
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Executing user query for user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin]   - reg_id: 53
+[28-Nov-2025 09:35:33 Europe/Berlin]   - name: Namz Baer
+[28-Nov-2025 09:35:33 Europe/Berlin]   - email: namzbaer@gmail.com
+[28-Nov-2025 09:35:33 Europe/Berlin]   - role: BH Owner
+[28-Nov-2025 09:35:33 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 09:35:33 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318933278270%308096db308096db"}}
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":807,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318933278270%308096db308096db"}}}}
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] Notification sent to owner (user_id: 29) about new payment pending
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] BOOKING NOTIFICATION PROCESS START
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9: Sending notification to owner about new booking...
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-0: Booking ID: 50, Owner ID: 29, Owner Reg ID: 53
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-1: Successfully loaded activity_notifications.php
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2: Querying booking details for booking_id: 50
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2 Success: Booking details retrieved
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2a: boarder_name: Ruel Cuas
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2b: room_name: Private Room 01
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2c: bh_name: Kikyam BH
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2d: boarder_user_id: 35
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-2e: owner_user_id_from_bh: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-3: Owner ID check - ownerId: 29, ownerRegId: 53
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-4: Verifying owner user_id: 29 exists in users table
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-4 Success: Owner verified - user_id: 29, email: namzbaer@gmail.com, role: BH Owner
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5: All checks passed, calling ActivityNotifications::notifyBookingCreated
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5a: Parameters - owner_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5b: Parameters - boarder_name: Ruel Cuas
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5c: Parameters - room_name: Private Room 01
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5d: Parameters - booking_id: 50
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5e: Parameters - bh_name: Kikyam BH
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5f: Login.php would return user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-5f: Owner user_id matches login user_id - OK
+[28-Nov-2025 09:35:33 Europe/Berlin] Step 9-6: Calling ActivityNotifications::notifyBookingCreated()...
+[28-Nov-2025 09:35:33 Europe/Berlin] ActivityNotifications::notifyBookingCreated() called
+[28-Nov-2025 09:35:33 Europe/Berlin]   - owner_id: 29 (type: integer)
+[28-Nov-2025 09:35:33 Europe/Berlin]   - booking_details: {"boarder_name":"Ruel Cuas","room_name":"Private Room 01","booking_id":"50","bh_name":"Kikyam BH"}
+[28-Nov-2025 09:35:33 Europe/Berlin]   - title: New Booking Request
+[28-Nov-2025 09:35:33 Europe/Berlin]   - message: You have a new booking request from for Private Room 01
+[28-Nov-2025 09:35:33 Europe/Berlin]   - Calling NotificationHelper::createNotification()...
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 09:35:33 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_id: 29 (type: integer)
+[28-Nov-2025 09:35:33 Europe/Berlin]   - title: New Booking Request
+[28-Nov-2025 09:35:33 Europe/Berlin]   - message: You have a new booking request from for Private Room 01
+[28-Nov-2025 09:35:33 Europe/Berlin]   - type: booking
+[28-Nov-2025 09:35:33 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Resolving user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 29 (type: integer)
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Resolved user_id: '29'
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Using resolved user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper: Creating notification for user_id=29, type=booking, title='New Booking Request'
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Executing with params: user_id=29, title='New Booking Request', message='You have a new booking request from for Private Room 01', type='booking'
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 808
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_id: 808
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_title: New Booking Request
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_message: You have a new booking request from for Private Room 01
+[28-Nov-2025 09:35:33 Europe/Berlin]   - notif_type: booking
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Executing user query for user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 09:35:33 Europe/Berlin]   - reg_id: 53
+[28-Nov-2025 09:35:33 Europe/Berlin]   - name: Namz Baer
+[28-Nov-2025 09:35:33 Europe/Berlin]   - email: namzbaer@gmail.com
+[28-Nov-2025 09:35:33 Europe/Berlin]   - role: BH Owner
+[28-Nov-2025 09:35:33 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 09:35:33 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 09:35:33 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 09:35:33 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 09:35:34 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318934009008%308096db308096db"}}
+[28-Nov-2025 09:35:34 Europe/Berlin] NotificationHelper: FCM sent to user_id=29, device_token=fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 09:35:34 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":808,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318934009008%308096db308096db"}}}}
+[28-Nov-2025 09:35:34 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:34 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 09:35:34 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:34 Europe/Berlin]   - NotificationHelper::createNotification() returned: {"success":true,"message":"Notification created successfully","data":{"notif_id":808,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318934009008%308096db308096db"}}}}
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-7: Notification result received
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-7a: Result type: array
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-7b: Result: {"success":true,"message":"Notification created successfully","data":{"notif_id":808,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764318934009008%308096db308096db"}}}}
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-8: Notification result indicates SUCCESS
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-8a: Notification sent successfully to owner (user_id: 29) about new booking
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9: Verifying notification in database...
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9 SUCCESS: Notification verified in database
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9a: notif_id: 808
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9b: user_id: 29
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9c: notif_title: New Booking Request
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9d: notif_message: You have a new booking request from for Private Room 01
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9e: notif_type: booking
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9f: notif_created_at: 2025-11-28 16:35:33
+[28-Nov-2025 09:35:34 Europe/Berlin] Step 9-9g: Total booking notifications for owner user_id 29: 29
+[28-Nov-2025 09:35:34 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:34 Europe/Berlin] BOOKING NOTIFICATION PROCESS END
+[28-Nov-2025 09:35:34 Europe/Berlin] ============================================
+[28-Nov-2025 09:35:34 Europe/Berlin] === BOOKING PROCESS COMPLETE - SUCCESS ===
+[28-Nov-2025 09:35:34 Europe/Berlin] Final result: booking_id=50, room_id=89, user_id=35, payment_id=58
+[28-Nov-2025 10:13:02 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=all
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"all"}
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Pending"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Requested status: all
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Query (via BH) returned 13 payments
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Final simple query returned 13 payments
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Pending","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 16:35:30","actual_owner_id":29}
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Main query returned 13 payments
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Simple query returned 13 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Formatted 13 payments for response
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - After deduplication: 11 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:13:04 Europe/Berlin] get_payment_status.php - Final response count: 11
+[28-Nov-2025 10:13:09 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=overdue
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"overdue"}
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Pending"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND COALESCE(p.payment_status, 'Pending') = 'Pending' 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Requested status: overdue
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Query (via BH) returned 0 payments
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - No payments found via boarding houses, trying direct owner_id match...
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Query (direct) returned 0 payments
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Final simple query returned 0 payments
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Direct check for owner_id 29: [{"payment_id":58,"owner_id":29,"payment_status":"Pending"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - All owner_ids in payments table: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' 
+                  AND EXISTS (
+                      SELECT 1 FROM payment_breakdowns pb 
+                      WHERE pb.booking_id = p.booking_id 
+                      AND (
+                          pb.payment_status = 'Overdue' 
+                          OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                      )
+                  ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Main query returned 0 payments
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Sample payments (any owner): [{"payment_id":26,"owner_id":29,"user_id":59,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"user_id":44,"payment_status":"Partially Paid"},{"payment_id":28,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Simple check (with JOINs): [{"payment_id":26,"owner_id":29,"user_id":59,"payment_status":"Fully Paid","boarder_user_id":59,"reg_id":105},{"payment_id":27,"owner_id":29,"user_id":44,"payment_status":"Partially Paid","boarder_user_id":44,"reg_id":103},{"payment_id":28,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79},{"payment_id":29,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79},{"payment_id":30,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79}]
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Fetching overdue breakdowns for owner_id: 29
+[28-Nov-2025 10:13:11 Europe/Berlin] DIAGNOSTIC for Breakdown 28: {"breakdown_id":28,"booking_id":30,"payment_id":33,"room_id":86,"bhr_id":49,"bh_id":87,"bh_owner_id":29,"payment_owner_id":29,"current_owner_id":"29"}
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Found 0 overdue breakdowns
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Formatted 0 payments for response
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - After deduplication: 0 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - Final response count: 0
+[28-Nov-2025 10:13:11 Europe/Berlin] get_payment_status.php - WARNING: Returning 0 payments for owner_id 29 with status overdue
+[28-Nov-2025 10:14:25 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=overdue
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"overdue"}
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Pending"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Requested status: overdue
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Query (via BH) returned 1 payments
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Final simple query returned 1 payments
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":33,"booking_id":30,"user_id":28,"owner_id":29,"payment_amount":"5000.00","payment_method":"Cash","payment_status":"Partially Paid","payment_date":"2025-11-13 11:04:04","notes":"Marked as paid by owner","payment_proof":"uploads\/payment_proofs\/payment_proof_30_1763003044.jpg","receipt_url":null,"created_at":"2025-11-13 11:04:04","updated_at":"2025-11-16 10:25:22","actual_owner_id":29}
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                  AND EXISTS (
+                      SELECT 1 FROM payment_breakdowns pb 
+                      WHERE pb.booking_id = p.booking_id 
+                      AND (
+                          pb.payment_status = 'Overdue' 
+                          OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                      )
+                  ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Main query returned 1 payments
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Fetching overdue breakdowns for owner_id: 29
+[28-Nov-2025 10:14:27 Europe/Berlin] DIAGNOSTIC for Breakdown 28: {"breakdown_id":28,"booking_id":30,"payment_id":33,"room_id":86,"bhr_id":49,"bh_id":87,"bh_owner_id":29,"payment_owner_id":29,"current_owner_id":"29"}
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Found 0 overdue breakdowns
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Simple query returned 1 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Formatted 1 payments for response
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - After deduplication: 1 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:14:27 Europe/Berlin] get_payment_status.php - Final response count: 1
+[28-Nov-2025 10:14:31 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=pending
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"pending"}
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Pending"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Requested status: pending
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Query (via BH) returned 1 payments
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Final simple query returned 1 payments
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Pending","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 16:35:30","actual_owner_id":29}
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Main query returned 1 payments
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Simple query returned 1 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Formatted 1 payments for response
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - After deduplication: 1 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:14:34 Europe/Berlin] get_payment_status.php - Final response count: 1
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 35 (type: integer)
+[28-Nov-2025 10:15:17 Europe/Berlin]   - title: Booking Approved
+[28-Nov-2025 10:15:17 Europe/Berlin]   - message: Your booking request for Private Room 01 has been checked and approved!
+[28-Nov-2025 10:15:17 Europe/Berlin]   - type: booking
+[28-Nov-2025 10:15:17 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Resolving user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 35 (type: integer)
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Resolved user_id: '35'
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Using resolved user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper: Creating notification for user_id=35, type=booking, title='Booking Approved'
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Executing with params: user_id=35, title='Booking Approved', message='Your booking request for Private Room 01 has been checked and approved!', type='booking'
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 810
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_id: 810
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_title: Booking Approved
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_message: Your booking request for Private Room 01 has been checked and approved!
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_type: booking
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Executing user query for user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 35
+[28-Nov-2025 10:15:17 Europe/Berlin]   - reg_id: 79
+[28-Nov-2025 10:15:17 Europe/Berlin]   - name: Ruel Cuas
+[28-Nov-2025 10:15:17 Europe/Berlin]   - email: cuasruel028@gmail.com
+[28-Nov-2025 10:15:17 Europe/Berlin]   - role: Boarder
+[28-Nov-2025 10:15:17 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 10:15:17 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321317302227%308096db308096db"}}
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper: FCM sent to user_id=35, device_token=fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":810,"user_id":"35","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321317302227%308096db308096db"}}}}
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] Booking approval notification sent to boarder (user_id: 35)
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 10:15:17 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 29 (type: integer)
+[28-Nov-2025 10:15:17 Europe/Berlin]   - title: Payment Received
+[28-Nov-2025 10:15:17 Europe/Berlin]   - message: Payment of ₱166.67 has been received for from boarder for Private Room 01 at Kikyam BH. Status: Fully Paid
+[28-Nov-2025 10:15:17 Europe/Berlin]   - type: payment
+[28-Nov-2025 10:15:17 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Resolving user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 29 (type: integer)
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Resolved user_id: '29'
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Using resolved user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Executing with params: user_id=29, title='Payment Received', message='Payment of ₱166.67 has been received for from boarder for Private Room 01 at Kikyam BH. Status: Fully Paid', type='payment'
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 811
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_id: 811
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_title: Payment Received
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_message: Payment of ₱166.67 has been received for from boarder for Private Room 01 at Kikyam BH. Status: Fully Paid
+[28-Nov-2025 10:15:17 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Executing user query for user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 10:15:17 Europe/Berlin]   - reg_id: 53
+[28-Nov-2025 10:15:17 Europe/Berlin]   - name: Namz Baer
+[28-Nov-2025 10:15:17 Europe/Berlin]   - email: namzbaer@gmail.com
+[28-Nov-2025 10:15:17 Europe/Berlin]   - role: BH Owner
+[28-Nov-2025 10:15:17 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 10:15:17 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 10:15:17 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 10:15:17 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321317909890%308096db308096db"}}
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":811,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321317909890%308096db308096db"}}}}
+[28-Nov-2025 10:15:18 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 10:15:18 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:18 Europe/Berlin] Payment Received notification sent to owner (user_id: 29, amount: 166.67)
+[28-Nov-2025 10:15:18 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 10:15:18 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 10:15:18 Europe/Berlin]   - user_id: 35 (type: integer)
+[28-Nov-2025 10:15:18 Europe/Berlin]   - title: Payment Status Updated
+[28-Nov-2025 10:15:18 Europe/Berlin]   - message: Your payment of ₱166.67 status has been updated to: Fully Paid
+[28-Nov-2025 10:15:18 Europe/Berlin]   - type: payment
+[28-Nov-2025 10:15:18 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Resolving user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 35 (type: integer)
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Resolved user_id: '35'
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Using resolved user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Executing with params: user_id=35, title='Payment Status Updated', message='Your payment of ₱166.67 status has been updated to: Fully Paid', type='payment'
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 812
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 10:15:18 Europe/Berlin]   - notif_id: 812
+[28-Nov-2025 10:15:18 Europe/Berlin]   - user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin]   - notif_title: Payment Status Updated
+[28-Nov-2025 10:15:18 Europe/Berlin]   - notif_message: Your payment of ₱166.67 status has been updated to: Fully Paid
+[28-Nov-2025 10:15:18 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Executing user query for user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 10:15:18 Europe/Berlin]   - user_id: 35
+[28-Nov-2025 10:15:18 Europe/Berlin]   - reg_id: 79
+[28-Nov-2025 10:15:18 Europe/Berlin]   - name: Ruel Cuas
+[28-Nov-2025 10:15:18 Europe/Berlin]   - email: cuasruel028@gmail.com
+[28-Nov-2025 10:15:18 Europe/Berlin]   - role: Boarder
+[28-Nov-2025 10:15:18 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 10:15:18 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 10:15:18 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 10:15:18 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 10:15:19 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321319477308%308096db308096db"}}
+[28-Nov-2025 10:15:19 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":812,"user_id":"35","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764321319477308%308096db308096db"}}}}
+[28-Nov-2025 10:15:19 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:19 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 10:15:19 Europe/Berlin] ============================================
+[28-Nov-2025 10:15:19 Europe/Berlin] Payment Status Updated notification sent to boarder (user_id: 35, status: Fully Paid)
+[28-Nov-2025 10:15:39 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=all
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"all"}
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Requested status: all
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Query (via BH) returned 13 payments
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Final simple query returned 13 payments
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Fully Paid","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 17:15:15","actual_owner_id":29}
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Main query returned 13 payments
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Simple query returned 13 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Formatted 13 payments for response
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - After deduplication: 11 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Final response count: 11
+[28-Nov-2025 10:15:41 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=all
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"all"}
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Requested status: all
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Query (via BH) returned 13 payments
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Final simple query returned 13 payments
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Fully Paid","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 17:15:15","actual_owner_id":29}
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Main query returned 13 payments
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Simple query returned 13 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Formatted 13 payments for response
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - After deduplication: 11 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:15:44 Europe/Berlin] get_payment_status.php - Final response count: 11
+[28-Nov-2025 10:15:57 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=pending
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"pending"}
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Requested status: pending
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Query (via BH) returned 0 payments
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - No payments found via boarding houses, trying direct owner_id match...
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Query (direct) returned 0 payments
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Final simple query returned 0 payments
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Direct check for owner_id 29: [{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - All owner_ids in payments table: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') = 'Pending' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Main query returned 0 payments
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Sample payments (any owner): [{"payment_id":26,"owner_id":29,"user_id":59,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"user_id":44,"payment_status":"Partially Paid"},{"payment_id":28,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"user_id":35,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Simple check (with JOINs): [{"payment_id":26,"owner_id":29,"user_id":59,"payment_status":"Fully Paid","boarder_user_id":59,"reg_id":105},{"payment_id":27,"owner_id":29,"user_id":44,"payment_status":"Partially Paid","boarder_user_id":44,"reg_id":103},{"payment_id":28,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79},{"payment_id":29,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79},{"payment_id":30,"owner_id":29,"user_id":35,"payment_status":"Fully Paid","boarder_user_id":35,"reg_id":79}]
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Formatted 0 payments for response
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - After deduplication: 0 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - Final response count: 0
+[28-Nov-2025 10:16:00 Europe/Berlin] get_payment_status.php - WARNING: Returning 0 payments for owner_id 29 with status pending
+[28-Nov-2025 10:16:04 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=fully_paid
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"fully_paid"}
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') IN ('Confirmed', 'Completed')) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') IN ('Confirmed', 'Completed')) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Requested status: fully_paid
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Query (via BH) returned 13 payments
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Final simple query returned 13 payments
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Fully Paid","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 17:15:15","actual_owner_id":29}
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(b.booking_status, 'Pending') IN ('Confirmed', 'Completed') ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Main query returned 13 payments
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Simple query returned 13 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Formatted 13 payments for response
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - After deduplication: 11 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Filtered to 8 fully paid bookings (Confirmed or Completed)
+[28-Nov-2025 10:16:06 Europe/Berlin] get_payment_status.php - Final response count: 8
+[28-Nov-2025 10:16:07 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=fully_paid
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"fully_paid"}
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') IN ('Confirmed', 'Completed')) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') IN ('Confirmed', 'Completed')) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Requested status: fully_paid
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Query (via BH) returned 13 payments
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Final simple query returned 13 payments
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Fully Paid","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 17:15:15","actual_owner_id":29}
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(b.booking_status, 'Pending') IN ('Confirmed', 'Completed') ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Main query returned 13 payments
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Simple query returned 13 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Formatted 13 payments for response
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - After deduplication: 11 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Filtered to 8 fully paid bookings (Confirmed or Completed)
+[28-Nov-2025 10:16:09 Europe/Berlin] get_payment_status.php - Final response count: 8
+[28-Nov-2025 10:17:13 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=remaining
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"remaining"}
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') = 'Confirmed') ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND EXISTS (SELECT 1 FROM bookings b2 WHERE b2.booking_id = p.booking_id AND COALESCE(b2.booking_status, 'Pending') = 'Confirmed') ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Requested status: remaining
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Query (via BH) returned 8 payments
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Final simple query returned 8 payments
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":58,"booking_id":50,"user_id":35,"owner_id":29,"payment_amount":"166.67","payment_method":"GCash","payment_status":"Fully Paid","payment_date":"2025-11-28 16:35:30","notes":null,"payment_proof":"uploads\/payment_proofs\/payment_proof_50_1764318930.jpg","receipt_url":null,"created_at":"2025-11-28 16:35:30","updated_at":"2025-11-28 17:15:15","actual_owner_id":29}
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(b.booking_status, 'Pending') = 'Confirmed' ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Main query returned 8 payments
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Simple query returned 8 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Formatted 8 payments for response
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - After deduplication: 6 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Filtered to 3 Confirmed bookings with remaining balance or Partially Paid status
+[28-Nov-2025 10:17:15 Europe/Berlin] get_payment_status.php - Final response count: 3
+[28-Nov-2025 10:17:17 Europe/Berlin] get_payment_status.php - Request received. GET: [], POST: []
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Request received: owner_id=29, status=overdue
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Full request data: {"owner_id":29,"status":"overdue"}
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (direct): 22
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Total payments found for owner_id 29 (via boarding houses): 13
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Payments by owner_id: [{"owner_id":1,"count":1},{"owner_id":29,"count":22}]
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Sample payments in database: [{"payment_id":32,"owner_id":1,"payment_status":"Pending"},{"payment_id":58,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":27,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":33,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":49,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":57,"owner_id":29,"payment_status":"Partially Paid"},{"payment_id":26,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":28,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":29,"owner_id":29,"payment_status":"Fully Paid"},{"payment_id":30,"owner_id":29,"payment_status":"Fully Paid"}]
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Simple query (direct): SELECT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+                  p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+                  p.receipt_url, p.created_at, p.updated_at
+                  FROM payments p
+                  WHERE p.owner_id = :owner_id AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Simple query (via BH): 
+        SELECT DISTINCT p.payment_id, p.booking_id, p.user_id, p.owner_id, p.payment_amount, 
+               p.payment_method, p.payment_status, p.payment_date, p.notes, p.payment_proof, 
+               p.receipt_url, p.created_at, p.updated_at,
+               bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                              AND EXISTS (
+                                  SELECT 1 FROM payment_breakdowns pb 
+                                  WHERE pb.booking_id = p.booking_id 
+                                  AND (
+                                      pb.payment_status = 'Overdue' 
+                                      OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                                  )
+                              ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Requested status: overdue
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Owner ID: 29
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Trying via boarding houses first...
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Query (via BH) returned 1 payments
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Final simple query returned 1 payments
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - First payment: {"payment_id":33,"booking_id":30,"user_id":28,"owner_id":29,"payment_amount":"5000.00","payment_method":"Cash","payment_status":"Partially Paid","payment_date":"2025-11-13 11:04:04","notes":"Marked as paid by owner","payment_proof":"uploads\/payment_proofs\/payment_proof_30_1763003044.jpg","receipt_url":null,"created_at":"2025-11-13 11:04:04","updated_at":"2025-11-16 10:25:22","actual_owner_id":29}
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Executing main query (via BH): 
+        SELECT
+            p.payment_id,
+            p.booking_id,
+            p.user_id,
+            p.owner_id,
+            p.payment_amount,
+            p.payment_method,
+            COALESCE(p.payment_status, 'Pending') as payment_status,
+            DATE_FORMAT(p.payment_date, '%Y-%m-%d %H:%i:%s') as payment_date,
+            p.notes,
+            p.payment_proof,
+            p.receipt_url,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') as created_at,
+            DATE_FORMAT(p.updated_at, '%Y-%m-%d %H:%i:%s') as updated_at,
+            -- Boarder information (use LEFT JOIN to handle missing data)
+            COALESCE(reg.first_name, '') as first_name,
+            COALESCE(reg.middle_name, '') as middle_name,
+            COALESCE(reg.last_name, '') as last_name,
+            COALESCE(reg.suffix, '') as suffix,
+            TRIM(CONCAT(COALESCE(reg.first_name, ''), ' ', COALESCE(reg.middle_name, ''), ' ', COALESCE(reg.last_name, ''), ' ', COALESCE(reg.suffix, ''))) as boarder_name,
+            COALESCE(reg.email, '') as boarder_email,
+            COALESCE(reg.phone, '') as boarder_phone,
+            COALESCE(u_boarder.profile_picture, '') as profile_picture,
+            -- Room information
+            COALESCE(bhr.room_name, 'Room N/A') as room_name,
+            COALESCE(bhr.room_category, 'Monthly') as rent_type,
+            COALESCE(bhr.price, p.payment_amount) as total_amount,
+            COALESCE(ru.room_number, '') as room_number,
+            CASE 
+                WHEN bhr.room_name IS NOT NULL AND ru.room_number IS NOT NULL 
+                THEN CONCAT(bhr.room_name, ' - Room ', ru.room_number)
+                WHEN bhr.room_name IS NOT NULL 
+                THEN bhr.room_name
+                ELSE CONCAT('Room ', COALESCE(CAST(ru.room_number AS CHAR), 'N/A'))
+            END as room,
+            -- Booking information
+            COALESCE(b.booking_status, 'Pending') as rental_status,
+            DATE_FORMAT(b.start_date, '%Y-%m-%d') as start_date,
+            DATE_FORMAT(b.end_date, '%Y-%m-%d') as end_date,
+            -- Get next due date from payment_breakdowns (earliest unpaid period)
+            (SELECT MIN(pb.due_date)
+             FROM payment_breakdowns pb
+             WHERE pb.booking_id = b.booking_id
+               AND pb.is_paid = 0
+               AND pb.due_date IS NOT NULL
+            ) as due_date,
+            -- Boarding house information
+            COALESCE(bh.bh_name, '') as boarding_house_name,
+            COALESCE(bh.bh_address, '') as boarding_house_address,
+            bh.user_id as actual_owner_id
+        FROM payments p
+        LEFT JOIN users u_boarder ON p.user_id = u_boarder.user_id
+        LEFT JOIN registrations reg ON u_boarder.reg_id = reg.id
+        LEFT JOIN bookings b ON p.booking_id = b.booking_id
+        LEFT JOIN room_units ru ON b.room_id = ru.room_id
+        LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.user_id = :owner_id
+     AND COALESCE(p.payment_status, 'Pending') IN ('Pending', 'Partially Paid') 
+                  AND EXISTS (
+                      SELECT 1 FROM payment_breakdowns pb 
+                      WHERE pb.booking_id = p.booking_id 
+                      AND (
+                          pb.payment_status = 'Overdue' 
+                          OR (pb.due_date < CURDATE() AND pb.is_paid = 0)
+                      )
+                  ) ORDER BY p.payment_date DESC, p.created_at DESC
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - With owner_id: 29
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Main query returned 1 payments
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Payment progress calculated for 6 bookings using payment_breakdowns
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Fetching overdue breakdowns for owner_id: 29
+[28-Nov-2025 10:17:19 Europe/Berlin] DIAGNOSTIC for Breakdown 28: {"breakdown_id":28,"booking_id":30,"payment_id":33,"room_id":86,"bhr_id":49,"bh_id":87,"bh_owner_id":29,"payment_owner_id":29,"current_owner_id":"29"}
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Found 0 overdue breakdowns
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Simple query returned 1 payments. Using simple query results and enriching with additional data.
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Formatted 1 payments for response
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - After deduplication: 1 payments (removed duplicates by booking_id)
+[28-Nov-2025 10:17:19 Europe/Berlin] get_payment_status.php - Final response count: 1
+[28-Nov-2025 12:25:57 Europe/Berlin] === GET_MESSAGES.PHP DEBUG START ===
+[28-Nov-2025 12:25:57 Europe/Berlin] Request URI: /BoardEase2/get_messages.php?user1_id=29&user2_id=38
+[28-Nov-2025 12:25:57 Europe/Berlin] GET parameters: Array
+(
+    [user1_id] => 29
+    [user2_id] => 38
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Parsed parameters - user1_id: 29, user2_id: 38, limit: 50, offset: 0
+[28-Nov-2025 12:25:57 Europe/Berlin] Database connection successful
+[28-Nov-2025 12:25:57 Europe/Berlin] SQL Query: 
+        SELECT 
+            m.message_id,
+            m.sender_id,
+            m.receiver_id,
+            m.msg_text as message,
+            m.msg_timestamp as timestamp,
+            m.msg_status as status
+        FROM messages m
+        WHERE (m.sender_id = ? AND m.receiver_id = ?) 
+           OR (m.sender_id = ? AND m.receiver_id = ?)
+        AND m.msg_status != 'Deleted'
+        ORDER BY m.msg_timestamp DESC
+        LIMIT 50 OFFSET 0
+[28-Nov-2025 12:25:57 Europe/Berlin] Query parameters: user1_id=29, user2_id=38, user2_id=38, user1_id=29
+[28-Nov-2025 12:25:57 Europe/Berlin] Raw messages count: 11
+[28-Nov-2025 12:25:57 Europe/Berlin] Raw messages data: Array
+(
+    [0] => Array
+        (
+            [message_id] => 313
+            [sender_id] => 29
+            [receiver_id] => 38
+            [message] => Hi
+            [timestamp] => 2025-11-20 13:17:34
+            [status] => Sent
+        )
+
+    [1] => Array
+        (
+            [message_id] => 312
+            [sender_id] => 29
+            [receiver_id] => 38
+            [message] => P*******a mo
+            [timestamp] => 2025-11-20 13:17:17
+            [status] => Sent
+        )
+
+    [2] => Array
+        (
+            [message_id] => 311
+            [sender_id] => 29
+            [receiver_id] => 38
+            [message] => Putangina mo
+            [timestamp] => 2025-11-20 13:16:54
+            [status] => Sent
+        )
+
+    [3] => Array
+        (
+            [message_id] => 310
+            [sender_id] => 29
+            [receiver_id] => 38
+            [message] => B**o ka
+            [timestamp] => 2025-11-20 13:16:06
+            [status] => Sent
+        )
+
+    [4] => Array
+        (
+            [message_id] => 308
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj
+            [timestamp] => 2025-11-19 21:31:50
+            [status] => Read
+        )
+
+    [5] => Array
+        (
+            [message_id] => 307
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => b**o
+            [timestamp] => 2025-11-19 21:19:41
+            [status] => Read
+        )
+
+    [6] => Array
+        (
+            [message_id] => 306
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => b**o
+            [timestamp] => 2025-11-19 21:19:27
+            [status] => Read
+        )
+
+    [7] => Array
+        (
+            [message_id] => 305
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => yawa
+            [timestamp] => 2025-11-19 21:19:19
+            [status] => Read
+        )
+
+    [8] => Array
+        (
+            [message_id] => 304
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => H**lo
+            [timestamp] => 2025-11-19 21:19:11
+            [status] => Read
+        )
+
+    [9] => Array
+        (
+            [message_id] => 303
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => hii
+            [timestamp] => 2025-11-19 20:58:11
+            [status] => Read
+        )
+
+    [10] => Array
+        (
+            [message_id] => 298
+            [sender_id] => 38
+            [receiver_id] => 29
+            [message] => hi
+            [timestamp] => 2025-11-19 19:59:19
+            [status] => Read
+        )
+
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Count SQL: 
+        SELECT COUNT(*) as total_count
+        FROM messages m
+        WHERE (m.sender_id = ? AND m.receiver_id = ?)
+           OR (m.sender_id = ? AND m.receiver_id = ?)
+        AND m.msg_status != 'Deleted'
+    
+[28-Nov-2025 12:25:57 Europe/Berlin] Total message count: 11
+[28-Nov-2025 12:25:57 Europe/Berlin] Starting to format 11 messages
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 0: Array
+(
+    [message_id] => 313
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => Hi
+    [timestamp] => 2025-11-20 13:17:34
+    [status] => Sent
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 20, 1:17 PM from original: 2025-11-20 13:17:34
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 313
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => Hi
+    [timestamp] => Nov 20, 1:17 PM
+    [original_timestamp] => 2025-11-20 13:17:34
+    [status] => Sent
+    [sender_name] => Namz Baer
+    [receiver_name] => John Mark Sagetarios
+    [is_from_current_user] => 1
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 1: Array
+(
+    [message_id] => 312
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => P*******a mo
+    [timestamp] => 2025-11-20 13:17:17
+    [status] => Sent
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 20, 1:17 PM from original: 2025-11-20 13:17:17
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 312
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => P*******a mo
+    [timestamp] => Nov 20, 1:17 PM
+    [original_timestamp] => 2025-11-20 13:17:17
+    [status] => Sent
+    [sender_name] => Namz Baer
+    [receiver_name] => John Mark Sagetarios
+    [is_from_current_user] => 1
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 2: Array
+(
+    [message_id] => 311
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => Putangina mo
+    [timestamp] => 2025-11-20 13:16:54
+    [status] => Sent
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 20, 1:16 PM from original: 2025-11-20 13:16:54
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 311
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => Putangina mo
+    [timestamp] => Nov 20, 1:16 PM
+    [original_timestamp] => 2025-11-20 13:16:54
+    [status] => Sent
+    [sender_name] => Namz Baer
+    [receiver_name] => John Mark Sagetarios
+    [is_from_current_user] => 1
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 3: Array
+(
+    [message_id] => 310
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => B**o ka
+    [timestamp] => 2025-11-20 13:16:06
+    [status] => Sent
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 20, 1:16 PM from original: 2025-11-20 13:16:06
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 310
+    [sender_id] => 29
+    [receiver_id] => 38
+    [message] => B**o ka
+    [timestamp] => Nov 20, 1:16 PM
+    [original_timestamp] => 2025-11-20 13:16:06
+    [status] => Sent
+    [sender_name] => Namz Baer
+    [receiver_name] => John Mark Sagetarios
+    [is_from_current_user] => 1
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 4: Array
+(
+    [message_id] => 308
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj
+    [timestamp] => 2025-11-19 21:31:50
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 9:31 PM from original: 2025-11-19 21:31:50
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 308
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj
+    [timestamp] => Nov 19, 9:31 PM
+    [original_timestamp] => 2025-11-19 21:31:50
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 5: Array
+(
+    [message_id] => 307
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => b**o
+    [timestamp] => 2025-11-19 21:19:41
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 9:19 PM from original: 2025-11-19 21:19:41
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 307
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => b**o
+    [timestamp] => Nov 19, 9:19 PM
+    [original_timestamp] => 2025-11-19 21:19:41
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 6: Array
+(
+    [message_id] => 306
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => b**o
+    [timestamp] => 2025-11-19 21:19:27
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 9:19 PM from original: 2025-11-19 21:19:27
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 306
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => b**o
+    [timestamp] => Nov 19, 9:19 PM
+    [original_timestamp] => 2025-11-19 21:19:27
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 7: Array
+(
+    [message_id] => 305
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => yawa
+    [timestamp] => 2025-11-19 21:19:19
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 9:19 PM from original: 2025-11-19 21:19:19
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 305
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => yawa
+    [timestamp] => Nov 19, 9:19 PM
+    [original_timestamp] => 2025-11-19 21:19:19
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 8: Array
+(
+    [message_id] => 304
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => H**lo
+    [timestamp] => 2025-11-19 21:19:11
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 9:19 PM from original: 2025-11-19 21:19:11
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 304
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => H**lo
+    [timestamp] => Nov 19, 9:19 PM
+    [original_timestamp] => 2025-11-19 21:19:11
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 9: Array
+(
+    [message_id] => 303
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => hii
+    [timestamp] => 2025-11-19 20:58:11
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 8:58 PM from original: 2025-11-19 20:58:11
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 303
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => hii
+    [timestamp] => Nov 19, 8:58 PM
+    [original_timestamp] => 2025-11-19 20:58:11
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Processing message 10: Array
+(
+    [message_id] => 298
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => hi
+    [timestamp] => 2025-11-19 19:59:19
+    [status] => Read
+)
+
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender SQL: 
+            SELECT r.first_name, r.last_name 
+            FROM users u 
+            JOIN registrations r ON u.reg_id = r.id 
+            WHERE u.user_id = ?
+         with sender_id: 38
+[28-Nov-2025 12:25:57 Europe/Berlin] Sender found: John Mark Sagetarios
+[28-Nov-2025 12:25:57 Europe/Berlin] Getting receiver name for receiver_id: 29
+[28-Nov-2025 12:25:57 Europe/Berlin] Receiver found: Namz Baer
+[28-Nov-2025 12:25:57 Europe/Berlin] Formatted timestamp: Nov 19, 7:59 PM from original: 2025-11-19 19:59:19
+[28-Nov-2025 12:25:58 Europe/Berlin] Formatted message: Array
+(
+    [message_id] => 298
+    [sender_id] => 38
+    [receiver_id] => 29
+    [message] => hi
+    [timestamp] => Nov 19, 7:59 PM
+    [original_timestamp] => 2025-11-19 19:59:19
+    [status] => Read
+    [sender_name] => John Mark Sagetarios
+    [receiver_name] => Namz Baer
+    [is_from_current_user] => 
+)
+
+[28-Nov-2025 12:25:58 Europe/Berlin] Total formatted messages: 11
+[28-Nov-2025 12:25:58 Europe/Berlin] Reversed messages for chronological display. Final count: 11
+[28-Nov-2025 12:25:58 Europe/Berlin] Final response: Array
+(
+    [success] => 1
+    [data] => Array
+        (
+            [messages] => Array
+                (
+                    [0] => Array
+                        (
+                            [message_id] => 298
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => hi
+                            [timestamp] => Nov 19, 7:59 PM
+                            [original_timestamp] => 2025-11-19 19:59:19
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [1] => Array
+                        (
+                            [message_id] => 303
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => hii
+                            [timestamp] => Nov 19, 8:58 PM
+                            [original_timestamp] => 2025-11-19 20:58:11
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [2] => Array
+                        (
+                            [message_id] => 304
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => H**lo
+                            [timestamp] => Nov 19, 9:19 PM
+                            [original_timestamp] => 2025-11-19 21:19:11
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [3] => Array
+                        (
+                            [message_id] => 305
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => yawa
+                            [timestamp] => Nov 19, 9:19 PM
+                            [original_timestamp] => 2025-11-19 21:19:19
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [4] => Array
+                        (
+                            [message_id] => 306
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => b**o
+                            [timestamp] => Nov 19, 9:19 PM
+                            [original_timestamp] => 2025-11-19 21:19:27
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [5] => Array
+                        (
+                            [message_id] => 307
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => b**o
+                            [timestamp] => Nov 19, 9:19 PM
+                            [original_timestamp] => 2025-11-19 21:19:41
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [6] => Array
+                        (
+                            [message_id] => 308
+                            [sender_id] => 38
+                            [receiver_id] => 29
+                            [message] => jasjsjsjsjbssnbxbxxbxbxbfbfbfbfbfbffbffbfbfbfbfncnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfnfdjdjdjdjrjrjrjrjrjrj
+                            [timestamp] => Nov 19, 9:31 PM
+                            [original_timestamp] => 2025-11-19 21:31:50
+                            [status] => Read
+                            [sender_name] => John Mark Sagetarios
+                            [receiver_name] => Namz Baer
+                            [is_from_current_user] => 
+                        )
+
+                    [7] => Array
+                        (
+                            [message_id] => 310
+                            [sender_id] => 29
+                            [receiver_id] => 38
+                            [message] => B**o ka
+                            [timestamp] => Nov 20, 1:16 PM
+                            [original_timestamp] => 2025-11-20 13:16:06
+                            [status] => Sent
+                            [sender_name] => Namz Baer
+                            [receiver_name] => John Mark Sagetarios
+                            [is_from_current_user] => 1
+                        )
+
+                    [8] => Array
+                        (
+                            [message_id] => 311
+                            [sender_id] => 29
+                            [receiver_id] => 38
+                            [message] => Putangina mo
+                            [timestamp] => Nov 20, 1:16 PM
+                            [original_timestamp] => 2025-11-20 13:16:54
+                            [status] => Sent
+                            [sender_name] => Namz Baer
+                            [receiver_name] => John Mark Sagetarios
+                            [is_from_current_user] => 1
+                        )
+
+                    [9] => Array
+                        (
+                            [message_id] => 312
+                            [sender_id] => 29
+                            [receiver_id] => 38
+                            [message] => P*******a mo
+                            [timestamp] => Nov 20, 1:17 PM
+                            [original_timestamp] => 2025-11-20 13:17:17
+                            [status] => Sent
+                            [sender_name] => Namz Baer
+                            [receiver_name] => John Mark Sagetarios
+                            [is_from_current_user] => 1
+                        )
+
+                    [10] => Array
+                        (
+                            [message_id] => 313
+                            [sender_id] => 29
+                            [receiver_id] => 38
+                            [message] => Hi
+                            [timestamp] => Nov 20, 1:17 PM
+                            [original_timestamp] => 2025-11-20 13:17:34
+                            [status] => Sent
+                            [sender_name] => Namz Baer
+                            [receiver_name] => John Mark Sagetarios
+                            [is_from_current_user] => 1
+                        )
+
+                )
+
+            [total_count] => 11
+            [limit] => 50
+            [offset] => 0
+        )
+
+)
+
+[28-Nov-2025 12:25:58 Europe/Berlin] === GET_MESSAGES.PHP DEBUG END ===
+[28-Nov-2025 13:09:33 Europe/Berlin] === UPDATE PAYMENT STATUS REQUEST ===
+[28-Nov-2025 13:09:33 Europe/Berlin] Received JSON: {"payment_id":59,"status":"paid","notes":"Marked as paid by owner"}
+[28-Nov-2025 13:09:33 Europe/Berlin] Decoded data: Array
+(
+    [payment_id] => 59
+    [status] => paid
+    [notes] => Marked as paid by owner
+)
+
+[28-Nov-2025 13:09:33 Europe/Berlin] Updating payment ID: 59, New status: Paid
+[28-Nov-2025 13:09:33 Europe/Berlin] Current payment status: Pending
+[28-Nov-2025 13:09:33 Europe/Berlin] Payment ID 59 is linked to 1 breakdown period(s)
+[28-Nov-2025 13:09:33 Europe/Berlin] Updated 1 breakdown(s) for payment_id 59
+[28-Nov-2025 13:09:33 Europe/Berlin] update_payment_status.php - Skipping active_boarders insert/update - booking is already Confirmed (only add once)
+[28-Nov-2025 13:09:33 Europe/Berlin] Payment status updated successfully - payment_id: 59, status: Partially Paid
+[28-Nov-2025 13:09:33 Europe/Berlin] Auto-updated 2 payment(s) for booking 30 to status: Partially Paid (2/5 periods paid)
+[28-Nov-2025 13:09:35 Europe/Berlin] Sending payment notifications - boarder_user_id: 28, owner_user_id: 29, status: Pending -> Partially Paid
+[28-Nov-2025 13:09:35 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 13:09:35 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 13:09:35 Europe/Berlin]   - user_id: 28 (type: integer)
+[28-Nov-2025 13:09:35 Europe/Berlin]   - title: Payment Status Updated
+[28-Nov-2025 13:09:35 Europe/Berlin]   - message: Your payment of ₱5,000.00 status has been updated to: Partially Paid
+[28-Nov-2025 13:09:35 Europe/Berlin]   - type: payment
+[28-Nov-2025 13:09:35 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Resolving user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 28 (type: integer)
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Resolved user_id: '28'
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Using resolved user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Executing with params: user_id=28, title='Payment Status Updated', message='Your payment of ₱5,000.00 status has been updated to: Partially Paid', type='payment'
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 813
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 13:09:35 Europe/Berlin]   - notif_id: 813
+[28-Nov-2025 13:09:35 Europe/Berlin]   - user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin]   - notif_title: Payment Status Updated
+[28-Nov-2025 13:09:35 Europe/Berlin]   - notif_message: Your payment of ₱5,000.00 status has been updated to: Partially Paid
+[28-Nov-2025 13:09:35 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Executing user query for user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 13:09:35 Europe/Berlin]   - user_id: 28
+[28-Nov-2025 13:09:35 Europe/Berlin]   - reg_id: 51
+[28-Nov-2025 13:09:35 Europe/Berlin]   - name: Lizz Uy
+[28-Nov-2025 13:09:35 Europe/Berlin]   - email: hannacuas536@gmail.com
+[28-Nov-2025 13:09:35 Europe/Berlin]   - role: Boarder
+[28-Nov-2025 13:09:35 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 13:09:35 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 13:09:35 Europe/Berlin]   - device_token: dQgLH-01QPiODdBeGad6...
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 13:09:35 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 13:09:36 Europe/Berlin] === UPDATE PAYMENT STATUS REQUEST ===
+[28-Nov-2025 13:09:36 Europe/Berlin] Received JSON: {"payment_id":59,"status":"paid","notes":"Marked as paid by owner"}
+[28-Nov-2025 13:09:36 Europe/Berlin] Decoded data: Array
+(
+    [payment_id] => 59
+    [status] => paid
+    [notes] => Marked as paid by owner
+)
+
+[28-Nov-2025 13:09:36 Europe/Berlin] Updating payment ID: 59, New status: Paid
+[28-Nov-2025 13:09:36 Europe/Berlin] Current payment status: Partially Paid
+[28-Nov-2025 13:09:36 Europe/Berlin] Payment ID 59 is linked to 1 breakdown period(s)
+[28-Nov-2025 13:09:36 Europe/Berlin] Updated 1 breakdown(s) for payment_id 59
+[28-Nov-2025 13:09:36 Europe/Berlin] update_payment_status.php - Skipping active_boarders insert/update - booking is already Confirmed (only add once)
+[28-Nov-2025 13:09:36 Europe/Berlin] Payment status updated successfully - payment_id: 59, status: Partially Paid
+[28-Nov-2025 13:09:36 Europe/Berlin] Auto-updated 1 payment(s) for booking 30 to status: Partially Paid (2/5 periods paid)
+[28-Nov-2025 13:09:36 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764331776266131%308096db308096db"}}
+[28-Nov-2025 13:09:36 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":813,"user_id":"28","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764331776266131%308096db308096db"}}}}
+[28-Nov-2025 13:09:36 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:36 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 13:09:36 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:36 Europe/Berlin] Notification sent to boarder (user_id: 28) about payment status update to: Partially Paid
+[28-Nov-2025 13:09:36 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:36 Europe/Berlin] NotificationHelper::createNotification() START
+[28-Nov-2025 13:09:36 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:36 Europe/Berlin] NotificationHelper - Input parameters:
+[28-Nov-2025 13:09:36 Europe/Berlin]   - user_id: 29 (type: integer)
+[28-Nov-2025 13:09:36 Europe/Berlin]   - title: Payment Received
+[28-Nov-2025 13:09:36 Europe/Berlin]   - message: Payment of ₱5,000.00 has been received for Payment for Private Room 01 at Kikyam BH
+[28-Nov-2025 13:09:36 Europe/Berlin]   - type: payment
+[28-Nov-2025 13:09:37 Europe/Berlin]   - send_fcm: true
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Database connection obtained
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Resolving user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper::resolveUserId() - Input user_id: 29 (type: integer)
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper::resolveUserId() - Attempting to find user by users.user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper::resolveUserId() - Found user by users.user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Resolved user_id: '29'
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Using resolved user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Inserting notification into database...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Prepared INSERT statement
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Executing with params: user_id=29, title='Payment Received', message='Payment of ₱5,000.00 has been received for Payment for Private Room 01 at Kikyam BH', type='payment'
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Notification inserted successfully, notif_id: 814
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Verifying notification was created correctly...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Verification successful:
+[28-Nov-2025 13:09:37 Europe/Berlin]   - notif_id: 814
+[28-Nov-2025 13:09:37 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin]   - notif_title: Payment Received
+[28-Nov-2025 13:09:37 Europe/Berlin]   - notif_message: Payment of ₱5,000.00 has been received for Payment for Private Room 01 at Kikyam BH
+[28-Nov-2025 13:09:37 Europe/Berlin]   - notif_type: payment
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Verification: user_id matches correctly
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Getting user information for FCM...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Executing user query for user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - User found:
+[28-Nov-2025 13:09:37 Europe/Berlin]   - user_id: 29
+[28-Nov-2025 13:09:37 Europe/Berlin]   - reg_id: 53
+[28-Nov-2025 13:09:37 Europe/Berlin]   - name: Namz Baer
+[28-Nov-2025 13:09:37 Europe/Berlin]   - email: namzbaer@gmail.com
+[28-Nov-2025 13:09:37 Europe/Berlin]   - role: BH Owner
+[28-Nov-2025 13:09:37 Europe/Berlin]   - reg_status: approved
+[28-Nov-2025 13:09:37 Europe/Berlin]   - user_status: Active
+[28-Nov-2025 13:09:37 Europe/Berlin]   - device_token: fmiXfBUIR8Si-MvXSn0L...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Sending FCM notification...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Calling FCMConfig::sendToDevice()...
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - FCM result: {"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764331777152598%308096db308096db"}}
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper - Returning result: {"success":true,"message":"Notification created successfully","data":{"notif_id":814,"user_id":"29","fcm_sent":true,"fcm_result":{"success":true,"http_code":200,"response":{"name":"projects/boardease2/messages/0:1764331777152598%308096db308096db"}}}}
+[28-Nov-2025 13:09:37 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:37 Europe/Berlin] NotificationHelper::createNotification() END
+[28-Nov-2025 13:09:37 Europe/Berlin] ============================================
+[28-Nov-2025 13:09:37 Europe/Berlin] Notification sent to owner (user_id: 29) about payment received
+[28-Nov-2025 13:09:38 Europe/Berlin] Sending payment notifications - boarder_user_id: 28, owner_user_id: 29, status: Partially Paid -> Partially Paid
+[28-Nov-2025 13:09:38 Europe/Berlin] Duplicate notification prevented for boarder (user_id: 28) - payment_id: 59 (status update notification already sent within last 10 seconds)
+[28-Nov-2025 13:09:38 Europe/Berlin] Duplicate notification prevented for owner (user_id: 29) - payment_id: 59 (notification already sent within last 10 seconds)
+[28-Nov-2025 13:12:22 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:22 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:22 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:24 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:24 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:32 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:32 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:34 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:34 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:51 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:51 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:12:53 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:12:53 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:13:08 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:13:08 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:13:08 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:13:45 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:13:45 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:13:47 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:13:47 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:17:59 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:17:59 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Boarding houses query error: Unknown column 'bh.created_at' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Disputes table not found: Table 'boardease2.disputes' doesn't exist
+[28-Nov-2025 13:18:01 Europe/Berlin] Maintenance completed query error: Unknown column 'mr.maintenance_id' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Flagged users query error: Unknown column 'u.updated_at' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Booking status changes query error: Unknown column 'b.updated_at' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Reviews query error: Unknown column 'rev.overall_rating' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Active boarders query error: Unknown column 'ab.start_date' in 'field list'
+[28-Nov-2025 13:18:01 Europe/Berlin] Maintenance requests query error: Unknown column 'mr.maintenance_id' in 'field list'

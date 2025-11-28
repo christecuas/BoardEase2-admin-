@@ -45,7 +45,7 @@ try {
             FROM active_boarders ab
             JOIN room_units ru ON ab.room_id = ru.room_id
             JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-            JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+            JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             JOIN users u ON ab.user_id = u.user_id
             JOIN registrations reg ON u.reg_id = reg.id
             WHERE bh.user_id = ? 

@@ -515,16 +515,6 @@ try {
         error_log("Calculated number_of_days: $numberOfDays");
     }
     
-    // Determine if this is a monthly payment (30+ days) or short-term (less than 30 days)
-    $isMonthlyPayment = ($numberOfDays >= 30) ? 1 : 0;
-    
-    // Calculate payment month/year
-    $paymentMonth = date('Y-m', strtotime($startDate));
-    $paymentYear = intval(date('Y', strtotime($startDate)));
-    $paymentMonthNumber = intval(date('m', strtotime($startDate)));
-    
-    error_log("Payment details - amount: $paymentAmount, days: $numberOfDays, is_monthly: $isMonthlyPayment");
-    
     // Create payment record
     $paymentId = null;
     if ($ownerId > 0) {
@@ -539,11 +529,7 @@ try {
                     payment_method,
                     payment_proof,
                     payment_status,
-                    payment_date,
-                    payment_month,
-                    payment_year,
-                    payment_month_number,
-                    is_monthly_payment
+                    payment_date
                 ) VALUES (
                     :booking_id,
                     :user_id,
@@ -552,11 +538,7 @@ try {
                     :payment_method,
                     :payment_proof,
                     'Pending',
-                    NOW(),
-                    :payment_month,
-                    :payment_year,
-                    :payment_month_number,
-                    :is_monthly_payment
+                    NOW()
                 )
             ";
             
@@ -567,14 +549,10 @@ try {
                 ':owner_id' => $ownerId,
                 ':payment_amount' => $paymentAmount,
                 ':payment_method' => $paymentMethod,
-                ':payment_proof' => $paymentProofPath,
-                ':payment_month' => $paymentMonth,
-                ':payment_year' => $paymentYear,
-                ':payment_month_number' => $paymentMonthNumber,
-                ':is_monthly_payment' => $isMonthlyPayment
+                ':payment_proof' => $paymentProofPath
             ]);
             $paymentId = $pdo->lastInsertId(); // Get payment_id after insertion
-            error_log("Payment record created successfully - payment_id: $paymentId, amount: $paymentAmount, is_monthly: $isMonthlyPayment");
+            error_log("Payment record created successfully - payment_id: $paymentId, amount: $paymentAmount");
             
             // Save payment breakdown if provided
             if (!empty($paymentBreakdownJson) && $paymentId) {

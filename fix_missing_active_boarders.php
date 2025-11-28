@@ -36,8 +36,7 @@ try {
             SELECT 1 
             FROM active_boarders ab 
             WHERE ab.user_id = b.user_id 
-            AND ab.room_id = b.room_id 
-            AND ab.boarding_house_id = bh.bh_id
+            AND ab.room_id = b.room_id
         )
         ORDER BY b.booking_id
     ";
@@ -59,7 +58,7 @@ try {
             
             // Check if there's an existing active_boarders record for this user (maybe different room)
             $checkUserSql = "
-                SELECT active_id, status, room_id, boarding_house_id
+                SELECT active_id, status, room_id
                 FROM active_boarders 
                 WHERE user_id = :user_id
             ";
@@ -70,7 +69,7 @@ try {
             // Check if there's an exact match (same user, room, and boarding house)
             $exactMatch = false;
             foreach ($existingForUser as $existing) {
-                if ($existing['room_id'] == $roomId && $existing['boarding_house_id'] == $boardingHouseId) {
+                if ($existing['room_id'] == $roomId) {
                     // Update existing record to Active
                     $updateActiveSql = "
                         UPDATE active_boarders 
@@ -89,14 +88,13 @@ try {
             if (!$exactMatch) {
                 // Insert new record
                 $insertActiveSql = "
-                    INSERT INTO active_boarders (user_id, status, room_id, boarding_house_id) 
-                    VALUES (:user_id, 'Active', :room_id, :boarding_house_id)
+                    INSERT INTO active_boarders (user_id, status, room_id) 
+                    VALUES (:user_id, 'Active', :room_id)
                 ";
                 $insertActiveStmt = $pdo->prepare($insertActiveSql);
                 $insertActiveStmt->execute([
                     ':user_id' => $boarderUserId,
-                    ':room_id' => $roomId,
-                    ':boarding_house_id' => $boardingHouseId
+                    ':room_id' => $roomId
                 ]);
                 $activeId = $pdo->lastInsertId();
                 $inserted++;

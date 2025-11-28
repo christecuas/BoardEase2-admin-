@@ -92,55 +92,55 @@ try {
     // Join active_boarders with users (boarder), registrations, room_units, boarding_house_rooms, and boarding_houses
     // Get booking dates directly from bookings table (most recent booking for each active boarder)
     // First try to match by user_id AND room_id, if no match, try to get most recent booking for user_id
-    $sql = "
-        SELECT 
-            ab.active_id as boarder_id,
-            CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.middle_name, ''), ' ', COALESCE(r.last_name, ''), ' ', COALESCE(r.suffix, '')) as boarder_name,
-            r.email as boarder_email,
-            r.phone as boarder_phone,
-            bh.bh_name as boarding_house_name,
-            ru.room_number,
-            bhr.room_category as rent_type,
-            COALESCE(b_exact.start_date, b_user.start_date, '') as start_date,
-            COALESCE(b_exact.end_date, b_user.end_date, '') as end_date,
-            ab.status,
-            u.profile_picture
-        FROM active_boarders ab
-        INNER JOIN users u ON ab.user_id = u.user_id
-        INNER JOIN registrations r ON u.reg_id = r.id
-        INNER JOIN room_units ru ON ab.room_id = ru.room_id
-        INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-        INNER JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
-        LEFT JOIN bookings b_exact ON ab.user_id = b_exact.user_id 
-            AND ab.room_id = b_exact.room_id 
-            AND b_exact.booking_status != 'Cancelled'
-            AND b_exact.booking_status != 'Completed'
-            AND b_exact.booking_id = (
-                SELECT MAX(b2.booking_id)
-                FROM bookings b2
-                WHERE b2.user_id = ab.user_id
-                    AND b2.room_id = ab.room_id
-                    AND b2.booking_status != 'Cancelled'
-                    AND b2.booking_status != 'Completed'
-            )
-        LEFT JOIN bookings b_user ON ab.user_id = b_user.user_id 
-            AND b_user.booking_status != 'Cancelled'
-            AND b_user.booking_status != 'Completed'
-            AND b_user.booking_id = (
-                SELECT MAX(b3.booking_id)
-                FROM bookings b3
-                WHERE b3.user_id = ab.user_id
-                    AND b3.booking_status != 'Cancelled'
-                    AND b3.booking_status != 'Completed'
-            )
-        WHERE bh.user_id = ? 
-            AND ab.status = 'Active'
-            AND (COALESCE(b_exact.end_date, b_user.end_date, '') = '' 
-                 OR DATE(COALESCE(b_exact.end_date, b_user.end_date, '')) >= CURDATE())
-            AND COALESCE(b_exact.booking_status, b_user.booking_status, '') != 'Completed'
-        ORDER BY ab.active_id DESC
-    ";
-    
+   $sql = "
+    SELECT 
+        ab.active_id as boarder_id,
+        CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.middle_name, ''), ' ', COALESCE(r.last_name, ''), ' ', COALESCE(r.suffix, '')) as boarder_name,
+        r.email as boarder_email,
+        r.phone as boarder_phone,
+        bh.bh_name as boarding_house_name,
+        ru.room_number,
+        bhr.room_category as rent_type,
+        COALESCE(b_exact.start_date, b_user.start_date, '') as start_date,
+        COALESCE(b_exact.end_date, b_user.end_date, '') as end_date,
+        ab.status,
+        u.profile_picture
+    FROM active_boarders ab
+    INNER JOIN users u ON ab.user_id = u.user_id
+    INNER JOIN registrations r ON u.reg_id = r.id
+    INNER JOIN room_units ru ON ab.room_id = ru.room_id
+    INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+    INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+    LEFT JOIN bookings b_exact ON ab.user_id = b_exact.user_id 
+        AND ab.room_id = b_exact.room_id 
+        AND b_exact.booking_status != 'Cancelled'
+        AND b_exact.booking_status != 'Completed'
+        AND b_exact.booking_id = (
+            SELECT MAX(b2.booking_id)
+            FROM bookings b2
+            WHERE b2.user_id = ab.user_id
+                AND b2.room_id = ab.room_id
+                AND b2.booking_status != 'Cancelled'
+                AND b2.booking_status != 'Completed'
+        )
+    LEFT JOIN bookings b_user ON ab.user_id = b_user.user_id 
+        AND b_user.booking_status != 'Cancelled'
+        AND b_user.booking_status != 'Completed'
+        AND b_user.booking_id = (
+            SELECT MAX(b3.booking_id)
+            FROM bookings b3
+            WHERE b3.user_id = ab.user_id
+                AND b3.booking_status != 'Cancelled'
+                AND b3.booking_status != 'Completed'
+        )
+    WHERE bh.user_id = ? 
+        AND ab.status = 'Active'
+        AND (COALESCE(b_exact.end_date, b_user.end_date, '') = '' 
+             OR DATE(COALESCE(b_exact.end_date, b_user.end_date, '')) >= CURDATE())
+        AND COALESCE(b_exact.booking_status, b_user.booking_status, '') != 'Completed'
+    ORDER BY ab.active_id DESC
+";
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ownerId]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

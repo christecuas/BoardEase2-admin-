@@ -333,19 +333,17 @@ try {
         error_log("approve_booking.php - Processing active_boarders: user_id=$boarderUserId, room_id=$roomId, boarding_house_id=$boardingHouseId");
     }
     
-    // Check if boarder already exists in active_boarders for this exact room and boarding house
+    // Check if boarder already exists in active_boarders for this exact room
     $checkActiveSql = "
         SELECT active_id, status 
         FROM active_boarders 
         WHERE user_id = :user_id 
-        AND room_id = :room_id 
-        AND boarding_house_id = :boarding_house_id
+        AND room_id = :room_id
     ";
     $checkActiveStmt = $pdo->prepare($checkActiveSql);
     $checkActiveStmt->execute([
         ':user_id' => $boarderUserId,
-        ':room_id' => $roomId,
-        ':boarding_house_id' => $boardingHouseId
+        ':room_id' => $roomId
     ]);
     $existingActive = $checkActiveStmt->fetch(PDO::FETCH_ASSOC);
     
@@ -363,22 +361,21 @@ try {
             error_log("approve_booking.php - Updated existing active_boarders record (active_id: {$existingActive['active_id']}) to Active status");
         }
     } else {
-        // Insert new record into active_boarders
+        // Insert new record into active_boarders (boarding_house_id removed - derived from room_id)
         // This automatically happens when booking is approved
         $insertActiveSql = "
-            INSERT INTO active_boarders (user_id, status, room_id, boarding_house_id) 
-            VALUES (:user_id, 'Active', :room_id, :boarding_house_id)
+            INSERT INTO active_boarders (user_id, status, room_id) 
+            VALUES (:user_id, 'Active', :room_id)
         ";
         $insertActiveStmt = $pdo->prepare($insertActiveSql);
         $insertActiveStmt->execute([
             ':user_id' => $boarderUserId,
-            ':room_id' => $roomId,
-            ':boarding_house_id' => $boardingHouseId
+            ':room_id' => $roomId
         ]);
         $activeId = $pdo->lastInsertId();
         
         if (function_exists('error_log')) {
-            error_log("approve_booking.php - Successfully inserted new active_boarders record (active_id: $activeId) for user_id: $boarderUserId, room_id: $roomId, boarding_house_id: $boardingHouseId");
+            error_log("approve_booking.php - Successfully inserted new active_boarders record (active_id: $activeId) for user_id: $boarderUserId, room_id: $roomId");
         }
         
         if ($activeId == 0) {

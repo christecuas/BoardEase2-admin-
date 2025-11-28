@@ -39,8 +39,10 @@ try {
         AND (
             (:user_role = 'BH Owner' AND u.user_id IN (
                 SELECT ab.user_id 
-                FROM active_boarders ab 
-                JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                FROM active_boarders ab
+                INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                 WHERE bh.user_id = :user_id 
                 AND ab.status = 'Active'
                 AND ab.user_id != :user_id
@@ -49,14 +51,22 @@ try {
             (:user_role = 'Boarder' AND (
                 u.user_id IN (
                     SELECT bh.user_id 
-                    FROM active_boarders ab 
-                    JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                    FROM active_boarders ab
+                    INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                    INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                    INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                     WHERE ab.user_id = :user_id AND ab.status = 'Active'
                 )
                 OR u.user_id IN (
                     SELECT ab2.user_id 
                     FROM active_boarders ab1
-                    JOIN active_boarders ab2 ON ab1.boarding_house_id = ab2.boarding_house_id
+                    INNER JOIN room_units ru1 ON ab1.room_id = ru1.room_id
+                    INNER JOIN boarding_house_rooms bhr1 ON ru1.bhr_id = bhr1.bhr_id
+                    INNER JOIN active_boarders ab2 ON ab2.room_id IN (
+                        SELECT ru2.room_id FROM room_units ru2
+                        INNER JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id
+                        WHERE bhr2.bh_id = bhr1.bh_id
+                    )
                     WHERE ab1.user_id = :user_id 
                     AND ab1.status = 'Active' 
                     AND ab2.status = 'Active'
@@ -85,8 +95,10 @@ try {
         AND (
             (:user_role = 'BH Owner' AND u.user_id IN (
                 SELECT ab.user_id 
-                FROM active_boarders ab 
-                JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                FROM active_boarders ab
+                INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                 WHERE bh.user_id = :user_id 
                 AND ab.status = 'Active'
                 AND ab.user_id != :user_id
@@ -95,14 +107,22 @@ try {
             (:user_role = 'Boarder' AND (
                 u.user_id IN (
                     SELECT bh.user_id 
-                    FROM active_boarders ab 
-                    JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                    FROM active_boarders ab
+                    INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                    INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                    INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                     WHERE ab.user_id = :user_id AND ab.status = 'Active'
                 )
                 OR u.user_id IN (
                     SELECT ab2.user_id 
                     FROM active_boarders ab1
-                    JOIN active_boarders ab2 ON ab1.boarding_house_id = ab2.boarding_house_id
+                    INNER JOIN room_units ru1 ON ab1.room_id = ru1.room_id
+                    INNER JOIN boarding_house_rooms bhr1 ON ru1.bhr_id = bhr1.bhr_id
+                    INNER JOIN active_boarders ab2 ON ab2.room_id IN (
+                        SELECT ru2.room_id FROM room_units ru2
+                        INNER JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id
+                        WHERE bhr2.bh_id = bhr1.bh_id
+                    )
                     WHERE ab1.user_id = :user_id 
                     AND ab1.status = 'Active' 
                     AND ab2.status = 'Active'

@@ -43,9 +43,12 @@ try {
             JOIN users u ON m.sender_id = u.user_id
             JOIN registrations r ON u.reg_id = r.id
             JOIN active_boarders ab ON u.user_id = ab.user_id
+            INNER JOIN room_units ru ON ab.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             WHERE m.receiver_id = ? 
             AND m.msg_status NOT IN ('Read', 'Deleted')
-            AND ab.boarding_house_id IN (
+            AND bh.bh_id IN (
                 SELECT bh_id FROM boarding_houses WHERE user_id = ?
             )
             AND ab.user_id != ?
@@ -62,10 +65,12 @@ try {
         // First, find which boarding house this boarder is staying in
         $stmt = $db->prepare("
             SELECT
-                ab.boarding_house_id,
+                bh.bh_id as boarding_house_id,
                 bh.user_id as owner_id
             FROM active_boarders ab
-            JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+            INNER JOIN room_units ru ON ab.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
             WHERE ab.user_id = ? AND ab.status = 'Active'
         ");
         $stmt->execute([$user_id]);
@@ -83,8 +88,10 @@ try {
                     u.user_id = ? OR  -- Owner
                     (u.user_id IN (
                         SELECT ab2.user_id 
-                        FROM active_boarders ab2 
-                        WHERE ab2.boarding_house_id = ? 
+                        FROM active_boarders ab2
+                        INNER JOIN room_units ru2 ON ab2.room_id = ru2.room_id
+                        INNER JOIN boarding_house_rooms bhr2 ON ru2.bhr_id = bhr2.bhr_id
+                        WHERE bhr2.bh_id = ? 
                         AND ab2.user_id != ? 
                         AND ab2.status = 'Active'
                     ) AND r.role = 'Boarder' AND r.status = 'approved')

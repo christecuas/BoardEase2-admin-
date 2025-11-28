@@ -71,15 +71,14 @@ try {
                 exit;
             }
             
-            // Add to active_boarders
+            // Add to active_boarders (boarding_house_id removed - derived from room_id)
             $insert_sql = "INSERT INTO active_boarders 
-                          (user_id, room_id, boarding_house_id, start_date, end_date, status, created_at) 
-                          VALUES (?, ?, ?, ?, ?, 'Active', NOW())";
+                          (user_id, room_id, start_date, end_date, status, created_at) 
+                          VALUES (?, ?, ?, ?, 'Active', NOW())";
             $insert_stmt = $conn->prepare($insert_sql);
-            $insert_stmt->bind_param("iiiss", 
+            $insert_stmt->bind_param("iiss", 
                 $booking['user_id'], 
                 $booking['room_id'], 
-                $booking['boarding_house_id'],
                 $booking['start_date'], 
                 $booking['end_date']
             );
@@ -111,7 +110,9 @@ try {
             // Verify the active boarder belongs to this owner
             $verify_sql = "SELECT ab.active_boarder_id 
                           FROM active_boarders ab
-                          JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                          INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                          INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                          INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                           WHERE ab.active_boarder_id = ? AND bh.user_id = ?";
             $verify_stmt = $conn->prepare($verify_sql);
             $verify_stmt->bind_param("ii", $active_boarder_id, $user_id);
@@ -155,9 +156,11 @@ try {
             }
             
             // Get active boarder details
-            $get_sql = "SELECT ab.user_id, ab.room_id, ab.boarding_house_id
+            $get_sql = "SELECT ab.user_id, ab.room_id
                        FROM active_boarders ab
-                       JOIN boarding_houses bh ON ab.boarding_house_id = bh.bh_id
+                       INNER JOIN room_units ru ON ab.room_id = ru.room_id
+                       INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                       INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
                        WHERE ab.active_boarder_id = ? AND bh.user_id = ?";
             $get_stmt = $conn->prepare($get_sql);
             $get_stmt->bind_param("ii", $active_boarder_id, $user_id);
