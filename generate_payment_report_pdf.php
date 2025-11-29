@@ -104,43 +104,54 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
         $summary = $summaryResult->fetch_assoc();
         
         // Query for Payment Summary (from payments table)
+        // Query for Payment Summary (from payments table)
         $paymentSummaryQuery = "
             SELECT 
-                p.payment_id,
-                p.booking_id,
+                b.booking_id,
+                MAX(p.payment_id) as payment_id,
                 CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.last_name, ''), 
                        CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                 COALESCE(bh.bh_name, 'N/A') as bh_name,
                 CONCAT(
-                    COALESCE(bhr.room_category, 'N/A'),
-                    CASE WHEN bhr.room_name IS NOT NULL AND bhr.room_name != '' THEN CONCAT(' - ', bhr.room_name) ELSE '' END,
-                    CASE WHEN ru.room_number IS NOT NULL AND ru.room_number != '' THEN CONCAT(CHAR(10), ru.room_number) ELSE '' END
-                ) as room,
-                COALESCE(SUM(pb.amount), COALESCE(p.payment_amount, 0)) as total_amount,
-                COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN pb.amount ELSE 0 END), 0) as amount_paid,
-                GREATEST(0, COALESCE(SUM(pb.amount), COALESCE(p.payment_amount, 0)) - COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN pb.amount ELSE 0 END), 0)) as amount_balance,
+    COALESCE(bhr.room_category, 'N/A'),       -- e.g., Private Room
+    CASE WHEN bhr.room_name IS NOT NULL AND bhr.room_name != '' THEN CONCAT(' - ', bhr.room_name) ELSE '' END,
+    CASE WHEN ru.room_number IS NOT NULL AND ru.room_number != '' THEN CONCAT(' (', ru.room_number, ')') ELSE '' END
+) as room
+,
+                COALESCE(MAX(pb_agg.total_amount), 0) as total_amount,
+                COALESCE(MAX(pb_agg.amount_paid), 0) as amount_paid,
+                GREATEST(0, COALESCE(MAX(pb_agg.total_amount), 0) - COALESCE(MAX(pb_agg.amount_paid), 0)) as amount_balance,
                 CASE 
-                    WHEN COUNT(pb.breakdown_id) = 0 OR COUNT(pb.breakdown_id) IS NULL THEN 
+                    WHEN MAX(pb_agg.total_breakdowns) = 0 OR MAX(pb_agg.total_breakdowns) IS NULL THEN 
                         CASE 
-                            WHEN COALESCE(p.payment_status, '') IN ('Pending', 'For Approval', '') THEN 'Pending'
-                            ELSE COALESCE(p.payment_status, 'Pending')
+                            WHEN COALESCE(MAX(p.payment_status), '') IN ('Pending', 'For Approval', '') THEN 'Pending'
+                            ELSE COALESCE(MAX(p.payment_status), 'Pending')
                         END
-                    WHEN SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END) = COUNT(pb.breakdown_id) AND COUNT(pb.breakdown_id) > 0 THEN 'Fully Paid'
-                    WHEN SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END) > 0 AND SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END) < COUNT(pb.breakdown_id) THEN 'Partially Paid'
+                    WHEN MAX(pb_agg.paid_breakdowns) = MAX(pb_agg.total_breakdowns) AND MAX(pb_agg.total_breakdowns) > 0 THEN 'Fully Paid'
+                    WHEN MAX(pb_agg.paid_breakdowns) > 0 AND MAX(pb_agg.paid_breakdowns) < MAX(pb_agg.total_breakdowns) THEN 'Partially Paid'
                     ELSE 'Pending'
                 END as payment_status
-            FROM payments p
-            LEFT JOIN users u ON p.user_id = u.user_id
+            FROM bookings b
+            LEFT JOIN payments p ON b.booking_id = p.booking_id
+            LEFT JOIN users u ON b.user_id = u.user_id
             LEFT JOIN registrations r ON u.reg_id = r.id
-            LEFT JOIN bookings b ON p.booking_id = b.booking_id
             LEFT JOIN room_units ru ON b.room_id = ru.room_id
             LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-            LEFT JOIN payment_breakdowns pb ON p.booking_id = pb.booking_id AND (pb.payment_status IS NULL OR pb.payment_status != 'Cancelled')
-            " . (!empty($paymentWhereConditions) ? "WHERE " . implode(" AND ", $paymentWhereConditions) : "") . "
-            GROUP BY p.payment_id, p.payment_amount, p.payment_status, p.booking_id, r.first_name, r.last_name, r.suffix, 
-                     bh.bh_name, bhr.room_category, bhr.room_name, ru.room_number
-            ORDER BY p.payment_id ASC
+            LEFT JOIN (
+                SELECT 
+                    booking_id,
+                    SUM(amount) as total_amount,
+                    SUM(CASE WHEN is_paid = 1 THEN amount ELSE 0 END) as amount_paid,
+                    COUNT(breakdown_id) as total_breakdowns,
+                    SUM(CASE WHEN is_paid = 1 THEN 1 ELSE 0 END) as paid_breakdowns
+                FROM payment_breakdowns
+                WHERE payment_status IS NULL OR payment_status != 'Cancelled'
+                GROUP BY booking_id
+            ) pb_agg ON b.booking_id = pb_agg.booking_id
+            " . (!empty($paymentWhereConditions) ? "WHERE p.payment_id IS NOT NULL AND " . implode(" AND ", $paymentWhereConditions) : "WHERE p.payment_id IS NOT NULL") . "
+            GROUP BY b.booking_id, r.first_name, r.last_name, r.suffix, bh.bh_name, bhr.room_category, bhr.room_name, ru.room_number
+            ORDER BY b.booking_id ASC
         ";
         
         // Status filter removed - show all payments
@@ -327,53 +338,24 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
             $breakdownDetails[] = $row;
         }
         
-        // Group breakdowns by payment_id (map booking_id to payment_id)
-        $bookingToPaymentMap = [];
-        if (!empty($paymentSummaries)) {
-            foreach ($paymentSummaries as $payment) {
-                if (!empty($payment['booking_id']) && !empty($payment['payment_id'])) {
-                    $bookingToPaymentMap[$payment['booking_id']] = $payment['payment_id'];
-                }
-            }
-        }
-        
-        // Group breakdowns by payment_id
-        // CRITICAL: Include ALL breakdowns for each booking, even if they don't have payment_id yet
-        // This ensures pending breakdowns are included and displayed after paid ones
-        $breakdownsByPayment = [];
+        // Group breakdowns by booking_id
+        // CRITICAL: Group by booking_id to ensure ALL breakdowns for the booking are included
+        // regardless of which payment_id they are linked to (e.g. older payments vs newer payments)
+        $breakdownsByBooking = [];
         foreach ($breakdownDetails as $breakdown) {
             $bookingId = $breakdown['booking_id'] ?? null;
-            $paymentId = $breakdown['payment_id'] ?? null;
             
-            // Use payment_id if available, otherwise map from booking_id
-            if (!$paymentId && $bookingId && isset($bookingToPaymentMap[$bookingId])) {
-                $paymentId = $bookingToPaymentMap[$bookingId];
-            }
-            
-            // If still no payment_id, try to find it from payment summaries
-            // This ensures pending breakdowns (without payment_id) are still grouped with their payment
-            if (!$paymentId && $bookingId) {
-                foreach ($paymentSummaries as $ps) {
-                    if (isset($ps['booking_id']) && $ps['booking_id'] == $bookingId) {
-                        $paymentId = $ps['payment_id'];
-                        break;
-                    }
+            if ($bookingId) {
+                if (!isset($breakdownsByBooking[$bookingId])) {
+                    $breakdownsByBooking[$bookingId] = [];
                 }
+                $breakdownsByBooking[$bookingId][] = $breakdown;
             }
-            
-            // Group by payment_id, or by booking_id if payment_id is not available
-            // This ensures ALL breakdowns (paid, pending, overdue) are grouped together
-            $groupKey = $paymentId ? $paymentId : ($bookingId ? 'booking_' . $bookingId : 'unassigned');
-            
-            if (!isset($breakdownsByPayment[$groupKey])) {
-                $breakdownsByPayment[$groupKey] = [];
-            }
-            $breakdownsByPayment[$groupKey][] = $breakdown;
         }
         
         // Sort breakdowns within each group by breakdown_id to ensure correct order
-        foreach ($breakdownsByPayment as $key => $breakdowns) {
-            usort($breakdownsByPayment[$key], function($a, $b) {
+        foreach ($breakdownsByBooking as $key => $breakdowns) {
+            usort($breakdownsByBooking[$key], function($a, $b) {
                 $idA = isset($a['breakdown_id']) ? intval($a['breakdown_id']) : 999999;
                 $idB = isset($b['breakdown_id']) ? intval($b['breakdown_id']) : 999999;
                 return $idA - $idB;
@@ -467,14 +449,15 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
             $printPaymentSummaryHeader = function($pdf) {
                 $pdf->SetFont('helvetica', 'B', 8);
                 $pdf->SetFillColor(245, 245, 245);
+                $pdf->Cell(16, 6, 'Booking ID', 1, 0, 'C', true);
                 $pdf->Cell(16, 6, 'Payment ID', 1, 0, 'C', true);
-                $pdf->Cell(35, 6, 'Boarder', 1, 0, 'C', true);
-                $pdf->Cell(26, 6, 'Boarding House', 1, 0, 'C', true);
-                $pdf->Cell(29, 6, 'Room', 1, 0, 'C', true);
-                $pdf->Cell(20, 6, 'Total Amount', 1, 0, 'C', true);
-                $pdf->Cell(20, 6, 'Amount Paid', 1, 0, 'C', true);
-                $pdf->Cell(20, 6, 'Balance', 1, 0, 'C', true);
-                $pdf->Cell(24, 6, 'Status', 1, 1, 'C', true);
+                $pdf->Cell(32, 6, 'Boarder', 1, 0, 'C', true);
+                $pdf->Cell(24, 6, 'Boarding House', 1, 0, 'C', true);
+                $pdf->Cell(24, 6, 'Room', 1, 0, 'C', true);
+                $pdf->Cell(19, 6, 'Total Amount', 1, 0, 'C', true);
+                $pdf->Cell(19, 6, 'Amount Paid', 1, 0, 'C', true);
+                $pdf->Cell(19, 6, 'Balance', 1, 0, 'C', true);
+                $pdf->Cell(21, 6, 'Status', 1, 1, 'C', true);
                 $pdf->SetFont('helvetica', '', 7);
             };
             
@@ -483,46 +466,53 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
             $pdf->SetFont('helvetica', '', 7);
             
             $columnWidths = [
+                'booking_id' => 16,
                 'payment_id' => 16,
-                'boarder' => 35,
-                'bh' => 26,
-                'room' => 29,
-                'total' => 20,
-                'paid' => 20,
-                'balance' => 20,
-                'status' => 24
+                'boarder' => 32,
+                'bh' => 24,
+                'room' => 24,
+                'total' => 19,
+                'paid' => 19,
+                'balance' => 19,
+                'status' => 21
             ];
             
-            foreach ($paymentSummaries as $payment) {
-                $boarderName = $payment['boarder_name'] ?? 'N/A';
-                $bhName = $payment['bh_name'] ?? 'N/A';
-                $room = $payment['room'] ?? 'N/A';
-                $status = $payment['payment_status'] ?? 'Pending';
-                
-                $totalAmount = $payment['total_amount'] ?? 0;
-                $amountPaid = $payment['amount_paid'] ?? 0;
-                $balance = max(0, $totalAmount - $amountPaid);
-                
-                $boarderHeight = $pdf->getStringHeight($columnWidths['boarder'], $boarderName);
-                $bhHeight = $pdf->getStringHeight($columnWidths['bh'], $bhName);
-                $roomHeight = $pdf->getStringHeight($columnWidths['room'], $room);
-                $rowHeight = max(7, $boarderHeight, $bhHeight, $roomHeight);
-                
-                // Check for page break
-                if ($pdf->GetY() + $rowHeight > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
-                    $pdf->AddPage();
-                    $printPaymentSummaryHeader($pdf);
-                }
-                
-                $pdf->MultiCell($columnWidths['payment_id'], $rowHeight, $payment['payment_id'] ?? 'N/A', 1, 'C', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['boarder'], $rowHeight, $boarderName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['bh'], $rowHeight, $bhName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['room'], $rowHeight, $room, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['total'], $rowHeight, 'PHP ' . number_format($totalAmount, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['paid'], $rowHeight, 'PHP ' . number_format($amountPaid, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['balance'], $rowHeight, 'PHP ' . number_format($balance, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
-                $pdf->MultiCell($columnWidths['status'], $rowHeight, $status, 1, 'C', false, 1, '', '', true, 0, false, true, $rowHeight, 'M');
-            }
+           foreach ($paymentSummaries as $payment) {
+    $boarderName = $payment['boarder_name'] ?? 'N/A';
+    $bhName = $payment['bh_name'] ?? 'N/A';
+    $room = $payment['room'] ?? 'N/A';
+    $status = $payment['payment_status'] ?? 'Pending';
+    
+    $totalAmount = $payment['total_amount'] ?? 0;
+    $amountPaid = $payment['amount_paid'] ?? 0;
+    $balance = max(0, $totalAmount - $amountPaid);
+
+    // Calculate string heights for multi-line cells
+    $boarderHeight = $pdf->getStringHeight($columnWidths['boarder'], $boarderName);
+    $bhHeight = $pdf->getStringHeight($columnWidths['bh'], $bhName);
+    $roomHeight = $pdf->getStringHeight($columnWidths['room'], $room);
+
+    // Increase minimum row height for more spacing
+    $rowHeight = max(10, $boarderHeight, $bhHeight, $roomHeight);
+
+    // Check for page break
+    if ($pdf->GetY() + $rowHeight > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
+        $pdf->AddPage();
+        $printPaymentSummaryHeader($pdf);
+    }
+
+    // Use MultiCell with increased height
+    $pdf->MultiCell($columnWidths['booking_id'], $rowHeight, $payment['booking_id'] ?? 'N/A', 1, 'C', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['payment_id'], $rowHeight, $payment['payment_id'] ?? 'N/A', 1, 'C', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['boarder'], $rowHeight, $boarderName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['bh'], $rowHeight, $bhName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['room'], $rowHeight, $room, 1, 'L', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['total'], $rowHeight, 'PHP ' . number_format($totalAmount, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['paid'], $rowHeight, 'PHP ' . number_format($amountPaid, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['balance'], $rowHeight, 'PHP ' . number_format($balance, 2), 1, 'R', false, 0, '', '', true, 0, false, true, $rowHeight, 'M');
+    $pdf->MultiCell($columnWidths['status'], $rowHeight, $status, 1, 'C', false, 1, '', '', true, 0, false, true, $rowHeight, 'M');
+}
+
         } else {
             $pdf->SetFont('helvetica', '', 9);
             $pdf->Cell(0, 8, 'No payment summaries found for the selected criteria.', 0, 1, 'L');
@@ -538,27 +528,16 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
         $pdf->Cell(0, 4, '(From payment_breakdowns table - Each installment/due payment)', 0, 1, 'L');
         $pdf->Ln(5);
         
-        if (!empty($breakdownsByPayment)) {
+        if (!empty($breakdownsByBooking)) {
             foreach ($paymentSummaries as $payment) {
                 $paymentId = $payment['payment_id'];
                 $bookingId = $payment['booking_id'] ?? null;
                 
-                // Try to get breakdowns by payment_id first
-                $breakdowns = $breakdownsByPayment[$paymentId] ?? [];
-                
-                // If no breakdowns found by payment_id, try by booking_id
-                if (empty($breakdowns) && $bookingId) {
-                    $bookingKey = 'booking_' . $bookingId;
-                    $breakdowns = $breakdownsByPayment[$bookingKey] ?? [];
-                }
-                
-                // If still no breakdowns, try to find any breakdowns for this booking_id
-                if (empty($breakdowns) && $bookingId) {
-                    foreach ($breakdownDetails as $bd) {
-                        if (($bd['booking_id'] ?? null) == $bookingId) {
-                            $breakdowns[] = $bd;
-                        }
-                    }
+                // Get breakdowns by booking_id
+                // This ensures we get ALL breakdowns for the booking (paid, pending, overdue)
+                $breakdowns = [];
+                if ($bookingId) {
+                    $breakdowns = $breakdownsByBooking[$bookingId] ?? [];
                 }
                 
                 if (empty($breakdowns)) {
@@ -570,10 +549,10 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                     $pdf->AddPage();
                 }
                 
-                // Payment ID header
+                // Booking ID header
                 $pdf->SetFont('helvetica', 'B', 10);
                 $boarderName = mb_substr($payment['boarder_name'] ?? 'N/A', 0, 30);
-                $pdf->Cell(0, 6, 'Payment ID: ' . $paymentId . ' (' . $boarderName . ')', 0, 1, 'L');
+                $pdf->Cell(0, 6, 'Booking ID: ' . $bookingId . ' (' . $boarderName . ')', 0, 1, 'L');
                 $pdf->Ln(2);
                 
                 $pdf->SetFont('helvetica', 'B', 8);
@@ -599,9 +578,9 @@ function generatePaymentReportPDF($startDate = null, $endDate = null, $boardingH
                     // Check for page break
                     if ($pdf->GetY() + 6 > $pdf->getPageHeight() - $pdf->getBreakMargin()) {
                         $pdf->AddPage();
-                        // Reprint payment ID header if page break
+                        // Reprint booking ID header if page break
                         $pdf->SetFont('helvetica', 'B', 10);
-                        $pdf->Cell(0, 6, 'Payment ID: ' . $paymentId . ' (' . $boarderName . ') - Continued', 0, 1, 'L');
+                        $pdf->Cell(0, 6, 'Booking ID: ' . $bookingId . ' (' . $boarderName . ') - Continued', 0, 1, 'L');
                         $pdf->Ln(2);
                         $printBreakdownHeader($pdf);
                     }

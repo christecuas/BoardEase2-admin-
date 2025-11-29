@@ -136,11 +136,12 @@ function generateRentalReportPDF($startDate = null, $endDate = null, $boardingHo
                 CONCAT(COALESCE(r.first_name, ''), ' ', COALESCE(r.middle_name, ''), ' ', COALESCE(r.last_name, ''), 
                        CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) as boarder_name,
                 COALESCE(bh.bh_name, 'N/A') as bh_name,
-                CONCAT(
-                    COALESCE(bhr.room_category, 'N/A'),
-                    CASE WHEN bhr.room_name IS NOT NULL AND bhr.room_name != '' THEN CONCAT(' - ', bhr.room_name) ELSE '' END,
-                    CASE WHEN ru.room_number IS NOT NULL AND ru.room_number != '' THEN CONCAT(' ', ru.room_number) ELSE '' END
-                ) as room,
+                             CONCAT(
+    COALESCE(bhr.room_category, 'N/A'),       -- e.g., Private Room
+    CASE WHEN bhr.room_name IS NOT NULL AND bhr.room_name != '' THEN CONCAT(' - ', bhr.room_name) ELSE '' END,
+    CASE WHEN ru.room_number IS NOT NULL AND ru.room_number != '' THEN CONCAT(' (', ru.room_number, ')') ELSE '' END
+) as room
+,
                 DATE_FORMAT(b.start_date, '%Y-%m-%d') as rental_start,
                 DATE_FORMAT(b.end_date, '%Y-%m-%d') as rental_end,
                 COALESCE(bhr.price, 0) as monthly_rate,

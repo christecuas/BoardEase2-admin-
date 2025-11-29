@@ -18,21 +18,21 @@ function generatePaymentReport() {
         // We need to show breakdown periods and their status
         $query = "
             SELECT 
-                p.payment_id,
-                p.booking_id,
-                p.payment_amount,
-                p.payment_method,
-                p.payment_status,
-                p.payment_date,
-                p.payment_month,
-                p.payment_year,
-                p.payment_month_number,
-                p.is_monthly_payment,
-                p.months_paid,
-                p.total_months_required,
-                p.notes,
-                p.receipt_url,
-                p.payment_proof,
+                b.booking_id,
+                MAX(p.payment_id) as payment_id,
+                MAX(pb_agg.total_amount) as payment_amount,
+                GROUP_CONCAT(DISTINCT p.payment_method ORDER BY p.payment_date DESC SEPARATOR ', ') as payment_method,
+                MAX(p.payment_status) as payment_status,
+                MAX(p.payment_date) as payment_date,
+                MAX(p.payment_month) as payment_month,
+                MAX(p.payment_year) as payment_year,
+                MAX(p.payment_month_number) as payment_month_number,
+                MAX(p.is_monthly_payment) as is_monthly_payment,
+                MAX(p.months_paid) as months_paid,
+                MAX(p.total_months_required) as total_months_required,
+                MAX(p.notes) as notes,
+                MAX(p.receipt_url) as receipt_url,
+                MAX(p.payment_proof) as payment_proof,
                 -- Boarder information
                 COALESCE(r.first_name, '') as first_name,
                 COALESCE(r.middle_name, '') as middle_name,
@@ -57,41 +57,47 @@ function generatePaymentReport() {
                 COALESCE(bhr.price, 0) as price,
                 COALESCE(ru.room_number, '') as room_number,
                 -- Payment breakdown information (aggregated)
-                -- NOTE: We join on booking_id to get ALL breakdowns for the booking, not just ones linked to this payment
-                -- This gives a complete picture of payment progress for the booking
-                COUNT(DISTINCT pb.breakdown_id) as total_breakdowns,
-                COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END), 0) as paid_breakdowns,
-                COALESCE(SUM(CASE WHEN pb.is_paid = 0 THEN 1 ELSE 0 END), 0) as unpaid_breakdowns,
-                COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN pb.amount ELSE 0 END), 0) as paid_amount,
-                COALESCE(SUM(CASE WHEN pb.is_paid = 0 THEN pb.amount ELSE 0 END), 0) as unpaid_amount,
-                COALESCE(GROUP_CONCAT(DISTINCT pb.period_label ORDER BY pb.period_start_date SEPARATOR ', '), 'N/A') as periods,
+                MAX(pb_agg.total_breakdowns) as total_breakdowns,
+                MAX(pb_agg.paid_breakdowns) as paid_breakdowns,
+                MAX(pb_agg.unpaid_breakdowns) as unpaid_breakdowns,
+                MAX(pb_agg.amount_paid) as paid_amount,
+                MAX(pb_agg.amount_unpaid) as unpaid_amount,
+                COALESCE(MAX(pb_agg.periods), 'N/A') as periods,
                 -- Calculate actual payment status from breakdowns (source of truth)
-                -- If no breakdowns exist, use payment table status
-                -- Otherwise, calculate based on breakdown payment progress
                 CASE 
-                    WHEN COUNT(DISTINCT pb.breakdown_id) = 0 THEN COALESCE(p.payment_status, 'Pending')
-                    WHEN COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END), 0) >= COUNT(DISTINCT pb.breakdown_id) THEN 'Fully Paid'
-                    WHEN COALESCE(SUM(CASE WHEN pb.is_paid = 1 THEN 1 ELSE 0 END), 0) > 0 THEN 'Completed/Partially'
+                    WHEN MAX(pb_agg.total_breakdowns) = 0 OR MAX(pb_agg.total_breakdowns) IS NULL THEN COALESCE(MAX(p.payment_status), 'Pending')
+                    WHEN MAX(pb_agg.paid_breakdowns) >= MAX(pb_agg.total_breakdowns) THEN 'Fully Paid'
+                    WHEN MAX(pb_agg.paid_breakdowns) > 0 THEN 'Completed/Partially'
                     ELSE 'Pending'
                 END as actual_payment_status
-            FROM payments p
-            LEFT JOIN users u ON p.user_id = u.user_id
+            FROM bookings b
+            LEFT JOIN payments p ON b.booking_id = p.booking_id
+            LEFT JOIN users u ON b.user_id = u.user_id
             LEFT JOIN registrations r ON u.reg_id = r.id
             LEFT JOIN users u2 ON p.owner_id = u2.user_id
             LEFT JOIN registrations r2 ON u2.reg_id = r2.id
-            LEFT JOIN bookings b ON p.booking_id = b.booking_id
             LEFT JOIN room_units ru ON b.room_id = ru.room_id
             LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-            LEFT JOIN payment_breakdowns pb ON p.booking_id = pb.booking_id
-            GROUP BY p.payment_id, p.booking_id, p.payment_amount, p.payment_method, p.payment_status, 
-                     p.payment_date, p.payment_month, p.payment_year, p.payment_month_number, 
-                     p.is_monthly_payment, p.months_paid, p.total_months_required, p.notes, 
-                     p.receipt_url, p.payment_proof, r.first_name, r.middle_name, r.last_name, 
-                     r.suffix, r.email, r.phone, r2.first_name, r2.last_name, r2.email, r2.phone,
-                     b.start_date, b.end_date, b.booking_status, b.booking_date, 
+            LEFT JOIN (
+                SELECT 
+                    booking_id,
+                    COUNT(breakdown_id) as total_breakdowns,
+                    SUM(CASE WHEN is_paid = 1 THEN 1 ELSE 0 END) as paid_breakdowns,
+                    SUM(CASE WHEN is_paid = 0 THEN 1 ELSE 0 END) as unpaid_breakdowns,
+                    SUM(amount) as total_amount,
+                    SUM(CASE WHEN is_paid = 1 THEN amount ELSE 0 END) as amount_paid,
+                    SUM(CASE WHEN is_paid = 0 THEN amount ELSE 0 END) as amount_unpaid,
+                    GROUP_CONCAT(DISTINCT period_label ORDER BY period_start_date SEPARATOR ', ') as periods
+                FROM payment_breakdowns
+                GROUP BY booking_id
+            ) pb_agg ON b.booking_id = pb_agg.booking_id
+            WHERE p.payment_id IS NOT NULL
+            GROUP BY b.booking_id, b.start_date, b.end_date, b.booking_status, b.booking_date,
+                     r.first_name, r.middle_name, r.last_name, r.suffix, r.email, r.phone,
+                     r2.first_name, r2.last_name, r2.email, r2.phone,
                      bh.bh_name, bhr.room_category, bhr.room_name, bhr.price, ru.room_number
-            ORDER BY p.payment_date DESC
+            ORDER BY MAX(p.payment_date) DESC
         ";
         
         $result = $connection->query($query);
@@ -101,7 +107,7 @@ function generatePaymentReport() {
         }
         
         // Start CSV content with payment breakdown information
-        $csv = "Payment ID,Booking ID,Amount,Method,Status (Actual),Status (Payment Table),Date,Month,Year,Month Number,Monthly Payment,Months Paid,Total Months,Notes,Receipt URL,Payment Proof,Customer Name,Email,Phone,Owner Name,Owner Email,Owner Phone,Booking Start Date,Booking End Date,Booking Status,Booking Date,Boarding House,Room Category,Room Name,Room Number,Room Price,Total Breakdowns,Paid Breakdowns,Unpaid Breakdowns,Paid Amount,Unpaid Amount,Periods Covered\n";
+        $csv = "Booking ID,Payment ID,Amount,Method,Status (Actual),Status (Payment Table),Date,Month,Year,Month Number,Monthly Payment,Months Paid,Total Months,Notes,Receipt URL,Payment Proof,Customer Name,Email,Phone,Owner Name,Owner Email,Owner Phone,Booking Start Date,Booking End Date,Booking Status,Booking Date,Boarding House,Room Category,Room Name,Room Number,Room Price,Total Breakdowns,Paid Breakdowns,Unpaid Breakdowns,Paid Amount,Unpaid Amount,Periods Covered\n";
         
         while ($row = $result->fetch_assoc()) {
             // Build boarder full name
@@ -130,8 +136,8 @@ function generatePaymentReport() {
             
             $csv .= sprintf(
                 "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
-                $row['payment_id'] ?? '',
                 $row['booking_id'] ?? '',
+                $row['payment_id'] ?? '',
                 number_format($row['payment_amount'] ?? 0, 2),
                 $row['payment_method'] ?? 'N/A',
                 $actualStatus, // Actual status from breakdowns

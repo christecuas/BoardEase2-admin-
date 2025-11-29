@@ -210,3 +210,9 @@ Please start MySQL/XAMPP service.
 [28/11/2025 12:56:22.31] ERROR: MySQL not available after 5 minutes. Exiting. 
 MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 Please start MySQL/XAMPP service.
+[29/11/2025  8:00:02.29] Waiting for MySQL connection... 
+[29/11/2025  8:00:04.52] MySQL is ready! Proceeding... 
+[29/11/2025  8:00:04.53] Starting auto_complete_stays.php 
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+auto_complete_stays.php - Completed: 0 bookings, Removed: 0 from active_boarders, Updated: 0 rooms to Available
+
