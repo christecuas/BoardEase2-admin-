@@ -1768,7 +1768,7 @@
         .document-preview img {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: contain;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -1948,4 +1948,97 @@
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
             min-width: 150px;
+        }
+
+        /* Mobile Responsive Styles for Document Verification Modal */
+        @media (max-width: 768px) {
+            .document-modal {
+                max-width: 95vw;
+                width: 95%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .document-modal .modal-body {
+                max-height: 75vh;
+            }
+
+            .document-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .document-item {
+                text-align: center !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100%;
+            }
+
+            .document-item h4 {
+                margin-bottom: 1rem;
+                font-size: 1.1rem !important;
+                font-weight: 500 !important;
+            }
+
+            .document-preview {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                padding: 2rem 1rem !important;
+                background: white !important;
+                border: 2px solid #e9ecef !important;
+                border-radius: 8px !important;
+                min-height: 200px !important;
+            }
+
+            .document-preview img {
+                height: auto !important;
+                max-height: 200px !important;
+                width: auto !important;
+                max-width: 100% !important;
+                object-fit: contain !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .verification-actions-final .action-buttons-container {
+                flex-direction: column;
+            }
+
+            .verification-actions-final .action-btn {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .document-modal {
+                max-width: 98vw;
+                width: 98%;
+            }
+
+            .document-preview img {
+                max-height: 200px;
+            }
+
+            .user-info-section,
+            .document-section,
+            .verification-checklist,
+            .verification-notes,
+            .email-verification-section,
+            .verification-actions-final {
+                padding: 1rem;
+            }
+
+            .verification-container {
+                gap: 1rem;
+            }
         }

@@ -212,6 +212,33 @@ try {
     }
     error_log($summary);
     
+    // Clean up old logs (keep only last 7 days)
+    $logDir = __DIR__ . '/logs';
+    if (file_exists($logDir)) {
+        $files = glob($logDir . '/auto_complete_*.log');
+        $cutoff = time() - (7 * 24 * 60 * 60); // 7 days ago
+        $deletedCount = 0;
+        
+        foreach ($files as $file) {
+            if (filemtime($file) < $cutoff) {
+                if (unlink($file)) {
+                    error_log("auto_complete_stays.php - Deleted old log: " . basename($file));
+                    $deletedCount++;
+                } else {
+                    error_log("auto_complete_stays.php - WARNING: Could not delete old log: " . basename($file));
+                }
+            }
+        }
+        
+        if ($deletedCount > 0) {
+            $cleanupMsg = "auto_complete_stays.php - Cleaned up $deletedCount old log file(s)";
+            error_log($cleanupMsg);
+            if (php_sapi_name() === 'cli') {
+                echo $cleanupMsg . "\n";
+            }
+        }
+    }
+    
     // If running from command line, output summary
     if (php_sapi_name() === 'cli') {
         echo $summary . "\n";

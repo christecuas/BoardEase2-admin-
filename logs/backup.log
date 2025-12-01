@@ -397,3 +397,21 @@ PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Fai
 Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
 Auto backup process completed successfully
 [29/11/2025  8:00:08.29] Backup completed successfully 
+[01/12/2025  9:05:48.71] Waiting for MySQL connection... 
+[2025-12-01 02:05:57] Auto backup process started
+[01/12/2025  9:05:58.10] MySQL is ready Proceeding with backup... 
+[01/12/2025  9:05:58.20] Starting database backup... 
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process started
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup created successfully: backups/boardease_auto_backup_2025-12-01_02-06-03.sql (Size: 0.27 MB)
+Auto backup completed successfully: backups/boardease_auto_backup_2025-12-01_02-06-03.sql (Size: 0.27 MB)
+PHP Warning:  file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+
+Warning: file_put_contents(C:\xampp\htdocs\BoardEase2/logs/backup.log): Failed to open stream: Resource temporarily unavailable in C:\xampp\htdocs\BoardEase2\auto_backup.php on line 132
+Auto backup process completed successfully
+[01/12/2025  9:06:06.45] Backup completed successfully 

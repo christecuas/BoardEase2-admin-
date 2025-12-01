@@ -412,6 +412,30 @@ try {
     // Log summary
     logMessage("=== Payment Reminder Check Completed ===");
     logMessage("Summary: Sent $remindersSent reminder(s), Failed: $remindersFailed");
+    
+    // Clean up old logs (keep only last 7 days)
+    $logDir = __DIR__ . '/logs';
+    if (file_exists($logDir)) {
+        $files = glob($logDir . '/payment_reminders_*.log');
+        $cutoff = time() - (7 * 24 * 60 * 60); // 7 days ago
+        $deletedCount = 0;
+        
+        foreach ($files as $file) {
+            if (filemtime($file) < $cutoff) {
+                if (unlink($file)) {
+                    logMessage("Deleted old log: " . basename($file));
+                    $deletedCount++;
+                } else {
+                    logMessage("WARNING: Could not delete old log: " . basename($file));
+                }
+            }
+        }
+        
+        if ($deletedCount > 0) {
+            logMessage("Cleaned up $deletedCount old log file(s)");
+        }
+    }
+    
     logMessage("=========================================");
     
     // Return JSON response if called via HTTP

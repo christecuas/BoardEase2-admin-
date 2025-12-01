@@ -3898,6 +3898,28 @@ $conn->close();
              border: 1px solid #e9ecef;
          }
 
+         .user-info-section h3,
+         .document-section h3,
+         .verification-checklist h3,
+         .verification-notes h3,
+         .email-verification-section h3,
+         .verification-actions-final h3 {
+             color: #8D6E63;
+             margin-bottom: 1rem;
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+             font-size: 1rem;
+             font-weight: 600;
+         }
+
+         .document-item h4 {
+             color: #8D6E63;
+             margin-bottom: 1rem;
+             font-size: 0.95rem;
+             font-weight: 500;
+         }
+
          .user-info-section h3, .document-section h3, .verification-checklist h3, .verification-notes h3 {
              color: #8D6E63;
              margin-bottom: 1rem;
@@ -4366,6 +4388,99 @@ $conn->close();
             }
             50% {
                 transform: translateY(-5px) scale(1.1);
+            }
+        }
+
+        /* MOBILE RESPONSIVE STYLES FOR DOCUMENT VERIFICATION MODAL */
+        @media (max-width: 768px) {
+            .document-modal {
+                max-width: 95vw !important;
+                width: 95% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+
+            .document-modal .modal-body {
+                max-height: 75vh !important;
+            }
+
+            .document-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .document-item {
+                text-align: center !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100% !important;
+            }
+
+            .document-item h4 {
+                margin-bottom: 1rem !important;
+                font-size: 1.1rem !important;
+                font-weight: 500 !important;
+            }
+
+            .document-preview {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                padding: 2rem 1rem !important;
+                background: white !important;
+                border: 2px solid #e9ecef !important;
+                border-radius: 8px !important;
+                min-height: 200px !important;
+            }
+
+            .document-preview img {
+                height: auto !important;
+                max-height: 200px !important;
+                width: auto !important;
+                max-width: 100% !important;
+                object-fit: contain !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+
+            .verification-actions-final .action-buttons-container {
+                flex-direction: column !important;
+            }
+
+            .verification-actions-final .action-btn {
+                width: 100% !important;
+                min-width: auto !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .document-modal {
+                max-width: 98vw !important;
+                width: 98% !important;
+            }
+
+            .document-preview img {
+                max-height: 200px !important;
+            }
+
+            .user-info-section,
+            .document-section,
+            .verification-checklist,
+            .verification-notes,
+            .email-verification-section,
+            .verification-actions-final {
+                padding: 1rem !important;
+            }
+
+            .verification-container {
+                gap: 1rem !important;
             }
         }
     </style>
@@ -13126,6 +13241,43 @@ $conn->close();
             color: #999;
             font-size: 12px;
         }
+
+        /* Loading Indicator Styles */
+        .loading-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            width: 100%;
+            min-height: 60vh; /* Make it take up most of the modal height */
+            background: transparent;
+            z-index: 10;
+        }
+
+        .loading-spinner {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #D2B48C;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <script>
@@ -13258,18 +13410,21 @@ $conn->close();
         // Account Management Functions
         function openAccountManagement() {
             document.getElementById('accountManagementModal').style.display = 'block';
-            showAccountLoading();
+            // Ensure we start on the admins tab
+            switchAccountTab('admins');
             loadAdminAccounts();
         }
 
         function showAccountLoading() {
+            // Deprecated: Loading is now handled within the list container
             const loadingIndicator = document.getElementById('accountLoadingIndicator');
             if (loadingIndicator) {
-                loadingIndicator.style.display = 'flex';
+                loadingIndicator.style.display = 'none';
             }
         }
 
         function hideAccountLoading() {
+            // Deprecated: Loading is now handled within the list container
             const loadingIndicator = document.getElementById('accountLoadingIndicator');
             if (loadingIndicator) {
                 loadingIndicator.style.display = 'none';
@@ -13300,8 +13455,11 @@ $conn->close();
             });
             
             // Show selected tab content
-            document.getElementById(tabName + '-tab').style.display = 'block';
-            document.getElementById(tabName + '-tab').classList.add('active');
+            const targetContent = document.getElementById(tabName + '-tab');
+            if (targetContent) {
+                targetContent.style.display = 'block';
+                targetContent.classList.add('active');
+            }
             
             // Add active class to the correct tab
             const targetTab = document.querySelector(`#accountManagementModal .account-tabs .tab[onclick="switchAccountTab('${tabName}')"]`);
@@ -13326,6 +13484,11 @@ $conn->close();
                 loadActivityLogs();
             } else if (tabName === 'security') {
                 loadSecurityEvents();
+            } else if (tabName === 'admins') {
+                // Ensure admins are loaded when switching to this tab
+                if (!adminAccountsLoaded) {
+                    loadAdminAccounts();
+                }
             }
         }
 
@@ -13391,8 +13554,20 @@ $conn->close();
             // Only load if not already loaded
             if (adminAccountsLoaded && currentAdmins.length > 0) {
                 displayAdminAccounts(currentAdmins);
-                hideAccountLoading();
                 return;
+            }
+
+            // Inject loading spinner into the list container
+            const adminList = document.querySelector('#admins-tab .admin-list');
+            if (adminList) {
+                adminList.innerHTML = `
+                    <div class="loading-indicator">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <div class="loading-text">Loading admin accounts...</div>
+                        </div>
+                    </div>
+                `;
             }
 
             fetch('../get_admin_accounts_mysqli.php')
@@ -13401,27 +13576,41 @@ $conn->close();
                     if (data.success) {
                         currentAdmins = data.admins; // Store for edit functionality
                         adminAccountsLoaded = true; // Mark as loaded
-                        displayAdminAccounts(data.admins);
+                        // Data display moved to finally block to ensure loading finishes first
                     } else {
                         showNotification('Failed to load admin accounts: ' + (data.message || 'Unknown error'), 'error');
                         console.error('Admin accounts error:', data);
+                        if (adminList) {
+                            adminList.innerHTML = `<div class="no-data"><i class="fas fa-exclamation-circle"></i><p>Failed to load data</p></div>`;
+                        }
                     }
                 })
                 .catch(error => {
                     showNotification('Error loading admin accounts', 'error');
                     console.error('Error:', error);
+                    if (adminList) {
+                        adminList.innerHTML = `<div class="no-data"><i class="fas fa-exclamation-triangle"></i><p>Error loading data</p></div>`;
+                    }
                 })
                 .finally(() => {
-                    // Hide loading indicator after request completes (success or error)
+                    // Small delay to show the loading animation before displaying data
                     setTimeout(() => {
-                        hideAccountLoading();
-                    }, 500); // Small delay to show the loading animation
+                        // Display data ONLY after loading is "visually" finished
+                        if (adminAccountsLoaded) {
+                            displayAdminAccounts(currentAdmins);
+                        }
+                    }, 500); 
                 });
         }
 
         // Display admin accounts in the UI
         function displayAdminAccounts(admins) {
-            const adminList = document.querySelector('.admin-list');
+            // Use specific selector to ensure we target the correct element
+            const adminList = document.querySelector('#admins-tab .admin-list');
+            if (!adminList) {
+                console.error('Admin list container not found!');
+                return;
+            }
             adminList.innerHTML = '';
 
             admins.forEach(admin => {

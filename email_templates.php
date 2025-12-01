@@ -291,7 +291,7 @@ function getAccountRejectionEmailTemplate($userName, $userEmail, $reason = '') {
             <div class='footer'>
                 <p><strong>Need Help?</strong></p>
                 <p>If you have any questions or need assistance, please contact our support team.</p>
-                <p>📧 Email: support@boardease.com<br>
+                <p>📧 Email: boardease2025@gmail.com<br>
                 📞 Phone: (123) 456-7890</p>
             </div>
         </div>
@@ -412,7 +412,7 @@ function getAccountSuspensionEmailTemplate($userName, $userEmail, $reason = '') 
             <div class='footer'>
                 <p><strong>Need Help?</strong></p>
                 <p>If you have any questions or believe this is an error, please contact our support team.</p>
-                <p>📧 Email: support@boardease.com<br>
+                <p>📧 Email: boardease2025@gmail.com<br>
                 📞 Phone: (123) 456-7890</p>
             </div>
         </div>
@@ -514,7 +514,7 @@ function getAccountUnsuspensionEmailTemplate($userName, $userEmail) {
             <div class='footer'>
                 <p><strong>Welcome Back!</strong></p>
                 <p>If you have any questions, please contact our support team.</p>
-                <p>📧 Email: support@boardease.com<br>
+                <p>📧 Email: boardease2025@gmail.com<br>
                 📞 Phone: (123) 456-7890</p>
             </div>
         </div>
@@ -640,7 +640,7 @@ function getBoardingHouseDeactivationEmailTemplate($ownerName, $ownerEmail, $bhN
             <div class='footer'>
                 <p><strong>Need Help?</strong></p>
                 <p>If you have any questions or believe this is an error, please contact our support team.</p>
-                <p>📧 Email: support@boardease.com<br>
+                <p>📧 Email: boardease2025@gmail.com<br>
                 📞 Phone: (123) 456-7890</p>
             </div>
         </div>
@@ -747,7 +747,7 @@ function getBoardingHouseActivationEmailTemplate($ownerName, $ownerEmail, $bhNam
             <div class='footer'>
                 <p><strong>Welcome Back!</strong></p>
                 <p>If you have any questions, please contact our support team.</p>
-                <p>📧 Email: support@boardease.com<br>
+                <p>📧 Email: boardease2025@gmail.com<br>
                 📞 Phone: (123) 456-7890</p>
             </div>
         </div>

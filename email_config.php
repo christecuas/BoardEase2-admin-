@@ -8,9 +8,9 @@ class EmailConfig {
     public static function getBasicMailConfig() {
         return [
             'method' => 'basic',
-            'from_email' => 'noreply@boardease.com',
+            'from_email' => 'boardease2025@gmail.com',
             'from_name' => 'BoardEase',
-            'reply_to' => 'support@boardease.com'
+            'reply_to' => 'boardease2025@gmail.com'
         ];
     }
     
@@ -20,12 +20,12 @@ class EmailConfig {
             'method' => 'smtp',
             'host' => 'smtp.gmail.com',
             'port' => 587,
-            'username' => 'christecuas947@gmail.com',
-            'password' => 'alaw glsx czbf qdhs',
+            'username' => 'boardease2025@gmail.com',
+            'password' => 'vorr xueg nslr nesx',
             'encryption' => 'tls',
-            'from_email' => 'christecuas947@gmail.com',
+            'from_email' => 'boardease2025@gmail.com',
             'from_name' => 'BoardEase',
-            'reply_to' => 'christecuas947@gmail.com'
+            'reply_to' => 'boardease2025@gmail.com'
         ];
     }
     

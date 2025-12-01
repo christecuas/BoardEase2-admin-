@@ -44,3 +44,26 @@ Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
 === Notification Cleanup Completed Successfully ===
 
 [21/11/2025  9:28:53.27] Cleanup completed successfully! 
+[01/12/2025 10:42:35.66] Starting notification cleanup... 
+[2025-12-01 03:42:35] === Notification Cleanup Started ===
+[2025-12-01 03:42:35] Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+[2025-12-01 03:42:35] Connecting to database...
+[2025-12-01 03:42:37] Database connection successful
+[2025-12-01 03:42:37] Transaction started
+[2025-12-01 03:42:37] Cutoff date calculated: 2025-11-01 03:42:37 (notifications older than this will be deleted)
+[2025-12-01 03:42:37] Found 0 notification(s) to delete
+[2025-12-01 03:42:37] No notifications found to delete (all notifications are newer than cutoff date)
+[2025-12-01 03:42:37] === Notification Cleanup Completed Successfully ===
+=== Notification Cleanup Started ===
+Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+Connecting to database...
+Database connection successful
+Transaction started
+Cutoff date calculated: 2025-11-01 03:42:37 (notifications older than this will be deleted)
+Found 0 notification(s) to delete
+No notifications found to delete (all notifications are newer than cutoff date)
+cleanup_old_notifications.php - No notifications to delete (all are newer than 2025-11-01 03:42:37)
+Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+=== Notification Cleanup Completed Successfully ===
+
+[01/12/2025 10:42:37.92] Cleanup completed successfully! 
