@@ -68,19 +68,42 @@ try {
         $bhrId = $room['bhr_id'];
         
         // Count available room units for this bhr_id
-        $availableRoomsSql = "
-            SELECT COUNT(*) as available_count
-            FROM room_units
-            WHERE bhr_id = ? AND status = 'Available'
-        ";
-        $availableStmt = $pdo->prepare($availableRoomsSql);
-        $availableStmt->execute([$bhrId]);
-        $availableResult = $availableStmt->fetch(PDO::FETCH_ASSOC);
-        $availableCount = isset($availableResult['available_count']) ? (int)$availableResult['available_count'] : 0;
-        
-        // Add available_rooms to the room array
-        $room['available_rooms'] = $availableCount;
-        error_log("DEBUG: Room bhr_id=" . $bhrId . " (" . $room['room_name'] . ") - available_rooms: " . $room['available_rooms']);
+        // For Private Room: Count units with status = 'Available'
+        // For Bed Spacer: Count units where booking_count < capacity (per unit)
+        if ($room['room_category'] === 'Bed Spacer') {
+            // For Bed Spacer, count ALL units with status "Available" or "Partially Occupied"
+            // Don't exclude based on capacity - show all as long as status is not "Occupied"
+            // This ensures "Room(s): 2" shows even if both are "Partially Occupied" (2/2 full)
+            $availableRoomsSql = "
+                SELECT COUNT(*) as available_count
+                FROM room_units ru
+                WHERE ru.bhr_id = ? 
+                AND ru.status IN ('Available', 'Partially Occupied')
+            ";
+            $availableStmt = $pdo->prepare($availableRoomsSql);
+            $availableStmt->execute([$bhrId]);
+            $availableResult = $availableStmt->fetch(PDO::FETCH_ASSOC);
+            $availableCount = isset($availableResult['available_count']) ? (int)$availableResult['available_count'] : 0;
+            
+            // Add room information for Bed Spacer
+            $room['available_rooms'] = $availableCount;
+            
+            error_log("DEBUG: Bed Spacer bhr_id=" . $bhrId . " (" . $room['room_name'] . ") - available_rooms: " . $availableCount . " (counted all units with status 'Available' or 'Partially Occupied')");
+        } else {
+            // For Private Room, just count Available status
+            $availableRoomsSql = "
+                SELECT COUNT(*) as available_count
+                FROM room_units
+                WHERE bhr_id = ? AND status = 'Available'
+            ";
+            $availableStmt = $pdo->prepare($availableRoomsSql);
+            $availableStmt->execute([$bhrId]);
+            $availableResult = $availableStmt->fetch(PDO::FETCH_ASSOC);
+            $availableCount = isset($availableResult['available_count']) ? (int)$availableResult['available_count'] : 0;
+            
+            $room['available_rooms'] = $availableCount;
+            error_log("DEBUG: Room bhr_id=" . $bhrId . " (" . $room['room_name'] . ") - available_rooms: " . $room['available_rooms']);
+        }
         
         if (!isset($groupedRooms[$category])) {
             $groupedRooms[$category] = array();

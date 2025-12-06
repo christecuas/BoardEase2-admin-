@@ -81,18 +81,50 @@ try {
     $roomStats['total_room_units'] = $result->fetch_assoc()['total_units'] ?? 0;
     
     // Available room units
-    $availableUnitsQuery = "SELECT COUNT(*) as available_units FROM room_units ru
-                           JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                           JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                           WHERE bh.status = 'Active' AND ru.status = 'Available'";
+    // For Private Room: Count units with status = 'Available'
+    // For Bed Spacer: Count units where booking_count < capacity (regardless of status)
+    $availableUnitsQuery = "
+        SELECT COUNT(*) as available_units 
+        FROM room_units ru
+        JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.status = 'Active'
+        AND (
+            -- Private Room: status must be 'Available'
+            (bhr.room_category = 'Private Room' AND ru.status = 'Available')
+            OR
+            -- Bed Spacer: count bookings and compare with capacity
+            (bhr.room_category = 'Bed Spacer' AND (
+                SELECT COUNT(*) 
+                FROM bookings b 
+                WHERE b.room_id = ru.room_id 
+                AND b.booking_status IN ('Pending', 'Confirmed')
+            ) < bhr.capacity)
+        )";
     $result = $conn->query($availableUnitsQuery);
     $roomStats['available_units'] = $result->fetch_assoc()['available_units'];
     
     // Occupied room units
-    $occupiedUnitsQuery = "SELECT COUNT(*) as occupied_units FROM room_units ru
-                           JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                           JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                           WHERE bh.status = 'Active' AND ru.status = 'Occupied'";
+    // For Private Room: Count units with status = 'Occupied'
+    // For Bed Spacer: Count units where booking_count >= capacity
+    $occupiedUnitsQuery = "
+        SELECT COUNT(*) as occupied_units 
+        FROM room_units ru
+        JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+        WHERE bh.status = 'Active'
+        AND (
+            -- Private Room: status must be 'Occupied'
+            (bhr.room_category = 'Private Room' AND ru.status = 'Occupied')
+            OR
+            -- Bed Spacer: count bookings and check if >= capacity
+            (bhr.room_category = 'Bed Spacer' AND (
+                SELECT COUNT(*) 
+                FROM bookings b 
+                WHERE b.room_id = ru.room_id 
+                AND b.booking_status IN ('Pending', 'Confirmed')
+            ) >= bhr.capacity)
+        )";
     $result = $conn->query($occupiedUnitsQuery);
     $roomStats['occupied_units'] = $result->fetch_assoc()['occupied_units'];
     

@@ -83,7 +83,7 @@ try {
     $pdo->beginTransaction();
     
     // Verify that the booking exists and belongs to the owner
-    // Also get booking details needed for active_boarders insertion
+    // Also get booking details needed for active_boarders insertion and room status update
     // boarding_houses.user_id refers to users.user_id directly
     // Use FOR UPDATE to lock the row and prevent double-processing
     $verifySql = "
@@ -92,8 +92,12 @@ try {
             b.booking_status, 
             b.user_id as boarder_user_id,
             b.room_id,
+            b.start_date,
+            b.end_date,
             bh.user_id as owner_user_id,
-            bh.bh_id as boarding_house_id
+            bh.bh_id as boarding_house_id,
+            bhr.room_category,
+            bhr.capacity
         FROM bookings b
         INNER JOIN room_units ru ON b.room_id = ru.room_id
         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
@@ -323,10 +327,76 @@ try {
         }
     }
     
+    // Update room status when booking is confirmed
+    // Room was 'Partially Occupied' (Reserved) when booking was Pending
+    // Now update to 'Occupied' (for Private Room) or based on capacity (for Bed Spacer)
+    $roomId = $booking['room_id'];
+    $roomCategory = $booking['room_category'] ?? '';
+    $capacity = isset($booking['capacity']) ? intval($booking['capacity']) : 1;
+    $startDate = $booking['start_date'] ?? '';
+    $endDate = $booking['end_date'] ?? '';
+    
+    if ($roomCategory === 'Private Room') {
+        // Private Room: Change from 'Partially Occupied' (Reserved) to 'Occupied' (Fully booked)
+        $updateRoomStatusSql = "UPDATE room_units SET status = 'Occupied' WHERE room_id = :room_id";
+        $updateRoomStatusStmt = $pdo->prepare($updateRoomStatusSql);
+        $updateRoomStatusStmt->execute([':room_id' => $roomId]);
+        
+        if (function_exists('error_log')) {
+            error_log("approve_booking.php - Private Room room_id=$roomId updated from 'Partially Occupied' (Reserved) to 'Occupied' (Fully booked)");
+        }
+        
+    } else if ($roomCategory === 'Bed Spacer' && $capacity > 0) {
+        // Bed Spacer: Count CONFIRMED bookings (including this one we just confirmed) for the same dates
+        $countConfirmedBookingsSql = "
+            SELECT COUNT(b2.booking_id) as confirmed_count
+            FROM bookings b2
+            WHERE b2.room_id = :room_id
+            AND b2.booking_status = 'Confirmed'
+            AND (
+                (b2.start_date <= :start_date AND b2.end_date >= :start_date)
+                OR (b2.start_date <= :end_date AND b2.end_date >= :end_date)
+                OR (b2.start_date >= :start_date AND b2.end_date <= :end_date)
+            )
+        ";
+        $countStmt = $pdo->prepare($countConfirmedBookingsSql);
+        $countStmt->execute([
+            ':room_id' => $roomId,
+            ':start_date' => $startDate,
+            ':end_date' => $endDate
+        ]);
+        $countResult = $countStmt->fetch(PDO::FETCH_ASSOC);
+        $confirmedCount = intval($countResult['confirmed_count']);
+        
+        if (function_exists('error_log')) {
+            error_log("approve_booking.php - Bed Spacer room_id=$roomId: confirmed_count=$confirmedCount, capacity=$capacity");
+        }
+        
+        // Only update to 'Occupied' if capacity is reached
+        if ($confirmedCount >= $capacity) {
+            $updateRoomStatusSql = "UPDATE room_units SET status = 'Occupied' WHERE room_id = :room_id";
+            $updateRoomStatusStmt = $pdo->prepare($updateRoomStatusSql);
+            $updateRoomStatusStmt->execute([':room_id' => $roomId]);
+            
+            if (function_exists('error_log')) {
+                error_log("approve_booking.php - Bed Spacer room_id=$roomId updated from 'Partially Occupied' (Reserved) to 'Occupied' (capacity reached: $confirmedCount/$capacity)");
+            }
+        } else {
+            // Still has capacity, keep as 'Partially Occupied' (even if no pending bookings)
+            // Status should remain 'Partially Occupied' until capacity is full (then becomes 'Occupied')
+            $updateRoomStatusSql = "UPDATE room_units SET status = 'Partially Occupied' WHERE room_id = :room_id";
+            $updateRoomStatusStmt = $pdo->prepare($updateRoomStatusSql);
+            $updateRoomStatusStmt->execute([':room_id' => $roomId]);
+            
+            if (function_exists('error_log')) {
+                error_log("approve_booking.php - Bed Spacer room_id=$roomId remains 'Partially Occupied' (capacity not reached: $confirmedCount/$capacity)");
+            }
+        }
+    }
+    
     // Insert or update active_boarders table
     // This automatically adds the boarder to the active boarders list when booking is approved
     $boarderUserId = $booking['boarder_user_id'];
-    $roomId = $booking['room_id'];
     $boardingHouseId = $booking['boarding_house_id'];
     
     if (function_exists('error_log')) {

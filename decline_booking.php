@@ -73,10 +73,19 @@ try {
     $pdo->beginTransaction();
     
     // Verify that the booking exists and belongs to the owner
+    // Also get room category and capacity for proper status update
     // boarding_houses.user_id refers to users.user_id directly
     // Use FOR UPDATE to lock the row and prevent double-processing
     $verifySql = "
-        SELECT b.booking_id, b.booking_status, b.room_id, bh.user_id as owner_user_id
+        SELECT 
+            b.booking_id, 
+            b.booking_status, 
+            b.room_id,
+            b.start_date,
+            b.end_date,
+            bh.user_id as owner_user_id,
+            bhr.room_category,
+            bhr.capacity
         FROM bookings b
         INNER JOIN room_units ru ON b.room_id = ru.room_id
         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
@@ -148,10 +157,114 @@ try {
     $updateStmt = $pdo->prepare($updateSql);
     $updateStmt->execute([':booking_id' => $bookingId]);
     
-    // Update room status back to Available
-    $updateRoomSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
-    $updateRoomStmt = $pdo->prepare($updateRoomSql);
-    $updateRoomStmt->execute([':room_id' => $booking['room_id']]);
+    // Update room status based on room category
+    $roomId = $booking['room_id'];
+    $roomCategory = $booking['room_category'] ?? '';
+    $capacity = isset($booking['capacity']) ? intval($booking['capacity']) : 1;
+    
+    if ($roomCategory === 'Private Room') {
+        // Private Room: Set back to 'Available' when booking is cancelled
+        $updateRoomSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
+        $updateRoomStmt = $pdo->prepare($updateRoomSql);
+        $updateRoomStmt->execute([':room_id' => $roomId]);
+        
+        if (function_exists('error_log')) {
+            error_log("decline_booking.php - Private Room room_id=$roomId updated from 'Partially Occupied' (Reserved) to 'Available' (booking cancelled)");
+        }
+        
+    } else if ($roomCategory === 'Bed Spacer' && $capacity > 0) {
+        // Bed Spacer: Check if there are other active bookings (Pending or Confirmed)
+        $checkActiveBookingsSql = "
+            SELECT COUNT(b2.booking_id) as active_count
+            FROM bookings b2
+            WHERE b2.room_id = :room_id
+            AND b2.booking_status IN ('Pending', 'Confirmed')
+            AND b2.booking_id != :booking_id
+        ";
+        $checkActiveStmt = $pdo->prepare($checkActiveBookingsSql);
+        $checkActiveStmt->execute([
+            ':room_id' => $roomId,
+            ':booking_id' => $bookingId
+        ]);
+        $activeResult = $checkActiveStmt->fetch(PDO::FETCH_ASSOC);
+        $activeCount = intval($activeResult['active_count']);
+        
+        if (function_exists('error_log')) {
+            error_log("decline_booking.php - Bed Spacer room_id=$roomId: active_count=$activeCount, capacity=$capacity");
+        }
+        
+        if ($activeCount == 0) {
+            // No other active bookings, set to 'Available'
+            $updateRoomSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
+            $updateRoomStmt = $pdo->prepare($updateRoomSql);
+            $updateRoomStmt->execute([':room_id' => $roomId]);
+            
+            if (function_exists('error_log')) {
+                error_log("decline_booking.php - Bed Spacer room_id=$roomId updated to 'Available' (no other active bookings)");
+            }
+        } else {
+            // There are other active bookings, check if room should be 'Occupied' or 'Available'
+            // Count CONFIRMED bookings to determine if capacity is reached
+            $countConfirmedSql = "
+                SELECT COUNT(b2.booking_id) as confirmed_count
+                FROM bookings b2
+                WHERE b2.room_id = :room_id
+                AND b2.booking_status = 'Confirmed'
+            ";
+            $countConfirmedStmt = $pdo->prepare($countConfirmedSql);
+            $countConfirmedStmt->execute([':room_id' => $roomId]);
+            $confirmedResult = $countConfirmedStmt->fetch(PDO::FETCH_ASSOC);
+            $confirmedCount = intval($confirmedResult['confirmed_count']);
+            
+            if ($confirmedCount >= $capacity) {
+                // At full capacity with confirmed bookings, set to 'Occupied'
+                $updateRoomSql = "UPDATE room_units SET status = 'Occupied' WHERE room_id = :room_id";
+                $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                $updateRoomStmt->execute([':room_id' => $roomId]);
+                
+                if (function_exists('error_log')) {
+                    error_log("decline_booking.php - Bed Spacer room_id=$roomId updated to 'Occupied' (capacity reached: $confirmedCount/$capacity)");
+                }
+            } else {
+                // Still has capacity, check if there are pending bookings
+                $countPendingSql = "
+                    SELECT COUNT(*) as pending_count
+                    FROM bookings
+                    WHERE room_id = :room_id
+                    AND booking_status = 'Pending'
+                ";
+                $countPendingStmt = $pdo->prepare($countPendingSql);
+                $countPendingStmt->execute([':room_id' => $roomId]);
+                $pendingResult = $countPendingStmt->fetch(PDO::FETCH_ASSOC);
+                $pendingCount = intval($pendingResult['pending_count']);
+                
+                if ($pendingCount > 0) {
+                    // Has pending bookings, set to 'Partially Occupied'
+                    $updateRoomSql = "UPDATE room_units SET status = 'Partially Occupied' WHERE room_id = :room_id";
+                    $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                    $updateRoomStmt->execute([':room_id' => $roomId]);
+                    
+                    if (function_exists('error_log')) {
+                        error_log("decline_booking.php - Bed Spacer room_id=$roomId updated to 'Partially Occupied' (capacity not reached: $confirmedCount/$capacity, pending: $pendingCount)");
+                    }
+                } else {
+                    // No pending bookings, set to 'Available'
+                    $updateRoomSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
+                    $updateRoomStmt = $pdo->prepare($updateRoomSql);
+                    $updateRoomStmt->execute([':room_id' => $roomId]);
+                    
+                    if (function_exists('error_log')) {
+                        error_log("decline_booking.php - Bed Spacer room_id=$roomId updated to 'Available' (capacity not reached: $confirmedCount/$capacity, no pending bookings)");
+                    }
+                }
+            }
+        }
+    } else {
+        // Unknown category or invalid capacity, set to 'Available'
+        $updateRoomSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
+        $updateRoomStmt = $pdo->prepare($updateRoomSql);
+        $updateRoomStmt->execute([':room_id' => $roomId]);
+    }
     
     // Update payment status to Cancelled if payment exists
     $updatePaymentSql = "UPDATE payments SET payment_status = 'Cancelled' WHERE booking_id = :booking_id";
