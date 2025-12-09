@@ -5142,7 +5142,6 @@ $conn->close();
                                     <option value="all">All Users</option>
                                     <option value="boarders">All Boarders</option>
                                     <option value="owners">All Owners</option>
-                                    <option value="specific">Specific Users</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -6806,13 +6805,28 @@ $conn->close();
                     }
                     break;
                 case 'user-management':
+                    // Load both stats and full user list data
                     if (typeof loadUserStatsData === 'function') {
-                    loadUserStatsData();
+                        loadUserStatsData();
+                    }
+                    if (typeof loadUserManagementData === 'function') {
+                        loadUserManagementData();
                     }
                     break;
                 case 'boarding-houses':
+                    // Get current active filter or default to 'all'
+                    const activeFilterBtn = document.querySelector('#all-tab .filter-btn.active');
+                    const currentFilter = activeFilterBtn ? activeFilterBtn.textContent.trim().toLowerCase() : 'all';
+                    // Map filter text to filter value
+                    const filterMap = {
+                        'all': 'all',
+                        'active': 'active',
+                        'inactive': 'inactive'
+                    };
+                    const filterValue = filterMap[currentFilter] || 'all';
+                    
                     if (typeof loadBoardingHousesData === 'function') {
-                    loadBoardingHousesData();
+                        loadBoardingHousesData(filterValue);
                     }
                     break;
                 case 'notifications':
@@ -6869,6 +6883,359 @@ $conn->close();
             if (ownersCountElement) {
                 ownersCountElement.textContent = stats.total_owners;
             }
+        }
+
+        // Load Full User Management Data (Users + Pending Registrations)
+        async function loadUserManagementData() {
+            try {
+                // Show loading state
+                const boardersTableBody = document.getElementById('boarders-table-body');
+                const ownersTableBody = document.getElementById('owners-table-body');
+                
+                if (boardersTableBody) {
+                    boardersTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 20px;">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading boarders...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                if (ownersTableBody) {
+                    ownersTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px;">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading owners...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                // Fetch users and pending registrations in parallel
+                const [usersResponse, pendingResponse] = await Promise.all([
+                    fetch('../get_admin_users_simple.php'),
+                    fetch('../get_pending_registrations.php')
+                ]);
+
+                const usersData = await usersResponse.json();
+                const pendingData = await pendingResponse.json();
+
+                if (!usersData.success) {
+                    throw new Error(usersData.error || 'Failed to load users');
+                }
+
+                // Combine users and pending registrations
+                const allUsers = usersData.data.users || [];
+                const pendingRegistrations = pendingData.success ? (pendingData.registrations || []) : [];
+
+                // Process and display boarders
+                updateBoardersTable(allUsers, pendingRegistrations);
+                
+                // Process and display owners
+                updateOwnersTable(allUsers, pendingRegistrations);
+
+            } catch (error) {
+                console.error('Error loading user management data:', error);
+                
+                // Show error message
+                const boardersTableBody = document.getElementById('boarders-table-body');
+                const ownersTableBody = document.getElementById('owners-table-body');
+                
+                const errorHtml = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #d32f2f;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error loading data. Please refresh the page.</p>
+                        </td>
+                    </tr>
+                `;
+                
+                if (boardersTableBody) {
+                    boardersTableBody.innerHTML = errorHtml.replace('colspan="5"', 'colspan="5"');
+                }
+                if (ownersTableBody) {
+                    ownersTableBody.innerHTML = errorHtml.replace('colspan="5"', 'colspan="6"');
+                }
+            }
+        }
+
+        // Update Boarders Table
+        function updateBoardersTable(users, pendingRegistrations) {
+            const boardersTableBody = document.getElementById('boarders-table-body');
+            if (!boardersTableBody) return;
+
+            // Filter boarders from users (case-insensitive status check)
+            const activeBoarders = users.filter(user => user.role === 'Boarder' && user.status && user.status.toLowerCase() === 'active');
+            const inactiveBoarders = users.filter(user => user.role === 'Boarder' && (!user.status || user.status.toLowerCase() !== 'active'));
+            const pendingBoarders = pendingRegistrations.filter(reg => reg.role === 'Boarder');
+
+            // Combine all boarders (avoid duplicates by email)
+            const processedEmails = new Set();
+            const allBoarders = [];
+
+            // Add active boarders
+            activeBoarders.forEach(user => {
+                allBoarders.push({...user, isPending: false});
+                processedEmails.add(user.email);
+            });
+
+            // Add inactive boarders
+            inactiveBoarders.forEach(user => {
+                if (!processedEmails.has(user.email)) {
+                    allBoarders.push({...user, isPending: false});
+                    processedEmails.add(user.email);
+                }
+            });
+
+            // Add pending boarders
+            pendingBoarders.forEach(reg => {
+                if (!processedEmails.has(reg.email)) {
+                    allBoarders.push({
+                        id: reg.id,
+                        email: reg.email,
+                        first_name: reg.first_name,
+                        middle_name: reg.middle_name,
+                        last_name: reg.last_name,
+                        suffix: reg.suffix,
+                        full_name: reg.full_name,
+                        phone: reg.phone,
+                        role: reg.role,
+                        created_at: reg.created_at,
+                        isPending: true
+                    });
+                }
+            });
+
+            // Sort by created_at (newest first)
+            allBoarders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (allBoarders.length === 0) {
+                boardersTableBody.innerHTML = `
+                    <tr id="boarders-no-data">
+                        <td colspan="5" style="text-align: center; padding: 2rem; color: #666;">
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                            <strong>No boarders found</strong><br>
+                            <small>There are no boarders in the system yet.</small>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Generate HTML for boarders table
+            let html = '';
+            allBoarders.forEach(user => {
+                const initials = (user.first_name.charAt(0) + user.last_name.charAt(0)).toUpperCase();
+                const registrationDate = new Date(user.created_at).toISOString().split('T')[0];
+                
+                let status, statusClass, actions, dataId;
+                
+                if (user.isPending) {
+                    status = 'Pending Approval';
+                    statusClass = 'status-pending';
+                    actions = `
+                        <div class="action-buttons-container">
+                            <button class="action-btn" onclick="viewDocuments(${user.id})">
+                                <i class="fas fa-id-card"></i> View ID
+                            </button>
+                            <button class="action-btn success" onclick="approveUser(${user.id})">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="action-btn danger" onclick="rejectUser(${user.id})">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    `;
+                    dataId = `data-registration-id="${user.id}"`;
+                } else {
+                    const isActive = user.status && user.status.toLowerCase() === 'active';
+                    status = isActive ? 'Active' : 'Inactive';
+                    statusClass = isActive ? 'status-active' : 'status-inactive';
+                    const suspendButtonText = isActive ? 'Suspend' : 'Unsuspend';
+                    const suspendButtonIcon = isActive ? 'ban' : 'check';
+                    const suspendButtonClass = isActive ? 'danger' : 'success';
+                    const suspendFunction = isActive ? 'suspendUser' : 'unsuspendUser';
+                    actions = `
+                        <div class="action-buttons-container">
+                            <button class="action-btn" onclick="viewUserDetails(${user.user_id})">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="action-btn ${suspendButtonClass}" onclick="${suspendFunction}(${user.user_id})">
+                                <i class="fas fa-${suspendButtonIcon}"></i> ${suspendButtonText}
+                            </button>
+                        </div>
+                    `;
+                    dataId = `data-user-id="${user.user_id}"`;
+                }
+
+                html += `
+                    <tr ${dataId} data-status="${status.toLowerCase()}">
+                        <td>
+                            <div class="user-info-cell">
+                                <div class="user-avatar-small">${initials}</div>
+                                <div>
+                                    <strong>${escapeHtml(user.full_name)}</strong><br>
+                                    <small>${escapeHtml(user.phone || 'N/A')}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${escapeHtml(user.email)}</td>
+                        <td><span class="status-badge-table ${statusClass}">${status}</span></td>
+                        <td>${registrationDate}</td>
+                        <td>${actions}</td>
+                    </tr>
+                `;
+            });
+
+            boardersTableBody.innerHTML = html;
+        }
+
+        // Update Owners Table
+        function updateOwnersTable(users, pendingRegistrations) {
+            const ownersTableBody = document.getElementById('owners-table-body');
+            if (!ownersTableBody) return;
+
+            // Filter owners from users (case-insensitive status check)
+            const activeOwners = users.filter(user => user.role === 'BH Owner' && user.status && user.status.toLowerCase() === 'active');
+            const inactiveOwners = users.filter(user => user.role === 'BH Owner' && (!user.status || user.status.toLowerCase() !== 'active'));
+            const pendingOwners = pendingRegistrations.filter(reg => reg.role === 'BH Owner');
+
+            // Combine all owners (avoid duplicates by email)
+            const processedEmails = new Set();
+            const allOwners = [];
+
+            // Add active owners
+            activeOwners.forEach(user => {
+                allOwners.push({...user, isPending: false});
+                processedEmails.add(user.email);
+            });
+
+            // Add inactive owners
+            inactiveOwners.forEach(user => {
+                if (!processedEmails.has(user.email)) {
+                    allOwners.push({...user, isPending: false});
+                    processedEmails.add(user.email);
+                }
+            });
+
+            // Add pending owners
+            pendingOwners.forEach(reg => {
+                if (!processedEmails.has(reg.email)) {
+                    allOwners.push({
+                        id: reg.id,
+                        email: reg.email,
+                        first_name: reg.first_name,
+                        middle_name: reg.middle_name,
+                        last_name: reg.last_name,
+                        suffix: reg.suffix,
+                        full_name: reg.full_name,
+                        phone: reg.phone,
+                        role: reg.role,
+                        created_at: reg.created_at,
+                        properties_count: 0,
+                        isPending: true
+                    });
+                }
+            });
+
+            // Sort by created_at (newest first)
+            allOwners.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (allOwners.length === 0) {
+                ownersTableBody.innerHTML = `
+                    <tr id="owners-no-data">
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #666;">
+                            <i class="fas fa-user-tie" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                            <strong>No owners found</strong><br>
+                            <small>There are no boarding house owners in the system yet.</small>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Generate HTML for owners table
+            let html = '';
+            allOwners.forEach(user => {
+                const initials = (user.first_name.charAt(0) + user.last_name.charAt(0)).toUpperCase();
+                const registrationDate = new Date(user.created_at).toISOString().split('T')[0];
+                
+                let status, statusClass, actions, dataId;
+                
+                if (user.isPending) {
+                    status = 'Pending Approval';
+                    statusClass = 'status-pending';
+                    actions = `
+                        <div class="action-buttons-container">
+                            <button class="action-btn" onclick="viewDocuments(${user.id})">
+                                <i class="fas fa-id-card"></i> View ID
+                            </button>
+                            <button class="action-btn success" onclick="approveUser(${user.id})">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="action-btn danger" onclick="rejectUser(${user.id})">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    `;
+                    dataId = `data-registration-id="${user.id}"`;
+                } else {
+                    const isActive = user.status && user.status.toLowerCase() === 'active';
+                    status = isActive ? 'Active' : 'Inactive';
+                    statusClass = isActive ? 'status-active' : 'status-inactive';
+                    const suspendButtonText = isActive ? 'Suspend' : 'Unsuspend';
+                    const suspendButtonIcon = isActive ? 'ban' : 'check';
+                    const suspendButtonClass = isActive ? 'danger' : 'success';
+                    const suspendFunction = isActive ? 'suspendUser' : 'unsuspendUser';
+                    actions = `
+                        <div class="action-buttons-container">
+                            <button class="action-btn" onclick="viewUserDetails(${user.user_id})">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="action-btn ${suspendButtonClass}" onclick="${suspendFunction}(${user.user_id})">
+                                <i class="fas fa-${suspendButtonIcon}"></i> ${suspendButtonText}
+                            </button>
+                        </div>
+                    `;
+                    dataId = `data-user-id="${user.user_id}"`;
+                }
+
+                html += `
+                    <tr ${dataId} data-status="${status.toLowerCase()}">
+                        <td>
+                            <div class="user-info-cell">
+                                <div class="user-avatar-small">${initials}</div>
+                                <div>
+                                    <strong>${escapeHtml(user.full_name)}</strong><br>
+                                    <small>${escapeHtml(user.phone || 'N/A')}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${escapeHtml(user.email)}</td>
+                        <td>${user.isPending ? '0 properties' : (user.properties_count || 0) + ' properties'}</td>
+                        <td><span class="status-badge-table ${statusClass}">${status}</span></td>
+                        <td>${registrationDate}</td>
+                        <td>${actions}</td>
+                    </tr>
+                `;
+            });
+
+            ownersTableBody.innerHTML = html;
+        }
+
+        // Helper function to escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // User Details Modal Functions
@@ -7451,23 +7818,29 @@ $conn->close();
                 const containerElement = document.getElementById('system-notifications-container');
                 if (loadingElement) {
                     loadingElement.style.display = 'flex';
+                    loadingElement.style.flexDirection = 'column';
+                    loadingElement.style.alignItems = 'center';
+                    loadingElement.style.justifyContent = 'center';
+                    loadingElement.style.minHeight = '200px';
                 }
                 if (containerElement) {
                     containerElement.style.display = 'none';
+                    containerElement.innerHTML = ''; // Clear previous content
                 }
                 
-                loadSystemNotifications();
+                // Always reload system notifications
+                await loadSystemNotifications();
                 
                 // Also load user notifications list for statistics/other uses
-            try {
-                const response = await fetch('../get_admin_notifications.php?action=list&type=all&status=all');
-                const data = await response.json();
-                
-                if (data.success) {
-                    updateNotificationsTable(data.data);
+                try {
+                    const response = await fetch('../get_admin_notifications.php?action=list&type=all&status=all');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        updateNotificationsTable(data.data);
                         console.log('User notifications loaded:', data.data.notifications?.length || 0);
-                } else {
-                    console.error('Error loading notifications data:', data.error);
+                    } else {
+                        console.error('Error loading notifications data:', data.error);
                     }
                 } catch (error) {
                     console.error('Error loading user notifications:', error);
@@ -7475,22 +7848,110 @@ $conn->close();
                 }
             } catch (error) {
                 console.error('Error loading notifications data:', error);
+                
+                // Show error message
+                const loadingElement = document.getElementById('system-notifications-loading');
+                const containerElement = document.getElementById('system-notifications-container');
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+                if (containerElement) {
+                    containerElement.style.display = 'block';
+                    containerElement.innerHTML = 
+                        '<p style="color: rgba(255,255,255,0.7); padding: 2rem; text-align: center;">Error loading notifications. Please refresh the page.</p>';
+                }
             }
         }
         
         // Load Boarding Houses Data
         async function loadBoardingHousesData(filter = 'all') {
             try {
+                // Show loading state
+                const boardingHousesTableBody = document.getElementById('boarding-houses-table-body');
+                const ownersContainer = document.getElementById('owners-boarding-houses');
+                
+                if (boardingHousesTableBody) {
+                    boardingHousesTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px;">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading boarding houses...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                if (ownersContainer) {
+                    ownersContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading boarding houses by owner...</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
                 const response = await fetch(`../get_admin_boarding_houses_simple.php?status=${filter}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 if (data.success) {
                     updateBoardingHousesTables(data.data);
                 } else {
                     console.error('Error loading boarding houses data:', data.error);
+                    
+                    // Show error message
+                    if (boardingHousesTableBody) {
+                        boardingHousesTableBody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 20px; color: #d32f2f;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <p>Error loading data. Please refresh the page.</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    if (ownersContainer) {
+                        ownersContainer.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #d32f2f;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Error loading data. Please refresh the page.</p>
+                            </div>
+                        `;
+                    }
                 }
             } catch (error) {
                 console.error('Error loading boarding houses data:', error);
+                
+                // Show error message
+                const boardingHousesTableBody = document.getElementById('boarding-houses-table-body');
+                const ownersContainer = document.getElementById('owners-boarding-houses');
+                
+                if (boardingHousesTableBody) {
+                    boardingHousesTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px; color: #d32f2f;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Error loading data. Please refresh the page.</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+                if (ownersContainer) {
+                    ownersContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #d32f2f;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error loading data. Please refresh the page.</p>
+                        </div>
+                    `;
+                }
             }
         }
         
@@ -9300,7 +9761,7 @@ $conn->close();
                 const recipientDisplay = recipients === 'all' ? 'All Users' : 
                                        recipients === 'boarders' ? 'All Boarders' : 
                                        recipients === 'owners' ? 'All Owners' : 
-                                       'Specific Users';
+                                       'All Users';
                 
                 if (confirm(`Send notification to ${recipientDisplay}?\n\nSubject: ${title}\n\nMessage: ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`)) {
                 // Send notification using our API

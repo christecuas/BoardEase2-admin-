@@ -10,12 +10,13 @@ try {
     }
     
     // Get users from the users table with boarding house count
+    // Note: users table doesn't have created_at, so we use registrations.created_at
     $sql = "SELECT 
                 u.user_id,
                 u.reg_id,
                 u.status,
                 u.profile_picture,
-                u.created_at,
+                r.created_at,
                 r.first_name,
                 r.middle_name,
                 r.last_name,
@@ -34,7 +35,7 @@ try {
                 END as properties_count
             FROM users u
             JOIN registrations r ON u.reg_id = r.id
-            ORDER BY u.created_at DESC";
+            ORDER BY r.created_at DESC";
     
     $result = $conn->query($sql);
     $users = [];
