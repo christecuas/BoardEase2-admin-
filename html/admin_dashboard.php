@@ -3980,6 +3980,7 @@ $conn->close();
              object-fit: cover;
              cursor: pointer;
              transition: transform 0.3s ease;
+             position: relative;
          }
 
          .document-preview img:hover {
@@ -6189,6 +6190,12 @@ $conn->close();
         function viewDocuments(registrationId) {
             console.log('Viewing documents for registration ID:', registrationId);
             
+            // Show modal immediately to prevent lag perception
+            const modal = document.getElementById('documentModal');
+            if (modal) {
+                modal.style.display = 'block';
+            }
+            
             // Fetch registration data
             fetch('../get_registration_details.php', {
                 method: 'POST',
@@ -6209,16 +6216,31 @@ $conn->close();
                     document.getElementById('verifyType').textContent = reg.role;
                     document.getElementById('verifyBusiness').textContent = reg.address || 'N/A';
                     
-                    // Update document images
-                    if (reg.id_front_file) {
-                        document.getElementById('frontIdImage').src = '../' + reg.id_front_file;
-                    }
-                    if (reg.id_back_file) {
-                        document.getElementById('backIdImage').src = '../' + reg.id_back_file;
-                    }
-                    if (reg.gcash_qr) {
-                        document.getElementById('gcashQrImage').src = '../' + reg.gcash_qr;
-                    }
+                    // Update document images (use requestAnimationFrame for smooth updates)
+                    requestAnimationFrame(() => {
+                        if (reg.id_front_file) {
+                            const frontImg = document.getElementById('frontIdImage');
+                            if (frontImg) {
+                                frontImg.src = '../' + reg.id_front_file;
+                                // Attach events after image loads
+                                frontImg.onload = () => attachImageHoverEvents(frontImg);
+                            }
+                        }
+                        if (reg.id_back_file) {
+                            const backImg = document.getElementById('backIdImage');
+                            if (backImg) {
+                                backImg.src = '../' + reg.id_back_file;
+                                backImg.onload = () => attachImageHoverEvents(backImg);
+                            }
+                        }
+                        if (reg.gcash_qr) {
+                            const gcashImg = document.getElementById('gcashQrImage');
+                            if (gcashImg) {
+                                gcashImg.src = '../' + reg.gcash_qr;
+                                gcashImg.onload = () => attachImageHoverEvents(gcashImg);
+                            }
+                        }
+                    });
                     
                     // Update business permits if user is BH Owner
                     if (reg.role === 'BH Owner' && reg.business_permits && reg.business_permits.length > 0) {
@@ -6238,6 +6260,8 @@ $conn->close();
                             permitsHtml += '</div>';
                             businessPermitsContainer.innerHTML = permitsHtml;
                             businessPermitsContainer.style.display = 'block';
+                            // Attach hover events to newly added business permit images (debounced)
+                            attachHoverEventsToNewImages(businessPermitsContainer);
                         }
                     } else if (reg.role === 'BH Owner') {
                         const businessPermitsContainer = document.getElementById('businessPermitsContainer');
@@ -6933,7 +6957,7 @@ $conn->close();
 
                 // Combine users and pending registrations
                 const allUsers = usersData.data.users || [];
-                const pendingRegistrations = pendingData.success ? (pendingData.registrations || []) : [];
+                const pendingRegistrations = pendingData.success ? (pendingData.data || []) : [];
 
                 // Process and display boarders
                 updateBoardersTable(allUsers, pendingRegistrations);
@@ -7248,7 +7272,7 @@ $conn->close();
                 return;
             }
             
-            // Show modal with loading state
+            // Show modal immediately to prevent lag perception
             modal.style.display = 'block';
             content.innerHTML = `
                 <div class="loading-spinner">
@@ -7257,8 +7281,10 @@ $conn->close();
                 </div>
             `;
             
-            // Load user details
-            loadUserDetails(userId);
+            // Load user details asynchronously
+            requestAnimationFrame(() => {
+                loadUserDetails(userId);
+            });
         }
         
         async function loadUserDetails(userId) {
@@ -7560,6 +7586,12 @@ $conn->close();
             }
             
             content.innerHTML = html;
+            
+            // Attach hover events to all images after modal content is set (use requestAnimationFrame for better performance)
+            requestAnimationFrame(() => {
+                const images = document.querySelectorAll('#userDetailsModal .verification-image');
+                images.forEach(attachImageHoverEvents);
+            });
         }
         
         function showUserDetailsError(error) {
@@ -7804,6 +7836,187 @@ $conn->close();
             }
         }
         
+        // Image Hover Preview Functions
+        let hoverPreviewTimeout;
+        let currentHoverPreview = null;
+
+        function showImageHoverPreview(event, imageSrc, imageTitle) {
+            // Clear any existing timeout
+            clearTimeout(hoverPreviewTimeout);
+            
+            // Remove existing preview if any
+            if (currentHoverPreview) {
+                currentHoverPreview.remove();
+            }
+
+            // Create preview container
+            const preview = document.createElement('div');
+            preview.className = 'image-hover-preview';
+            preview.id = 'imageHoverPreview';
+            
+            preview.innerHTML = `
+                <div class="preview-title">${imageTitle}</div>
+                <img src="${imageSrc}" alt="${imageTitle}">
+            `;
+            
+            document.body.appendChild(preview);
+            currentHoverPreview = preview;
+            
+            // Position the preview
+            positionHoverPreview(event, preview);
+            
+            // Show preview with slight delay for better UX
+            hoverPreviewTimeout = setTimeout(() => {
+                preview.classList.add('show');
+            }, 300);
+        }
+
+        function positionHoverPreview(event, preview) {
+            if (!preview) {
+                preview = document.getElementById('imageHoverPreview');
+            }
+            if (!preview) return;
+            
+            // Center the preview - CSS handles the positioning with transform
+            // No need to calculate position, just ensure it's centered
+            preview.style.left = '50%';
+            preview.style.top = '50%';
+            preview.style.transform = 'translate(-50%, -50%)';
+        }
+
+        function hideImageHoverPreview() {
+            clearTimeout(hoverPreviewTimeout);
+            if (currentHoverPreview) {
+                currentHoverPreview.classList.remove('show');
+                setTimeout(() => {
+                    if (currentHoverPreview) {
+                        currentHoverPreview.remove();
+                        currentHoverPreview = null;
+                    }
+                }, 200);
+            }
+        }
+
+        // Track which images already have hover events attached
+        const imagesWithHoverEvents = new WeakSet();
+        let observerDebounceTimeout = null;
+
+        // Attach hover events to an image (optimized - no cloning)
+        function attachImageHoverEvents(img) {
+            if (!img || !img.src || img.src.includes('data:image/svg') || imagesWithHoverEvents.has(img)) {
+                return;
+            }
+            
+            const imageSrc = img.src;
+            const imageTitle = img.alt || img.getAttribute('data-title') || 'Image Preview';
+            
+            // Use a single event handler that checks the target
+            const handleMouseEnter = function(event) {
+                if (event.target === img) {
+                    showImageHoverPreview(event, imageSrc, imageTitle);
+                }
+            };
+            
+            // No need for mousemove handler since preview is centered
+            
+            const handleMouseLeave = function(event) {
+                if (event.target === img) {
+                    hideImageHoverPreview();
+                }
+            };
+            
+            img.addEventListener('mouseenter', handleMouseEnter, { passive: true });
+            img.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+            
+            // Mark as processed
+            imagesWithHoverEvents.add(img);
+        }
+
+        // Debounced function to attach events to new images
+        function attachHoverEventsToNewImages(container) {
+            clearTimeout(observerDebounceTimeout);
+            observerDebounceTimeout = setTimeout(() => {
+                const images = container.querySelectorAll ? container.querySelectorAll('.verification-image, .document-preview img') : [];
+                images.forEach(attachImageHoverEvents);
+            }, 100);
+        }
+
+        // Initialize hover previews for all verification images
+        function initializeImageHoverPreviews() {
+            // Find all verification images
+            const images = document.querySelectorAll('.verification-image, .document-preview img');
+            images.forEach(attachImageHoverEvents);
+        }
+
+        // Initialize on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeImageHoverPreviews);
+        } else {
+            initializeImageHoverPreviews();
+        }
+        
+        // Optimized MutationObserver - only watch for images in modals and specific containers
+        const observer = new MutationObserver(function(mutations) {
+            let shouldProcess = false;
+            
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { // Element node
+                        // Only process if it's in a modal or contains verification images
+                        const isInModal = node.closest && (
+                            node.closest('#documentModal') || 
+                            node.closest('#userDetailsModal') || 
+                            node.closest('.document-section') ||
+                            node.closest('.verification-images-section')
+                        );
+                        
+                        if (isInModal || node.classList?.contains('verification-image') || node.classList?.contains('document-preview')) {
+                            shouldProcess = true;
+                        }
+                    }
+                });
+            });
+            
+            if (shouldProcess) {
+                // Only process mutations in modals to avoid performance issues
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if (node.tagName === 'IMG' && (node.classList.contains('verification-image') || node.closest('.document-preview'))) {
+                                attachImageHoverEvents(node);
+                            } else if (node.querySelectorAll) {
+                                attachHoverEventsToNewImages(node);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+        
+        // Setup observer after DOM is ready
+        function setupMutationObserver() {
+            // Only observe specific containers, not the entire body
+            const observeTargets = [
+                document.getElementById('documentModal'),
+                document.getElementById('userDetailsModal')
+            ].filter(Boolean);
+            
+            observeTargets.forEach(target => {
+                if (target) {
+                    observer.observe(target, {
+                        childList: true,
+                        subtree: true
+                    });
+                }
+            });
+        }
+        
+        // Setup observer when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupMutationObserver);
+        } else {
+            setupMutationObserver();
+        }
 
         
         // Load Notifications Data
@@ -11636,11 +11849,64 @@ $conn->close();
             border: 2px solid #8D6E63;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
 
         .verification-image:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(141, 110, 99, 0.3);
+        }
+
+        /* Image Hover Preview Container */
+        .image-hover-preview {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            max-width: 90vw;
+            max-height: 90vh;
+            display: none;
+            animation: fadeIn 0.2s ease-in;
+            /* Center the preview */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .image-hover-preview.show {
+            display: block;
+        }
+
+        .image-hover-preview img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .image-hover-preview .preview-title {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .no-image {

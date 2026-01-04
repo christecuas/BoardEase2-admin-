@@ -613,3 +613,596 @@ Please start MySQL/XAMPP service.
 [09/12/2025 10:44:11.32] ERROR: MySQL not available after 5 minutes. Exiting. 
 MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 Please start MySQL/XAMPP service.
+[11/12/2025  9:04:44.79] Waiting for MySQL connection... 
+[11/12/2025  9:04:49.66] MySQL not ready yet. Waiting... (1/20) 
+[11/12/2025  9:05:08.47] MySQL not ready yet. Waiting... (2/20) 
+[11/12/2025  9:05:27.29] MySQL not ready yet. Waiting... (3/20) 
+[11/12/2025  9:05:46.33] MySQL not ready yet. Waiting... (4/20) 
+[11/12/2025  9:06:05.30] MySQL not ready yet. Waiting... (5/20) 
+[11/12/2025  9:06:24.36] MySQL not ready yet. Waiting... (6/20) 
+[11/12/2025  9:06:43.37] MySQL not ready yet. Waiting... (7/20) 
+[11/12/2025  9:07:02.36] MySQL not ready yet. Waiting... (8/20) 
+[11/12/2025  9:07:21.30] MySQL not ready yet. Waiting... (9/20) 
+[11/12/2025  9:07:40.34] MySQL not ready yet. Waiting... (10/20) 
+[11/12/2025  9:07:59.39] MySQL not ready yet. Waiting... (11/20) 
+[11/12/2025  9:08:18.35] MySQL not ready yet. Waiting... (12/20) 
+[11/12/2025  9:08:37.36] MySQL not ready yet. Waiting... (13/20) 
+[11/12/2025  9:08:56.31] MySQL not ready yet. Waiting... (14/20) 
+[11/12/2025  9:09:15.30] MySQL not ready yet. Waiting... (15/20) 
+[11/12/2025  9:09:34.35] MySQL not ready yet. Waiting... (16/20) 
+[11/12/2025  9:09:53.34] MySQL not ready yet. Waiting... (17/20) 
+[11/12/2025  9:10:12.30] MySQL not ready yet. Waiting... (18/20) 
+[11/12/2025  9:10:31.30] MySQL not ready yet. Waiting... (19/20) 
+[11/12/2025  9:10:50.41] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[11/12/2025 10:00:02.03] Waiting for MySQL connection... 
+[11/12/2025 10:00:06.19] MySQL not ready yet. Waiting... (1/20) 
+[11/12/2025 10:00:25.29] MySQL not ready yet. Waiting... (2/20) 
+[11/12/2025 10:00:44.27] MySQL not ready yet. Waiting... (3/20) 
+[11/12/2025 10:01:03.26] MySQL not ready yet. Waiting... (4/20) 
+[11/12/2025 10:01:22.35] MySQL not ready yet. Waiting... (5/20) 
+[11/12/2025 10:01:41.29] MySQL not ready yet. Waiting... (6/20) 
+[11/12/2025 10:02:00.33] MySQL not ready yet. Waiting... (7/20) 
+[11/12/2025 10:02:19.71] MySQL not ready yet. Waiting... (8/20) 
+[11/12/2025 10:02:38.76] MySQL not ready yet. Waiting... (9/20) 
+[11/12/2025 10:02:57.93] MySQL not ready yet. Waiting... (10/20) 
+[11/12/2025 10:03:16.52] MySQL not ready yet. Waiting... (11/20) 
+[11/12/2025 10:03:35.47] MySQL not ready yet. Waiting... (12/20) 
+[11/12/2025 10:03:54.43] MySQL not ready yet. Waiting... (13/20) 
+[11/12/2025 10:04:13.31] MySQL not ready yet. Waiting... (14/20) 
+[11/12/2025 10:04:32.28] MySQL not ready yet. Waiting... (15/20) 
+[11/12/2025 10:04:51.31] MySQL not ready yet. Waiting... (16/20) 
+[11/12/2025 10:05:10.29] MySQL not ready yet. Waiting... (17/20) 
+[11/12/2025 10:05:29.33] MySQL not ready yet. Waiting... (18/20) 
+[11/12/2025 10:05:48.29] MySQL not ready yet. Waiting... (19/20) 
+[11/12/2025 10:06:07.26] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[13/12/2025 11:39:18.42] Waiting for MySQL connection... 
+[13/12/2025 11:39:22.93] MySQL not ready yet. Waiting... (1/20) 
+[13/12/2025 11:39:41.33] MySQL not ready yet. Waiting... (2/20) 
+[13/12/2025 11:40:00.29] MySQL not ready yet. Waiting... (3/20) 
+[13/12/2025 11:40:19.30] MySQL not ready yet. Waiting... (4/20) 
+[13/12/2025 11:40:38.25] MySQL not ready yet. Waiting... (5/20) 
+[13/12/2025 11:40:57.28] MySQL not ready yet. Waiting... (6/20) 
+[13/12/2025 11:41:16.28] MySQL not ready yet. Waiting... (7/20) 
+[13/12/2025 11:41:35.31] MySQL not ready yet. Waiting... (8/20) 
+[13/12/2025 11:41:54.26] MySQL not ready yet. Waiting... (9/20) 
+[13/12/2025 11:42:13.29] MySQL not ready yet. Waiting... (10/20) 
+[13/12/2025 11:42:32.24] MySQL not ready yet. Waiting... (11/20) 
+[13/12/2025 11:42:51.34] MySQL not ready yet. Waiting... (12/20) 
+[13/12/2025 11:43:10.31] MySQL not ready yet. Waiting... (13/20) 
+[13/12/2025 11:43:29.34] MySQL not ready yet. Waiting... (14/20) 
+[13/12/2025 11:43:48.29] MySQL not ready yet. Waiting... (15/20) 
+[13/12/2025 11:44:07.24] MySQL not ready yet. Waiting... (16/20) 
+[13/12/2025 11:44:26.28] MySQL not ready yet. Waiting... (17/20) 
+[13/12/2025 11:44:45.24] MySQL not ready yet. Waiting... (18/20) 
+[13/12/2025 11:45:04.27] MySQL not ready yet. Waiting... (19/20) 
+[13/12/2025 11:45:23.22] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[14/12/2025 14:00:38.13] Waiting for MySQL connection... 
+[14/12/2025 14:00:42.79] MySQL not ready yet. Waiting... (1/20) 
+[14/12/2025 14:01:01.44] MySQL not ready yet. Waiting... (2/20) 
+[14/12/2025 14:01:20.54] MySQL not ready yet. Waiting... (3/20) 
+[14/12/2025 14:01:39.38] MySQL not ready yet. Waiting... (4/20) 
+[14/12/2025 14:01:58.45] MySQL not ready yet. Waiting... (5/20) 
+[14/12/2025 14:02:17.47] MySQL not ready yet. Waiting... (6/20) 
+[14/12/2025 14:02:36.41] MySQL not ready yet. Waiting... (7/20) 
+[14/12/2025 14:02:55.38] MySQL not ready yet. Waiting... (8/20) 
+[14/12/2025 14:03:15.91] MySQL not ready yet. Waiting... (9/20) 
+[14/12/2025 14:03:36.52] MySQL not ready yet. Waiting... (10/20) 
+[14/12/2025 14:03:56.07] MySQL not ready yet. Waiting... (11/20) 
+[14/12/2025 14:04:15.43] MySQL not ready yet. Waiting... (12/20) 
+[14/12/2025 14:04:34.43] MySQL not ready yet. Waiting... (13/20) 
+[14/12/2025 14:04:53.45] MySQL not ready yet. Waiting... (14/20) 
+[14/12/2025 14:05:12.38] MySQL not ready yet. Waiting... (15/20) 
+[14/12/2025 14:05:31.37] MySQL not ready yet. Waiting... (16/20) 
+[14/12/2025 14:05:50.44] MySQL not ready yet. Waiting... (17/20) 
+[14/12/2025 14:06:09.45] MySQL not ready yet. Waiting... (18/20) 
+[14/12/2025 14:06:28.52] MySQL not ready yet. Waiting... (19/20) 
+[14/12/2025 14:06:47.41] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[15/12/2025 10:21:09.44] Waiting for MySQL connection... 
+[15/12/2025 10:21:13.90] MySQL not ready yet. Waiting... (1/20) 
+[15/12/2025 10:21:33.47] MySQL not ready yet. Waiting... (2/20) 
+[15/12/2025 10:21:52.47] MySQL not ready yet. Waiting... (3/20) 
+[15/12/2025 10:22:11.48] MySQL not ready yet. Waiting... (4/20) 
+[15/12/2025 10:22:30.38] MySQL not ready yet. Waiting... (5/20) 
+[15/12/2025 10:22:49.39] MySQL not ready yet. Waiting... (6/20) 
+[15/12/2025 10:23:08.42] MySQL not ready yet. Waiting... (7/20) 
+[15/12/2025 10:23:27.49] MySQL not ready yet. Waiting... (8/20) 
+[15/12/2025 10:23:46.38] MySQL not ready yet. Waiting... (9/20) 
+[15/12/2025 10:24:05.42] MySQL not ready yet. Waiting... (10/20) 
+[15/12/2025 10:24:24.37] MySQL not ready yet. Waiting... (11/20) 
+[15/12/2025 10:24:43.45] MySQL not ready yet. Waiting... (12/20) 
+[15/12/2025 10:25:02.45] MySQL not ready yet. Waiting... (13/20) 
+[15/12/2025 10:25:21.52] MySQL not ready yet. Waiting... (14/20) 
+[15/12/2025 10:25:40.44] MySQL not ready yet. Waiting... (15/20) 
+[15/12/2025 10:25:59.46] MySQL not ready yet. Waiting... (16/20) 
+[15/12/2025 10:26:18.43] MySQL not ready yet. Waiting... (17/20) 
+[15/12/2025 10:26:37.44] MySQL not ready yet. Waiting... (18/20) 
+[15/12/2025 10:26:56.39] MySQL not ready yet. Waiting... (19/20) 
+[15/12/2025 10:27:15.50] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[16/12/2025 10:00:02.83] Waiting for MySQL connection... 
+[16/12/2025 10:00:07.14] MySQL not ready yet. Waiting... (1/20) 
+[16/12/2025 10:00:26.43] MySQL not ready yet. Waiting... (2/20) 
+[16/12/2025 10:00:45.59] MySQL not ready yet. Waiting... (3/20) 
+[16/12/2025 10:01:04.54] MySQL not ready yet. Waiting... (4/20) 
+[16/12/2025 10:01:23.44] MySQL not ready yet. Waiting... (5/20) 
+[16/12/2025 10:01:42.44] MySQL not ready yet. Waiting... (6/20) 
+[16/12/2025 10:02:01.51] MySQL not ready yet. Waiting... (7/20) 
+[16/12/2025 10:02:20.51] MySQL not ready yet. Waiting... (8/20) 
+[16/12/2025 10:02:39.47] MySQL not ready yet. Waiting... (9/20) 
+[16/12/2025 10:02:58.45] MySQL not ready yet. Waiting... (10/20) 
+[16/12/2025 10:03:17.42] MySQL not ready yet. Waiting... (11/20) 
+[16/12/2025 10:03:36.53] MySQL not ready yet. Waiting... (12/20) 
+[16/12/2025 10:03:55.49] MySQL not ready yet. Waiting... (13/20) 
+[16/12/2025 10:04:14.41] MySQL not ready yet. Waiting... (14/20) 
+[16/12/2025 10:04:33.46] MySQL not ready yet. Waiting... (15/20) 
+[16/12/2025 10:04:52.53] MySQL not ready yet. Waiting... (16/20) 
+[16/12/2025 10:05:11.48] MySQL not ready yet. Waiting... (17/20) 
+[16/12/2025 10:05:30.48] MySQL not ready yet. Waiting... (18/20) 
+[16/12/2025 10:05:49.45] MySQL not ready yet. Waiting... (19/20) 
+[16/12/2025 10:06:08.46] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[17/12/2025 10:00:04.15] Waiting for MySQL connection... 
+[17/12/2025 10:00:08.44] MySQL not ready yet. Waiting... (1/20) 
+[17/12/2025 10:00:27.49] MySQL not ready yet. Waiting... (2/20) 
+[17/12/2025 10:00:46.50] MySQL not ready yet. Waiting... (3/20) 
+[17/12/2025 10:01:05.46] MySQL not ready yet. Waiting... (4/20) 
+[17/12/2025 10:01:24.50] MySQL not ready yet. Waiting... (5/20) 
+[17/12/2025 10:01:43.39] MySQL not ready yet. Waiting... (6/20) 
+[17/12/2025 10:02:02.49] MySQL not ready yet. Waiting... (7/20) 
+[17/12/2025 10:02:21.45] MySQL not ready yet. Waiting... (8/20) 
+[17/12/2025 10:02:40.53] MySQL not ready yet. Waiting... (9/20) 
+[17/12/2025 10:02:59.47] MySQL not ready yet. Waiting... (10/20) 
+[17/12/2025 10:03:18.37] MySQL not ready yet. Waiting... (11/20) 
+[17/12/2025 10:03:37.45] MySQL not ready yet. Waiting... (12/20) 
+[17/12/2025 10:03:56.50] MySQL not ready yet. Waiting... (13/20) 
+[17/12/2025 10:04:15.47] MySQL not ready yet. Waiting... (14/20) 
+[17/12/2025 10:04:34.46] MySQL not ready yet. Waiting... (15/20) 
+[17/12/2025 10:04:53.45] MySQL not ready yet. Waiting... (16/20) 
+[17/12/2025 10:05:12.51] MySQL not ready yet. Waiting... (17/20) 
+[17/12/2025 10:05:31.40] MySQL not ready yet. Waiting... (18/20) 
+[17/12/2025 10:05:50.51] MySQL not ready yet. Waiting... (19/20) 
+[17/12/2025 10:06:09.46] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[18/12/2025 10:00:01.99] Waiting for MySQL connection... 
+[18/12/2025 10:00:06.14] MySQL not ready yet. Waiting... (1/20) 
+[18/12/2025 10:00:25.33] MySQL not ready yet. Waiting... (2/20) 
+[18/12/2025 10:00:44.33] MySQL not ready yet. Waiting... (3/20) 
+[18/12/2025 10:01:03.28] MySQL not ready yet. Waiting... (4/20) 
+[18/12/2025 10:01:22.34] MySQL not ready yet. Waiting... (5/20) 
+[18/12/2025 10:01:41.26] MySQL not ready yet. Waiting... (6/20) 
+[18/12/2025 10:02:00.34] MySQL not ready yet. Waiting... (7/20) 
+[18/12/2025 10:02:19.23] MySQL not ready yet. Waiting... (8/20) 
+[18/12/2025 10:02:38.34] MySQL not ready yet. Waiting... (9/20) 
+[18/12/2025 10:02:57.29] MySQL not ready yet. Waiting... (10/20) 
+[18/12/2025 10:03:16.28] MySQL not ready yet. Waiting... (11/20) 
+[18/12/2025 10:03:35.24] MySQL not ready yet. Waiting... (12/20) 
+[18/12/2025 10:03:54.31] MySQL not ready yet. Waiting... (13/20) 
+[18/12/2025 10:04:13.22] MySQL not ready yet. Waiting... (14/20) 
+[18/12/2025 10:04:32.27] MySQL not ready yet. Waiting... (15/20) 
+[18/12/2025 10:04:51.25] MySQL not ready yet. Waiting... (16/20) 
+[18/12/2025 10:05:10.30] MySQL not ready yet. Waiting... (17/20) 
+[18/12/2025 10:05:29.25] MySQL not ready yet. Waiting... (18/20) 
+[18/12/2025 10:05:48.29] MySQL not ready yet. Waiting... (19/20) 
+[18/12/2025 10:06:07.24] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[19/12/2025 17:59:08.47] Waiting for MySQL connection... 
+[19/12/2025 17:59:08.49] MySQL is ready! Proceeding... 
+[19/12/2025 17:59:08.50] Starting auto_notify_payment_reminders.php 
+[19-Dec-2025 10:59:12 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\BoardEase2\dbConfig.php:14
+Stack trace:
+#0 C:\xampp\htdocs\BoardEase2\dbConfig.php(14): mysqli->__construct('localhost', 'boardease', Object(SensitiveParameterValue), 'boardease2')
+#1 C:\xampp\htdocs\BoardEase2\db_helper.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\BoardEase2\auto_notify_payment_reminders.php(24): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\dbConfig.php on line 14
+[20/12/2025 20:15:45.22] Waiting for MySQL connection... 
+[20/12/2025 20:15:49.65] MySQL not ready yet. Waiting... (1/20) 
+[20/12/2025 20:16:08.51] MySQL not ready yet. Waiting... (2/20) 
+[20/12/2025 20:16:27.47] MySQL not ready yet. Waiting... (3/20) 
+[20/12/2025 20:16:46.44] MySQL not ready yet. Waiting... (4/20) 
+[20/12/2025 20:17:05.44] MySQL not ready yet. Waiting... (5/20) 
+[20/12/2025 20:17:24.46] MySQL not ready yet. Waiting... (6/20) 
+[20/12/2025 20:17:43.49] MySQL not ready yet. Waiting... (7/20) 
+[20/12/2025 20:18:02.52] MySQL not ready yet. Waiting... (8/20) 
+[20/12/2025 20:18:21.48] MySQL not ready yet. Waiting... (9/20) 
+[20/12/2025 20:18:40.56] MySQL not ready yet. Waiting... (10/20) 
+[20/12/2025 20:18:59.49] MySQL not ready yet. Waiting... (11/20) 
+[20/12/2025 20:19:18.48] MySQL not ready yet. Waiting... (12/20) 
+[20/12/2025 20:19:37.50] MySQL not ready yet. Waiting... (13/20) 
+[20/12/2025 20:19:56.55] MySQL not ready yet. Waiting... (14/20) 
+[20/12/2025 20:20:15.50] MySQL not ready yet. Waiting... (15/20) 
+[20/12/2025 20:20:34.45] MySQL not ready yet. Waiting... (16/20) 
+[20/12/2025 20:20:53.42] MySQL not ready yet. Waiting... (17/20) 
+[20/12/2025 20:21:12.41] MySQL not ready yet. Waiting... (18/20) 
+[20/12/2025 20:21:31.48] MySQL not ready yet. Waiting... (19/20) 
+[20/12/2025 20:21:50.50] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[21/12/2025 16:00:49.86] Waiting for MySQL connection... 
+[21/12/2025 16:00:54.52] MySQL not ready yet. Waiting... (1/20) 
+[21/12/2025 16:01:14.48] MySQL not ready yet. Waiting... (2/20) 
+[21/12/2025 16:01:33.43] MySQL not ready yet. Waiting... (3/20) 
+[21/12/2025 16:01:52.46] MySQL not ready yet. Waiting... (4/20) 
+[21/12/2025 16:02:11.41] MySQL not ready yet. Waiting... (5/20) 
+[21/12/2025 16:02:30.45] MySQL not ready yet. Waiting... (6/20) 
+[21/12/2025 16:02:49.51] MySQL not ready yet. Waiting... (7/20) 
+[21/12/2025 16:03:08.48] MySQL not ready yet. Waiting... (8/20) 
+[21/12/2025 16:03:27.48] MySQL not ready yet. Waiting... (9/20) 
+[21/12/2025 16:03:46.44] MySQL not ready yet. Waiting... (10/20) 
+[21/12/2025 16:04:05.56] MySQL not ready yet. Waiting... (11/20) 
+[21/12/2025 16:04:24.47] MySQL not ready yet. Waiting... (12/20) 
+[21/12/2025 16:04:43.56] MySQL not ready yet. Waiting... (13/20) 
+[21/12/2025 16:05:02.55] MySQL not ready yet. Waiting... (14/20) 
+[21/12/2025 16:05:21.48] MySQL not ready yet. Waiting... (15/20) 
+[21/12/2025 16:05:40.45] MySQL not ready yet. Waiting... (16/20) 
+[21/12/2025 16:05:59.43] MySQL not ready yet. Waiting... (17/20) 
+[21/12/2025 16:06:18.46] MySQL not ready yet. Waiting... (18/20) 
+[21/12/2025 16:06:37.51] MySQL not ready yet. Waiting... (19/20) 
+[21/12/2025 16:06:56.51] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[22/12/2025 12:11:32.11] Waiting for MySQL connection... 
+[22/12/2025 12:11:36.48] MySQL not ready yet. Waiting... (1/20) 
+[22/12/2025 12:11:55.54] MySQL not ready yet. Waiting... (2/20) 
+[22/12/2025 12:12:14.51] MySQL not ready yet. Waiting... (3/20) 
+[22/12/2025 12:12:33.52] MySQL not ready yet. Waiting... (4/20) 
+[22/12/2025 12:12:52.49] MySQL not ready yet. Waiting... (5/20) 
+[22/12/2025 12:13:11.55] MySQL not ready yet. Waiting... (6/20) 
+[22/12/2025 12:13:30.55] MySQL not ready yet. Waiting... (7/20) 
+[22/12/2025 12:13:49.53] MySQL not ready yet. Waiting... (8/20) 
+[22/12/2025 12:14:08.37] MySQL not ready yet. Waiting... (9/20) 
+[22/12/2025 12:14:27.49] MySQL not ready yet. Waiting... (10/20) 
+[22/12/2025 12:14:46.54] MySQL not ready yet. Waiting... (11/20) 
+[22/12/2025 12:15:05.51] MySQL not ready yet. Waiting... (12/20) 
+[22/12/2025 12:15:24.44] MySQL not ready yet. Waiting... (13/20) 
+[22/12/2025 12:15:43.45] MySQL not ready yet. Waiting... (14/20) 
+[22/12/2025 12:16:02.47] MySQL not ready yet. Waiting... (15/20) 
+[22/12/2025 12:16:21.48] MySQL not ready yet. Waiting... (16/20) 
+[22/12/2025 12:16:40.45] MySQL not ready yet. Waiting... (17/20) 
+[22/12/2025 12:16:59.53] MySQL not ready yet. Waiting... (18/20) 
+[22/12/2025 12:17:18.42] MySQL not ready yet. Waiting... (19/20) 
+[22/12/2025 12:17:37.49] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[23/12/2025 18:37:40.38] Waiting for MySQL connection... 
+[23/12/2025 18:37:45.15] MySQL not ready yet. Waiting... (1/20) 
+[23/12/2025 18:38:04.58] MySQL not ready yet. Waiting... (2/20) 
+[23/12/2025 18:38:23.59] MySQL not ready yet. Waiting... (3/20) 
+[23/12/2025 18:38:42.41] MySQL not ready yet. Waiting... (4/20) 
+[23/12/2025 18:39:01.50] MySQL not ready yet. Waiting... (5/20) 
+[23/12/2025 18:39:20.44] MySQL not ready yet. Waiting... (6/20) 
+[23/12/2025 18:39:39.60] MySQL not ready yet. Waiting... (7/20) 
+[23/12/2025 18:39:58.53] MySQL not ready yet. Waiting... (8/20) 
+[23/12/2025 18:40:17.65] MySQL not ready yet. Waiting... (9/20) 
+[23/12/2025 18:40:36.56] MySQL not ready yet. Waiting... (10/20) 
+[23/12/2025 18:40:55.52] MySQL not ready yet. Waiting... (11/20) 
+[23/12/2025 18:41:14.53] MySQL not ready yet. Waiting... (12/20) 
+[23/12/2025 18:41:33.50] MySQL not ready yet. Waiting... (13/20) 
+[23/12/2025 18:41:52.47] MySQL not ready yet. Waiting... (14/20) 
+[23/12/2025 18:42:11.54] MySQL not ready yet. Waiting... (15/20) 
+[23/12/2025 18:42:30.55] MySQL not ready yet. Waiting... (16/20) 
+[23/12/2025 18:42:49.53] MySQL not ready yet. Waiting... (17/20) 
+[23/12/2025 18:43:08.54] MySQL not ready yet. Waiting... (18/20) 
+[23/12/2025 18:43:27.52] MySQL not ready yet. Waiting... (19/20) 
+[23/12/2025 18:43:46.51] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[24/12/2025 18:33:29.84] Waiting for MySQL connection... 
+[24/12/2025 18:33:34.23] MySQL not ready yet. Waiting... (1/20) 
+[24/12/2025 18:33:53.40] MySQL not ready yet. Waiting... (2/20) 
+[24/12/2025 18:34:12.31] MySQL not ready yet. Waiting... (3/20) 
+[24/12/2025 18:34:31.26] MySQL not ready yet. Waiting... (4/20) 
+[24/12/2025 18:34:50.36] MySQL not ready yet. Waiting... (5/20) 
+[24/12/2025 18:35:09.30] MySQL not ready yet. Waiting... (6/20) 
+[24/12/2025 18:35:28.25] MySQL not ready yet. Waiting... (7/20) 
+[24/12/2025 18:35:47.36] MySQL not ready yet. Waiting... (8/20) 
+[24/12/2025 18:36:06.28] MySQL not ready yet. Waiting... (9/20) 
+[24/12/2025 18:36:25.34] MySQL not ready yet. Waiting... (10/20) 
+[24/12/2025 18:36:44.35] MySQL not ready yet. Waiting... (11/20) 
+[24/12/2025 18:37:03.23] MySQL not ready yet. Waiting... (12/20) 
+[24/12/2025 18:37:22.32] MySQL not ready yet. Waiting... (13/20) 
+[24/12/2025 18:37:41.25] MySQL not ready yet. Waiting... (14/20) 
+[24/12/2025 18:38:00.32] MySQL not ready yet. Waiting... (15/20) 
+[24/12/2025 18:38:19.25] MySQL not ready yet. Waiting... (16/20) 
+[24/12/2025 18:38:38.66] MySQL not ready yet. Waiting... (17/20) 
+[24/12/2025 18:38:57.26] MySQL not ready yet. Waiting... (18/20) 
+[24/12/2025 18:39:16.32] MySQL not ready yet. Waiting... (19/20) 
+[24/12/2025 18:39:35.26] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[26/12/2025 20:13:16.10] Waiting for MySQL connection... 
+[26/12/2025 20:13:20.30] MySQL not ready yet. Waiting... (1/20) 
+[26/12/2025 20:13:39.29] MySQL not ready yet. Waiting... (2/20) 
+[26/12/2025 20:13:58.32] MySQL not ready yet. Waiting... (3/20) 
+[26/12/2025 20:14:17.26] MySQL not ready yet. Waiting... (4/20) 
+[26/12/2025 20:14:36.35] MySQL not ready yet. Waiting... (5/20) 
+[26/12/2025 20:14:55.28] MySQL not ready yet. Waiting... (6/20) 
+[26/12/2025 20:15:14.31] MySQL not ready yet. Waiting... (7/20) 
+[26/12/2025 20:15:33.32] MySQL not ready yet. Waiting... (8/20) 
+[26/12/2025 20:15:52.34] MySQL not ready yet. Waiting... (9/20) 
+[26/12/2025 20:16:11.31] MySQL not ready yet. Waiting... (10/20) 
+[26/12/2025 20:16:30.27] MySQL not ready yet. Waiting... (11/20) 
+[26/12/2025 20:16:49.29] MySQL not ready yet. Waiting... (12/20) 
+[26/12/2025 20:17:08.33] MySQL not ready yet. Waiting... (13/20) 
+[26/12/2025 20:17:27.53] MySQL not ready yet. Waiting... (14/20) 
+[26/12/2025 20:17:46.29] MySQL not ready yet. Waiting... (15/20) 
+[26/12/2025 20:18:05.33] MySQL not ready yet. Waiting... (16/20) 
+[26/12/2025 20:18:24.28] MySQL not ready yet. Waiting... (17/20) 
+[26/12/2025 20:18:43.31] MySQL not ready yet. Waiting... (18/20) 
+[26/12/2025 20:19:02.28] MySQL not ready yet. Waiting... (19/20) 
+[26/12/2025 20:19:21.24] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[28/12/2025  9:38:37.74] Waiting for MySQL connection... 
+[28/12/2025  9:38:41.92] MySQL not ready yet. Waiting... (1/20) 
+[28/12/2025  9:39:00.32] MySQL not ready yet. Waiting... (2/20) 
+[28/12/2025  9:39:19.27] MySQL not ready yet. Waiting... (3/20) 
+[28/12/2025  9:39:38.32] MySQL not ready yet. Waiting... (4/20) 
+[28/12/2025  9:39:57.32] MySQL not ready yet. Waiting... (5/20) 
+[28/12/2025  9:40:16.28] MySQL not ready yet. Waiting... (6/20) 
+[28/12/2025  9:40:35.23] MySQL not ready yet. Waiting... (7/20) 
+[28/12/2025  9:40:54.29] MySQL not ready yet. Waiting... (8/20) 
+[28/12/2025  9:41:13.35] MySQL not ready yet. Waiting... (9/20) 
+[28/12/2025  9:41:32.34] MySQL not ready yet. Waiting... (10/20) 
+[28/12/2025  9:41:51.33] MySQL not ready yet. Waiting... (11/20) 
+[28/12/2025  9:42:10.29] MySQL not ready yet. Waiting... (12/20) 
+[28/12/2025  9:42:29.35] MySQL not ready yet. Waiting... (13/20) 
+[28/12/2025  9:42:48.32] MySQL not ready yet. Waiting... (14/20) 
+[28/12/2025  9:43:07.35] MySQL not ready yet. Waiting... (15/20) 
+[28/12/2025  9:43:26.30] MySQL not ready yet. Waiting... (16/20) 
+[28/12/2025  9:43:45.33] MySQL not ready yet. Waiting... (17/20) 
+[28/12/2025  9:44:04.25] MySQL not ready yet. Waiting... (18/20) 
+[28/12/2025  9:44:23.30] MySQL not ready yet. Waiting... (19/20) 
+[28/12/2025  9:44:42.33] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[28/12/2025 10:00:01.83] Waiting for MySQL connection... 
+[28/12/2025 10:00:05.94] MySQL not ready yet. Waiting... (1/20) 
+[28/12/2025 10:00:24.28] MySQL not ready yet. Waiting... (2/20) 
+[28/12/2025 10:00:43.35] MySQL not ready yet. Waiting... (3/20) 
+[28/12/2025 10:01:02.29] MySQL not ready yet. Waiting... (4/20) 
+[28/12/2025 10:01:21.28] MySQL not ready yet. Waiting... (5/20) 
+[28/12/2025 10:01:40.26] MySQL not ready yet. Waiting... (6/20) 
+[28/12/2025 10:01:59.31] MySQL not ready yet. Waiting... (7/20) 
+[28/12/2025 10:02:18.24] MySQL not ready yet. Waiting... (8/20) 
+[28/12/2025 10:02:37.34] MySQL not ready yet. Waiting... (9/20) 
+[28/12/2025 10:02:56.32] MySQL not ready yet. Waiting... (10/20) 
+[28/12/2025 10:03:15.31] MySQL not ready yet. Waiting... (11/20) 
+[28/12/2025 10:03:34.25] MySQL not ready yet. Waiting... (12/20) 
+[28/12/2025 10:03:53.32] MySQL not ready yet. Waiting... (13/20) 
+[28/12/2025 10:04:12.32] MySQL not ready yet. Waiting... (14/20) 
+[28/12/2025 10:04:31.30] MySQL not ready yet. Waiting... (15/20) 
+[28/12/2025 10:04:50.31] MySQL not ready yet. Waiting... (16/20) 
+[28/12/2025 10:05:09.25] MySQL not ready yet. Waiting... (17/20) 
+[28/12/2025 10:05:28.34] MySQL not ready yet. Waiting... (18/20) 
+[28/12/2025 10:05:47.34] MySQL not ready yet. Waiting... (19/20) 
+[28/12/2025 10:06:06.28] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[29/12/2025 11:21:15.67] Waiting for MySQL connection... 
+[29/12/2025 11:21:15.71] MySQL is ready! Proceeding... 
+[29/12/2025 11:21:15.71] Starting auto_notify_payment_reminders.php 
+[29-Dec-2025 04:21:20 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\BoardEase2\dbConfig.php:14
+Stack trace:
+#0 C:\xampp\htdocs\BoardEase2\dbConfig.php(14): mysqli->__construct('localhost', 'boardease', Object(SensitiveParameterValue), 'boardease2')
+#1 C:\xampp\htdocs\BoardEase2\db_helper.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\BoardEase2\auto_notify_payment_reminders.php(24): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\BoardEase2\dbConfig.php on line 14
+[30/12/2025 12:20:21.48] Waiting for MySQL connection... 
+[30/12/2025 12:20:25.63] MySQL not ready yet. Waiting... (1/20) 
+[30/12/2025 12:20:44.25] MySQL not ready yet. Waiting... (2/20) 
+[30/12/2025 12:21:03.31] MySQL not ready yet. Waiting... (3/20) 
+[30/12/2025 12:21:22.26] MySQL not ready yet. Waiting... (4/20) 
+[30/12/2025 12:21:41.29] MySQL not ready yet. Waiting... (5/20) 
+[30/12/2025 12:22:00.26] MySQL not ready yet. Waiting... (6/20) 
+[30/12/2025 12:22:19.41] MySQL not ready yet. Waiting... (7/20) 
+[30/12/2025 12:22:38.28] MySQL not ready yet. Waiting... (8/20) 
+[30/12/2025 12:22:57.34] MySQL not ready yet. Waiting... (9/20) 
+[30/12/2025 12:23:16.33] MySQL not ready yet. Waiting... (10/20) 
+[30/12/2025 12:23:35.27] MySQL not ready yet. Waiting... (11/20) 
+[30/12/2025 12:23:54.26] MySQL not ready yet. Waiting... (12/20) 
+[30/12/2025 12:24:13.30] MySQL not ready yet. Waiting... (13/20) 
+[30/12/2025 12:24:32.31] MySQL not ready yet. Waiting... (14/20) 
+[30/12/2025 12:24:51.31] MySQL not ready yet. Waiting... (15/20) 
+[30/12/2025 12:25:10.31] MySQL not ready yet. Waiting... (16/20) 
+[30/12/2025 12:25:29.35] MySQL not ready yet. Waiting... (17/20) 
+[30/12/2025 12:25:48.31] MySQL not ready yet. Waiting... (18/20) 
+[30/12/2025 12:26:07.32] MySQL not ready yet. Waiting... (19/20) 
+[30/12/2025 12:26:26.30] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[31/12/2025 15:04:57.68] Waiting for MySQL connection... 
+[31/12/2025 15:05:01.94] MySQL not ready yet. Waiting... (1/20) 
+[31/12/2025 15:05:21.41] MySQL not ready yet. Waiting... (2/20) 
+[31/12/2025 15:05:40.46] MySQL not ready yet. Waiting... (3/20) 
+[31/12/2025 15:05:59.40] MySQL not ready yet. Waiting... (4/20) 
+[31/12/2025 15:06:18.47] MySQL not ready yet. Waiting... (5/20) 
+[31/12/2025 15:06:37.39] MySQL not ready yet. Waiting... (6/20) 
+[31/12/2025 15:06:56.41] MySQL not ready yet. Waiting... (7/20) 
+[31/12/2025 15:07:15.37] MySQL not ready yet. Waiting... (8/20) 
+[31/12/2025 15:07:34.41] MySQL not ready yet. Waiting... (9/20) 
+[31/12/2025 15:07:53.35] MySQL not ready yet. Waiting... (10/20) 
+[31/12/2025 15:08:12.38] MySQL not ready yet. Waiting... (11/20) 
+[31/12/2025 15:08:31.35] MySQL not ready yet. Waiting... (12/20) 
+[31/12/2025 15:08:50.39] MySQL not ready yet. Waiting... (13/20) 
+[31/12/2025 15:09:09.39] MySQL not ready yet. Waiting... (14/20) 
+[31/12/2025 15:09:28.38] MySQL not ready yet. Waiting... (15/20) 
+[31/12/2025 15:09:47.37] MySQL not ready yet. Waiting... (16/20) 
+[31/12/2025 15:10:06.48] MySQL not ready yet. Waiting... (17/20) 
+[31/12/2025 15:10:25.37] MySQL not ready yet. Waiting... (18/20) 
+[31/12/2025 15:10:44.46] MySQL not ready yet. Waiting... (19/20) 
+[31/12/2025 15:11:03.43] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[02/01/2026 11:23:41.96] Waiting for MySQL connection... 
+[02/01/2026 11:23:46.22] MySQL not ready yet. Waiting... (1/20) 
+[02/01/2026 11:24:05.55] MySQL not ready yet. Waiting... (2/20) 
+[02/01/2026 11:24:24.47] MySQL not ready yet. Waiting... (3/20) 
+[02/01/2026 11:24:43.43] MySQL not ready yet. Waiting... (4/20) 
+[02/01/2026 11:25:02.39] MySQL not ready yet. Waiting... (5/20) 
+[02/01/2026 11:25:21.41] MySQL not ready yet. Waiting... (6/20) 
+[02/01/2026 11:25:40.46] MySQL not ready yet. Waiting... (7/20) 
+[02/01/2026 11:25:59.45] MySQL not ready yet. Waiting... (8/20) 
+[02/01/2026 11:26:18.44] MySQL not ready yet. Waiting... (9/20) 
+[02/01/2026 11:26:37.47] MySQL not ready yet. Waiting... (10/20) 
+[02/01/2026 11:26:56.49] MySQL not ready yet. Waiting... (11/20) 
+[02/01/2026 11:27:15.48] MySQL not ready yet. Waiting... (12/20) 
+[02/01/2026 11:27:34.52] MySQL not ready yet. Waiting... (13/20) 
+[02/01/2026 11:27:53.46] MySQL not ready yet. Waiting... (14/20) 
+[02/01/2026 11:28:12.42] MySQL not ready yet. Waiting... (15/20) 
+[02/01/2026 11:28:31.46] MySQL not ready yet. Waiting... (16/20) 
+[02/01/2026 11:28:50.43] MySQL not ready yet. Waiting... (17/20) 
+[02/01/2026 11:29:09.41] MySQL not ready yet. Waiting... (18/20) 
+[02/01/2026 11:29:28.40] MySQL not ready yet. Waiting... (19/20) 
+[02/01/2026 11:29:47.45] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[03/01/2026 10:00:01.85] Waiting for MySQL connection... 
+[03/01/2026 10:00:03.95] MySQL is ready! Proceeding... 
+[03/01/2026 10:00:03.97] Starting auto_notify_payment_reminders.php 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== Payment Reminder Check Started ===
+Date: 2026-01-03
+Checking for payment breakdowns with due dates between today and 5 days from now...
+Database Analysis:
+  - Total breakdowns: 21
+  - Unpaid breakdowns: 6
+  - Unpaid (not cancelled): 6
+  - Unpaid with due date: 6
+  - Unpaid with future due date: 5
+  - Unpaid within 5 days: 0
+Found 0 payment breakdown(s) to check
+No breakdowns found matching criteria.
+Checking database for unpaid breakdowns...
+Database Statistics:
+  - Total unpaid breakdowns: 6
+  - Breakdowns with due dates: 6
+  - Breakdowns with future due dates: 5
+  - Breakdowns within 5 days: 1
+Example unpaid breakdowns (first 5):
+  - ID: 20, Due: 2025-12-11 (23 days ago), Amount: ₱1,000.00, Status: Overdue
+  - ID: 21, Due: 2026-01-10 (in 7 days), Amount: ₱733.33, Status: Pending
+  - ID: 29, Due: 2026-01-13 (in 10 days), Amount: ₱5,000.00, Status: Pending
+  - ID: 56, Due: 2026-01-16 (in 13 days), Amount: ₱2,666.67, Status: Pending
+  - ID: 30, Due: 2026-02-12 (in 40 days), Amount: ₱5,000.00, Status: Pending
+=== Payment Reminder Check Completed ===
+Summary: Sent 0 reminder(s), Failed: 0
+Deleted old log: payment_reminders_20251124_102500.log
+Deleted old log: payment_reminders_20251124_103116.log
+Deleted old log: payment_reminders_20251124_103644.log
+Deleted old log: payment_reminders_20251124_104312.log
+Deleted old log: payment_reminders_20251124_104507.log
+Deleted old log: payment_reminders_20251124_104811.log
+Deleted old log: payment_reminders_20251124_104927.log
+Deleted old log: payment_reminders_20251124_105056.log
+Deleted old log: payment_reminders_20251125_105914.log
+Deleted old log: payment_reminders_20251126_100002.log
+Deleted old log: payment_reminders_20251127_112652.log
+Deleted old log: payment_reminders_20251128_163203.log
+Deleted old log: payment_reminders_20251201_150716.log
+Deleted old log: payment_reminders_20251202_153605.log
+Deleted old log: payment_reminders_20251204_102900.log
+Deleted old log: payment_reminders_20251205_100001.log
+Deleted old log: payment_reminders_20251206_100002.log
+Deleted old log: payment_reminders_20251208_072957.log
+Deleted old log: payment_reminders_20251209_103806.log
+Deleted old log: payment_reminders_20251211_090444.log
+Deleted old log: payment_reminders_20251211_100002.log
+Deleted old log: payment_reminders_20251213_113918.log
+Deleted old log: payment_reminders_20251214_140038.log
+Deleted old log: payment_reminders_20251215_102109.log
+Deleted old log: payment_reminders_20251216_100002.log
+Deleted old log: payment_reminders_20251217_100004.log
+Deleted old log: payment_reminders_20251218_100001.log
+Deleted old log: payment_reminders_20251219_175908.log
+Deleted old log: payment_reminders_20251220_201545.log
+Deleted old log: payment_reminders_20251221_160049.log
+Deleted old log: payment_reminders_20251222_121131.log
+Deleted old log: payment_reminders_20251223_183740.log
+Deleted old log: payment_reminders_20251224_183329.log
+Deleted old log: payment_reminders_20251226_201316.log
+Cleaned up 34 old log file(s)
+=========================================
+
+[04/01/2026 12:09:13.99] Waiting for MySQL connection... 
+[04/01/2026 12:09:16.20] MySQL is ready! Proceeding... 
+[04/01/2026 12:09:16.21] Starting auto_notify_payment_reminders.php 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== Payment Reminder Check Started ===
+Date: 2026-01-04
+Checking for payment breakdowns with due dates between today and 5 days from now...
+Database Analysis:
+  - Total breakdowns: 21
+  - Unpaid breakdowns: 6
+  - Unpaid (not cancelled): 6
+  - Unpaid with due date: 6
+  - Unpaid with future due date: 5
+  - Unpaid within 5 days: 0
+Found 0 payment breakdown(s) to check
+No breakdowns found matching criteria.
+Checking database for unpaid breakdowns...
+Database Statistics:
+  - Total unpaid breakdowns: 6
+  - Breakdowns with due dates: 6
+  - Breakdowns with future due dates: 5
+  - Breakdowns within 5 days: 1
+Example unpaid breakdowns (first 5):
+  - ID: 20, Due: 2025-12-11 (24 days ago), Amount: ₱1,000.00, Status: Overdue
+  - ID: 21, Due: 2026-01-10 (in 6 days), Amount: ₱733.33, Status: Pending
+  - ID: 29, Due: 2026-01-13 (in 9 days), Amount: ₱5,000.00, Status: Pending
+  - ID: 56, Due: 2026-01-16 (in 12 days), Amount: ₱2,666.67, Status: Pending
+  - ID: 30, Due: 2026-02-12 (in 39 days), Amount: ₱5,000.00, Status: Pending
+=== Payment Reminder Check Completed ===
+Summary: Sent 0 reminder(s), Failed: 0
+Deleted old log: payment_reminders_20251228_093837.log
+Deleted old log: payment_reminders_20251228_100001.log
+Cleaned up 2 old log file(s)
+=========================================
+

@@ -1,0 +1,52 @@
+[04/01/2026 12:09:14.02] Waiting for MySQL connection... 
+[04/01/2026 12:09:16.20] MySQL is ready! Proceeding... 
+[04/01/2026 12:09:16.21] Starting auto_notify_payment_reminders.php 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== Payment Reminder Check Started ===
+Date: 2026-01-04
+Checking for payment breakdowns with due dates between today and 5 days from now...
+Database Analysis:
+  - Total breakdowns: 21
+  - Unpaid breakdowns: 6
+  - Unpaid (not cancelled): 6
+  - Unpaid with due date: 6
+  - Unpaid with future due date: 5
+  - Unpaid within 5 days: 0
+Found 0 payment breakdown(s) to check
+No breakdowns found matching criteria.
+Checking database for unpaid breakdowns...
+Database Statistics:
+  - Total unpaid breakdowns: 6
+  - Breakdowns with due dates: 6
+  - Breakdowns with future due dates: 5
+  - Breakdowns within 5 days: 1
+Example unpaid breakdowns (first 5):
+  - ID: 20, Due: 2025-12-11 (24 days ago), Amount: ₱1,000.00, Status: Overdue
+  - ID: 21, Due: 2026-01-10 (in 6 days), Amount: ₱733.33, Status: Pending
+  - ID: 29, Due: 2026-01-13 (in 9 days), Amount: ₱5,000.00, Status: Pending
+  - ID: 56, Due: 2026-01-16 (in 12 days), Amount: ₱2,666.67, Status: Pending
+  - ID: 30, Due: 2026-02-12 (in 39 days), Amount: ₱5,000.00, Status: Pending
+=== Payment Reminder Check Completed ===
+Summary: Sent 0 reminder(s), Failed: 0
+Deleted old log: payment_reminders_20251228_093837.log
+Deleted old log: payment_reminders_20251228_100001.log
+Cleaned up 2 old log file(s)
+=========================================
+

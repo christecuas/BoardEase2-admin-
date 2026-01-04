@@ -1,4 +1,0 @@
-[18/11/2025  9:25:00.95] Checking MySQL connection... 
-[18/11/2025  9:25:05.12] ERROR: MySQL is not running! 
-MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
-Please start MySQL/XAMPP service.
