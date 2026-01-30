@@ -8,13 +8,20 @@
  * Or set up cron: 0 10 * * * php /path/to/auto_notify_payment_reminders.php
  */
 
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/logs/payment_reminders.log');
+// Create logs directory if it doesn't exist
+$logDir = __DIR__ . '/logs';
+if (!file_exists($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+$logFile = $logDir . '/payment_reminders.log';
 
-// Function to log to both error_log and stdout (for batch file capture)
+// Function to log to file and stdout (for batch file capture)
 function logMessage($message) {
+    global $logFile;
+    $timestamp = date('Y-m-d H:i:s');
+    $logMessage = "[$timestamp] $message" . PHP_EOL;
+    file_put_contents($logFile, $logMessage, FILE_APPEND);
+    
     error_log($message);
     if (php_sapi_name() === 'cli') {
         echo $message . "\n";
@@ -24,11 +31,16 @@ function logMessage($message) {
 require_once 'db_helper.php';
 require_once 'notification_helper.php';
 
-// Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+// Database configuration is handled in dbConfig.php (included via db_helper.php)
+// define('DB_HOST', '');
+// define('DB_USER', 'u223444398_userboardease');
+// define('DB_PASS', '!Boardease2026');
+// define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     // Create PDO connection for direct SQL queries

@@ -9,7 +9,7 @@ include 'dbConfig.php';
 $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
 $bh_id = isset($_POST['bh_id']) ? intval($_POST['bh_id']) : 0; // New parameter for single BH
 
-$baseUrl = "https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/";
+$baseUrl = "https://boardease.calapebohol.com/";
 
 try {
     if ($bh_id > 0) {
@@ -85,7 +85,8 @@ try {
         // Return all boarding houses for explore/search (only active ones)
         $sql = "SELECT b.bh_id, b.bh_name, b.bh_address, b.bh_description, b.bh_rules,
                        b.number_of_bathroom, b.area, b.build_year, b.user_id,
-                       (SELECT img.image_path FROM boarding_house_images img WHERE img.bh_id = b.bh_id LIMIT 1) AS image_path
+                       (SELECT img.image_path FROM boarding_house_images img WHERE img.bh_id = b.bh_id LIMIT 1) AS image_path,
+                COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.bh_id = b.bh_id), 0) as average_rating
                 FROM boarding_houses b
                 WHERE b.status = 'Active'
                 ORDER BY b.bh_id DESC";
@@ -111,7 +112,8 @@ try {
                 "area" => $row['area'],
                 "build_year" => $row['build_year'],
                 "user_id" => $row['user_id'],
-                "image_path" => $imagePath
+                "image_path" => $imagePath,
+                "average_rating" => isset($row['average_rating']) ? floatval($row['average_rating']) : 0.0
             ];
         }
 

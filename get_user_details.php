@@ -32,6 +32,9 @@ try {
                 u.reg_id,
                 u.profile_picture,
                 u.status as user_status,
+                COALESCE((SELECT IF(MAX(updated_at) >= DATE_SUB(NOW(), INTERVAL 2 MINUTE), 'Active', 'Offline') 
+                 FROM device_tokens dt 
+                 WHERE dt.user_id = u.user_id AND dt.is_active = 1), 'Offline') as online_status,
                 r.first_name,
                 r.middle_name,
                 r.last_name,
@@ -64,6 +67,20 @@ try {
     }
     
     $user = $result->fetch_assoc();
+    
+    // Calculate online status - now handled in SQL
+    // $user['online_status'] is already set from the query
+    
+    // Adjust logic for user_status display if needed (match get_chat_list logic)
+    if ($user['user_status'] === 'Active' && $user['online_status'] === 'Active') {
+        // Just keeping it available in the object, client can decide which to use
+        // But let's add a display_status field
+        $user['display_status'] = 'Active';
+    } else if ($user['user_status'] === 'Active') {
+        $user['display_status'] = 'Offline';
+    } else {
+        $user['display_status'] = $user['user_status']; // Suspended etc
+    }
     
     // Get boarding houses if user is an owner
     $boarding_houses = [];

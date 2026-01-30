@@ -4,7 +4,7 @@ error_reporting(0);
 ini_set('display_errors', 0);
 ob_start();
 
-require_once '../db_helper.php';
+require_once 'db_helper.php';
 
 header('Content-Type: application/json');
 
@@ -31,17 +31,19 @@ try {
     }
     
     // Get group members
+    // Added GROUP BY to prevent duplicates if user has multiple device tokens
     $stmt = $db->prepare("
         SELECT 
             u.user_id,
             r.first_name,
             r.last_name,
+            r.suffix,
             r.role as user_type,
             r.email,
             r.phone as phone,
             u.status,
             u.profile_picture,
-            dt.device_token,
+            MAX(dt.device_token) as device_token, 
             gm.gm_role,
             gm.gm_joined_at as joined_at
         FROM group_members gm
@@ -49,7 +51,14 @@ try {
         JOIN registrations r ON u.reg_id = r.id
         LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
         WHERE gm.gc_id = ?
-        ORDER BY gm.gm_joined_at ASC
+        GROUP BY u.user_id
+        ORDER BY 
+            CASE 
+                WHEN r.role = 'BH Owner' THEN 1 
+                WHEN r.role = 'Owner' THEN 2
+                ELSE 3 
+            END ASC,
+            gm.gm_joined_at ASC
     ");
     $stmt->execute([$group_id]);
     $members = $stmt->fetchAll();
@@ -57,7 +66,8 @@ try {
     // Format members for response
     $formatted_members = [];
     foreach ($members as $member) {
-        $fullName = trim($member['first_name'] . ' ' . $member['last_name']);
+        $suffix = !empty($member['suffix']) ? ' ' . $member['suffix'] : '';
+        $fullName = trim($member['first_name'] . ' ' . $member['last_name'] . $suffix);
         
         $formatted_members[] = [
             'user_id' => $member['user_id'],

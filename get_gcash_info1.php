@@ -15,10 +15,15 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     // Create PDO connection
@@ -62,10 +67,15 @@ try {
     if ($result) {
         $gcashQr = $result['gcash_qr'] ?? '';
         
-        // Return the QR code path
+        // Return the QR code path - fix legacy URL if present
+        $finalGcashQr = $gcashQr;
+        if (strpos($finalGcashQr, 'reflective-perkily-jakobe.ngrok-free.dev') !== false) {
+             $finalGcashQr = str_replace('reflective-perkily-jakobe.ngrok-free.dev', 'boardease.calapebohol.com', $finalGcashQr);
+        }
+        
         echo json_encode(array(
             'success' => true,
-            'gcash_qr' => $gcashQr
+            'gcash_qr' => $finalGcashQr
         ));
     } else {
         echo json_encode(array(

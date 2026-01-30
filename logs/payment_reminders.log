@@ -1206,3 +1206,153 @@ Deleted old log: payment_reminders_20251228_100001.log
 Cleaned up 2 old log file(s)
 =========================================
 
+[07/01/2026 11:29:27.86] Waiting for MySQL connection... 
+[07/01/2026 11:29:32.48] MySQL not ready yet. Waiting... (1/20) 
+[07/01/2026 11:29:51.35] MySQL not ready yet. Waiting... (2/20) 
+[07/01/2026 11:30:10.30] MySQL not ready yet. Waiting... (3/20) 
+[07/01/2026 11:30:29.29] MySQL not ready yet. Waiting... (4/20) 
+[07/01/2026 11:30:48.29] MySQL not ready yet. Waiting... (5/20) 
+[07/01/2026 11:31:07.27] MySQL not ready yet. Waiting... (6/20) 
+[07/01/2026 11:31:26.27] MySQL not ready yet. Waiting... (7/20) 
+[07/01/2026 11:31:45.32] MySQL not ready yet. Waiting... (8/20) 
+[07/01/2026 11:32:04.27] MySQL not ready yet. Waiting... (9/20) 
+[07/01/2026 11:32:23.35] MySQL not ready yet. Waiting... (10/20) 
+[07/01/2026 11:32:42.25] MySQL not ready yet. Waiting... (11/20) 
+[07/01/2026 11:33:01.34] MySQL not ready yet. Waiting... (12/20) 
+[07/01/2026 11:33:20.29] MySQL not ready yet. Waiting... (13/20) 
+[07/01/2026 11:33:39.33] MySQL not ready yet. Waiting... (14/20) 
+[07/01/2026 11:33:58.24] MySQL not ready yet. Waiting... (15/20) 
+[07/01/2026 11:34:17.30] MySQL not ready yet. Waiting... (16/20) 
+[07/01/2026 11:34:36.25] MySQL not ready yet. Waiting... (17/20) 
+[07/01/2026 11:34:55.31] MySQL not ready yet. Waiting... (18/20) 
+[07/01/2026 11:35:14.35] MySQL not ready yet. Waiting... (19/20) 
+[07/01/2026 11:35:33.26] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[08/01/2026 12:53:04.12] Waiting for MySQL connection... 
+[08/01/2026 12:53:08.42] MySQL not ready yet. Waiting... (1/20) 
+[08/01/2026 12:53:27.56] MySQL not ready yet. Waiting... (2/20) 
+[08/01/2026 12:53:46.41] MySQL not ready yet. Waiting... (3/20) 
+[08/01/2026 12:54:05.41] MySQL not ready yet. Waiting... (4/20) 
+[08/01/2026 12:54:24.36] MySQL not ready yet. Waiting... (5/20) 
+[08/01/2026 12:54:43.43] MySQL not ready yet. Waiting... (6/20) 
+[08/01/2026 12:55:02.39] MySQL not ready yet. Waiting... (7/20) 
+[08/01/2026 12:55:21.38] MySQL not ready yet. Waiting... (8/20) 
+[08/01/2026 12:55:40.40] MySQL not ready yet. Waiting... (9/20) 
+[08/01/2026 12:55:59.39] MySQL not ready yet. Waiting... (10/20) 
+[08/01/2026 12:56:18.45] MySQL not ready yet. Waiting... (11/20) 
+[08/01/2026 12:56:37.35] MySQL not ready yet. Waiting... (12/20) 
+[08/01/2026 12:56:56.43] MySQL not ready yet. Waiting... (13/20) 
+[08/01/2026 12:57:15.42] MySQL not ready yet. Waiting... (14/20) 
+[08/01/2026 12:57:34.40] MySQL not ready yet. Waiting... (15/20) 
+[08/01/2026 12:57:53.42] MySQL not ready yet. Waiting... (16/20) 
+[08/01/2026 12:58:12.37] MySQL not ready yet. Waiting... (17/20) 
+[08/01/2026 12:58:31.34] MySQL not ready yet. Waiting... (18/20) 
+[08/01/2026 12:58:50.35] MySQL not ready yet. Waiting... (19/20) 
+[08/01/2026 12:59:09.40] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[09/01/2026 21:05:44.18] Waiting for MySQL connection... 
+[09/01/2026 21:05:48.52] MySQL not ready yet. Waiting... (1/20) 
+[09/01/2026 21:06:07.34] MySQL not ready yet. Waiting... (2/20) 
+[09/01/2026 21:06:26.36] MySQL not ready yet. Waiting... (3/20) 
+[09/01/2026 21:06:45.29] MySQL not ready yet. Waiting... (4/20) 
+[09/01/2026 21:07:04.29] MySQL not ready yet. Waiting... (5/20) 
+[09/01/2026 21:07:23.24] MySQL not ready yet. Waiting... (6/20) 
+[09/01/2026 21:07:42.36] MySQL not ready yet. Waiting... (7/20) 
+[09/01/2026 21:08:01.29] MySQL not ready yet. Waiting... (8/20) 
+[09/01/2026 21:08:20.32] MySQL not ready yet. Waiting... (9/20) 
+[09/01/2026 21:08:39.27] MySQL not ready yet. Waiting... (10/20) 
+[09/01/2026 21:08:58.29] MySQL not ready yet. Waiting... (11/20) 
+[09/01/2026 21:09:17.31] MySQL not ready yet. Waiting... (12/20) 
+[09/01/2026 21:09:36.34] MySQL not ready yet. Waiting... (13/20) 
+[09/01/2026 21:09:55.22] MySQL not ready yet. Waiting... (14/20) 
+[09/01/2026 21:10:14.27] MySQL not ready yet. Waiting... (15/20) 
+[09/01/2026 21:10:33.28] MySQL not ready yet. Waiting... (16/20) 
+[09/01/2026 21:10:52.28] MySQL not ready yet. Waiting... (17/20) 
+[09/01/2026 21:11:11.23] MySQL not ready yet. Waiting... (18/20) 
+[09/01/2026 21:11:30.32] MySQL not ready yet. Waiting... (19/20) 
+[09/01/2026 21:11:49.31] ERROR: MySQL not available after 5 minutes. Exiting. 
+MySQL connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+Please start MySQL/XAMPP service.
+[2026-01-22 01:38:47] === Payment Reminder Check Started ===
+[2026-01-22 01:38:47] Date: 2026-01-22
+[2026-01-22 01:38:47] Checking for payment breakdowns with due dates between today and 5 days from now...
+[2026-01-22 01:38:47] Database Analysis:
+[2026-01-22 01:38:47]   - Total breakdowns: 21
+[2026-01-22 01:38:47]   - Unpaid breakdowns: 6
+[2026-01-22 01:38:47]   - Unpaid (not cancelled): 6
+[2026-01-22 01:38:47]   - Unpaid with due date: 6
+[2026-01-22 01:38:47]   - Unpaid with future due date: 2
+[2026-01-22 01:38:47]   - Unpaid within 5 days: 0
+[2026-01-22 01:38:47] Found 0 payment breakdown(s) to check
+[2026-01-22 01:38:47] No breakdowns found matching criteria.
+[2026-01-22 01:38:47] Checking database for unpaid breakdowns...
+[2026-01-22 01:38:47] Database Statistics:
+[2026-01-22 01:38:47]   - Total unpaid breakdowns: 6
+[2026-01-22 01:38:47]   - Breakdowns with due dates: 6
+[2026-01-22 01:38:47]   - Breakdowns with future due dates: 2
+[2026-01-22 01:38:47]   - Breakdowns within 5 days: 4
+[2026-01-22 01:38:47] Example unpaid breakdowns (first 5):
+[2026-01-22 01:38:47]   - ID: 20, Due: 2025-12-11 (42 days ago), Amount: ₱1,000.00, Status: Overdue
+[2026-01-22 01:38:47]   - ID: 21, Due: 2026-01-10 (12 days ago), Amount: ₱733.33, Status: Overdue
+[2026-01-22 01:38:47]   - ID: 29, Due: 2026-01-13 (9 days ago), Amount: ₱5,000.00, Status: Overdue
+[2026-01-22 01:38:47]   - ID: 56, Due: 2026-01-16 (6 days ago), Amount: ₱2,666.67, Status: Overdue
+[2026-01-22 01:38:47]   - ID: 30, Due: 2026-02-12 (in 21 days), Amount: ₱5,000.00, Status: Pending
+[2026-01-22 01:38:47] === Payment Reminder Check Completed ===
+[2026-01-22 01:38:47] Summary: Sent 0 reminder(s), Failed: 0
+[2026-01-22 01:38:47] =========================================
+[2026-01-22 02:05:25] === Payment Reminder Check Started ===
+[2026-01-22 02:05:25] Date: 2026-01-22
+[2026-01-22 02:05:25] Checking for payment breakdowns with due dates between today and 5 days from now...
+[2026-01-22 02:05:25] Database Analysis:
+[2026-01-22 02:05:25]   - Total breakdowns: 21
+[2026-01-22 02:05:25]   - Unpaid breakdowns: 6
+[2026-01-22 02:05:25]   - Unpaid (not cancelled): 6
+[2026-01-22 02:05:25]   - Unpaid with due date: 6
+[2026-01-22 02:05:25]   - Unpaid with future due date: 2
+[2026-01-22 02:05:25]   - Unpaid within 5 days: 0
+[2026-01-22 02:05:25] Found 0 payment breakdown(s) to check
+[2026-01-22 02:05:25] No breakdowns found matching criteria.
+[2026-01-22 02:05:25] Checking database for unpaid breakdowns...
+[2026-01-22 02:05:25] Database Statistics:
+[2026-01-22 02:05:25]   - Total unpaid breakdowns: 6
+[2026-01-22 02:05:25]   - Breakdowns with due dates: 6
+[2026-01-22 02:05:25]   - Breakdowns with future due dates: 2
+[2026-01-22 02:05:25]   - Breakdowns within 5 days: 4
+[2026-01-22 02:05:25] Example unpaid breakdowns (first 5):
+[2026-01-22 02:05:25]   - ID: 20, Due: 2025-12-11 (42 days ago), Amount: ₱1,000.00, Status: Overdue
+[2026-01-22 02:05:25]   - ID: 21, Due: 2026-01-10 (12 days ago), Amount: ₱733.33, Status: Overdue
+[2026-01-22 02:05:25]   - ID: 29, Due: 2026-01-13 (9 days ago), Amount: ₱5,000.00, Status: Overdue
+[2026-01-22 02:05:25]   - ID: 56, Due: 2026-01-16 (6 days ago), Amount: ₱2,666.67, Status: Overdue
+[2026-01-22 02:05:25]   - ID: 30, Due: 2026-02-12 (in 21 days), Amount: ₱5,000.00, Status: Pending
+[2026-01-22 02:05:25] === Payment Reminder Check Completed ===
+[2026-01-22 02:05:25] Summary: Sent 0 reminder(s), Failed: 0
+[2026-01-22 02:05:25] =========================================
+[2026-01-27 16:18:24] === Payment Reminder Check Started ===
+[2026-01-27 16:18:24] Date: 2026-01-27
+[2026-01-27 16:18:24] Checking for payment breakdowns with due dates between today and 5 days from now...
+[2026-01-27 16:18:24] Database Analysis:
+[2026-01-27 16:18:24]   - Total breakdowns: 22
+[2026-01-27 16:18:24]   - Unpaid breakdowns: 6
+[2026-01-27 16:18:24]   - Unpaid (not cancelled): 6
+[2026-01-27 16:18:24]   - Unpaid with due date: 6
+[2026-01-27 16:18:24]   - Unpaid with future due date: 2
+[2026-01-27 16:18:24]   - Unpaid within 5 days: 0
+[2026-01-27 16:18:24] Found 0 payment breakdown(s) to check
+[2026-01-27 16:18:24] No breakdowns found matching criteria.
+[2026-01-27 16:18:24] Checking database for unpaid breakdowns...
+[2026-01-27 16:18:24] Database Statistics:
+[2026-01-27 16:18:24]   - Total unpaid breakdowns: 6
+[2026-01-27 16:18:24]   - Breakdowns with due dates: 6
+[2026-01-27 16:18:24]   - Breakdowns with future due dates: 2
+[2026-01-27 16:18:24]   - Breakdowns within 5 days: 4
+[2026-01-27 16:18:24] Example unpaid breakdowns (first 5):
+[2026-01-27 16:18:24]   - ID: 20, Due: 2025-12-11 (47 days ago), Amount: ₱1,000.00, Status: Overdue
+[2026-01-27 16:18:24]   - ID: 21, Due: 2026-01-10 (17 days ago), Amount: ₱733.33, Status: Overdue
+[2026-01-27 16:18:24]   - ID: 29, Due: 2026-01-13 (14 days ago), Amount: ₱5,000.00, Status: Overdue
+[2026-01-27 16:18:24]   - ID: 56, Due: 2026-01-16 (11 days ago), Amount: ₱2,666.67, Status: Overdue
+[2026-01-27 16:18:24]   - ID: 30, Due: 2026-02-12 (in 16 days), Amount: ₱5,000.00, Status: Pending
+[2026-01-27 16:18:24] === Payment Reminder Check Completed ===
+[2026-01-27 16:18:24] Summary: Sent 0 reminder(s), Failed: 0
+[2026-01-27 16:18:24] =========================================

@@ -43,6 +43,7 @@ try {
                 suffix,
                 user_type,
                 user_status,
+                online_status,
                 profile_picture,
                 last_message,
                 last_message_time,
@@ -58,6 +59,9 @@ try {
                     r.suffix,
                     r.role as user_type,
                     u.status as user_status,
+                    COALESCE((SELECT IF(MAX(updated_at) >= DATE_SUB(NOW(), INTERVAL 2 MINUTE), 'Active', 'Offline') 
+                     FROM device_tokens dt 
+                     WHERE dt.user_id = u.user_id AND dt.is_active = 1), 'Offline') as online_status,
                     u.profile_picture,
                     m.msg_text as last_message,
                     m.msg_timestamp as last_message_time,
@@ -114,6 +118,7 @@ try {
                     suffix,
                     user_type,
                     user_status,
+                    online_status,
                     profile_picture,
                     last_message,
                     last_message_time,
@@ -129,6 +134,9 @@ try {
                         r.suffix,
                         r.role as user_type,
                         u.status as user_status,
+                        COALESCE((SELECT IF(MAX(updated_at) >= DATE_SUB(NOW(), INTERVAL 2 MINUTE), 'Active', 'Offline') 
+                         FROM device_tokens dt 
+                         WHERE dt.user_id = u.user_id AND dt.is_active = 1), 'Offline') as online_status,
                         u.profile_picture,
                         m.msg_text as last_message,
                         m.msg_timestamp as last_message_time,
@@ -277,13 +285,24 @@ try {
             $full_name .= ' ' . $suffix;
         }
         
+        // Determine final display status
+        $display_status = $chat['user_status']; // Default to account status
+        $online_status = isset($chat['online_status']) ? $chat['online_status'] : 'Offline';
+        
+        if ($chat['user_status'] === 'Active') {
+            // If account is active, show online status
+            $display_status = $online_status;
+        }
+        
         $formatted_individual_chats[] = [
             'chat_id' => 'individual_' . $chat['other_user_id'],
             'chat_type' => 'individual',
             'other_user_id' => $chat['other_user_id'],
             'other_user_name' => $full_name,
             'other_user_type' => $chat['user_type'],
-            'user_status' => $chat['user_status'],
+            'user_status' => $display_status,
+            'online_status' => $online_status,
+            'account_status' => $chat['user_status'],
             'other_user_profile_picture' => isset($chat['profile_picture']) ? $chat['profile_picture'] : '',
             'last_message' => $chat['last_message'],
             'last_message_time' => $chat['last_message_time'],

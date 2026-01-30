@@ -15,10 +15,15 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -154,7 +159,7 @@ try {
     error_log("get_current_boarders.php - Sample bookings (non-cancelled): " . json_encode($debugBookings));
     
     // Get base URL for images
-    $baseUrl = 'http://192.168.1.4/boardease_v3/';
+    $baseUrl = 'https://boardease.calapebohol.com/';
     
     // Format the results
     $boarders = array();

@@ -9,7 +9,7 @@ include 'dbConfig.php';
 $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
 $bh_id = isset($_POST['bh_id']) ? intval($_POST['bh_id']) : 0; // New parameter for single BH
 
-$baseUrl = "https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/";
+$baseUrl = "https://boardease.calapebohol.com/";
 
 try {
     if ($bh_id > 0) {

@@ -20,10 +20,16 @@ error_log("FILES data: " . print_r($_FILES, true));
 
 try {
     // Database connection (using direct IP/localhost)
-    $servername = "localhost";
-    $username   = "boardease";
-    $password   = "boardease";
-    $dbname     = "boardease2";
+    // Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$dbname = DB_NAME;
 
     // Enable mysqli exception mode
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

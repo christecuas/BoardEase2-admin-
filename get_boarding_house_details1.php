@@ -5,10 +5,15 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     // Create PDO connection
@@ -191,7 +196,7 @@ try {
 
     // FIXED: Use ngrok URL to match Android app base URL
     // This ensures images are accessible from the Android device
-    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://boardease.calapebohol.com/';
 
     // Format image URLs
     $formattedImages = array();
@@ -296,7 +301,7 @@ try {
                 'max_price' => $priceRange['max_price'] ? (int)$priceRange['max_price'] : null,
                 'gcash_qr' => !empty($ownerData['gcash_qr']) && $ownerData['gcash_qr'] !== 'null' ? 
                     (strpos($ownerData['gcash_qr'], 'http://') === 0 || strpos($ownerData['gcash_qr'], 'https://') === 0 ? 
-                        $ownerData['gcash_qr'] : 
+                        str_replace('reflective-perkily-jakobe.ngrok-free.dev', 'boardease.calapebohol.com', $ownerData['gcash_qr']) : 
                         $baseUrl . (strpos($ownerData['gcash_qr'], 'uploads/') === 0 ? $ownerData['gcash_qr'] : 'uploads/' . $ownerData['gcash_qr'])) 
                     : null, // Include GCash QR code with full URL
                 'gcash_number' => !empty($ownerData['gcash_num']) && $ownerData['gcash_num'] !== 'null' ? $ownerData['gcash_num'] : null, // Include GCash number

@@ -19,10 +19,18 @@
  */
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+// Database configuration
+require_once 'dbConfig.php';
+
+// define('DB_HOST', '');
+// define('DB_USER', 'u223444398_userboardease');
+// define('DB_PASS', '!Boardease2026');
+// define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 // Configuration
 define('KEEP_DAYS', 30); // Keep notifications for 30 days (1 month)

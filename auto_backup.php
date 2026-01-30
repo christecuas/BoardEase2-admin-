@@ -106,7 +106,7 @@ function backupDatabase($host, $username, $password, $database, $tables = '*') {
 }
 
 // Create backup directory if it doesn't exist
-$backupDir = 'backups';
+$backupDir = __DIR__ . '/backups';
 if (!file_exists($backupDir)) {
     mkdir($backupDir, 0755, true);
 }

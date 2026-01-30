@@ -5,7 +5,7 @@
 require_once 'dbConfig.php';
 
 // Create logs directory if it doesn't exist
-$logDir = 'logs';
+$logDir = __DIR__ . '/logs';
 if (!file_exists($logDir)) {
     mkdir($logDir, 0755, true);
 }

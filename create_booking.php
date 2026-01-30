@@ -30,10 +30,15 @@ error_log("Request Method: " . $_SERVER['REQUEST_METHOD']);
 error_log("Request URI: " . ($_SERVER['REQUEST_URI'] ?? 'N/A'));
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     // Create PDO connection

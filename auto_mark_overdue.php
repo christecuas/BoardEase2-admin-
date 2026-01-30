@@ -18,10 +18,32 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+// Database configuration
+require_once 'dbConfig.php';
+
+// define('DB_HOST', '');
+// define('DB_USER', 'u223444398_userboardease');
+// define('DB_PASS', '!Boardease2026');
+// define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
+
+// Create logs directory if it doesn't exist
+$logDir = __DIR__ . '/logs';
+if (!file_exists($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+$logFile = $logDir . '/auto_mark_overdue.log';
+
+function logMessage($message) {
+    global $logFile;
+    $timestamp = date('Y-m-d H:i:s');
+    $logMessage = "[$timestamp] $message" . PHP_EOL;
+    file_put_contents($logFile, $logMessage, FILE_APPEND);
+}
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
@@ -171,22 +193,16 @@ try {
                     
                     // Log notification sent
                     $notificationsSent++;
-                    if (function_exists('error_log')) {
-                        error_log("auto_mark_overdue.php - Notification sent to user_id: $boarderUserId, amount: ₱" . number_format($amount, 2) . ", room: $roomNumber");
-                    }
+                    logMessage("Notification sent to user_id: $boarderUserId, amount: ₱" . number_format($amount, 2) . ", room: $roomNumber");
                 } else {
                     // Log notification skipped (already sent today)
                     $notificationsSkipped++;
-                    if (function_exists('error_log')) {
-                        error_log("auto_mark_overdue.php - Notification skipped (already sent today) for user_id: $boarderUserId, amount: ₱" . number_format($amount, 2) . ", room: $roomNumber");
-                    }
+                    logMessage("Notification skipped (already sent today) for user_id: $boarderUserId, amount: ₱" . number_format($amount, 2) . ", room: $roomNumber");
                 }
     }
     
     // Log summary
-    if (function_exists('error_log')) {
-        error_log("auto_mark_overdue.php - Summary: $notificationsSent notifications sent, $notificationsSkipped notifications skipped (already sent today)");
-    }
+    logMessage("Summary: $notificationsSent notifications sent, $notificationsSkipped notifications skipped (already sent today)");
 
     echo json_encode([
         'success' => true,
@@ -199,16 +215,20 @@ try {
     ], JSON_PRETTY_PRINT);
     
 } catch (PDOException $e) {
+    $errorMessage = 'Database error: ' . $e->getMessage();
+    logMessage($errorMessage);
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => 'Database error: ' . $e->getMessage()
+        'error' => $errorMessage
     ], JSON_PRETTY_PRINT);
 } catch (Exception $e) {
+    $errorMessage = 'Error: ' . $e->getMessage();
+    logMessage($errorMessage);
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => 'Error: ' . $e->getMessage()
+        'error' => $errorMessage
     ], JSON_PRETTY_PRINT);
 }
 ?>

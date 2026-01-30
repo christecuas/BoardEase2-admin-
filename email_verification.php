@@ -18,10 +18,16 @@ error_log("POST data: " . print_r($_POST, true));
 
 try {
     // Database connection
-    $servername = "localhost";
-    $username   = "boardease";
-    $password   = "boardease";
-    $dbname     = "boardease2";
+    // Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$dbname = DB_NAME;
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -420,7 +426,7 @@ function sendVerificationEmail($email, $firstName, $verificationCode) {
                 <div class='verification-link'>
                     <p><strong>Quick Access:</strong> Click the button below to open the verification screen directly in the BoardEase app:</p>
                     <div style='text-align: center; margin: 20px 0;'>
-                        <a href='https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/verify.php?email=" . urlencode($email) . "' style='display: inline-block; padding: 14px 40px; background-color: #A18167; color: #FFFFFF !important; text-decoration: none !important; border-radius: 5px; font-size: 16px; font-weight: bold; border: 2px solid #A18167;'>Open Verification Screen</a>
+                        <a href='https://boardease.calapebohol.com/verify.php?email=" . urlencode($email) . "' style='display: inline-block; padding: 14px 40px; background-color: #A18167; color: #FFFFFF !important; text-decoration: none !important; border-radius: 5px; font-size: 16px; font-weight: bold; border: 2px solid #A18167;'>Open Verification Screen</a>
                     </div>
                     <p style='font-size: 12px; color: #666; margin-top: 10px;'><strong>Note:</strong> Clicking the button will open a page that will immediately try to open the BoardEase app. If Android shows an app chooser, please select <strong>BoardEase</strong> and choose <strong>&quot;Always&quot;</strong> to set it as default.</p>
                 </div>

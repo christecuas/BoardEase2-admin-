@@ -42,10 +42,16 @@ error_log("Content length: " . ($_SERVER['CONTENT_LENGTH'] ?? 'NOT_SET'));
 try {
     error_log("Starting registration process...");
 // Database connection
-$servername = "localhost";
-$username   = "boardease"; // adjust if needed
-$password   = "boardease";     // adjust if needed
-$dbname     = "boardease2"; // adjust if needed
+// Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$dbname = DB_NAME;
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

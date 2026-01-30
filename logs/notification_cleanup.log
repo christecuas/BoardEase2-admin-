@@ -90,3 +90,25 @@ Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
 === Notification Cleanup Completed Successfully ===
 
 [10/12/2025  8:02:21.50] Cleanup completed successfully! 
+[2026-01-21 02:09:09] === Notification Cleanup Started ===
+[2026-01-21 02:09:09] Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+[2026-01-21 02:09:09] Connecting to database...
+[2026-01-21 02:09:09] Database connection successful
+[2026-01-21 02:09:09] Transaction started
+[2026-01-21 02:09:09] Cutoff date calculated: 2025-12-22 02:09:09 (notifications older than this will be deleted)
+[2026-01-21 02:09:09] Found 601 notification(s) to delete
+[2026-01-21 02:09:09] Executing delete query: Deleting read notifications older than 1 month (30 days)
+[2026-01-21 02:09:09] Transaction committed successfully
+[2026-01-21 02:09:09] Deleted: 601 old notification(s) older than 1 month (cutoff: 2025-12-22 02:09:09)
+[2026-01-21 02:09:09] === Notification Cleanup Completed Successfully ===
+[2026-01-22 02:06:05] === Notification Cleanup Started ===
+[2026-01-22 02:06:05] Configuration: KEEP_DAYS=30 (1 month), DELETE_READ_ONLY=true
+[2026-01-22 02:06:05] Connecting to database...
+[2026-01-22 02:06:05] Database connection successful
+[2026-01-22 02:06:05] Transaction started
+[2026-01-22 02:06:05] Cutoff date calculated: 2025-12-23 02:06:05 (notifications older than this will be deleted)
+[2026-01-22 02:06:05] Found 4 notification(s) to delete
+[2026-01-22 02:06:05] Executing delete query: Deleting read notifications older than 1 month (30 days)
+[2026-01-22 02:06:05] Transaction committed successfully
+[2026-01-22 02:06:05] Deleted: 4 old notification(s) older than 1 month (cutoff: 2025-12-23 02:06:05)
+[2026-01-22 02:06:05] === Notification Cleanup Completed Successfully ===

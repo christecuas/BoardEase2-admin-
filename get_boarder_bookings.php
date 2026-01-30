@@ -15,10 +15,15 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -128,7 +133,7 @@ try {
     error_log("get_boarder_bookings.php - Found " . count($results) . " bookings for user_id: $userId");
     
     // Get base URL for images
-    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://boardease.calapebohol.com/';
     
     // Separate bookings into sections
     $currentBookings = array();

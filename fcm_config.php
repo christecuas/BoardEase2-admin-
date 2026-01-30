@@ -130,6 +130,9 @@ class FCMConfig {
             'message' => [
                 'token' => $token,
                 'data' => $stringData
+            ],
+            'android' => [
+                'priority' => 'HIGH'
             ]
         ];
         

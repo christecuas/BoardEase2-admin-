@@ -4,10 +4,16 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-$servername = "localhost";
-$username = "boardease";
-$password = "boardease";
-$database = "boardease2";
+// Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$database = DB_NAME;
 
 $conn = new mysqli($servername, $username, $password, $database);
 

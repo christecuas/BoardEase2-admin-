@@ -28,10 +28,15 @@ header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
@@ -601,6 +606,52 @@ try {
             error_log("Warning: Failed to send notifications: " . $e->getMessage());
             error_log("Stack trace: " . $e->getTraceAsString());
         }
+    }
+
+    // NEW: Send Real-time Refresh Trigger to Boarder
+    try {
+        require_once 'fcm_config.php';
+        require_once 'dbConfig.php'; 
+        
+        // Get ALL boarder's device tokens to ensure we hit the right one
+        $getTokenSql = "SELECT device_token FROM device_tokens WHERE user_id = ? AND is_active = 1";
+        $getTokenStmt = $pdo->prepare($getTokenSql);
+        $getTokenStmt->execute([$booking['boarder_user_id']]); 
+        $tokens = $getTokenStmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ($tokens && count($tokens) > 0) {
+             if (function_exists('error_log')) {
+                 error_log("approve_booking.php - Found " . count($tokens) . " tokens for user " . $booking['boarder_user_id']);
+             }
+
+             $dataPayload = [
+                 'action' => 'refresh_bookings', // The trigger key
+                 'type' => 'booking_update',
+                 'booking_id' => (string)$bookingId,
+                 'status' => 'Confirmed' 
+             ];
+             
+             foreach ($tokens as $tokenRow) {
+                 if (!empty($tokenRow['device_token'])) {
+                     $deviceToken = $tokenRow['device_token'];
+                     // Send Data Message (High Priority)
+                     $fcmResult = FCMConfig::sendDataMessage($deviceToken, $dataPayload);
+                     
+                     if (function_exists('error_log')) {
+                         error_log("approve_booking.php - Refresh sent to token " . substr($deviceToken, 0, 10) . "... Result: " . json_encode($fcmResult));
+                     }
+                 }
+             }
+        } else {
+             if (function_exists('error_log')) {
+                 error_log("approve_booking.php - No device tokens found for real-time refresh (user " . $booking['boarder_user_id'] . ")");
+             }
+        }
+        
+    } catch (Exception $e) {
+         if (function_exists('error_log')) {
+             error_log("approve_booking.php - Failed to trigger real-time refresh: " . $e->getMessage());
+         }
     }
     
 } catch (PDOException $e) {

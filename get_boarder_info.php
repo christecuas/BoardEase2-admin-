@@ -22,10 +22,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Database configuration
-$servername = "localhost";
-$username   = "boardease";
-$password   = "boardease";
-$dbname     = "boardease2";
+// Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$dbname = DB_NAME;
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

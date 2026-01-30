@@ -121,7 +121,7 @@ foreach ($bookings as $booking) {
     }
     
     // Format boarding house image URL
-    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
+    $baseUrl = 'https://boardease.calapebohol.com/';
     $rawImagePath = $booking['bh_image_path'] ?? "";
     $bhImageUrl = "";
     

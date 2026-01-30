@@ -69,7 +69,7 @@ try {
             INNER JOIN room_units ru ON ab.room_id = ru.room_id
             INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-            LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
+            LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1 AND dt.updated_at >= DATE_SUB(NOW(), INTERVAL 2 MINUTE)
             WHERE bh.bh_id IN (
                 SELECT bh_id FROM boarding_houses WHERE user_id = ?
             )
@@ -185,7 +185,7 @@ try {
                     CASE WHEN dt.device_token IS NOT NULL THEN 1 ELSE 0 END as is_online
                 FROM users u
                 JOIN registrations r ON u.reg_id = r.id
-                LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
+                LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1 AND dt.updated_at >= DATE_SUB(NOW(), INTERVAL 2 MINUTE)
                 WHERE u.user_id != ?
                 AND (u.user_id = ? OR 
                     (u.user_id IN (

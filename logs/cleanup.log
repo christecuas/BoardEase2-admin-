@@ -59,3 +59,31 @@
 [2025-12-06 11:39:06] No accounts found for deletion
 [2025-12-06 11:39:06] Database connection closed
 [2025-12-06 11:39:06] === CLEANUP SCRIPT FINISHED ===
+[2026-01-21 02:09:24] === CLEANUP SCRIPT STARTED ===
+[2026-01-21 02:09:24] Database connection established
+[2026-01-21 02:09:24] Current time: 2026-01-21 02:09:24
+[2026-01-21 02:09:24] Looking for accounts older than: 2026-01-21 01:39:24
+[2026-01-21 02:09:24] Found 2 accounts to delete
+[2026-01-21 02:09:24] Accounts to be deleted:
+[2026-01-21 02:09:24] Will delete: ID=124, Email=mantekimberlyjul@gmail.com, Name=Marilyn, Created=2026-01-04 08:42:04
+[2026-01-21 02:09:24] Will delete: ID=125, Email=mantekim96@gmail.com, Name=Kimberly Jul, Created=2026-01-04 09:40:25
+[2026-01-21 02:09:24] Deleted file: uploads/registrations/695a27d6e6c3f_front.jpg
+[2026-01-21 02:09:24] Deleted file: uploads/registrations/695a27d6e8364_back.jpg
+[2026-01-21 02:09:24] Deleted file: uploads/registrations/695a27d6e921d_qr.jpg
+[2026-01-21 02:09:24] Deleted file: uploads/registrations/695a35892ae5d_front.jpg
+[2026-01-21 02:09:24] Deleted file: uploads/registrations/695a35892cdba_back.jpg
+[2026-01-21 02:09:24] Deleted 2 registration records
+[2026-01-21 02:09:24] Deleted 2 verification records
+[2026-01-21 02:09:24] Deleted 5 uploaded files
+[2026-01-21 02:09:24] === CLEANUP COMPLETED SUCCESSFULLY ===
+[2026-01-21 02:09:24] Total accounts deleted: 2
+[2026-01-21 02:09:24] Database connection closed
+[2026-01-21 02:09:24] === CLEANUP SCRIPT FINISHED ===
+[2026-01-22 02:06:18] === CLEANUP SCRIPT STARTED ===
+[2026-01-22 02:06:18] Database connection established
+[2026-01-22 02:06:18] Current time: 2026-01-22 02:06:18
+[2026-01-22 02:06:18] Looking for accounts older than: 2026-01-22 01:36:18
+[2026-01-22 02:06:18] Found 0 accounts to delete
+[2026-01-22 02:06:18] No accounts found for deletion
+[2026-01-22 02:06:18] Database connection closed
+[2026-01-22 02:06:18] === CLEANUP SCRIPT FINISHED ===

@@ -1,9 +1,12 @@
 <?php
 // Database configuration constants
-define('DB_HOST', 'localhost');
-define('DB_USER', 'boardease');
-define('DB_PASS', 'boardease');
-define('DB_NAME', 'boardease2');
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+// Set PHP timezone
+date_default_timezone_set('Asia/Manila');
 
 // Create connection
 $servername = DB_HOST;
@@ -16,4 +19,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 if($conn->connect_error){
     die("Connection Failed: " . $conn->connect_error);
 }
+
+// Set MySQL timezone to Philippines time
+$conn->query("SET time_zone = '+08:00'");
 ?>

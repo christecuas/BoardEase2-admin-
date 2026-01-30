@@ -1,7 +1,0 @@
-[02/01/2026 11:23:41.96] Waiting for MySQL connection... 
-[02/01/2026 11:23:41.97] MySQL is ready! Proceeding... 
-[02/01/2026 11:23:41.98] Starting auto_complete_stays.php 
-Database error in auto_complete_stays.php: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it - MySQL/XAMPP may not be running. Please start MySQL service.
-Error: Database error in auto_complete_stays.php: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it - MySQL/XAMPP may not be running. Please start MySQL service.
-TIP: Make sure MySQL/XAMPP is running before running this script.
-

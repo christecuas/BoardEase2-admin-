@@ -11,10 +11,16 @@ ini_set('max_execution_time', 300);
 ini_set('memory_limit', '256M');
 
 // Database configuration
-$servername = "localhost";
-$username = "boardease";
-$password = "boardease";
-$database = "boardease2";
+// Database configuration
+define('DB_HOST', '');
+define('DB_USER', 'u223444398_userboardease');
+define('DB_PASS', '!Boardease2026');
+define('DB_NAME', 'u223444398_boardease');
+
+$servername = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
+$database = DB_NAME;
 
 $conn = new mysqli($servername, $username, $password, $database);
 

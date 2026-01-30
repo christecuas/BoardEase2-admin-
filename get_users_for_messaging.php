@@ -289,8 +289,16 @@ try {
         }
     }
     
-    // Sort by full name for consistent ordering
+    // Sort by Active Status first, then by full name
     usort($formatted_users, function($a, $b) {
+        // Priority 1: Online Status (Active/Online first)
+        $is_online_a = ($a['status_text'] === 'Online' || $a['has_device_token'] === true);
+        $is_online_b = ($b['status_text'] === 'Online' || $b['has_device_token'] === true);
+
+        if ($is_online_a && !$is_online_b) return -1; // A comes first
+        if (!$is_online_a && $is_online_b) return 1;  // B comes first
+
+        // Priority 2: Alphabetical by Name
         return strcasecmp($a['full_name'], $b['full_name']);
     });
     

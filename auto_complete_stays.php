@@ -8,10 +8,35 @@
  */
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'boardease2';
-$username = 'boardease';
-$password = 'boardease';
+// Database configuration
+require_once 'dbConfig.php';
+
+// define('DB_HOST', '');
+// define('DB_USER', 'u223444398_userboardease');
+// define('DB_PASS', '!Boardease2026');
+// define('DB_NAME', 'u223444398_boardease');
+
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
+
+// Create logs directory if it doesn't exist
+$logDir = __DIR__ . '/logs';
+if (!file_exists($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+$logFile = $logDir . '/auto_complete_stays.log';
+
+function logMessage($message) {
+    global $logFile;
+    $timestamp = date('Y-m-d H:i:s');
+    $logMessage = "[$timestamp] $message" . PHP_EOL;
+    file_put_contents($logFile, $logMessage, FILE_APPEND);
+    if (php_sapi_name() === 'cli') {
+        echo $message . "\n";
+    }
+}
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -33,10 +58,12 @@ try {
             b.end_date,
             b.booking_status,
             bhr.room_category,
-            bhr.capacity
+            bhr.capacity,
+            bh.user_id as owner_id
         FROM bookings b
         INNER JOIN room_units ru ON b.room_id = ru.room_id
         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+        INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
         WHERE b.booking_status NOT IN ('Completed', 'Cancelled')
             AND b.end_date IS NOT NULL
             AND DATE(b.end_date) < CURDATE()
@@ -68,7 +95,7 @@ try {
         
         if ($updateStmt->rowCount() > 0) {
             $completedCount++;
-            error_log("auto_complete_stays.php - Marked booking $bookingId as Completed (end_date: {$booking['end_date']})");
+            logMessage("Marked booking $bookingId as Completed (end_date: {$booking['end_date']})");
         }
         
         // Remove from active_boarders if exists
@@ -83,7 +110,28 @@ try {
         
         if ($removeStmt->rowCount() > 0) {
             $removedFromActiveCount++;
-            error_log("auto_complete_stays.php - Removed user $userId from active_boarders (room_id: $roomId)");
+            logMessage("Removed user $userId from active_boarders (room_id: $roomId)");
+        }
+        
+        // Remove from Group Chat
+        // Find groups owned by this BH Owner and remove the user
+        $ownerId = $booking['owner_id'];
+        if ($ownerId) {
+            $getGroupsSql = "SELECT gc_id FROM chat_groups WHERE gc_created_by = ?";
+            $groupStmt = $pdo->prepare($getGroupsSql);
+            $groupStmt->execute([$ownerId]);
+            $groups = $groupStmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($groups as $group) {
+                $gcId = $group['gc_id'];
+                $removeGroupMemberSql = "DELETE FROM group_members WHERE user_id = ? AND gc_id = ?";
+                $delGroupStmt = $pdo->prepare($removeGroupMemberSql);
+                $delGroupStmt->execute([$userId, $gcId]);
+                
+                if ($delGroupStmt->rowCount() > 0) {
+                     logMessage("Removed user $userId from Group Chat $gcId (Stay Completed)");
+                }
+            }
         }
         
         // Update room status based on room category
@@ -99,7 +147,7 @@ try {
             
             if ($updateRoomStmt->rowCount() > 0) {
                 $roomsUpdatedCount++;
-                error_log("auto_complete_stays.php - Updated room $roomId (Private Room) to 'Available'");
+                logMessage("Updated room $roomId (Private Room) to 'Available'");
             }
             
         } else if ($roomCategory === 'Bed Spacer') {
@@ -130,7 +178,7 @@ try {
                 
                 if ($updateRoomStmt->rowCount() > 0) {
                     $roomsUpdatedCount++;
-                    error_log("auto_complete_stays.php - Updated room $roomId (Bed Spacer) to 'Available' (no other active bookings)");
+                    logMessage("Updated room $roomId (Bed Spacer) to 'Available' (no other active bookings)");
                 }
             } else {
                 // There are still active bookings, check if room should be 'Occupied' or 'Available'
@@ -145,7 +193,7 @@ try {
                     $updateRoomStmt->execute([$roomId]);
                     
                     if ($updateRoomStmt->rowCount() > 0) {
-                        error_log("auto_complete_stays.php - Room $roomId (Bed Spacer) remains 'Occupied' ($activeBookingsCount/$capacity beds still occupied)");
+                        logMessage("Room $roomId (Bed Spacer) remains 'Occupied' ($activeBookingsCount/$capacity beds still occupied)");
                     }
                 } else {
                     // Has available capacity, set to 'Available'
@@ -159,7 +207,7 @@ try {
                     
                     if ($updateRoomStmt->rowCount() > 0) {
                         $roomsUpdatedCount++;
-                        error_log("auto_complete_stays.php - Updated room $roomId (Bed Spacer) to 'Available' ($activeBookingsCount/$capacity beds occupied)");
+                        logMessage("Updated room $roomId (Bed Spacer) to 'Available' ($activeBookingsCount/$capacity beds occupied)");
                     }
                 }
             }
@@ -175,7 +223,7 @@ try {
             
             if ($updateRoomStmt->rowCount() > 0) {
                 $roomsUpdatedCount++;
-                error_log("auto_complete_stays.php - Updated room $roomId (Unknown category) to 'Available'");
+                logMessage("Updated room $roomId (Unknown category) to 'Available'");
             }
         }
     }
@@ -199,18 +247,49 @@ try {
     
     if ($orphanedRemoved > 0) {
         $removedFromActiveCount += $orphanedRemoved;
-        error_log("auto_complete_stays.php - Removed $orphanedRemoved orphaned records from active_boarders");
+        logMessage("Removed $orphanedRemoved orphaned records from active_boarders");
+    }
+    
+    // SYNC GROUP MEMBERS: Remove users from Group Chat if they are NOT in active_boarders
+    // This catches users removed via orphaned cleanup or any other manual removal
+    // Logic: Delete from group_members IF:
+    // 1. User is NOT the group owner (gc_created_by)
+    // 2. User is NOT an active boarder in any BH owned by the group owner
+    $syncGroupMembersSql = "
+        DELETE gm FROM group_members gm
+        JOIN chat_groups gc ON gm.gc_id = gc.gc_id
+        LEFT JOIN (
+            SELECT DISTINCT ab.user_id, bh.user_id as owner_id
+            FROM active_boarders ab
+            JOIN room_units ru ON ab.room_id = ru.room_id
+            JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            WHERE ab.status = 'Active'
+        ) active_status ON gm.user_id = active_status.user_id AND gc.gc_created_by = active_status.owner_id
+        WHERE gm.user_id != gc.gc_created_by  -- Don't remove the owner
+        AND active_status.user_id IS NULL       -- User is not active for this owner
+    ";
+    
+    $syncStmt = $pdo->prepare($syncGroupMembersSql);
+    $syncStmt->execute();
+    $removedFromGroups = $syncStmt->rowCount();
+    
+    if ($removedFromGroups > 0) {
+        logMessage("Removed $removedFromGroups non-active users from Group Chats (Sync Check)");
     }
     
     // Commit transaction
     $pdo->commit();
     
     // Log summary
-    $summary = "auto_complete_stays.php - Completed: $completedCount bookings, Removed: $removedFromActiveCount from active_boarders, Updated: $roomsUpdatedCount rooms to Available";
+    $summary = "Completed: $completedCount bookings, Removed: $removedFromActiveCount from active_boarders, Updated: $roomsUpdatedCount rooms to Available";
     if ($orphanedRemoved > 0) {
         $summary .= " (including $orphanedRemoved orphaned records)";
     }
-    error_log($summary);
+    if ($removedFromGroups > 0) {
+        $summary .= ", Removed from Groups: $removedFromGroups";
+    }
+    logMessage($summary);
     
     // Clean up old logs (keep only last 7 days)
     $logDir = __DIR__ . '/logs';
@@ -222,26 +301,18 @@ try {
         foreach ($files as $file) {
             if (filemtime($file) < $cutoff) {
                 if (unlink($file)) {
-                    error_log("auto_complete_stays.php - Deleted old log: " . basename($file));
+                    logMessage("Deleted old log: " . basename($file));
                     $deletedCount++;
                 } else {
-                    error_log("auto_complete_stays.php - WARNING: Could not delete old log: " . basename($file));
+                    logMessage("WARNING: Could not delete old log: " . basename($file));
                 }
             }
         }
         
         if ($deletedCount > 0) {
-            $cleanupMsg = "auto_complete_stays.php - Cleaned up $deletedCount old log file(s)";
-            error_log($cleanupMsg);
-            if (php_sapi_name() === 'cli') {
-                echo $cleanupMsg . "\n";
-            }
+            $cleanupMsg = "Cleaned up $deletedCount old log file(s)";
+            logMessage($cleanupMsg);
         }
-    }
-    
-    // If running from command line, output summary
-    if (php_sapi_name() === 'cli') {
-        echo $summary . "\n";
     }
     
     // Return JSON response if called via HTTP
@@ -264,7 +335,7 @@ try {
         $pdo->rollBack();
     }
     
-    $errorMessage = "Database error in auto_complete_stays.php: " . $e->getMessage();
+    $errorMessage = "Database error: " . $e->getMessage();
     
     // Check if it's a connection error
     if (strpos($e->getMessage(), 'refused') !== false || 
@@ -273,7 +344,7 @@ try {
         $errorMessage .= " - MySQL/XAMPP may not be running. Please start MySQL service.";
     }
     
-    error_log($errorMessage);
+    logMessage("ERROR: " . $errorMessage);
     
     if (php_sapi_name() !== 'cli') {
         header('Content-Type: application/json');
@@ -282,11 +353,6 @@ try {
             'success' => false,
             'error' => $errorMessage
         ]);
-    } else {
-        echo "Error: " . $errorMessage . "\n";
-        if (strpos($e->getMessage(), 'refused') !== false) {
-            echo "TIP: Make sure MySQL/XAMPP is running before running this script.\n";
-        }
     }
 } catch (Exception $e) {
     // Check if $pdo exists and is in transaction before rolling back
@@ -294,17 +360,16 @@ try {
         $pdo->rollBack();
     }
     
-    error_log("Error in auto_complete_stays.php: " . $e->getMessage());
+    $errorMessage = "Error: " . $e->getMessage();
+    logMessage($errorMessage);
     
     if (php_sapi_name() !== 'cli') {
         header('Content-Type: application/json');
         http_response_code(500);
         echo json_encode([
             'success' => false,
-            'error' => 'Error: ' . $e->getMessage()
+            'error' => $errorMessage
         ]);
-    } else {
-        echo "Error: " . $e->getMessage() . "\n";
     }
 }
 ?>

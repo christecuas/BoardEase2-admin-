@@ -13,13 +13,9 @@ error_log("POST data: " . print_r($_POST, true));
 header('Content-Type: application/json');
 
 // Database connection
-$servername = "localhost";
-$username   = "boardease";
-$password   = "boardease";
-$dbname     = "boardease2";
+require_once 'dbConfig.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
+// Check connection
 if ($conn->connect_error) {
     $errorMsg = "Database connection failed: " . $conn->connect_error;
     error_log("Login failed: " . $errorMsg);
@@ -120,6 +116,9 @@ if ($result->num_rows === 0) {
                 $fullName .= ' ' . $user['suffix'];
             }
             
+            // Note: Activity tracking is now handled by device_tokens heartbeat
+            // We don't update users table anymore for this to avoid schema changes
+
             $response = array(
                 "success" => true,
                 "message" => "Login successful",

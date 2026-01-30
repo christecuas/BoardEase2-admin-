@@ -1,0 +1,45 @@
+[2026-01-22 01:39:47] Notification sent to user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-22 01:39:47] Notification sent to user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-22 01:39:47] Notification sent to user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-22 01:39:47] Notification sent to user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-22 01:39:47] Summary: 4 notifications sent, 0 notifications skipped (already sent today)
+[2026-01-22 02:05:47] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-22 02:05:47] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-22 02:05:47] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-22 02:05:47] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-22 02:05:47] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-22 06:59:25] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-22 06:59:25] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-22 06:59:25] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-22 06:59:25] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-22 06:59:25] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-22 07:01:19] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-22 07:01:19] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-22 07:01:19] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-22 07:01:19] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-22 07:01:19] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-22 07:01:37] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-22 07:01:37] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-22 07:01:37] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-22 07:01:37] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-22 07:01:37] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-27 16:20:12] Notification sent to user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-27 16:20:12] Notification sent to user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-27 16:20:12] Notification sent to user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-27 16:20:12] Notification sent to user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-27 16:20:12] Summary: 4 notifications sent, 0 notifications skipped (already sent today)
+[2026-01-27 16:39:45] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-27 16:39:45] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-27 16:39:45] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-27 16:39:45] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-27 16:39:45] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-27 16:41:17] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-27 16:41:17] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-27 16:41:17] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-27 16:41:17] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-27 16:41:17] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
+[2026-01-27 16:41:23] Notification skipped (already sent today) for user_id: 44, amount: ₱1,000.00, room: GA-1
+[2026-01-27 16:41:23] Notification skipped (already sent today) for user_id: 44, amount: ₱733.33, room: GA-1
+[2026-01-27 16:41:23] Notification skipped (already sent today) for user_id: 28, amount: ₱5,000.00, room: PR0-2
+[2026-01-27 16:41:23] Notification skipped (already sent today) for user_id: 38, amount: ₱2,666.67, room: PR0-6
+[2026-01-27 16:41:23] Summary: 0 notifications sent, 4 notifications skipped (already sent today)
