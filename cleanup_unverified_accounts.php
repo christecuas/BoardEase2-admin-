@@ -2,7 +2,7 @@
 // cleanup_unverified_accounts.php
 // This script deletes unverified accounts that are older than 30 minutes
 
-require_once 'dbConfig.php';
+require_once __DIR__ . '/dbConfig.php';
 
 // Create logs directory if it doesn't exist
 $logDir = __DIR__ . '/logs';

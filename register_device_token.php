@@ -48,16 +48,15 @@ try {
     
     if ($existing_token) {
         // Update existing token
-        if (!$existing_token['is_active']) {
-            $stmt = $db->prepare("
-                UPDATE device_tokens 
-                SET is_active = 1, updated_at = NOW() 
-                WHERE token_id = ?
-            ");
-            $stmt->bind_param("i", $existing_token['token_id']);
-            $stmt->execute();
-            $stmt->close();
-        }
+        // Update existing token - ALWAYS update updated_at for heartbeat
+        $stmt = $db->prepare("
+            UPDATE device_tokens 
+            SET is_active = 1, updated_at = NOW() 
+            WHERE token_id = ?
+        ");
+        $stmt->bind_param("i", $existing_token['token_id']);
+        $stmt->execute();
+        $stmt->close();
         
         $message = 'Device token updated successfully';
     } else {

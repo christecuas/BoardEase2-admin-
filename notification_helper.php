@@ -6,8 +6,8 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php_errors.log');
 
 // Notification helper functions
-require_once 'db_helper.php';
-require_once 'fcm_config.php';
+require_once __DIR__ . '/db_helper.php';
+require_once __DIR__ . '/fcm_config.php';
 
 class NotificationHelper {
     

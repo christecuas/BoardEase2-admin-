@@ -19,7 +19,7 @@ header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, 
 
 // Database configuration
 // Database configuration
-require_once 'dbConfig.php';
+require_once __DIR__ . '/dbConfig.php';
 
 // define('DB_HOST', '');
 // define('DB_USER', 'u223444398_userboardease');

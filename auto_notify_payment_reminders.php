@@ -28,8 +28,8 @@ function logMessage($message) {
     }
 }
 
-require_once 'db_helper.php';
-require_once 'notification_helper.php';
+require_once __DIR__ . '/db_helper.php';
+require_once __DIR__ . '/notification_helper.php';
 
 // Database configuration is handled in dbConfig.php (included via db_helper.php)
 // define('DB_HOST', '');

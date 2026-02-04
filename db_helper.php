@@ -1,6 +1,6 @@
 <?php
 // Helper file to make MySQLi work with PDO-style code
-require_once 'dbConfig.php';
+require_once __DIR__ . '/dbConfig.php';
 
 function getDB() {
     global $conn;

@@ -5,6 +5,9 @@ ini_set('display_errors', 0);
 ob_start();
 require_once 'db_helper.php';
 header('Content-Type: application/json');
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
 
 try {
     $current_user_id = $_GET['current_user_id'] ?? null;
@@ -60,11 +63,11 @@ try {
                 bh.bh_address as boarding_house_address,
                 bh.bh_id as boarding_house_id,
                 CASE 
-                    WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 1 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 1 
                     ELSE 0 
                 END as has_device_token,
                 CASE 
-                    WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 'Online' 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 'Online' 
                     ELSE 'Offline' 
                 END as status_text
             FROM active_boarders ab
@@ -74,7 +77,12 @@ try {
             INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
             INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
 
-            LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
+            LEFT JOIN (
+                SELECT user_id, MAX(updated_at) as last_seen
+                FROM device_tokens
+                WHERE is_active = 1
+                GROUP BY user_id
+            ) dt ON u.user_id = dt.user_id
             WHERE bh.user_id = ? -- owner_id
               AND ab.user_id != ? 
               AND ab.status = 'Active'
@@ -161,20 +169,25 @@ try {
                     r.phone,
                     r.status,
                     u.profile_picture,
-                    CASE 
-                        WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 1 
-                        ELSE 0 
-                    END as has_device_token,
-                    CASE 
-                        WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 'Online' 
-                        ELSE 'Offline' 
-                    END as status_text
-                FROM users u
-                JOIN registrations r ON u.reg_id = r.id
-                LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
-                WHERE u.user_id = ?
-                AND r.role = 'BH Owner'
-                AND r.status = 'approved'
+                CASE 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 1 
+                    ELSE 0 
+                END as has_device_token,
+                CASE 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 'Online' 
+                    ELSE 'Offline' 
+                END as status_text
+            FROM users u
+            JOIN registrations r ON u.reg_id = r.id
+            LEFT JOIN (
+                SELECT user_id, MAX(updated_at) as last_seen
+                FROM device_tokens
+                WHERE is_active = 1
+                GROUP BY user_id
+            ) dt ON u.user_id = dt.user_id
+            WHERE u.user_id = ?
+            AND r.role = 'BH Owner'
+            AND r.status = 'approved'
             ");
             $stmt->execute([$boarder_bh['owner_id']]);
             $owner = $stmt->fetch();
@@ -231,23 +244,28 @@ try {
                     r.phone,
                     r.status,
                     u.profile_picture,
-                    CASE 
-                        WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 1 
-                        ELSE 0 
-                    END as has_device_token,
-                    CASE 
-                        WHEN dt.device_token IS NOT NULL AND dt.is_active = 1 THEN 'Online' 
-                        ELSE 'Offline' 
-                    END as status_text
-                FROM active_boarders ab
-                JOIN users u ON ab.user_id = u.user_id
-                JOIN registrations r ON u.reg_id = r.id
-                LEFT JOIN device_tokens dt ON u.user_id = dt.user_id AND dt.is_active = 1
-                INNER JOIN room_units ru ON ab.room_id = ru.room_id
-                INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
-                INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
-                WHERE bh.bh_id = ? AND ab.user_id != ? AND ab.status = 'Active' AND r.role = 'Boarder' AND r.status = 'approved'
-                ORDER BY r.first_name ASC
+                CASE 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 1 
+                    ELSE 0 
+                END as has_device_token,
+                CASE 
+                    WHEN dt.last_seen IS NOT NULL AND dt.last_seen >= DATE_SUB(NOW(), INTERVAL 2 MINUTE) THEN 'Online' 
+                    ELSE 'Offline' 
+                END as status_text
+            FROM active_boarders ab
+            JOIN users u ON ab.user_id = u.user_id
+            JOIN registrations r ON u.reg_id = r.id
+            LEFT JOIN (
+                SELECT user_id, MAX(updated_at) as last_seen
+                FROM device_tokens
+                WHERE is_active = 1
+                GROUP BY user_id
+            ) dt ON u.user_id = dt.user_id
+            INNER JOIN room_units ru ON ab.room_id = ru.room_id
+            INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+            INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+            WHERE bh.bh_id = ? AND ab.user_id != ? AND ab.status = 'Active' AND r.role = 'Boarder' AND r.status = 'approved'
+            ORDER BY r.first_name ASC
             ");
             $stmt->execute([$boarder_bh['boarding_house_id'], $current_user_id]);
             $other_boarders = $stmt->fetchAll();

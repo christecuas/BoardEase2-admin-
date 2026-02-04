@@ -3,7 +3,7 @@
 // This file can be run via cron job for automatic database backups
 
 // Include database configuration
-require_once 'dbConfig.php';
+require_once __DIR__ . '/dbConfig.php';
 
 // Function to backup database (same as backup_database.php)
 function backupDatabase($host, $username, $password, $database, $tables = '*') {
