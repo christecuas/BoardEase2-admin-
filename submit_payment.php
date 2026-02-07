@@ -232,12 +232,14 @@ try {
         }
         
         // Update payment_breakdowns to link to payment_id and set status to 'Pending'
+        // Also set is_selected to 1 for the breakdowns being paid
         // Status remains 'Pending' until payment is marked as paid by owner
         // The 'For Approval' display is calculated in get_unpaid_payment_breakdowns.php based on payments table
         $updateBreakdownSql = "
             UPDATE payment_breakdowns 
             SET payment_id = :payment_id,
                 payment_status = 'Pending',
+                is_selected = 1,
                 updated_at = NOW()
             WHERE breakdown_id = :breakdown_id
               AND booking_id = :booking_id

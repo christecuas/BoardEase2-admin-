@@ -197,24 +197,20 @@ try {
     if ($roomCategory === 'Private Room') {
         $isStatusValid = (isset($roomUnit['status']) && $roomUnit['status'] === 'Available');
     } else if ($roomCategory === 'Bed Spacer') {
-        $isStatusValid = (isset($roomUnit['status']) && ($roomUnit['status'] === 'Available' || $roomUnit['status'] === 'Partially Occupied'));
+        $isStatusValid = (isset($roomUnit['status']) && ($roomUnit['status'] === 'Available' || $roomUnit['status'] === 'Partially Occupied' || $roomUnit['status'] === 'Available(Partially Occupied)'));
     } else {
         // Unknown category, use Private Room logic
         $isStatusValid = (isset($roomUnit['status']) && $roomUnit['status'] === 'Available');
     }
     
     if (!$isStatusValid) {
-        error_log("ERROR: Room unit status is not valid for booking. Current status: " . ($roomUnit['status'] ?? 'null') . ", category: $roomCategory");
-        error_log("ERROR: Exiting BEFORE creating booking - no booking should be created");
+        error_log("ERROR: Room unit status is not valid for application. Current status: " . ($roomUnit['status'] ?? 'null') . ", category: $roomCategory");
         
         // CRITICAL: Rollback transaction BEFORE exiting
         ob_clean();
         try {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
-                error_log("Transaction rolled back successfully - Room not available");
-            } else {
-                error_log("WARNING: No active transaction to rollback (this is OK if we haven't done any writes yet)");
             }
         } catch (PDOException $rollbackError) {
             error_log("ERROR: Failed to rollback transaction: " . $rollbackError->getMessage());
@@ -224,16 +220,14 @@ try {
         http_response_code(400);
         $errorResponse = json_encode(array(
             'success' => false,
-            'message' => 'Selected room unit is not available. Status: ' . ($roomUnit['status'] ?? 'Unknown')
+            'message' => 'Room is not available for rent. Current status: ' . ($roomUnit['status'] ?? 'Unknown')
         ));
-        error_log("ERROR: Returning error response: " . $errorResponse);
-        error_log("ERROR: EXITING - No booking should be created after this point");
         echo $errorResponse;
         ob_end_flush();
-        exit; // CRITICAL: Exit immediately to prevent any further code execution
+        exit; // CRITICAL: Exit immediately
     }
     
-    error_log("Step 1 Success: Room unit status is valid for booking, proceeding with booking");
+    error_log("Step 1 Success: Room unit status is Available, proceeding with application");
     
     // Use room_units.room_id directly (this is what the user selected)
     $actualRoomId = $roomId;
@@ -313,14 +307,14 @@ try {
         }
     }
     
-    // NEW CHECK: Prevent boarder from booking multiple rooms
-    // Check if boarder already has an active booking (Pending or Confirmed)
-    error_log("Step 1.5: Checking if boarder already has an active booking...");
+    // Check if boarder already has an active booking (Confirmed or Approved)
+    // We now allow multiple 'Pending' applications
+    error_log("Step 1.5: Checking if boarder already has an active booking (Confirmed/Approved)...");
     $checkActiveBookingSql = "
         SELECT booking_id, booking_status, start_date, end_date
         FROM bookings
         WHERE user_id = :user_id
-        AND booking_status IN ('Pending', 'Confirmed')
+        AND booking_status IN ('Confirmed', 'Active')
         LIMIT 1
     ";
     $checkActiveBookingStmt = $pdo->prepare($checkActiveBookingSql);
@@ -345,6 +339,37 @@ try {
     
     // Room category and capacity already retrieved in Step 1.1
     error_log("Step 1.6: Room category: $roomCategory, capacity: $capacity");
+
+    // NEW CHECK: Prevent boarder from applying for the SAME room if they already have a Pending application for it
+    // We allow multiple Pending applications, but NOT multiple Pending applications for the SAME room
+    error_log("Step 1.7: Checking if boarder already has a PENDING application for this specific room...");
+    $checkDuplicatePendingSql = "
+        SELECT booking_id, booking_status 
+        FROM bookings 
+        WHERE user_id = :user_id 
+        AND room_id = :room_id 
+        AND booking_status IN ('Pending', 'Approved')
+        LIMIT 1
+    ";
+    $checkDuplicatePendingStmt = $pdo->prepare($checkDuplicatePendingSql);
+    $checkDuplicatePendingStmt->execute([':user_id' => $actualUserId, ':room_id' => $actualRoomId]);
+    
+    if ($duplicate = $checkDuplicatePendingStmt->fetch()) {
+        error_log("ERROR: Boarder already has a pending/approved application for this room - room_id: $actualRoomId, status: " . $duplicate['booking_status']);
+        ob_clean();
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        http_response_code(400);
+        $statusMsg = $duplicate['booking_status'] === 'Approved' ? 'an approved' : 'a pending';
+        echo json_encode(array(
+            'success' => false,
+            'message' => "You already have $statusMsg application for this room. Please proceed with payment or choose another room."
+        ));
+        ob_end_flush();
+        exit;
+    }
+    error_log("Step 1.7 Success: No duplicate pending application for this room");
     
     // Check for overlapping bookings using room_units.room_id (the actual room unit selected)
     // Different logic for Private Room vs Bed Spacer
@@ -357,7 +382,7 @@ try {
             FROM bookings b
             INNER JOIN room_units ru ON b.room_id = ru.room_id
             WHERE ru.room_id = :room_id 
-            AND b.booking_status IN ('Pending', 'Confirmed')
+            AND b.booking_status IN ('Confirmed', 'Active')
             AND (
                 (b.start_date <= :start_date AND b.end_date >= :start_date)
                 OR (b.start_date <= :end_date AND b.end_date >= :end_date)
@@ -394,7 +419,7 @@ try {
             FROM bookings b
             INNER JOIN room_units ru ON b.room_id = ru.room_id
             WHERE ru.room_id = :room_id 
-            AND b.booking_status IN ('Pending', 'Confirmed')
+            AND b.booking_status IN ('Confirmed', 'Active')
             AND (
                 (b.start_date <= :start_date AND b.end_date >= :start_date)
                 OR (b.start_date <= :end_date AND b.end_date >= :end_date)
@@ -436,7 +461,7 @@ try {
             FROM bookings b
             INNER JOIN room_units ru ON b.room_id = ru.room_id
             WHERE ru.room_id = :room_id 
-            AND b.booking_status IN ('Pending', 'Confirmed')
+            AND b.booking_status IN ('Confirmed', 'Active')
             AND (
                 (b.start_date <= :start_date AND b.end_date >= :start_date)
                 OR (b.start_date <= :end_date AND b.end_date >= :end_date)
@@ -467,107 +492,8 @@ try {
         error_log("Step 2 Success: No overlapping bookings found");
     }
     
-    // Update room status based on room category
-    // Private Room: Set to 'Partially Occupied' (Reserved) when booking is Pending
-    // Bed Spacer: Set to 'Partially Occupied' (Reserved) when booking is Pending if capacity would be reached
-    // Status will be updated to 'Occupied' when booking is confirmed
-    error_log("Step 3: Updating room status (room_category: $roomCategory)...");
-    
-    if ($roomCategory === 'Private Room') {
-        // Private Room: Update status to 'Partially Occupied' (Reserved) BEFORE creating booking to prevent race conditions
-        // Use atomic UPDATE that only succeeds if status is still 'Available'
-        error_log("Step 3: Attempting to reserve Private Room by updating status to 'Partially Occupied' (Reserved) (atomic operation)...");
-        $updateStatusSql = "UPDATE room_units SET status = 'Partially Occupied' WHERE room_id = :room_id AND status = 'Available'";
-        $updateStatusStmt = $pdo->prepare($updateStatusSql);
-        $updateStatusStmt->execute([':room_id' => $actualRoomId]);
-        $rowsAffected = $updateStatusStmt->rowCount();
-        error_log("Step 3 Result: Status update attempted - rows affected: $rowsAffected");
-        
-        // If no rows were affected, room was already booked by another request
-        if ($rowsAffected == 0) {
-            error_log("ERROR: Failed to reserve Private Room - status was already changed (race condition)");
-            // Re-check status to see what it actually is
-            $checkStatusSql = "SELECT status FROM room_units WHERE room_id = :room_id";
-            $checkStatusStmt = $pdo->prepare($checkStatusSql);
-            $checkStatusStmt->execute([':room_id' => $actualRoomId]);
-            $actualStatus = $checkStatusStmt->fetch(PDO::FETCH_ASSOC);
-            error_log("ERROR: Current room status: " . ($actualStatus['status'] ?? 'null'));
-            
-            ob_clean();
-            $pdo->rollBack();
-            error_log("Transaction rolled back - Room reservation failed");
-            http_response_code(400);
-            echo json_encode(array(
-                'success' => false,
-                'message' => 'Selected room unit is not available. Status: ' . ($actualStatus['status'] ?? 'Unknown')
-            ));
-            ob_end_flush();
-            exit;
-        }
-        error_log("Step 3 Success: Private Room reserved (status updated to 'Partially Occupied' - Reserved)");
-        
-    } else if ($roomCategory === 'Bed Spacer') {
-        // Bed Spacer: Check if this booking will fill the capacity (including Pending bookings)
-        // Count current active bookings (Pending or Confirmed) including this one we're about to create
-        $currentBookingCount = $overlapCount + 1; // +1 for the booking we're about to create
-        error_log("Step 3: Bed Spacer - Current bookings after this one: $currentBookingCount/$capacity");
-        
-        // Get current room status
-        $currentStatus = $roomUnit['status'];
-        error_log("Step 3: Bed Spacer current status: $currentStatus");
-        
-        // Only update status if it's 'Available' and needs to be changed to 'Partially Occupied'
-        // If it's already 'Partially Occupied', no need to update (capacity check already passed)
-        if ($currentStatus === 'Available') {
-            // Update from 'Available' to 'Partially Occupied' to reserve the room
-            error_log("Step 3: Bed Spacer updating status from 'Available' to 'Partially Occupied'...");
-            $updateStatusSql = "UPDATE room_units SET status = 'Partially Occupied' WHERE room_id = :room_id AND status = 'Available'";
-            $updateStatusStmt = $pdo->prepare($updateStatusSql);
-            $updateStatusStmt->execute([':room_id' => $actualRoomId]);
-            $rowsAffected = $updateStatusStmt->rowCount();
-            
-            if ($rowsAffected == 0) {
-                // Room status changed between check and update (race condition)
-                error_log("ERROR: Failed to update Bed Spacer status - room was already changed by another request");
-                ob_clean();
-                $pdo->rollBack();
-                error_log("Transaction rolled back - Bed Spacer reservation failed");
-                http_response_code(400);
-                echo json_encode(array(
-                    'success' => false,
-                    'message' => 'Selected room unit is not available. It has been reserved by another booking.'
-                ));
-                ob_end_flush();
-                exit;
-            }
-            error_log("Step 3 Success: Bed Spacer status updated from 'Available' to 'Partially Occupied' (capacity: $currentBookingCount/$capacity)");
-        } else if ($currentStatus === 'Partially Occupied') {
-            // Already 'Partially Occupied', no need to update - capacity check already passed in Step 2
-            error_log("Step 3 Success: Bed Spacer already 'Partially Occupied', proceeding with booking (capacity: $currentBookingCount/$capacity)");
-        } else {
-            // Unexpected status (should not happen if Step 1.1 check worked)
-            error_log("ERROR: Bed Spacer has unexpected status: $currentStatus");
-            ob_clean();
-            $pdo->rollBack();
-            error_log("Transaction rolled back - Bed Spacer unexpected status");
-            http_response_code(400);
-            echo json_encode(array(
-                'success' => false,
-                'message' => 'Selected room unit is not available. Status: ' . $currentStatus
-            ));
-            ob_end_flush();
-            exit;
-        }
-        
-    } else {
-        // Unknown category - use Private Room logic
-        error_log("Step 3: Unknown room category, using Private Room logic...");
-        $updateStatusSql = "UPDATE room_units SET status = 'Partially Occupied' WHERE room_id = :room_id AND status = 'Available'";
-        $updateStatusStmt = $pdo->prepare($updateStatusSql);
-        $updateStatusStmt->execute([':room_id' => $actualRoomId]);
-        $rowsAffected = $updateStatusStmt->rowCount();
-        error_log("Step 3 Result: Status update attempted - rows affected: $rowsAffected");
-    }
+    // Step 3: Room status remains 'Available' to allow multiple applications
+    error_log("Step 3: Room status remains 'Available' to allow multiple boarders to apply.");
     
     // Now create the booking (room is already reserved, so this should always succeed)
     error_log("Step 4: Creating booking - room_id: $actualRoomId, user_id: $actualUserId, start_date: $startDate, end_date: $endDate");
@@ -601,319 +527,22 @@ try {
     error_log("Step 4 Result: Booking created with booking_id: $bookingId");
     
     if (!$bookingId) {
-        error_log("ERROR: Failed to create booking - no booking_id returned");
-        // Rollback status update as well
-        $rollbackStatusSql = "UPDATE room_units SET status = 'Available' WHERE room_id = :room_id";
-        $rollbackStatusStmt = $pdo->prepare($rollbackStatusSql);
-        $rollbackStatusStmt->execute([':room_id' => $actualRoomId]);
-        error_log("Rolled back room status to 'Available'");
-        
+        error_log("ERROR: Failed to create booking application");
         ob_clean();
         $pdo->rollBack();
-        error_log("Transaction rolled back - Booking creation failed");
         http_response_code(500);
         echo json_encode(array(
             'success' => false,
-            'message' => 'Failed to create booking'
+            'message' => 'Failed to submit application'
         ));
         ob_end_flush();
         exit;
     }
     
-    // Handle payment proof upload
-    $paymentProofPath = '';
-    if (!empty($paymentProofBase64)) {
-        error_log("Step 5: Processing payment proof upload...");
-        try {
-            // Remove data URL prefix if present
-            $base64Data = $paymentProofBase64;
-            if (preg_match('/^data:image\/(\w+);base64,/', $paymentProofBase64, $matches)) {
-                $base64Data = preg_replace('/^data:image\/\w+;base64,/', '', $paymentProofBase64);
-            }
-            
-            // Decode base64 image
-            $imageData = base64_decode($base64Data, true);
-            
-            if ($imageData === false) {
-                error_log("Warning: Failed to decode payment proof base64 data");
-            } else {
-                // Generate unique filename
-                $filename = 'payment_proof_' . $bookingId . '_' . time() . '.jpg';
-                $uploadDir = dirname(__DIR__) . '/uploads/payment_proofs/';
-                
-                // Create directory if it doesn't exist
-                if (!file_exists($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                    error_log("Created payment proof directory: $uploadDir");
-                }
-                
-                $filePath = $uploadDir . $filename;
-                
-                // Save image
-                if (file_put_contents($filePath, $imageData)) {
-                    // Store relative path from BoardEase2 directory (for get_payment_proof.php)
-                    $paymentProofPath = 'uploads/payment_proofs/' . $filename;
-                    error_log("Payment proof saved successfully: $paymentProofPath");
-                } else {
-                    error_log("Warning: Failed to save payment proof image for booking_id: $bookingId");
-                }
-            }
-        } catch (Exception $e) {
-            error_log("Warning: Error processing payment proof: " . $e->getMessage());
-            // Continue anyway - booking is still valid
-        }
-    }
-    
-    // Get owner_id from room_unit's bhr_id
-    // CRITICAL: boarding_houses.user_id stores users.user_id directly (NOT registrations.id)
-    // Based on get_boarding_house_details1.php, boarding_houses.user_id = users.user_id
-    $bhrId = $roomUnit['bhr_id']; // Get bhr_id from the room_unit we already fetched
-    error_log("Step 5: Looking up owner for bhr_id: $bhrId");
-    $getOwnerSql = "SELECT 
-                        bh.user_id as owner_user_id,
-                        u.reg_id as owner_reg_id,
-                        u.status as owner_status,
-                        r.email as owner_email,
-                        r.role as owner_role
-                    FROM boarding_house_rooms bhr 
-                    JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id 
-                    LEFT JOIN users u ON bh.user_id = u.user_id
-                    LEFT JOIN registrations r ON u.reg_id = r.id
-                    WHERE bhr.bhr_id = :bhr_id";
-    $getOwnerStmt = $pdo->prepare($getOwnerSql);
-    $getOwnerStmt->execute([':bhr_id' => $bhrId]);
-    $ownerData = $getOwnerStmt->fetch(PDO::FETCH_ASSOC);
-    
-    // boarding_houses.user_id IS users.user_id, so use it directly
-    $ownerId = $ownerData ? intval($ownerData['owner_user_id']) : 0;
-    $ownerRegId = $ownerData && isset($ownerData['owner_reg_id']) ? intval($ownerData['owner_reg_id']) : 0;
-    
-    error_log("Step 5 Result: boarding_houses.user_id (owner_user_id)=$ownerId, owner_reg_id=$ownerRegId");
-    if ($ownerData) {
-        error_log("Step 5 Details: owner_email=" . ($ownerData['owner_email'] ?? 'NULL') . ", owner_role=" . ($ownerData['owner_role'] ?? 'NULL') . ", owner_status=" . ($ownerData['owner_status'] ?? 'NULL'));
-    }
-    
-    // Verify owner exists in users table
-    if ($ownerId > 0) {
-        error_log("Step 5a: Verifying owner user_id: $ownerId exists in users table");
-        $verifyOwnerSql = "SELECT user_id, reg_id, status FROM users WHERE user_id = ?";
-        $verifyOwnerStmt = $pdo->prepare($verifyOwnerSql);
-        $verifyOwnerStmt->execute([$ownerId]);
-        $verifyOwner = $verifyOwnerStmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($verifyOwner) {
-            error_log("Step 5a Success: Owner verified - user_id: $ownerId, reg_id: " . ($verifyOwner['reg_id'] ?? 'NULL') . ", status: " . ($verifyOwner['status'] ?? 'NULL'));
-            // Update ownerRegId from verification if it wasn't set
-            if (!$ownerRegId && $verifyOwner['reg_id']) {
-                $ownerRegId = intval($verifyOwner['reg_id']);
-                error_log("Step 5a: Updated owner_reg_id to: $ownerRegId");
-            }
-        } else {
-            error_log("Step 5a ERROR: Owner user_id $ownerId NOT FOUND in users table!");
-            error_log("Step 5a ERROR: This should not happen - boarding_houses.user_id should reference existing users.user_id");
-            $ownerId = 0; // Reset to 0 so we don't proceed with invalid owner
-        }
-    } else {
-        error_log("ERROR: Owner ID is 0 - boarding_houses.user_id is NULL or invalid for bhr_id: $bhrId");
-    }
-    
-    // Double-check: After transaction, verify owner has user_id (re-query if needed)
-    // This is important because the notification will be sent AFTER transaction commit
-    
-    // Use calculated total amount from Android if provided, otherwise calculate from room price (fallback)
-    if ($totalAmount > 0) {
-        // Use the calculated amount from Android
-        $paymentAmount = $totalAmount;
-        error_log("Using calculated total_amount from Android: $paymentAmount");
-    } else {
-        // Fallback: Get room price for payment amount (using bhr_id from room_unit)
-        $getRoomPriceSql = "SELECT price FROM boarding_house_rooms WHERE bhr_id = :bhr_id";
-        $getRoomPriceStmt = $pdo->prepare($getRoomPriceSql);
-        $getRoomPriceStmt->execute([':bhr_id' => $bhrId]);
-        $roomData = $getRoomPriceStmt->fetch(PDO::FETCH_ASSOC);
-        $paymentAmount = $roomData ? floatval($roomData['price']) : 0;
-        error_log("Using room price as fallback: $paymentAmount");
-    }
-    
-    // Calculate number of days if not provided
-    if ($numberOfDays == 0) {
-        $numberOfDays = $startDateObj->diff($endDateObj)->days;
-        if ($numberOfDays == 0) {
-            $numberOfDays = 1; // Minimum 1 day
-        }
-        error_log("Calculated number_of_days: $numberOfDays");
-    }
-    
-    // Create payment record
+    // Step 5: Skipping payment and breakdown creation at the application stage
+    // Advance payment is only required AFTER owner approval
     $paymentId = null;
-    if ($ownerId > 0) {
-        error_log("Step 6: Creating payment record...");
-        try {
-            $insertPaymentSql = "
-                INSERT INTO payments (
-                    booking_id,
-                    user_id,
-                    owner_id,
-                    payment_amount,
-                    payment_method,
-                    payment_proof,
-                    payment_status,
-                    payment_date
-                ) VALUES (
-                    :booking_id,
-                    :user_id,
-                    :owner_id,
-                    :payment_amount,
-                    :payment_method,
-                    :payment_proof,
-                    'Pending',
-                    NOW()
-                )
-            ";
-            
-            $insertPaymentStmt = $pdo->prepare($insertPaymentSql);
-            $insertPaymentStmt->execute([
-                ':booking_id' => $bookingId,
-                ':user_id' => $actualUserId,  // Use actual user_id from users table
-                ':owner_id' => $ownerId,
-                ':payment_amount' => $paymentAmount,
-                ':payment_method' => $paymentMethod,
-                ':payment_proof' => $paymentProofPath
-            ]);
-            $paymentId = $pdo->lastInsertId(); // Get payment_id after insertion
-            error_log("Payment record created successfully - payment_id: $paymentId, amount: $paymentAmount");
-            
-            // Save payment breakdown if provided
-            if (!empty($paymentBreakdownJson) && $paymentId) {
-                error_log("Step 7: Processing payment breakdown...");
-                try {
-                    // Parse JSON breakdown
-                    $breakdownArray = json_decode($paymentBreakdownJson, true);
-                    
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        error_log("Warning: Invalid payment breakdown JSON - Error: " . json_last_error_msg());
-                    } elseif (is_array($breakdownArray) && !empty($breakdownArray)) {
-                        error_log("Saving payment breakdown - " . count($breakdownArray) . " periods");
-                        
-                        // Check if payment_breakdowns table exists by attempting to describe it
-                        $tableExists = false;
-                        try {
-                            $checkTableSql = "DESCRIBE payment_breakdowns";
-                            $pdo->query($checkTableSql);
-                            $tableExists = true;
-                            error_log("payment_breakdowns table exists");
-                        } catch (PDOException $e) {
-                            error_log("Warning: payment_breakdowns table does not exist or cannot be accessed: " . $e->getMessage());
-                            $tableExists = false;
-                        }
-                        
-                        if ($tableExists) {
-                            $insertBreakdownSql = "
-                                INSERT INTO payment_breakdowns (
-                                    booking_id,
-                                    payment_id,
-                                    period_type,
-                                    period_number,
-                                    period_label,
-                                    period_start_date,
-                                    period_end_date,
-                                    amount,
-                                    is_selected,
-                                    payment_status,
-                                    due_date
-                                ) VALUES (
-                                    :booking_id,
-                                    :payment_id,
-                                    :period_type,
-                                    :period_number,
-                                    :period_label,
-                                    :period_start_date,
-                                    :period_end_date,
-                                    :amount,
-                                    :is_selected,
-                                    'Pending',
-                                    :due_date
-                                )
-                            ";
-                            
-                            $insertBreakdownStmt = $pdo->prepare($insertBreakdownSql);
-                            $breakdownCount = 0;
-                            
-                            foreach ($breakdownArray as $index => $period) {
-                                try {
-                                    $periodType = isset($period['period_type']) ? trim($period['period_type']) : 'month';
-                                    $periodNumber = isset($period['period_number']) ? intval($period['period_number']) : ($index + 1);
-                                    $periodLabel = isset($period['label']) ? trim($period['label']) : (isset($period['period_label']) ? trim($period['period_label']) : 'Period ' . ($index + 1));
-                                    $periodStartDate = isset($period['start_date']) ? trim($period['start_date']) : $startDate;
-                                    $periodEndDate = isset($period['end_date']) ? trim($period['end_date']) : $endDate;
-                                    $periodAmount = isset($period['amount']) ? floatval($period['amount']) : 0;
-                                    $isSelected = isset($period['is_selected']) ? (bool)$period['is_selected'] : false;
-                                    
-                                    // Validate period dates
-                                    $periodStartObj = DateTime::createFromFormat('Y-m-d', $periodStartDate);
-                                    $periodEndObj = DateTime::createFromFormat('Y-m-d', $periodEndDate);
-                                    
-                                    if (!$periodStartObj || !$periodEndObj) {
-                                        error_log("Warning: Invalid date format in breakdown period $index, skipping");
-                                        continue;
-                                    }
-                                    
-                                    // Set due date as period start date (can be adjusted later)
-                                    $dueDate = $periodStartDate;
-                                    
-                                    $insertBreakdownStmt->execute([
-                                        ':booking_id' => $bookingId,
-                                        ':payment_id' => $paymentId,
-                                        ':period_type' => $periodType,
-                                        ':period_number' => $periodNumber,
-                                        ':period_label' => $periodLabel,
-                                        ':period_start_date' => $periodStartDate,
-                                        ':period_end_date' => $periodEndDate,
-                                        ':amount' => $periodAmount,
-                                        ':is_selected' => $isSelected ? 1 : 0,
-                                        ':due_date' => $dueDate
-                                    ]);
-                                    
-                                    $breakdownCount++;
-                                    error_log("Saved breakdown period $index: $periodLabel - Amount: $periodAmount - Selected: " . ($isSelected ? 'Yes' : 'No'));
-                                } catch (PDOException $e) {
-                                    error_log("Warning: Failed to save breakdown period $index: " . $e->getMessage());
-                                    // Continue with next period
-                                }
-                            }
-                            
-                            if ($breakdownCount > 0) {
-                                error_log("Payment breakdown saved successfully - $breakdownCount periods");
-                            } else {
-                                error_log("Warning: No breakdown periods were saved");
-                            }
-                        } else {
-                            error_log("Warning: payment_breakdowns table does not exist - skipping breakdown save");
-                        }
-                    } else {
-                        error_log("Warning: Payment breakdown JSON is empty or not an array");
-                    }
-                } catch (Exception $e) {
-                    error_log("Warning: Error processing payment breakdown: " . $e->getMessage());
-                    error_log("Breakdown error trace: " . $e->getTraceAsString());
-                    // Continue anyway - booking and payment are still valid
-                }
-            } else {
-                if (empty($paymentBreakdownJson)) {
-                    error_log("No payment breakdown JSON provided");
-                } else {
-                    error_log("Warning: Payment ID is null, cannot save breakdown");
-                }
-            }
-        } catch (PDOException $e) {
-            // Log error but don't fail if payment creation fails
-            error_log("Warning: Could not create payment record: " . $e->getMessage());
-            error_log("Payment error trace: " . $e->getTraceAsString());
-            // Continue anyway - booking is still valid
-        }
-    } else {
-        error_log("Warning: Owner ID is 0 or not found - skipping payment creation");
-    }
+    error_log("Step 5: Skipping payment record creation (Application stage)");
     
     // Commit transaction - all operations succeeded
     error_log("Step 8: Committing transaction for booking_id: $bookingId");
@@ -1214,9 +843,8 @@ try {
     http_response_code(200);
     echo json_encode(array(
         'success' => true,
-        'message' => 'Booking created successfully',
-        'booking_id' => $bookingId,
-        'payment_id' => $paymentId
+        'message' => 'Application submitted successfully',
+        'booking_id' => $bookingId
     ));
     ob_end_flush();
     

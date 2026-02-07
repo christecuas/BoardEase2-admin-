@@ -83,7 +83,7 @@ try {
                 SELECT COUNT(*) as available_count
                 FROM room_units ru
                 WHERE ru.bhr_id = ? 
-                AND ru.status IN ('Available', 'Partially Occupied')
+                AND ru.status IN ('Available', 'Partially Occupied', 'Available(Partially Occupied)')
             ";
             $availableStmt = $pdo->prepare($availableRoomsSql);
             $availableStmt->execute([$bhrId]);
@@ -93,7 +93,7 @@ try {
             // Add room information for Bed Spacer
             $room['available_rooms'] = $availableCount;
             
-            error_log("DEBUG: Bed Spacer bhr_id=" . $bhrId . " (" . $room['room_name'] . ") - available_rooms: " . $availableCount . " (counted all units with status 'Available' or 'Partially Occupied')");
+            error_log("DEBUG: Bed Spacer bhr_id=" . $bhrId . " (" . $room['room_name'] . ") - available_rooms: " . $availableCount . " (counted all units with status 'Available', 'Partially Occupied', or 'Available(Partially Occupied)')");
         } else {
             // For Private Room, just count Available status
             $availableRoomsSql = "

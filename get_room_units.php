@@ -65,75 +65,115 @@ try {
         $unitData = [
             "room_id" => $roomId,
             "room_number" => $roomNumber,
-            "status" => $roomStatus
+            "status" => $roomStatus,
+            "is_reserved" => ($roomStatus === 'Reserved' || $roomStatus === 'Partially Occupied'),
+            "is_booked" => ($roomStatus === 'Occupied' || $roomStatus === 'Reserved')
         ];
         
         // For Bed Spacer, add capacity information and adjust status display
         if ($roomCategory === 'Bed Spacer') {
-            // Count Pending bookings (reserved) separately from Confirmed bookings
-            $countPendingSql = "SELECT COUNT(*) as pending_count 
-                        FROM bookings 
-                        WHERE room_id = ? 
-                        AND booking_status = 'Pending'";
-            $countPendingStmt = $conn->prepare($countPendingSql);
-            $countPendingStmt->bind_param("i", $roomId);
-            $countPendingStmt->execute();
-            $pendingResult = $countPendingStmt->get_result();
-            $pendingRow = $pendingResult->fetch_assoc();
-            $pendingCount = intval($pendingRow['pending_count']);
-            
-            // Count Confirmed bookings
-            $countConfirmedSql = "SELECT COUNT(*) as confirmed_count 
-                        FROM bookings 
-                        WHERE room_id = ? 
-                        AND booking_status = 'Confirmed'";
+            // Count Confirmed bookings (Occupied slots)
+            $countConfirmedSql = "SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status IN ('Confirmed', 'Active')";
             $countConfirmedStmt = $conn->prepare($countConfirmedSql);
             $countConfirmedStmt->bind_param("i", $roomId);
             $countConfirmedStmt->execute();
             $confirmedResult = $countConfirmedStmt->get_result();
-            $confirmedRow = $confirmedResult->fetch_assoc();
-            $confirmedCount = intval($confirmedRow['confirmed_count']);
+            $confirmedCount = intval($confirmedResult->fetch_row()[0]);
+            
+            // Count Approved bookings (Reserved slots)
+            $countApprovedSql = "SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status = 'Approved'";
+            $countApprovedStmt = $conn->prepare($countApprovedSql);
+            $countApprovedStmt->bind_param("i", $roomId);
+            $countApprovedStmt->execute();
+            $approvedResult = $countApprovedStmt->get_result();
+            $approvedCount = intval($approvedResult->fetch_row()[0]);
             
             // Total occupied = pending + confirmed
-            $totalOccupied = $pendingCount + $confirmedCount;
+            $totalOccupied = $confirmedCount + $approvedCount;
             
-            // For Bed Spacer: Use database status, but adjust based on occupancy
-            // - If database status is "Occupied": Show "Occupied"
-            // - If database status is "Partially Occupied": Show "Partially Occupied" (even if 2/2 full)
-            // - If database status is "Available" and totalOccupied == 0: Show "Available"
-            // - If database status is "Available" and totalOccupied > 0: Show "Partially Occupied"
-            $dbStatus = $roomStatus; // Get the actual database status
+            // Generate formatted status and capacity strings
+            // Goal: "Available (1 reserved) - 1/6 person(s)"
+            // Adapter converts to: status + " - " + capacityDisplay
             
-            if ($dbStatus === 'Occupied') {
-                // Database status is "Occupied", show as "Occupied"
-                $unitData["status"] = "Occupied";
-            } else if ($dbStatus === 'Partially Occupied') {
-                // Database status is "Partially Occupied", show as "Partially Occupied" (even if full 2/2)
-                $unitData["status"] = "Partially Occupied";
-            } else if ($totalOccupied == 0) {
-                // No bookings, show as "Available"
-                $unitData["status"] = "Available";
+            if ($totalOccupied >= $capacity) {
+                $status = "Occupied";
             } else {
-                // Has bookings but database status is "Available", show as "Partially Occupied"
-                $unitData["status"] = "Partially Occupied";
+                if ($confirmedCount > 0) {
+                     $status = "Available(Partially Occupied)";
+                     if ($approvedCount > 0) {
+                         $status .= " ($approvedCount reserved)";
+                     }
+                } elseif ($approvedCount > 0) {
+                    $status = "Available ($approvedCount reserved)";
+                } else {
+                    $status = "Available";
+                }
             }
             
-            // Add capacity information
+            $unitData["status"] = $status;
+            $unitData["capacity_display"] = $totalOccupied . "/" . $capacity . " person(s)";
+            
+            // Legacy/Flag fields
+            $unitData["is_reserved"] = ($approvedCount > 0 || $confirmedCount > 0);
             $unitData["total_capacity"] = $capacity;
             $unitData["occupied_capacity"] = $totalOccupied;
-            $unitData["pending_capacity"] = $pendingCount; // Reserved (Pending)
-            $unitData["confirmed_capacity"] = $confirmedCount; // Confirmed bookings
+            $unitData["pending_capacity"] = $approvedCount;
+            $unitData["confirmed_capacity"] = $confirmedCount;
             $unitData["available_capacity"] = max(0, $capacity - $totalOccupied);
-            $unitData["capacity_display"] = $totalOccupied . "/" . $capacity . " person(s)";
+            
         } else {
-            // Private Room - no capacity info, use actual status
+            // Private Room
+            // Logic: Available -> Reserved (Approved) -> Occupied (Confirmed)
+            
+            $status = $roomStatus; // Default to DB status
+            
+            // Check real status from bookings if DB is desynced
+            if ($status !== 'Occupied') {
+                 $checkAppSql = "SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status = 'Approved'";
+                 $checkAppStmt = $conn->prepare($checkAppSql);
+                 $checkAppStmt->bind_param("i", $roomId);
+                 $checkAppStmt->execute();
+                 if ($checkAppStmt->get_result()->fetch_row()[0] > 0) {
+                     $status = 'Reserved';
+                 } else {
+                     $status = 'Available';
+                 }
+            }
+            
+            $unitData["status"] = $status;
+            $unitData["capacity_display"] = "";
+            $unitData["is_reserved"] = ($status === 'Reserved');
             $unitData["total_capacity"] = 0;
             $unitData["occupied_capacity"] = 0;
             $unitData["pending_capacity"] = 0;
             $unitData["confirmed_capacity"] = 0;
             $unitData["available_capacity"] = 0;
-            $unitData["capacity_display"] = "";
+            $unitData["available_capacity"] = 0;
         }
+
+        // Check if current user has an application for this room
+        $unitData["user_application_status"] = null;
+        if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
+            $userId = intval($_POST['user_id']);
+            
+            // First map user_id if needed (similar to other scripts)
+            // But android sends the correct user_id usually. 
+            // Let's assume the android sends the users.user_id or we check both.
+            // Actually, let's just use the ID sent and check against bookings.user_id
+            // If the ID sent is from shared prefs, it might be reg_id or user_id. 
+            // Let's do a robust check.
+            
+            // Simplified check: Check matches on user_id directly
+            $checkUserAppSql = "SELECT booking_status FROM bookings WHERE room_id = ? AND user_id = ? AND booking_status IN ('Pending', 'Approved') LIMIT 1";
+            $checkUserAppStmt = $conn->prepare($checkUserAppSql);
+            $checkUserAppStmt->bind_param("ii", $roomId, $userId);
+            $checkUserAppStmt->execute();
+            $userAppResult = $checkUserAppStmt->get_result();
+            if ($rowApp = $userAppResult->fetch_assoc()) {
+                $unitData["user_application_status"] = $rowApp['booking_status'];
+            }
+        }
+
         
         $units[] = $unitData;
     }

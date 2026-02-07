@@ -327,7 +327,9 @@ try {
     
     // Add status filter (use COALESCE to handle NULL values)
     if ($status === 'pending') {
-        $sql .= " AND COALESCE(p.payment_status, 'Pending') = 'Pending'";
+        // Only show pending payments that have proof submitted (valid submissions)
+        $sql .= " AND COALESCE(p.payment_status, 'Pending') = 'Pending' 
+                  AND p.payment_proof IS NOT NULL AND p.payment_proof != ''";
     } elseif ($status === 'paid' || $status === 'completed') {
         // Include 'Completed', 'Partially Paid', and 'Paid' in the Completed tab
         $sql .= " AND COALESCE(p.payment_status, 'Pending') IN ('Completed', 'Partially Paid', 'Paid')";

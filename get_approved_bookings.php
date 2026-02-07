@@ -100,7 +100,7 @@ try {
             INNER JOIN users u_boarder ON b.user_id = u_boarder.user_id
             INNER JOIN registrations reg ON u_boarder.reg_id = reg.id
             WHERE bh.user_id = :owner_user_id
-            AND b.booking_status = 'Confirmed'
+            AND (b.booking_status = 'Confirmed' OR b.booking_status = 'Approved')
             ORDER BY b.booking_date DESC
         ";
         

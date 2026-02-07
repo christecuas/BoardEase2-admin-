@@ -5,6 +5,10 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php_errors.log');
 
+// Log start of execution immediately to verify file is hit
+error_log("=== UPDATE_PAYMENT_STATUS.PHP START ===");
+error_log("Request Time: " . date('Y-m-d H:i:s'));
+
 // Start output buffering early to catch any output
 ob_start();
 
@@ -107,8 +111,12 @@ try {
     }
     
     // Log to error log (not output)
+    $debugLogFile = __DIR__ . '/debug_payment.log';
+    file_put_contents($debugLogFile, "\n\n[" . date('Y-m-d H:i:s') . "] === REQUEST START ===\n", FILE_APPEND);
+    file_put_contents($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Updating payment ID: $paymentId, New status: $newStatus\n", FILE_APPEND);
+    
     if (function_exists('error_log')) {
-    error_log("Updating payment ID: $paymentId, New status: $newStatus");
+        error_log("Updating payment ID: $paymentId, New status: $newStatus");
     }
     
     // Start transaction
@@ -250,45 +258,40 @@ try {
                 
                 // Calculate payment progress for ALL breakdowns in this booking
                 // CRITICAL: Only count periods where is_paid = 1 (not just payment_id IS NOT NULL)
-                // When booking is created, periods may have payment_id but is_paid = 0
-                $progressStmt = $pdo->prepare("
-                    SELECT 
-                        COUNT(*) as total_periods,
-                        SUM(CASE WHEN is_paid = 1 THEN 1 ELSE 0 END) as paid_periods
-                    FROM payment_breakdowns
-                    WHERE booking_id = :booking_id
-                ");
-                $progressStmt->execute([':booking_id' => $bookingId]);
-                $progress = $progressStmt->fetch(PDO::FETCH_ASSOC);
+                // Source of Truth: payment_breakdowns
+                $sqlCheckStatus = "SELECT 
+                                    COUNT(*) as total_periods,
+                                    SUM(CASE WHEN is_paid = 1 THEN 1 ELSE 0 END) as paid_periods
+                                   FROM payment_breakdowns
+                                   WHERE booking_id = :booking_id";
+                $stmtCheckStatus = $pdo->prepare($sqlCheckStatus);
+                $stmtCheckStatus->execute([':booking_id' => $bookingId]);
+                $statusRow = $stmtCheckStatus->fetch(PDO::FETCH_ASSOC);
+
+                $totalPeriods = intval($statusRow['total_periods']);
+                $paidPeriods = intval($statusRow['paid_periods']);
                 
-                $totalPeriods = intval($progress['total_periods']);
-                $paidPeriods = intval($progress['paid_periods']);
-                
-                // Determine payment status based on breakdown progress (SOURCE OF TRUTH)
-                // Status mapping based on new enum: 'Pending','Partially Paid','Fully Paid','Failed','Refunded'
-                // - No periods paid (0/X) → 'Pending'
-                // - Some periods paid but not all (X/Y where X < Y) → 'Partially Paid'
-                // - All periods paid (X/X) → 'Fully Paid'
                 $finalPaymentStatus = 'Pending'; // Default
                 
                 if ($totalPeriods > 0) {
-                    if ($paidPeriods >= $totalPeriods) {
-                        // All periods paid = Fully Paid
+                    if ($paidPeriods == $totalPeriods) {
                         $finalPaymentStatus = 'Fully Paid';
-                    } elseif ($paidPeriods > 0) {
-                        // Some periods paid but not all = Partial Payment
+                    } else if ($paidPeriods > 0 && $paidPeriods < $totalPeriods) {
                         $finalPaymentStatus = 'Partially Paid';
                     } else {
-                        // No periods paid = Pending
-                        $finalPaymentStatus = 'Pending';
+                         // No paid periods = Pending
+                         $finalPaymentStatus = 'Pending';
                     }
                 }
                 
-                // Logging moved to after response is sent
+                // Log the calculated status for debugging
+                if (function_exists('error_log')) {
+                    error_log("Payment Status Calculation for Booking $bookingId:");
+                    error_log("Total Periods: $totalPeriods, Paid Periods: $paidPeriods");
+                    error_log("Calculated Final Status: $finalPaymentStatus");
+                }
                 
                 // Update ALL payments for this booking with the calculated status
-                // This ensures consistency across all payments for the same booking
-                // The calculated status from breakdowns is the FINAL status
                 $updateAllPaymentsStmt = $pdo->prepare("
                     UPDATE payments 
                     SET payment_status = :final_status,
@@ -303,13 +306,13 @@ try {
                 // Update the status variable for response
                 $newStatus = $finalPaymentStatus;
                 
-                // Store for logging after response (use variables that will be in scope)
+                // Store for logging after response
                 $logAffectedPayments = $updateAllPaymentsStmt->rowCount();
                 $logPaymentProgress = "$paidPeriods/$totalPeriods";
                 $logBookingId = $bookingId;
                 $logFinalStatus = $finalPaymentStatus;
             } else {
-                // No booking_id found - use manual status (fallback for edge cases)
+                // No booking_id found - use manual status
                 $updateStmt = $pdo->prepare("UPDATE payments SET payment_status = :status, updated_at = NOW() WHERE payment_id = :payment_id");
                 $updateStmt->execute([
                     ':status' => $newStatus,
@@ -358,23 +361,175 @@ try {
                     AND b.booking_status != 'Cancelled'
                 ");
                 $bookingUpdateStmt->execute([':payment_id' => $paymentId]);
-            }
-        }
+                
+                // CRITICAL: Update Room Status to 'Occupied' (if Private Room)
+                $currentRoomId = $bookingInfo['room_id'];
+                
+                // Get room category
+                $catStmt = $pdo->prepare("SELECT bhr.room_category, bhr.capacity FROM room_units ru JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id WHERE ru.room_id = ?");
+                $catStmt->execute([$currentRoomId]);
+                $roomCatInfo = $catStmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($roomCatInfo) {
+                    $cat = $roomCatInfo['room_category'];
+                    $roomCap = intval($roomCatInfo['capacity']);
+                    
+                    if ($cat === 'Private Room') {
+                        $pdo->prepare("UPDATE room_units SET status = 'Occupied' WHERE room_id = ?")->execute([$currentRoomId]);
+                    } else if ($cat === 'Bed Spacer') {
+                         // Check if fully occupied
+                        $cStmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status = 'Confirmed'");
+                        $cStmt->execute([$currentRoomId]);
+                        $confirmedCount = $cStmt->fetchColumn(); // Includes the one we just confirmed
+                        
+                        if ($confirmedCount >= $roomCap) {
+                            $pdo->prepare("UPDATE room_units SET status = 'Occupied' WHERE room_id = ?")->execute([$currentRoomId]);
+                        } else {
+                            // If not full, but has at least one confirmed booking, it is "Partially Occupied"
+                            // The user requested "Available(Partially Occupied)" status
+                            $pdo->prepare("UPDATE room_units SET status = 'Available(Partially Occupied)' WHERE room_id = ?")->execute([$currentRoomId]);
+                        }
+                    }
+                }
+                
+                // =========================================================================================
+                // AUTO-CANCEL other Pending/Approved applications for this user
+                // System Requirement: When ONE application becomes PAID/ACTIVE, cancel others automatically
+                // =========================================================================================
+                
+                if (function_exists('error_log')) {
+                    error_log("Payment Confirmed: Checking for other applications to auto-cancel for user_id: $boarderUserId");
+                }
+                
+                // 1. Fetch other active applications (Pending/Approved)
+                $fetchOtherAppsSql = "
+                    SELECT 
+                        b.booking_id, 
+                        b.booking_status,
+                        b.room_id,
+                        ru.room_number,
+                        bhr.room_category,
+                        bhr.capacity
+                    FROM bookings b
+                    INNER JOIN room_units ru ON b.room_id = ru.room_id
+                    INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                    WHERE b.user_id = :user_id 
+                    AND b.booking_id != :current_booking_id
+                    AND b.booking_status IN ('Pending', 'Approved')
+                ";
+                
+                $fetchOtherAppsStmt = $pdo->prepare($fetchOtherAppsSql);
+                $fetchOtherAppsStmt->execute([
+                    ':user_id' => $bookingInfo['user_id'],
+                    ':current_booking_id' => $bookingIdForActiveBoarders
+                ]);
+                $otherApps = $fetchOtherAppsStmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                $cancelledCount = 0;
+                
+                if ($otherApps) {
+                    foreach ($otherApps as $app) {
+                        $otherBookingId = $app['booking_id'];
+                        $otherRoomId = $app['room_id'];
+                        $otherRoomCategory = $app['room_category'];
+                        
+                        // 2. Cancel the booking
+                        // Note: We might want to add a 'cancellation_reason' column in the future
+                        $cancelStmt = $pdo->prepare("UPDATE bookings SET booking_status = 'Cancelled' WHERE booking_id = :booking_id");
+                        $cancelStmt->execute([':booking_id' => $otherBookingId]);
+                        
+                        // 3. Restore Room Availability (Logic from cancel_booking.php)
+                        if ($otherRoomCategory === 'Private Room') {
+                            // Private room becomes Available immediately
+                            $pdo->prepare("UPDATE room_units SET status = 'Available' WHERE room_id = ?")->execute([$otherRoomId]);
+                        } else if ($otherRoomCategory === 'Bed Spacer') {
+                            // Bed Spacer: Recalculate status based on remaining bookings
+                            // Count confirmed active bookings
+                            $cStmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status = 'Confirmed'");
+                            $cStmt->execute([$otherRoomId]);
+                            $confirmedCount = $cStmt->fetchColumn();
+                            
+                            // Count pending/approved active bookings
+                            $pStmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE room_id = ? AND booking_status IN ('Pending', 'Approved')");
+                            $pStmt->execute([$otherRoomId]);
+                            $pendingCount = $pStmt->fetchColumn(); 
+                            
+                            $capacity = intval($app['capacity']);
+                            $newRoomStatus = 'Available';
+                            
+                            if ($confirmedCount >= $capacity) {
+                                $newRoomStatus = 'Occupied';
+                            } else if ($confirmedCount > 0 || $pendingCount > 0) {
+                                $newRoomStatus = 'Partially Occupied';
+                            }
+                            
+                            $pdo->prepare("UPDATE room_units SET status = ? WHERE room_id = ?")->execute([$newRoomStatus, $otherRoomId]);
+                        }
+                        
+                        // 4. Cancel any associated pending payments
+                        $pdo->prepare("UPDATE payments SET payment_status = 'Cancelled' WHERE booking_id = ? AND payment_status = 'Pending'")->execute([$otherBookingId]);
+                        
+                        $cancelledCount++;
+                        
+                        // Send notification to boarder about auto-cancellation
+                        try {
+                            if (class_exists('ActivityNotifications')) {
+                                // Get boarder user_id for this specific booking (should be same as $boarderUserId but let's be safe)
+                                // We already have user_id from the outer scope ($bookingInfo['user_id'])
+                                // But let's use the one from the loop if we fetch it, or just use $bookingInfo['user_id']
+                                // The loop query selects from bookings b where user_id = :user_id
+                                // So all these bookings belong to $bookingInfo['user_id']
+                                
+                                ActivityNotifications::notifyBookingCancelled($bookingInfo['user_id'], [
+                                    'room_name' => $app['room_category'] . ' ' . ($app['room_number'] ?? ''), // room_number wasn't selected, oh well
+                                    'booking_id' => $otherBookingId,
+                                    'reason' => 'Automatically cancelled because you confirmed another booking.'
+                                ]);
+                                
+                                if (function_exists('error_log')) {
+                                    error_log("Notification sent to boarder (user_id: {$bookingInfo['user_id']}) about auto-cancellation of booking $otherBookingId");
+                                }
+                            }
+                        } catch (Exception $e) {
+                             if (function_exists('error_log')) {
+                                error_log("Warning: Failed to send auto-cancellation notification: " . $e->getMessage());
+                            }
+                        }
+                        
+                        if (function_exists('error_log')) {
+                            error_log("Auto-cancelled booking $otherBookingId due to confirmed payment for booking $bookingIdForActiveBoarders");
+                        }
+                    }
+                }
+                
+                // Add cancellation note to response if cancellations occurred
+                if ($cancelledCount > 0) {
+                    // We can't easily change the standard message structure without breaking backend/frontend contract if not careful
+                    // But we can append to the message or add a new field
+                    $cancellationNote = "You have successfully booked this boarding house. $cancelledCount other pending application(s) have been automatically cancelled.";
+                }
         
-        // Add to active_boarders if payment is marked as paid AND booking is still Pending
-        // This ensures synchronous behavior: marking payment as paid = adding to active_boarders
-        // BUT only if booking hasn't been approved/confirmed yet (only add once)
+        // Add to active_boarders if payment is marked as paid
+        // We removed the strict check for bookingStatusBeforeUpdate to ensure this runs even if:
+        // 1. Booking was already Approved
+        // 2. Booking was already Confirmed (retry/repair mechanism)
+        // 3. Payment is being updated/corrected
+        // The inner logic checks for existence, so it's safe to run multiple times (idempotent)
         if (($newStatus === 'Partially Paid' || $newStatus === 'Fully Paid' || $newStatus === 'Completed') 
-            && $bookingInfo 
-            && $bookingStatusBeforeUpdate === 'Pending') {
+            && $bookingInfo) {
             
             $boarderUserId = intval($bookingInfo['user_id']);
             $roomId = intval($bookingInfo['room_id']);
             $boardingHouseId = intval($bookingInfo['boarding_house_id']);
             
+            if (isset($debugLogFile)) {
+                file_put_contents($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Processing active_boarders for payment_id: $paymentId, booking_id: $bookingIdForActiveBoarders\n", FILE_APPEND);
+                file_put_contents($debugLogFile, "[" . date('Y-m-d H:i:s') . "] user_id=$boarderUserId, room_id=$roomId, boarding_house_id=$boardingHouseId, old_status=$bookingStatusBeforeUpdate\n", FILE_APPEND);
+            }
+            
             if (function_exists('error_log')) {
                 error_log("update_payment_status.php - Processing active_boarders for payment_id: $paymentId, booking_id: $bookingIdForActiveBoarders");
-                error_log("update_payment_status.php - user_id=$boarderUserId, room_id=$roomId, boarding_house_id=$boardingHouseId");
+                error_log("update_payment_status.php - user_id=$boarderUserId, room_id=$roomId, boarding_house_id=$boardingHouseId, old_status=$bookingStatusBeforeUpdate");
             }
             
             // Check if boarder already exists in active_boarders for this exact room
@@ -429,10 +584,16 @@ try {
                     }
                 }
             }
-        } else if ($bookingInfo && $bookingStatusBeforeUpdate !== 'Pending') {
-            // Booking is already Confirmed/Approved - don't add to active_boarders (already added when approved)
+        } else if ($bookingInfo && ($bookingStatusBeforeUpdate !== 'Pending' && $bookingStatusBeforeUpdate !== 'Approved')) {
+            // Booking is already Confirmed/Active - don't add to active_boarders (already added)
+            // Note: We ALLOW 'Approved' because 'Approved' status does NOT add to active_boarders yet (only Confirmed does)
+            
+            if (isset($debugLogFile)) {
+                file_put_contents($debugLogFile, "[" . date('Y-m-d H:i:s') . "] SKIP active_boarders for payment_id: $paymentId - booking status is $bookingStatusBeforeUpdate (already processed?)\n", FILE_APPEND);
+            }
+            
             if (function_exists('error_log')) {
-                error_log("update_payment_status.php - Skipping active_boarders insert/update - booking is already " . $bookingStatusBeforeUpdate . " (only add once)");
+                error_log("update_payment_status.php - Skipping active_boarders insert/update - booking is " . $bookingStatusBeforeUpdate . " (already processed?)");
             }
         }
         
@@ -440,9 +601,14 @@ try {
         $pdo->commit();
         
         // Prepare response data IMMEDIATELY - before any logging or other processing
+        $responseMessage = 'Payment status updated successfully';
+        if (isset($cancellationNote)) {
+            $responseMessage = $cancellationNote;
+        }
+        
         $responseData = [
             'success' => true,
-            'message' => 'Payment status updated successfully',
+            'message' => $responseMessage,
             'status' => $newStatus,
             'should_refresh' => true, // Flag to tell frontend to refresh/navigate back
             'navigate_back' => true,  // Flag to tell frontend to navigate back to previous screen
@@ -654,6 +820,30 @@ try {
             // Don't fail the payment update if notification fails
             error_log("Warning: Failed to send payment notifications: " . $e->getMessage());
         }
+        
+    }
+    }
+    
+        // Create success response
+        $response = [
+            'success' => true,
+            'message' => "Payment status updated to $newStatus",
+            'data' => [
+                'payment_id' => $paymentId,
+                'new_status' => $newStatus,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]
+        ];
+        
+        // Commit transaction
+        if ($pdo->inTransaction()) {
+            $pdo->commit();
+        }
+        
+        // Output response
+        ob_clean();
+        echo json_encode($response);
+        ob_end_flush();
         
     } catch (Exception $e) {
         // Rollback transaction

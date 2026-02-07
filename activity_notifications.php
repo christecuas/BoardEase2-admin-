@@ -82,9 +82,11 @@ class ActivityNotifications {
     
     public static function notifyBookingCancelled($user_id, $booking_details) {
         // Get template from database
+        $reason = !empty($booking_details['reason']) ? " Reason: " . $booking_details['reason'] : "";
         $template = NotificationTemplateHelper::getNotificationMessage('booking_cancelled', [
-            'room_name' => $booking_details['room_name'] ?? 'the room'
-        ], 'Booking Cancelled', 'Booking for {room_name} has been cancelled.');
+            'room_name' => $booking_details['room_name'] ?? 'the room',
+            'reason' => $reason
+        ], 'Booking Cancelled', 'Booking for {room_name} has been cancelled.{reason}');
         
         return NotificationHelper::createNotification($user_id, $template['title'], $template['message'], 'booking', true);
     }

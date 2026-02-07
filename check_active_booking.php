@@ -58,7 +58,7 @@ try {
         exit;
     }
     
-    // Check if boarder has an active booking (Pending or Confirmed)
+    // Check if boarder has an active booking (Confirmed or Approved) - Pending is allowed to have multiple
     $checkActiveBookingSql = "
         SELECT 
             booking_id, 
@@ -68,7 +68,7 @@ try {
             room_id
         FROM bookings
         WHERE user_id = :user_id
-        AND booking_status IN ('Pending', 'Confirmed')
+        AND booking_status IN ('Confirmed', 'Active')
         ORDER BY booking_id DESC
         LIMIT 1
     ";
