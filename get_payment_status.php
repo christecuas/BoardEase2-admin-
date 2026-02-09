@@ -427,7 +427,7 @@ try {
         LEFT JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
         LEFT JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
         WHERE bh.user_id = :owner_id
-            AND COALESCE(b.booking_status, 'Pending') IN ('Confirmed', 'Pending')
+            AND COALESCE(b.booking_status, 'Pending') IN ('Confirmed', 'Pending', 'Approved')
         GROUP BY b.booking_id, b.user_id, b.start_date, b.end_date
     ";
     $progressStmt = $pdo->prepare($progressSql);

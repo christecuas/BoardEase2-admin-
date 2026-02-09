@@ -85,7 +85,8 @@ try {
             pb.created_at,
             pb.updated_at,
             p.payment_status as payment_status_from_payment,
-            p.payment_date as payment_date_from_payment
+            p.payment_date as payment_date_from_payment,
+            p.payment_proof
         FROM payment_breakdowns pb
         LEFT JOIN payments p ON pb.payment_id = p.payment_id
         WHERE pb.booking_id = :booking_id
@@ -103,6 +104,11 @@ try {
     // Format breakdowns for response
     $formattedBreakdowns = array();
     foreach ($breakdowns as $breakdown) {
+        $proofUrl = null;
+        if (!empty($breakdown['payment_proof']) && $breakdown['payment_proof'] !== 'null') {
+            $proofUrl = $breakdown['payment_proof'];
+        }
+
         $formattedBreakdowns[] = array(
             'breakdown_id' => intval($breakdown['breakdown_id']),
             'booking_id' => intval($breakdown['booking_id']),
@@ -121,6 +127,7 @@ try {
             // Use payment_status from breakdown, fallback to payment table, default to 'Pending'
             'payment_status' => $breakdown['payment_status'] ?: ($breakdown['payment_status_from_payment'] ?: 'Pending'),
             'payment_date' => $breakdown['payment_date_from_payment'],
+            'payment_proof' => $proofUrl,
             'created_at' => $breakdown['created_at'],
             'updated_at' => $breakdown['updated_at']
         );

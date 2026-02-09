@@ -50,7 +50,8 @@ try {
                 bhr.room_capacity,
                 bhr.room_amenities,
                 b.created_at,
-                b.updated_at
+                b.updated_at,
+                (SELECT payment_amount FROM payments WHERE booking_id = b.booking_id AND payment_status = 'Pending' ORDER BY payment_id DESC LIMIT 1) as pending_payment_amount
             FROM bookings b
             JOIN users u ON b.user_id = u.user_id
             JOIN registrations r ON u.reg_id = r.id
@@ -100,13 +101,14 @@ try {
         'booking_date' => $booking_date,
         'duration_days' => $duration,
         'status' => $row['status'],
-        'payment_status' => 'Pending', // Default value since payment_status field doesn't exist
+        'payment_status' => ($row['status'] == 'Pending') ? 'N/A' : (($row['status'] == 'Approved') ? 'Awaiting Payment' : 'Pending'),
        
         'profile_image' => $row['profile_picture'] ?? '',
         'room_id' => intval($row['room_id']),
         'boarding_house_id' => intval($row['boarding_house_id']),
         'rent_type' => $row['rent_type'],
         'amount' => $amount,
+        'pending_payment_amount' => $row['pending_payment_amount'] ? "P" . number_format($row['pending_payment_amount'], 2) : null,
         'created_at' => $created_at,
         'updated_at' => $updated_at
     ];

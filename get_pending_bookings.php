@@ -84,13 +84,17 @@ try {
                 reg.email as boarder_email,
                 reg.phone as boarder_phone,
                 -- Get the latest payment status for this booking (most recent payment)
-                COALESCE((
-                    SELECT payment_status 
-                    FROM payments p2 
-                    WHERE p2.booking_id = b.booking_id 
-                    ORDER BY p2.updated_at DESC, p2.payment_id DESC 
-                    LIMIT 1
-                ), 'Pending') as payment_status,
+                CASE 
+                    WHEN b.booking_status = 'Pending' THEN 'N/A'
+                    ELSE COALESCE((
+                        SELECT payment_status 
+                        FROM payments p2 
+                        WHERE p2.booking_id = b.booking_id 
+                        ORDER BY p2.updated_at DESC, p2.payment_id DESC 
+                        LIMIT 1
+                    ), 'Awaiting Payment')
+                END as payment_status,
+                (SELECT payment_amount FROM payments p3 WHERE p3.booking_id = b.booking_id AND p3.payment_status = 'Pending' ORDER BY p3.payment_id DESC LIMIT 1) as pending_payment_amount,
                 '' as notes,
                 COALESCE(u_boarder.profile_picture, '') as profile_image
             FROM bookings b
@@ -215,6 +219,7 @@ try {
                 'boarding_house_id' => (int)$booking['bh_id'],
                 'booking_date' => $booking['booking_date'],
                 'payment_status' => $booking['payment_status'] ?? 'Pending',
+                'pending_payment_amount' => $booking['pending_payment_amount'] ? number_format($booking['pending_payment_amount'], 2, '.', '') : null,
                 'notes' => $booking['notes'] ?? '',
                 'profile_image' => $booking['profile_image'] ?? '',
                 // Payment progress information
