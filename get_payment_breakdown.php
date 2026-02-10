@@ -86,7 +86,8 @@ try {
             pb.updated_at,
             p.payment_status as payment_status_from_payment,
             p.payment_date as payment_date_from_payment,
-            p.payment_proof
+            p.payment_proof,
+            p.payment_method
         FROM payment_breakdowns pb
         LEFT JOIN payments p ON pb.payment_id = p.payment_id
         WHERE pb.booking_id = :booking_id
@@ -128,6 +129,7 @@ try {
             'payment_status' => $breakdown['payment_status'] ?: ($breakdown['payment_status_from_payment'] ?: 'Pending'),
             'payment_date' => $breakdown['payment_date_from_payment'],
             'payment_proof' => $proofUrl,
+            'payment_method' => $breakdown['payment_method'] ?: 'N/A',
             'created_at' => $breakdown['created_at'],
             'updated_at' => $breakdown['updated_at']
         );

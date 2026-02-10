@@ -77,10 +77,11 @@ try {
         exit();
     }
     
-    if (empty($paymentProofBase64)) {
+    // Proof is required for GCash but optional for Cash
+    if ($paymentMethod === 'GCash' && empty($paymentProofBase64)) {
         echo json_encode(array(
             'success' => false,
-            'error' => 'Payment proof image is required.'
+            'error' => 'Payment proof image is required for GCash payments.'
         ));
         exit();
     }

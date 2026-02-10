@@ -94,6 +94,8 @@ try {
                         LIMIT 1
                     ), 'Awaiting Payment')
                 END as payment_status,
+                -- Get the latest payment method
+                (SELECT payment_method FROM payments p4 WHERE p4.booking_id = b.booking_id ORDER BY p4.updated_at DESC, p4.payment_id DESC LIMIT 1) as payment_method,
                 (SELECT payment_amount FROM payments p3 WHERE p3.booking_id = b.booking_id AND p3.payment_status = 'Pending' ORDER BY p3.payment_id DESC LIMIT 1) as pending_payment_amount,
                 '' as notes,
                 COALESCE(u_boarder.profile_picture, '') as profile_image
@@ -219,6 +221,7 @@ try {
                 'boarding_house_id' => (int)$booking['bh_id'],
                 'booking_date' => $booking['booking_date'],
                 'payment_status' => $booking['payment_status'] ?? 'Pending',
+                'payment_method' => $booking['payment_method'] ?? '',
                 'pending_payment_amount' => $booking['pending_payment_amount'] ? number_format($booking['pending_payment_amount'], 2, '.', '') : null,
                 'notes' => $booking['notes'] ?? '',
                 'profile_image' => $booking['profile_image'] ?? '',

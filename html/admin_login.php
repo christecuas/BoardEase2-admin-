@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoardEase Admin Login</title>
+    <link rel="icon" type="image/png" href="images/boardease_logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -828,11 +829,19 @@
             formData.append('email', email);
             formData.append('password', password);
             
-            fetch('../admin_login.php', {
+            fetch('../admin_login_api.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(async response => {
+                const contentType = response.headers.get('content-type');
+                if (!response.ok || !contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Server returned non-JSON response:', text);
+                    throw new Error('Server returned ' + response.status + ' ' + response.statusText + '. Check console for details.');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     successMessage.textContent = data.message || 'Login successful! Redirecting...';
@@ -848,9 +857,9 @@
                 }
             })
             .catch(error => {
-                errorMessage.textContent = 'Connection error. Please try again.';
+                errorMessage.textContent = error.message.includes('Server returned') ? error.message : 'Connection error. Please try again.';
                 errorMessage.style.display = 'block';
-                console.error('Error:', error);
+                console.error('Error Details:', error);
             })
             .finally(() => {
                 // Reset button state

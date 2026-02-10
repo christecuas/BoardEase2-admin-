@@ -42,7 +42,7 @@ try {
     // Check if admin exists
     $stmt = $conn->prepare("SELECT admin_id, name, email, password, role, status FROM admin_accounts WHERE email = ?");
     if (!$stmt) {
-        sendResponse(false, 'Database prepare error: ' . $conn->error);
+        sendResponse(false, 'Database table error: admin_accounts table may be missing or inaccessible.');
     }
     
     $stmt->bind_param("s", $email);
@@ -106,18 +106,3 @@ try {
     sendResponse(false, 'System error: ' . $e->getMessage());
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
