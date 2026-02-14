@@ -36,7 +36,7 @@ $dbname = DB_NAME;
                    created_at,
                    DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as formatted_created_at
             FROM registrations 
-            WHERE status = 'pending' 
+            WHERE status = 'pending_admin_review' 
             ORDER BY created_at DESC";
 
     $result = $conn->query($sql);

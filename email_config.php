@@ -112,6 +112,54 @@ function sendSMTPMail($to, $subject, $message, $config) {
     }
 }
 
+// Generate a professional email template
+function getProfessionalEmailTemplate($title, $content) {
+    return "
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <style>
+            body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f9f9f9; }
+            .wrapper { width: 100%; table-layout: fixed; background-color: #f9f9f9; padding-bottom: 40px; }
+            .main { background-color: #ffffff; margin: 0 auto; width: 100%; max-width: 600px; border-spacing: 0; color: #333333; border-radius: 8px; overflow: hidden; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+            .header { background-color: #A18167; padding: 30px; text-align: center; color: #ffffff; }
+            .header h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+            .content { padding: 40px 30px; background-color: #ffffff; }
+            .content h2 { color: #A18167; margin-top: 0; font-size: 22px; }
+            .footer { padding: 25px; text-align: center; color: #888888; font-size: 13px; background-color: #f4f4f4; }
+            .btn { display: inline-block; padding: 14px 30px; background-color: #A18167; color: #ffffff !important; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; transition: background-color 0.3s; }
+            .otp-box { background-color: #fdfaf7; border: 2px dashed #A18167; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #A18167; margin: 25px 0; border-radius: 8px; }
+            hr { border: 0; border-top: 1px solid #eeeeee; margin: 30px 0; }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <table class='main'>
+                <tr>
+                    <td class='header'>
+                        <h1>BoardEase</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='content'>
+                        $content
+                    </td>
+                </tr>
+                <tr>
+                    <td class='footer'>
+                        &copy; " . date('Y') . " BoardEase. All rights reserved.<br>
+                        Helping you find your perfect home away from home.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    ";
+}
+
 // Test email function
 function testEmailSetup($testEmail) {
     $subject = "BoardEase Email Test";

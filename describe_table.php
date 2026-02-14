@@ -8,7 +8,7 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $stmt = $pdo->query("DESCRIBE payment_breakdowns");
+    $stmt = $pdo->query("DESCRIBE registrations");
     $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($columns, JSON_PRETTY_PRINT);
     

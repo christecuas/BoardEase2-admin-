@@ -60,7 +60,7 @@ try {
     }
     
     // Show final counts
-    $result = $conn->query("SELECT COUNT(*) as count FROM registrations WHERE status = 'pending'");
+    $result = $conn->query("SELECT COUNT(*) as count FROM registrations WHERE status = 'pending_admin_review'");
     $row = $result->fetch_assoc();
     echo "<p><strong>Pending registrations after cleanup:</strong> " . $row['count'] . "</p>";
     

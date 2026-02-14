@@ -252,7 +252,8 @@ $dbname = DB_NAME;
                 error_log("Email already verified for: " . $email);
                 $checkStmt->close();
                 $response = array(
-                    "success" => false,
+                    "success" => true, // Changed to true so the app sees it as success
+                    "isVerified" => true, // Flag to tell app it's already done
                     "message" => "This email address has already been verified. You can log in to your account now."
                 );
                 echo json_encode($response);
@@ -330,9 +331,9 @@ $dbname = DB_NAME;
             exit;
         }
 
-        // Update user status to pending and mark email as verified
-        $updateStmt = $conn->prepare("UPDATE registrations SET status = 'pending', email_verified = 1 WHERE id = ?");
-        $updateStmt->bind_param("i", $verification['user_id']);
+        // 5. Update user status in registrations table
+        $updateStmt = $conn->prepare("UPDATE registrations SET status = 'profile_incomplete', email_verified = 1 WHERE email = ?");
+        $updateStmt->bind_param("s", $email);
         
         if ($updateStmt->execute()) {
             // Delete the verification record since it's been used
@@ -340,10 +341,30 @@ $dbname = DB_NAME;
             $deleteStmt->bind_param("i", $verification['id']);
             $deleteStmt->execute();
             $deleteStmt->close();
+
+            // Send "Complete Your Profile" email
+            $firstName = $verification['first_name'] ?? 'User';
+            $subject = "Email Verified! Complete your profile";
+            $emailBody = "
+                <div style='text-align: center;'>
+                    <div style='font-size: 50px; margin-bottom: 20px;'>✓</div>
+                    <h2>Verification Successful!</h2>
+                </div>
+                <p>Hello $firstName,</p>
+                <p>Your email has been successfully verified. You're just one step away from full access to BoardEase.</p>
+                <p>To access features like **booking rooms** or **posting properties**, please log in and complete your profile by uploading your ID and required permits.</p>
+                <p>You can start exploring the community right now!</p>
+                <div style='text-align: center;'>
+                    <a href='https://boardease.calapebohol.com/open_app.php' class='btn' style='background-color: #6d4c41; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Complete Profile Now</a>
+                </div>
+            ";
+            $message = getProfessionalEmailTemplate($subject, $emailBody);
+            sendEmail($email, $subject, $message);
             
             $response = array(
                 "success" => true,
-                "message" => "Email verified successfully! Your account is now pending admin approval."
+                "message" => "Email verified successfully! You can now log in and complete your profile.",
+                "status" => "profile_incomplete"
             );
             error_log("Email verification successful for user: " . $email);
         } else {
@@ -382,68 +403,31 @@ $dbname = DB_NAME;
  * Send verification email with code
  */
 function sendVerificationEmail($email, $firstName, $verificationCode) {
+    if (!function_exists('getProfessionalEmailTemplate')) {
+        require_once 'email_config.php';
+    }
+
     $subject = "BoardEase - Email Verification Code";
     
-    $message = "
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Email Verification</title>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
-            .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 0; }
-            .header { background-color: #2196F3; color: white; padding: 20px; text-align: center; }
-            .content { padding: 30px; }
-            .verification-code { 
-                background-color: #f8f9fa; 
-                border: 2px solid #2196F3; 
-                font-size: 24px; 
-                font-weight: bold; 
-                color: #2196F3; 
-                padding: 15px; 
-                text-align: center; 
-                margin: 20px 0;
-                border-radius: 5px;
-                letter-spacing: 3px;
-            }
-            .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
-            .warning { background-color: #ffeb3b; padding: 10px; border-left: 4px solid #ff9800; margin: 15px 0; }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='header'>
-                <h1>Email Verification</h1>
-            </div>
-            <div class='content'>
-                <h2>Hello " . htmlspecialchars($firstName) . "!</h2>
-                <p>Thank you for registering with BoardEase. To complete your registration, please verify your email address using the code below:</p>
-                
-                <div class='verification-code'>" . $verificationCode . "</div>
-                
-                <div class='verification-link'>
-                    <p><strong>Quick Access:</strong> Click the button below to open the verification screen directly in the BoardEase app:</p>
-                    <div style='text-align: center; margin: 20px 0;'>
-                        <a href='https://boardease.calapebohol.com/verify.php?email=" . urlencode($email) . "' style='display: inline-block; padding: 14px 40px; background-color: #A18167; color: #FFFFFF !important; text-decoration: none !important; border-radius: 5px; font-size: 16px; font-weight: bold; border: 2px solid #A18167;'>Open Verification Screen</a>
-                    </div>
-                    <p style='font-size: 12px; color: #666; margin-top: 10px;'><strong>Note:</strong> Clicking the button will open a page that will immediately try to open the BoardEase app. If Android shows an app chooser, please select <strong>BoardEase</strong> and choose <strong>&quot;Always&quot;</strong> to set it as default.</p>
-                </div>
-                
-                <div class='warning'>
-                    <strong>Important:</strong> This verification code will expire in 30 minutes. If you don't verify your email within this time, your account will be automatically deleted.
-                </div>
-                
-                <p>If you didn't create an account with BoardEase, please ignore this email.</p>
-            </div>
-            <div class='footer'>
-                <p>This is an automated message from BoardEase. Please do not reply to this email.</p>
-            </div>
+    $emailBody = "
+        <h2>Hello " . htmlspecialchars($firstName) . "!</h2>
+        <p>Thank you for registering with BoardEase. To complete your registration, please verify your email address using the code below:</p>
+        
+        <div class='otp-box'>$verificationCode</div>
+        
+        <div class='warning' style='background-color: #fff9c4; padding: 15px; border-left: 4px solid #fbc02d; margin: 20px 0;'>
+            <strong>Important:</strong> This verification code will expire in 30 minutes. Please verify your email soon to secure your account.
         </div>
-    </body>
-    </html>
+        
+        <p><strong>Quick Access:</strong> You can also click the button below to open the verification screen directly in the app:</p>
+        <div style='text-align: center; margin: 25px 0;'>
+            <a href='https://boardease.calapebohol.com/verify.php?email=" . urlencode($email) . "' class='btn'>Open Verification Screen</a>
+        </div>
+        
+        <p style='font-size: 12px; color: #888;'>If you didn't create an account with BoardEase, please ignore this email.</p>
     ";
+    
+    $message = getProfessionalEmailTemplate($subject, $emailBody);
     
     // Use the configured email system (Gmail SMTP)
     return sendEmail($email, $subject, $message);

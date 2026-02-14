@@ -31,14 +31,27 @@ if (!$user_id) {
 }
 
 try {
-    // Query to get owner profile data from registrations and users tables
-    $sql = "SELECT r.first_name, r.middle_name, r.last_name, r.suffix, r.birth_date, r.phone, r.address, r.email, u.profile_picture 
-            FROM users u 
-            JOIN registrations r ON u.reg_id = r.id 
-            WHERE u.user_id = ?";
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
+    // Get email from POST (optional)
+    $email = $_POST["email"] ?? null;
+
+    if ($email) {
+        // Priority 1: Email lookup (Robust for incomplete profiles)
+        $sql = "SELECT r.first_name, r.middle_name, r.last_name, r.suffix, r.birth_date, r.phone, r.address, r.email, u.profile_picture, r.role, r.status
+                FROM registrations r
+                LEFT JOIN users u ON r.id = u.reg_id
+                WHERE r.email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+    } else {
+        // Priority 2: User ID lookup (Robust LEFT JOIN)
+        $sql = "SELECT r.first_name, r.middle_name, r.last_name, r.suffix, r.birth_date, r.phone, r.address, r.email, u.profile_picture, r.role, r.status
+                FROM registrations r
+                LEFT JOIN users u ON r.id = u.reg_id
+                WHERE u.user_id = ? OR r.id = ?"; // Check both IDs
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $user_id, $user_id);
+    }
+
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -59,7 +72,8 @@ try {
             "phone_number" => $row["phone"] ?? "",
             "p_address" => $row["address"] ?? "",
             "email" => $row["email"] ?? "",
-            "profile_picture" => $row["profile_picture"] ?? ""
+            "profile_picture" => $row["profile_picture"] ?? "",
+            "status" => $row["status"] ?? "profile_incomplete"
         ]);
     } else {
         echo json_encode(["success" => false, "error" => "Owner profile not found"]);

@@ -97,9 +97,10 @@ $dbname = DB_NAME;
         error_log("Found registration: ID={$registration['id']}, Status={$registration['status']}, Email={$registration['email']}");
         $stmt->close();
         
-        // Check if status is pending
-        if ($registration['status'] !== 'pending') {
-            throw new Exception("Registration ID {$registrationId} has status '{$registration['status']}'. Only registrations with status 'pending' can be approved.");
+        // Check if status is pending or pending_admin_review
+        $allowedToApprove = ['pending', 'pending_admin_review'];
+        if (!in_array($registration['status'], $allowedToApprove)) {
+            throw new Exception("Registration ID {$registrationId} has status '{$registration['status']}'. Only registrations with status 'pending' or 'pending_admin_review' can be approved.");
         }
 
         if ($action === 'approve') {
@@ -136,8 +137,8 @@ $dbname = DB_NAME;
                 error_log("BEFORE UPDATE: Registration ID $registrationId current status: " . $checkBeforeRow['status']);
                 $checkBeforeStmt->close();
                 
-                if ($checkBeforeRow['status'] !== 'pending') {
-                    throw new Exception("Cannot approve registration ID $registrationId: Current status is '" . $checkBeforeRow['status'] . "', expected 'pending'");
+                if (!in_array($checkBeforeRow['status'], $allowedToApprove)) {
+                    throw new Exception("Cannot approve registration ID $registrationId: Current status is '" . $checkBeforeRow['status'] . "', expected one of: " . implode(', ', $allowedToApprove));
                 }
                 
                 // Update the status - use explicit table name and verify

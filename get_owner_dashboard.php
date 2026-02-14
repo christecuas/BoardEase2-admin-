@@ -23,12 +23,15 @@ error_log("POST Data: " . json_encode($_POST));
 
 $response = [];
 
-// --- Validate user_id ---
+// --- Validate user_id or email ---
 $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
-error_log("User ID received: " . $user_id);
-if ($user_id <= 0) {
-    error_log("ERROR: Invalid user_id - " . $user_id);
-    echo json_encode(["error" => "Invalid user_id"]);
+$email = isset($_POST['email']) ? $_POST['email'] : null;
+
+error_log("User ID received: " . $user_id . ", Email: " . ($email ? $email : "none"));
+
+if ($user_id <= 0 && !$email) {
+    error_log("ERROR: Invalid user_id and no email provided");
+    echo json_encode(["error" => "Invalid user_id or email"]);
     exit;
 }
 
@@ -40,18 +43,71 @@ if (!$conn) {
 }
 error_log("Database connection: OK");
 
-// --- Owner name (JOIN users + registrations) ---
-$sqlOwner = "SELECT CONCAT(r.first_name, ' ', r.last_name, 
-                           CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) AS fullname
-             FROM users u
-             INNER JOIN registrations r ON u.reg_id = r.id
-             WHERE u.user_id = ?";
-$stmtOwner = $conn->prepare($sqlOwner);
-$stmtOwner->bind_param("i", $user_id);
+// --- Owner name (Robust lookup) ---
+if ($email) {
+    // Priority 1: Email lookup (e.g. incomplete profile)
+    $sqlOwner = "SELECT CONCAT(r.first_name, ' ', r.last_name, 
+                               CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) AS fullname
+                 FROM registrations r
+                 WHERE r.email = ?";
+    $stmtOwner = $conn->prepare($sqlOwner);
+    $stmtOwner->bind_param("s", $email);
+} else {
+    // Priority 2: ID lookup (User ID or Reg ID)
+    $sqlOwner = "SELECT CONCAT(r.first_name, ' ', r.last_name, 
+                               CASE WHEN r.suffix IS NOT NULL AND r.suffix != '' THEN CONCAT(' ', r.suffix) ELSE '' END) AS fullname
+                 FROM registrations r
+                 LEFT JOIN users u ON r.id = u.reg_id
+                 WHERE u.user_id = ? OR r.id = ?";
+    $stmtOwner = $conn->prepare($sqlOwner);
+    $stmtOwner->bind_param("ii", $user_id, $user_id);
+}
+
 $stmtOwner->execute();
 $resOwner = $stmtOwner->get_result();
 $ownerRow = $resOwner->fetch_assoc();
 $response["owner_name"] = $ownerRow ? $ownerRow["fullname"] : "Owner";
+
+// If we only have email and no valid user_id (<=0), we cannot fetch listings/bookings that rely on user_id
+// But we should return success with 0 counts
+if ($user_id <= 0) {
+    $response["listings_count"] = 0;
+    $response["boarders_count"] = 0;
+    $response["views_count"] = 0;
+    $response["revenue"] = [
+        "total_revenue" => 0,
+        "total_payments_count" => 0,
+        "monthly_revenue" => 0,
+        "monthly_payments_count" => 0,
+        "weekly_revenue" => 0,
+        "weekly_payments_count" => 0,
+        "unpaid_amount" => 0,
+        "unpaid_count" => 0,
+        "paid_amount" => 0,
+        "paid_count" => 0,
+        "boarding_houses" => []
+    ];
+    $response["bookings"] = [
+        "total_bookings" => 0,
+        "monthly_bookings" => 0
+    ];
+    $response["occupancy"] = [
+        "overall_rate" => 0,
+        "total_rooms" => 0,
+        "occupied_rooms" => 0,
+        "available_rooms" => 0,
+        "by_boarding_house" => []
+    ];
+    $response["popular_listing"] = [
+        "bh_id"      => 0,
+        "bh_name"    => "N/A",
+        "visits"     => 0,
+        "image_path" => ""
+    ];
+    
+    echo json_encode($response);
+    exit;
+}
 
 // --- Count listings ---
 $sqlCount = "SELECT COUNT(*) AS total FROM boarding_houses WHERE user_id = ?";

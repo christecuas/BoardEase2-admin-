@@ -27,11 +27,11 @@ class AdminSystemNotifications {
                         r.created_at as event_time,
                         'New User Registration' as title,
                         CONCAT(r.first_name, ' ', r.last_name, ' registered as a ', COALESCE(r.role, 'user')) as message,
-                        'pending' as status,
+                        'pending_admin_review' as status,
                         '#28a745' as icon_color,
                         'user-plus' as icon_name
                     FROM registrations r
-                    WHERE r.status = 'pending'
+                    WHERE r.status = 'pending_admin_review'
                     ORDER BY r.created_at DESC
                     LIMIT 100
                 ");

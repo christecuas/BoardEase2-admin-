@@ -10,7 +10,7 @@ try {
     }
     
     // Get pending registrations count
-    $result = $conn->query("SELECT COUNT(*) as count FROM registrations WHERE status = 'pending'");
+    $result = $conn->query("SELECT COUNT(*) as count FROM registrations WHERE status = 'pending_admin_review'");
     $pending_registrations = $result->fetch_assoc()['count'];
     
     // Get total users count

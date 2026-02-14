@@ -3594,54 +3594,21 @@ error_log("Business permit files uploaded: " . count($permitFiles));
 // Check role - GCash QR code is only required for BH Owner
 $isBoarder = ($role === "Boarder");
 
-// Validate GCash QR code if uploaded (required for BH Owner only)
+// Note: GCash QR and ID validation is now optional for the soft model.
+// Information will be completed later in the 'Profile Update' phase.
 if ($gcashQRPath) {
     error_log("=== QR VALIDATION CALLED ===");
-    error_log("QR file path: " . $gcashQRPath);
-    error_log("QR file exists: " . (file_exists($gcashQRPath) ? 'YES' : 'NO'));
-    
     $qrValidationResult = validateGcashQrCode($gcashQRPath);
-    
-    error_log("QR validation result: " . json_encode($qrValidationResult));
-    
     if (!$qrValidationResult['isValid']) {
-        // Clean up uploaded files
-        if ($idFrontPath && file_exists($idFrontPath)) unlink($idFrontPath);
-        if ($idBackPath && file_exists($idBackPath)) unlink($idBackPath);
-        if ($gcashQRPath && file_exists($gcashQRPath)) unlink($gcashQRPath);
-        
-        $response = array(
-            "success" => false,
-            "message" => "GCash QR code validation failed: " . $qrValidationResult['reason']
-        );
-        error_log("GCash QR validation failed: " . $qrValidationResult['reason']);
-        echo json_encode($response);
-        exit;
-    } else {
-        error_log("QR validation PASSED - proceeding with registration");
+        error_log("Optional GCash QR validation failed - ignoring for now: " . $qrValidationResult['reason']);
+        $gcashQRPath = null; // Don't save invalid QR
     }
-} else {
-    // QR code is required for BH Owner
-    if (!$isBoarder) {
-        // Clean up uploaded files
-        if ($idFrontPath && file_exists($idFrontPath)) unlink($idFrontPath);
-        if ($idBackPath && file_exists($idBackPath)) unlink($idBackPath);
-        
-        $response = array(
-            "success" => false,
-            "message" => "GCash QR code is required for BH Owner. Please upload your GCash QR code."
-        );
-        error_log("GCash QR code validation failed: QR code is required for BH Owner");
-        echo json_encode($response);
-        exit;
-    }
-    error_log("No QR file uploaded - allowed for Boarder role");
 }
 
 // Insert into DB with unverified status (requires email verification first)
 $sql = "INSERT INTO registrations
     (role, first_name, middle_name, last_name, suffix, birth_date, phone, address, email, password, gcash_num, valid_id_type, id_number, cb_agreed, idFrontFile, idBackFile, gcash_qr, status, created_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NOW())";
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'email_unverified', NOW())";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     error_log("SQL prepare error: " . $conn->error);
@@ -3655,22 +3622,6 @@ if ($isBoarder) {
     $gcashNum = null;
     $gcashQRPath = null;
     error_log("Boarder role detected - Setting GCash number and QR code to null");
-} else {
-    // Validate GCash number for BH Owner
-    if (empty($gcashNum)) {
-        // Clean up uploaded files
-        if ($idFrontPath && file_exists($idFrontPath)) unlink($idFrontPath);
-        if ($idBackPath && file_exists($idBackPath)) unlink($idBackPath);
-        if ($gcashQRPath && file_exists($gcashQRPath)) unlink($gcashQRPath);
-        
-        $response = array(
-            "success" => false,
-            "message" => "GCash number is required for BH Owner"
-        );
-        error_log("GCash number validation failed: GCash number is required for BH Owner");
-        echo json_encode($response);
-        exit;
-    }
 }
 
 $bindResult = $stmt->bind_param("sssssssssssssssss",

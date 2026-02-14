@@ -22,23 +22,35 @@ if ($conn->connect_error) {
     die(json_encode(["success" => false, "error" => "Connection failed: " . $conn->connect_error]));
 }
 
-// Get user_id from POST request
+// Get params
 $user_id = $_POST["user_id"] ?? null;
+$email = $_POST["email"] ?? null;
 
-if (!$user_id) {
-    echo json_encode(["success" => false, "error" => "User ID is required"]);
+if (!$user_id && !$email) {
+    echo json_encode(["success" => false, "error" => "User ID or Email is required"]);
     exit;
 }
 
 try {
-    // Get account information from registrations table
-    $sql = "SELECT r.email, r.gcash_num, r.gcash_qr 
-            FROM registrations r 
-            JOIN users u ON r.id = u.reg_id 
-            WHERE u.user_id = ?";
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
+    $sql = "";
+    $stmt = null;
+
+    if ($email) {
+        // Priority 1: Email lookup
+        $sql = "SELECT r.email, r.gcash_num, r.gcash_qr 
+                FROM registrations r 
+                WHERE r.email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+    } else {
+        // Priority 2: ID lookup (Loose)
+        $sql = "SELECT r.email, r.gcash_num, r.gcash_qr 
+                FROM registrations r 
+                LEFT JOIN users u ON r.id = u.reg_id 
+                WHERE u.user_id = ? OR r.id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $user_id, $user_id);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     

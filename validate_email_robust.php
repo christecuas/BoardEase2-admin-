@@ -83,15 +83,20 @@ $dbname = DB_NAME;
                 "success" => false,
                 "message" => "This email is already registered and approved. Please use a different email or try logging in."
             );
-        } else if ($user['status'] === 'pending') {
+        } else if ($user['status'] === 'pending_admin_review') {
             $response = array(
                 "success" => false,
                 "message" => "This email is already registered and pending approval. Please use a different email or wait for approval."
             );
-        } else if ($user['status'] === 'unverified') {
+        } else if ($user['status'] === 'email_unverified' || $user['status'] === 'unverified') {
             $response = array(
                 "success" => false,
                 "message" => "This email is already registered but not verified. Please check your email for verification code or use a different email."
+            );
+        } else if ($user['status'] === 'profile_incomplete') {
+            $response = array(
+                "success" => false,
+                "message" => "This email is already registered but the profile is incomplete. Please log in to complete your profile."
             );
         } else if ($user['status'] === 'rejected') {
             $response = array(

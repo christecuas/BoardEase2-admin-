@@ -44,7 +44,7 @@ try {
     $total_owners = $result->fetch_assoc()['total_owners'];
     
     // Get pending registrations count
-    $sql = "SELECT COUNT(*) as pending_registrations FROM registrations WHERE status = 'pending'";
+    $sql = "SELECT COUNT(*) as pending_registrations FROM registrations WHERE status = 'pending_admin_review'";
     $result = $conn->query($sql);
     $pending_registrations = $result->fetch_assoc()['pending_registrations'];
     

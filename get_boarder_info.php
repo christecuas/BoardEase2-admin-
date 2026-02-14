@@ -46,40 +46,42 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Get user_id from POST or GET
+// Get parameters
 $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : (isset($_GET['user_id']) ? $_GET['user_id'] : null);
+$email = isset($_POST['email']) ? $_POST['email'] : (isset($_GET['email']) ? $_GET['email'] : null);
 
 // Validate input
-if (!$user_id) {
+if (!$user_id && !$email) {
     $response = array(
         "success" => false,
-        "error" => "User ID is required"
+        "error" => "User ID or Email is required"
     );
     echo json_encode($response);
     exit;
 }
 
-// Sanitize input
-$user_id = intval($user_id);
+$stmt = null;
 
-// Prepare SQL statement to get boarder information
-// Join users table with registrations table using user_id -> reg_id
-$stmt = $conn->prepare("SELECT r.id, r.first_name, r.middle_name, r.last_name, r.suffix, 
-                              r.email, r.phone, r.birth_date, r.address
-                       FROM users u
-                       INNER JOIN registrations r ON u.reg_id = r.id
-                       WHERE u.user_id = ? AND r.role = 'Boarder'");
-
-if (!$stmt) {
-    $response = array(
-        "success" => false,
-        "error" => "Database error: " . $conn->error
-    );
-    echo json_encode($response);
-    exit;
+if ($email) {
+    // Priority 1: Lookup by Email (Most robust for "Soft" users)
+    // Direct lookup in registrations to avoid missing 'users' entry issues
+    $stmt = $conn->prepare("SELECT r.id, r.first_name, r.middle_name, r.last_name, r.suffix, 
+                                  r.email, r.phone, r.birth_date, r.address
+                           FROM registrations r
+                           WHERE r.email = ?");
+    $stmt->bind_param("s", $email);
+} else {
+    // Priority 2: Lookup by ID
+    // We try to match either users.user_id OR registrations.id
+    // This handles both fully approved users (user_id) and new 'soft' users (reg_id)
+    $user_id = intval($user_id);
+    $stmt = $conn->prepare("SELECT r.id, r.first_name, r.middle_name, r.last_name, r.suffix, 
+                                  r.email, r.phone, r.birth_date, r.address
+                           FROM registrations r
+                           LEFT JOIN users u ON r.id = u.reg_id
+                           WHERE u.user_id = ? OR r.id = ?");
+    $stmt->bind_param("ii", $user_id, $user_id);
 }
-
-$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

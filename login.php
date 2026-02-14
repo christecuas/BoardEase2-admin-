@@ -3,7 +3,7 @@
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // Log the request for debugging
 error_log("Login request received at " . date('Y-m-d H:i:s'));
@@ -83,8 +83,10 @@ if ($result->num_rows === 0) {
     }
     
     if ($passwordValid) {
-        // Check if account is approved by admin
-        if ($user['status'] === 'approved') {
+        // Check if account is allowed to login
+        $allowedStatuses = ['approved', 'profile_incomplete', 'pending_admin_review'];
+        
+        if (in_array($user['status'], $allowedStatuses)) {
             // If user exists in users table, check if account is suspended
             if ($user['user_id']) {
                 $checkUserStatus = $conn->prepare("SELECT status FROM users WHERE user_id = ?");
@@ -130,13 +132,14 @@ if ($result->num_rows === 0) {
                     "lastName" => $user['last_name'],
                     "suffix" => $user['suffix'],
                     "fullName" => $fullName,
-                    "email" => $user['email']
+                    "email" => $user['email'],
+                    "status" => $user['status']
                 )
             );
             error_log("Login successful for user: " . $email);
             error_log("Response being sent: " . json_encode($response));
             echo json_encode($response);
-        } else if ($user['status'] === 'unverified') {
+        } else if ($user['status'] === 'email_unverified' || $user['status'] === 'unverified') {
             $response = array(
                 "success" => false,
                 "message" => "Please verify your email address before logging in. Check your email for the verification code.",
@@ -145,11 +148,23 @@ if ($result->num_rows === 0) {
             error_log("Login blocked - account unverified for: " . $email);
             echo json_encode($response);
         } else if ($user['status'] === 'pending') {
+            // For backward compatibility while migration is in progress
             $response = array(
-                "success" => false,
-                "message" => "Your account is still pending admin approval. Please wait for approval before logging in."
+                "success" => true,
+                "message" => "Login successful (pending review)",
+                "user" => array(
+                    "id" => $user['user_id'] ? $user['user_id'] : $user['id'],
+                    "role" => $user['role'],
+                    "firstName" => $user['first_name'],
+                    "middleName" => $user['middle_name'],
+                    "lastName" => $user['last_name'],
+                    "suffix" => $user['suffix'],
+                    "fullName" => trim($user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['last_name'] . (!empty($user['suffix']) ? ' ' . $user['suffix'] : '')),
+                    "email" => $user['email'],
+                    "status" => 'pending_admin_review'
+                )
             );
-            error_log("Login blocked - account pending approval for: " . $email);
+            error_log("Login allowed (restricted) - account pending approval for: " . $email);
             echo json_encode($response);
         } else if ($user['status'] === 'rejected') {
             $response = array(
