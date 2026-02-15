@@ -1,6 +1,6 @@
 <?php
-// cleanup_unverified_accounts.php
-// This script deletes accounts with 'email_unverified' status that are older than 30 minutes
+// cleanup_incomplete_profiles.php
+// This script deletes accounts with 'profile_incomplete' status that are older than 1 MONTH
 
 require_once __DIR__ . '/dbConfig.php';
 
@@ -10,7 +10,7 @@ if (!file_exists($logDir)) {
     mkdir($logDir, 0755, true);
 }
 
-$logFile = $logDir . '/cleanup_unverified.log';
+$logFile = $logDir . '/cleanup_incomplete.log';
 
 function writeLog($message) {
     global $logFile;
@@ -20,7 +20,7 @@ function writeLog($message) {
     echo $logMessage;
 }
 
-writeLog("=== CLEANUP UNVERIFIED STARTED ===");
+writeLog("=== CLEANUP INCOMPLETE PROFILES STARTED ===");
 
 try {
     // Database connection
@@ -34,16 +34,16 @@ try {
     writeLog("Database connection established");
     
     $currentTime = date('Y-m-d H:i:s');
-    $cutoffTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+    $cutoffTime = date('Y-m-d H:i:s', strtotime('-1 month'));
     
     writeLog("Current time: $currentTime");
-    writeLog("Looking for 'email_unverified' accounts older than: $cutoffTime");
+    writeLog("Looking for 'profile_incomplete' accounts older than: $cutoffTime");
     
-    // Find unverified accounts older than 30 minutes
+    // Find profile_incomplete accounts older than 1 month
     $stmt = $conn->prepare("
         SELECT r.id, r.email, r.first_name, r.created_at, r.idFrontFile, r.idBackFile, r.gcash_qr
         FROM registrations r 
-        WHERE r.status = 'email_unverified' 
+        WHERE r.status = 'profile_incomplete' 
         AND r.created_at < ?
         ORDER BY r.created_at ASC
     ");
@@ -58,7 +58,7 @@ try {
     $stmt->close();
     
     $accountCount = count($accountsToDelete);
-    writeLog("Found $accountCount accounts to delete");
+    writeLog("Found $accountCount incomplete profiles to delete");
     
     if ($accountCount > 0) {
         // Start transaction
@@ -66,27 +66,35 @@ try {
         
         try {
             $deletedRegistrations = 0;
-            $deletedVerifications = 0;
             $deletedFiles = 0;
             
             foreach ($accountsToDelete as $account) {
                 $userId = $account['id'];
                 writeLog("Deleting ID={$account['id']}, Email={$account['email']}");
 
-                // Delete associated verification records
-                $verificationStmt = $conn->prepare("DELETE FROM email_verifications WHERE user_id = ?");
-                $verificationStmt->bind_param("i", $userId);
-                $verificationStmt->execute();
-                $deletedVerifications += $verificationStmt->affected_rows;
-                $verificationStmt->close();
-                
-                // Delete uploaded files (if any exist at this stage)
+                // Delete uploaded files
                 $filesToDelete = [
                     $account['idFrontFile'],
                     $account['idBackFile'], 
                     $account['gcash_qr']
                 ];
                 
+                // Get business permits to delete
+                $permitStmt = $conn->prepare("SELECT permit_file FROM bs_permits WHERE reg_id = ?");
+                $permitStmt->bind_param("i", $userId);
+                $permitStmt->execute();
+                $permitResult = $permitStmt->get_result();
+                while ($perm = $permitResult->fetch_assoc()) {
+                    $filesToDelete[] = $perm['permit_file'];
+                }
+                $permitStmt->close();
+
+                // Delete permits record
+                $delPermitStmt = $conn->prepare("DELETE FROM bs_permits WHERE reg_id = ?");
+                $delPermitStmt->bind_param("i", $userId);
+                $delPermitStmt->execute();
+                $delPermitStmt->close();
+
                 foreach ($filesToDelete as $file) {
                     if ($file && file_exists($file)) {
                         if (unlink($file)) {
@@ -106,9 +114,9 @@ try {
             // Commit transaction
             $conn->commit();
             
-            writeLog("Deleted $deletedRegistrations registration records");
-            writeLog("Deleted $deletedVerifications verification records");
-            writeLog("=== CLEANUP UNVERIFIED SUCCESSFUL ===");
+            writeLog("Deleted $deletedRegistrations incomplete profiles");
+            writeLog("Deleted $deletedFiles uploaded files");
+            writeLog("=== CLEANUP INCOMPLETE SUCCESSFUL ===");
             
         } catch (Exception $e) {
             $conn->rollback();
@@ -117,7 +125,7 @@ try {
         }
         
     } else {
-        writeLog("No accounts found for deletion");
+        writeLog("No incomplete profiles found for deletion");
     }
     
     $conn->close();
