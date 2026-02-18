@@ -103,6 +103,15 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$booking_id, $user_id, $reason, $details]);
 
+    // =================================================================================
+    // AUTO-REMOVE FROM COMMUNITY CHAT (If termination is immediate or approved)
+    // Note: This script just creates a REQUEST. The actual termination happens in approve_termination.php
+    // checking approve_termination.php next.
+    // BUT if this script is for IMMEDIATE termination, we should do it here.
+    // The TABLE name is 'termination_requests', so this is likely just a request.
+    // I need to check approve_termination.php.
+    // =================================================================================
+
     $response = [
         'success' => true,
         'message' => 'Termination request submitted successfully.'

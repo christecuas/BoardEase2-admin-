@@ -85,6 +85,14 @@ class MySQLiStmtWrapper {
     public function rowCount() {
         return $this->conn->affected_rows;
     }
+
+    public function fetchColumn() {
+        if (!$this->result) {
+            return false;
+        }
+        $row = $this->result->fetch_array(MYSQLI_NUM);
+        return $row ? $row[0] : false;
+    }
 }
 ?>
 

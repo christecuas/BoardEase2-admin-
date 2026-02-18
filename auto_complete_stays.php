@@ -124,12 +124,27 @@ try {
             
             foreach ($groups as $group) {
                 $gcId = $group['gc_id'];
-                $removeGroupMemberSql = "DELETE FROM group_members WHERE user_id = ? AND gc_id = ?";
-                $delGroupStmt = $pdo->prepare($removeGroupMemberSql);
-                $delGroupStmt->execute([$userId, $gcId]);
+                $updateGroupMemberSql = "UPDATE group_members SET status = 'Removed' WHERE user_id = ? AND gc_id = ?";
+                $updateGroupStmt = $pdo->prepare($updateGroupMemberSql);
+                $updateGroupStmt->execute([$userId, $gcId]);
                 
-                if ($delGroupStmt->rowCount() > 0) {
-                     logMessage("Removed user $userId from Group Chat $gcId (Stay Completed)");
+                if ($updateGroupStmt->rowCount() > 0) {
+                     logMessage("Updated user $userId status to 'Removed' in Group Chat $gcId (Stay Completed)");
+                     
+                     // Helper function or direct insert for notification
+                     // We need to fetch group name first
+                     $gnStmt = $pdo->prepare("SELECT gc_name FROM chat_groups WHERE gc_id = ?");
+                     $gnStmt->execute([$gcId]);
+                     $gn = $gnStmt->fetch(PDO::FETCH_ASSOC);
+                     $groupName = $gn ? $gn['gc_name'] : 'Community Chat';
+                     
+                     // Manually insert notification since we might not have ActivityNotifications class loaded here easily 
+                     // or just use direct DB insert for simplicity in this cron script
+                     $notifTitle = "Removed from Community";
+                     $notifMsg = "You have been removed from $groupName because your stay has ended.";
+                     
+                     $insNotif = $pdo->prepare("INSERT INTO notifications (user_id, title, message, type, is_read, created_at) VALUES (?, ?, ?, 'general', 0, NOW())");
+                     $insNotif->execute([$userId, $notifTitle, $notifMsg]);
                 }
             }
         }

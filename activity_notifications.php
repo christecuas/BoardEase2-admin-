@@ -358,6 +358,28 @@ class ActivityNotifications {
         $message = $boarder_name . " has added " . $bh_name . " to their favorites.";
         return NotificationHelper::createNotification($owner_id, $title, $message, 'general', false); // Disabled by default
     }
+    /**
+     * Community Chat Notifications
+     */
+    public static function notifyAddedToCommunity($user_id, $details) {
+        $group_name = $details['group_name'] ?? 'Community Chat';
+        
+        $template = NotificationTemplateHelper::getNotificationMessage('community_welcome', [
+            'group_name' => $group_name
+        ], 'Welcome to ' . $group_name, 'You have been added to {group_name}.');
+        
+        return NotificationHelper::createNotification($user_id, $template['title'], $template['message'], 'general', true);
+    }
+    
+    public static function notifyRemovedFromCommunity($user_id, $details) {
+        $group_name = $details['group_name'] ?? 'Community Chat';
+        
+        $template = NotificationTemplateHelper::getNotificationMessage('community_removed', [
+            'group_name' => $group_name
+        ], 'Removed from Community', 'You have been removed from {group_name} because your stay has ended.');
+        
+        return NotificationHelper::createNotification($user_id, $template['title'], $template['message'], 'general', true);
+    }
 }
 ?>
 

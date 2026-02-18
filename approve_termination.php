@@ -146,6 +146,44 @@ try {
     $activeStmt = $pdo->prepare($activeSql);
     $activeStmt->execute([$boarder_id, $room_id]);
 
+    // =========================================================================================
+    // AUTO-REMOVE FROM COMMUNITY CHAT
+    // =========================================================================================
+    try {
+        // Find the group chat for this boarding house
+        // We can get bh_id from the query above (need to join tables) or subquery
+        $getBhSql = "SELECT bh.bh_id, cg.gc_id, cg.gc_name 
+                     FROM bookings b
+                     JOIN room_units ru ON b.room_id = ru.room_id
+                     JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
+                     JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
+                     JOIN chat_groups cg ON bh.bh_id = cg.bh_id
+                     WHERE b.booking_id = ? LIMIT 1";
+        $bhStmt = $pdo->prepare($getBhSql);
+        $bhStmt->execute([$booking_id]);
+        $bhData = $bhStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($bhData) {
+            $gcId = $bhData['gc_id'];
+            $gcName = $bhData['gc_name'];
+
+            // Update status to Removed
+            $updateMemberSql = "UPDATE group_members SET status = 'Removed' WHERE user_id = ? AND gc_id = ?";
+            $updateMemberStmt = $pdo->prepare($updateMemberSql);
+            $updateMemberStmt->execute([$boarder_id, $gcId]);
+
+            // Send Notification
+            require_once 'activity_notifications.php';
+            if (class_exists('ActivityNotifications')) {
+                ActivityNotifications::notifyRemovedFromCommunity($boarder_id, ['group_name' => $gcName]);
+            }
+        }
+    } catch (Exception $e) {
+        if (function_exists('error_log')) {
+            error_log("approve_termination.php - Error removing from community chat: " . $e->getMessage());
+        }
+    }
+
     $pdo->commit();
     
     $response = [

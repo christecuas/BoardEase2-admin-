@@ -60,11 +60,19 @@ try {
         ];
     }
     
+
+    
+    // Get member count (Active only)
+    $countStmt = $db->prepare("SELECT COUNT(*) FROM group_members WHERE gc_id = ? AND status = 'Active'");
+    $countStmt->execute([$group_id]);
+    $member_count = $countStmt->fetchColumn();
+    
     $response = [
         'success' => true,
         'message' => 'Group messages retrieved successfully',
         'data' => [
             'group_id' => $group_id,
+            'member_count' => (int)$member_count,
             'total_count' => count($formatted_messages),
             'messages' => $formatted_messages
         ]

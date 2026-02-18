@@ -1,4 +1,7 @@
 <?php
+// Start output buffering to prevent accidental output
+ob_start();
+
 header('Content-Type: application/json');
 include 'dbConfig.php'; // $conn is defined here
 
@@ -46,9 +49,53 @@ try {
     // Execute and return result
     $stmt->execute();
     $bh_id = $stmt->insert_id;
+    // =================================================================================
+    // AUTO-CREATE COMMUNITY CHAT
+    // =================================================================================
+    try {
+        // 1. Check if Group Chat already exists for this BH
+        $checkStmt = $conn->prepare("SELECT gc_id FROM chat_groups WHERE bh_id = ?");
+        $checkStmt->bind_param("i", $bh_id);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+        
+        if ($checkStmt->num_rows == 0) {
+            // 2. Create Group Chat
+            $groupName = $bh_name . " – Community Chat";
+            $createGroupSql = "INSERT INTO chat_groups (bh_id, gc_name, gc_created_by, gc_created_at) VALUES (?, ?, ?, NOW())";
+            $groupStmt = $conn->prepare($createGroupSql);
+            $groupStmt->bind_param("isi", $bh_id, $groupName, $user_id);
+            
+            if ($groupStmt->execute()) {
+                $groupId = $groupStmt->insert_id;
+                
+                // 3. Add Owner as Member (Admin/Creator)
+                $addMemberSql = "INSERT INTO group_members (gc_id, user_id, gm_role, status, gm_joined_at) VALUES (?, ?, 'admin', 'Active', NOW())";
+                $memberStmt = $conn->prepare($addMemberSql);
+                $memberStmt->bind_param("ii", $groupId, $user_id);
+                $memberStmt->execute();
+                
+                // 4. Insert ONLY the Welcome Message (other messages handled by UI/Modal)
+                $welcomeMsg = "Welcome to " . $groupName . ".";
+                
+                $msgSql = "INSERT INTO group_messages (gc_id, sender_id, groupmessage_text, groupmessage_timestamp, groupmessage_status) VALUES (?, ?, ?, NOW(), 'Sent')";
+                $msgStmt = $conn->prepare($msgSql);
+                $msgStmt->bind_param("iis", $groupId, $user_id, $welcomeMsg);
+                $msgStmt->execute();
+            }
+        }
+    } catch (Exception $e) {
+        // Log error but don't fail the BH creation
+        error_log("Error auto-creating community chat: " . $e->getMessage());
+    }
+
+    // Clean any prior output (notices, warnings, etc.)
+    ob_clean();
+    // Output success response at the VERY END
     echo json_encode(["success" => $bh_id]);
 
 } catch (mysqli_sql_exception $e) {
     // Catch SQL errors and return as JSON
+    ob_clean();
     echo json_encode(["error" => "Database error: " . $e->getMessage()]);
 }

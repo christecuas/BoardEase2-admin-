@@ -175,8 +175,8 @@ $resPopular = $stmtPopular->get_result();
 $popularRow = $resPopular->fetch_assoc();
 
 if ($popularRow && $popularRow["bh_name"]) {
-    // Build full image URL using ngrok URL to match Android app
-    $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
+    // Build full image URL using production URL
+    $baseUrl = 'https://boardease.calapebohol.com/';
     $rawImagePath = $popularRow["image_path"] ?? "";
     
     // Format image path properly
@@ -225,8 +225,8 @@ if ($popularRow && $popularRow["bh_name"]) {
     $fallbackRow = $resFallback->fetch_assoc();
 
     if ($fallbackRow && $fallbackRow["bh_name"]) {
-        // Build full image URL using ngrok URL to match Android app
-        $baseUrl = 'https://reflective-perkily-jakobe.ngrok-free.dev/BoardEase2/';
+        // Build full image URL using production URL
+        $baseUrl = 'https://boardease.calapebohol.com/';
         $rawImagePath = $fallbackRow["image_path"] ?? "";
         
         // Format image path properly
