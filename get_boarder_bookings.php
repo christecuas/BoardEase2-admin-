@@ -15,15 +15,10 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent, Accept');
 
 // Database configuration
-define('DB_HOST', '');
-define('DB_USER', 'u223444398_userboardease');
-define('DB_PASS', '!Boardease2026');
-define('DB_NAME', 'u223444398_boardease');
-
-$host = DB_HOST;
-$dbname = DB_NAME;
-$username = DB_USER;
-$password = DB_PASS;
+$host = 'localhost';
+$dbname = 'u223444398_boardease';
+$username = 'u223444398_userboardease';
+$password = '!Boardease2026';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -101,27 +96,35 @@ try {
             COALESCE(SUM(CASE WHEN p.payment_status = 'Completed' THEN p.payment_amount ELSE 0 END), 0) as confirmed_paid,
             bhr.price - COALESCE(SUM(CASE WHEN p.payment_status = 'Completed' THEN p.payment_amount ELSE 0 END), 0) as balance_due,
             CASE 
-                WHEN b.booking_status = 'Confirmed' AND CURDATE() >= b.start_date AND CURDATE() <= b.end_date THEN 'current'
-                WHEN b.booking_status IN ('Pending', 'Approved') OR b.booking_status = '' OR b.booking_status IS NULL THEN 'pending'
-                WHEN b.booking_status IN ('Completed', 'Cancelled', 'Declined') THEN 'history'
-                ELSE 'other'
-            END as section
+                WHEN b.booking_status = 'Upcoming' THEN 'Upcoming'
+                WHEN b.booking_status = 'Active' THEN 'Active'
+                WHEN b.booking_status = 'Confirmed' AND CURDATE() >= b.start_date AND CURDATE() <= b.end_date THEN 'Active'
+                WHEN b.booking_status = 'Confirmed' AND CURDATE() < b.start_date THEN 'Upcoming'
+                ELSE b.booking_status
+            END as display_status,
+            CASE 
+                WHEN b.booking_status IN ('Confirmed', 'Upcoming', 'Active') AND CURDATE() <= b.end_date THEN 'current'
+                WHEN b.booking_status IN ('Pending', 'Approved') THEN 'pending'
+                WHEN b.booking_status IN ('Completed', 'Cancelled', 'Expired', 'Declined') OR (b.booking_status IN ('Confirmed', 'Upcoming', 'Active') AND CURDATE() > b.end_date) THEN 'history'
+                ELSE 'history'
+            END as section,
+            IF((SELECT COUNT(*) FROM reviews WHERE user_id = b.user_id AND bh_id = bhr.bh_id) > 0, 1, 0) as is_reviewed
         FROM bookings b
         INNER JOIN room_units ru ON b.room_id = ru.room_id
         INNER JOIN boarding_house_rooms bhr ON ru.bhr_id = bhr.bhr_id
         INNER JOIN boarding_houses bh ON bhr.bh_id = bh.bh_id
         LEFT JOIN payments p ON b.booking_id = p.booking_id
         WHERE b.user_id = ? 
-            AND (b.booking_status IN ('Pending', 'Approved', 'Confirmed', 'Completed', 'Cancelled', 'Declined') OR b.booking_status = '' OR b.booking_status IS NULL)
+            AND b.booking_status IN ('Pending', 'Confirmed', 'Completed', 'Cancelled', 'Expired', 'Declined', 'Approved', 'Upcoming', 'Active')
         GROUP BY b.booking_id, b.room_id, b.user_id, b.start_date, b.end_date, 
                  b.booking_status, b.booking_date, ru.room_number, bhr.room_category, 
                  bhr.price, bhr.bh_id, bh.bh_name, bh.bh_address, bh.bh_description
         ORDER BY 
             CASE 
-                WHEN b.booking_status = 'Confirmed' AND CURDATE() >= b.start_date AND CURDATE() <= b.end_date THEN 1
-                WHEN b.booking_status = 'Approved' THEN 2
-                WHEN b.booking_status = 'Pending' THEN 3
-                WHEN b.booking_status IN ('Completed', 'Cancelled') THEN 4
+                WHEN b.booking_status = 'Active' OR (b.booking_status = 'Confirmed' AND CURDATE() >= b.start_date AND CURDATE() <= b.end_date) THEN 1
+                WHEN b.booking_status = 'Upcoming' OR (b.booking_status = 'Confirmed' AND CURDATE() < b.start_date) THEN 2
+                WHEN b.booking_status IN ('Pending', 'Approved') THEN 3
+                WHEN b.booking_status IN ('Completed', 'Cancelled', 'Expired', 'Declined') OR (b.booking_status IN ('Confirmed', 'Upcoming', 'Active') AND CURDATE() > b.end_date) THEN 4
                 ELSE 5
             END,
             b.booking_date DESC
@@ -134,7 +137,7 @@ try {
     error_log("get_boarder_bookings.php - Found " . count($results) . " bookings for user_id: $userId");
     
     // Get base URL for images
-    $baseUrl = 'https://boardease.calapebohol.com/';
+    $baseUrl = 'http://192.168.1.4/boardease_v3/';
     
     // Separate bookings into sections
     $currentBookings = array();
@@ -161,7 +164,9 @@ try {
             'total_paid' => floatval($row['total_paid']),
             'confirmed_paid' => floatval($row['confirmed_paid']),
             'balance_due' => floatval($row['balance_due']),
-            'section' => $row['section']
+            'section' => $row['section'],
+            'display_status' => $row['display_status'],
+            'is_reviewed' => (int)$row['is_reviewed'] === 1
         );
         
         // Categorize by section
@@ -207,4 +212,3 @@ try {
     ));
 }
 ?>
-
